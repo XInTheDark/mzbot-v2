@@ -47,6 +47,13 @@ async def plsmeme(ctx):
     await ctx.send(response)
 
 
+@bot.command(name='-.', help='.-.')
+async def dotdashdot(ctx):
+    response = ".-. .-. .-. .-. .-. .-. .-. .-. .-. .-."
+
+    await ctx.send(response)
+
+
 @bot.command(name='donate', help='Fund our development!')
 async def donate(ctx):
     response = """To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
