@@ -247,9 +247,9 @@ async def tips(ctx):
 @bot.command(name='won', help='Who won the giveaway?')
 @commands.has_role("Giveaways")
 async def whowon(ctx, userid, prize):
-    username = discord.Client.fetch_user(user_id=userid)
+    user = await discord.Client.get_user(userid)
 
-    embedVar = discord.Embed(title=f"{username} WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
+    embedVar = discord.Embed(title=f"{user} WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:orange_fire:875943965638152202> Check <#869120672964681729> for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
