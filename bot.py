@@ -247,7 +247,7 @@ async def tips(ctx):
 @bot.command(name='won', help='Who won the giveaway?')
 @commands.has_role("Giveaways")
 async def whowon(ctx, userid, prize):
-    user = await discord.Client.get_user(userid)
+    user = await discord.Client.get_user(id=userid)
 
     embedVar = discord.Embed(title=f"{user} WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
