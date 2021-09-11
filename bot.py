@@ -226,7 +226,6 @@ async def ggstay(ctx, server):
 
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
-    await ctx.delete()
     await ctx.channel.send(embed=embedVar)
 
 
@@ -240,7 +239,6 @@ async def tips(ctx):
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
 
-    await ctx.delete()
     await ctx.channel.send(embed=embedVar)
 
 
@@ -256,7 +254,6 @@ async def whowon(ctx, userid, prize):
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
 
-    await ctx.delete()
     await ctx.channel.send(embed=embedVar)
 
 bot.run(TOKEN)
