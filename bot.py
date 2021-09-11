@@ -226,7 +226,37 @@ async def ggstay(ctx, server):
 
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
+    await ctx.delete()
     await ctx.channel.send(embed=embedVar)
 
+
+@bot.command(name='tips', help='Tips for MZ Giveaways')
+@commands.has_role("Giveaways")
+async def tips(ctx):
+    embedVar = discord.Embed(title=f"TIPS TO WIN GIVEAWAYS", description=f"""How to win MZ Giveaways easily?
+<a:arrow_blue:874953616048402442> Keep us on top of your server list so you get notified faster!
+<a:arrow_blue:874953616048402442> Support us & Claim roles to get longer claim time!
+<a:arrow_blue:874953616048402442> Never miss any of our pings!
+
+<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
+
+    await ctx.delete()
+    await ctx.channel.send(embed=embedVar)
+
+
+@bot.command(name='won', help='Who won the giveaway?')
+@commands.has_role("Giveaways")
+async def whowon(ctx, userid, prize):
+    username = discord.Client.fetch_user(user_id=userid)
+
+    embedVar = discord.Embed(title=f"{username} WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
+<a:blue_fire:874953550030061588> Ask them if we're legit!
+<a:orange_fire:875943965638152202> Check <#869120672964681729> for payout proofs!
+<a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
+
+<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
+
+    await ctx.delete()
+    await ctx.channel.send(embed=embedVar)
 
 bot.run(TOKEN)
