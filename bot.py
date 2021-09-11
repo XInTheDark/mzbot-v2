@@ -226,7 +226,7 @@ async def ggstay(ctx, server):
 
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
-    await ctx.send(embedVar)
+    await ctx.channel.send(embed=embedVar)
 
 
 bot.run(TOKEN)
