@@ -261,4 +261,33 @@ async def whowon(ctx, userid, *, prize):
     msgid = await ctx.fetch_message(ctx)
     await ctx.message.delete(msgid)
 
+#this was in a cog   
+# The below code bans player.
+@bot.command(name='ban', help='Bans a user.')
+@commands.has_permissions(ban_members=True)
+async def ban(self, ctx, member: discord.Member, *, reason=None):
+     await member.ban(reason=reason)
+     await ctx.send(f'User: `{member}` has been banned')
+
+# The below code unbans player.
+@bot.command(name='unban', help='Unbans a user.')
+@commands.has_permissions(administrator=True)
+async def unban(self, ctx, *, member):
+     banned_users = await ctx.guild.bans()
+     member_name, member_discriminator = member.split("#")
+    for ban_entry in banned_users:
+        user = ban_entry.user
+        if (user.name, user.discriminator) == (member_name, member_discriminator):
+                await ctx.guild.unban(user)
+                await ctx.send(f'Unbanned {user.mention} successfully')
+
+
+# The below code kicks player
+@bot.command(name='kick', help='Kicks a user.')
+@commands.has_permissions(kick_members=True)
+async def kick(self, ctx, member: discord.Member, *, reason=None):
+        await member.kick(reason=reason)
+        await ctx.send(f'User `{member}` has been kicked')
+        
 bot.run(TOKEN)
+
