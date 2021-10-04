@@ -275,7 +275,8 @@ async def ban(self, ctx, member: discord.Member, *, reason=None):
 async def unban(self, ctx, *, member):
      banned_users = await ctx.guild.bans()
      member_name, member_discriminator = member.split("#")
-    for ban_entry in banned_users:
+     
+     for ban_entry in banned_users:
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
