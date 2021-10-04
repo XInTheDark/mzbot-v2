@@ -125,13 +125,14 @@ async def unmute(ctx, member: discord.Member):
 
 @bot.command(name='nuke', help='Nukes this channel... Yep.')
 async def nuke_channel(ctx):
-    if str(ctx.author.id) != '762152955382071316':
+    if not txt.author.guild_permissions.administrator:
         print(str(ctx.author.id), "Tried to nuke channel:", ctx.channel, "by using .nuke")
-        await ctx.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
+        await ctx.send("You don't have `Administrator` Permissions!")
     else:
         channelpos = ctx.channel.position
         new_channel = await ctx.channel.clone()
-        await new_channel.send(f"Nuked `{ctx.channel}` Successfully!")
+        await new_channel.send(f"""Nuked `{ctx.channel}` Successfully!
+Nuke performed by: <@{ctx.author.id}>""")
         await ctx.channel.delete()
         await new_channel.edit(position=channelpos)
 
@@ -161,10 +162,9 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
 async def nuke_server_fr(ctx):
-    if str(ctx.author.id) != '762152955382071316':
+    if not txt.author.guild_permissions.administrator:
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
-        await ctx.send(
-            "LOL ONLY <@762152955382071316> can nuke THE ENTIRE SERVER ||(and why would he)||, get lost noob\n**YOU FUCKING RETARD**")
+        await ctx.send("You don't have `Administrator` Permissions!")
     else:
 
         all_members_list = []
@@ -174,9 +174,9 @@ async def nuke_server_fr(ctx):
                 all_members_list.append(membertemp)
 
         async def nuke_channel_2(txt):
-            if str(txt.author.id) != '762152955382071316':
+            if not txt.author.guild_permissions.administrator:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
-                await txt.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
+                await txt.send("You don't have `Administrator` Permissions!")
             else:
                 try:
                     text_channel_list = []
@@ -217,7 +217,7 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='gg', help='GG, Stay!')
 @commands.has_role(881142512587276328)
-async def ggstay(ctx, server):
+async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
 <a:arrow_animated:875302270173085716> Didn't get a chance to join?
 <a:arrow_blue:874953616048402442> Make sure to prioritize MZ FreeRobux pings!
@@ -227,13 +227,14 @@ async def ggstay(ctx, server):
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
-    await discord.delete(ctx)
+    msgid = await ctx.fetch_message(ctx)
+    await ctx.message.delete(msgid)
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
 @commands.has_role(881142512587276328)
 async def tips(ctx):
-    embedVar = discord.Embed(title=f"TIPS TO WIN GIVEAWAYS", description=f"""How to win MZ Giveaways easily?
+    embedVar = discord.Embed(title=f"TIPS TO WIN GIVEAWAYS", description=f"""How to win  Giveaways easily?
 <a:arrow_blue:874953616048402442> Keep us on top of your server list so you get notified faster!
 <a:arrow_blue:874953616048402442> Support us & Claim roles to get longer claim time!
 <a:arrow_blue:874953616048402442> Never miss any of our pings!
@@ -241,14 +242,15 @@ async def tips(ctx):
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
-    await discord.delete(ctx)
+    msgid = await ctx.fetch_message(ctx)
+    await ctx.message.delete(msgid)
 
 
 @bot.command(name='won', help='Who won the giveaway?')
 @commands.has_role(881142512587276328)
 async def whowon(ctx, userid, prize):
 
-    embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!", description=f"""{userid} Won the previous giveaway for **{prize}** !
+    embedVar = discord.Embed(title=f"<@{userid}> WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:orange_fire:875943965638152202> Check <#869120672964681729> for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
@@ -256,6 +258,7 @@ async def whowon(ctx, userid, prize):
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
-    await discord.delete(ctx)
+    msgid = await ctx.fetch_message(ctx)
+    await ctx.message.delete(msgid)
 
 bot.run(TOKEN)
