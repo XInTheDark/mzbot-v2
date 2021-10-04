@@ -285,7 +285,7 @@ async def unban(self, *, member):
 
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
-async def kick(self, *,  member: discord.Member, *, reason=None):
+async def kick(self, *,  member: discord.Member, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'User `{member}` has been kicked')
 
