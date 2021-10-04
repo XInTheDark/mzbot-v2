@@ -247,7 +247,7 @@ async def tips(ctx):
 
 
 @bot.command(name='won', help='Who won the giveaway?')
-@commands.has_role(881142512587276328)
+@commands.has_role("Giveaways")
 async def whowon(ctx, userid, prize):
 
     embedVar = discord.Embed(title=f"<@{userid}> WON THE PREVIOUS GIVEAWAY!", description=f"""<@{userid}> Won the previous giveaway for **{prize}** !
