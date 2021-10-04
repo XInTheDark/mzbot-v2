@@ -265,17 +265,17 @@ async def whowon(ctx, userid, *, prize):
 # The below code bans player.
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
-async def ban(self, ctx, member: discord.Member, *, reason=None):
+async def ban(self, *, member: discord.Member, *, reason=None):
      await member.ban(reason=reason)
      await ctx.send(f'User: `{member}` has been banned')
 
 
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(administrator=True)
-async def unban(self, ctx, *, member):
+async def unban(self, *, member):
      banned_users = await ctx.guild.bans()
      member_name, member_discriminator = member.split("#")
-     
+
      for ban_entry in banned_users:
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
@@ -285,7 +285,7 @@ async def unban(self, ctx, *, member):
 
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
-async def kick(self, ctx, member: discord.Member, *, reason=None):
+async def kick(self, *,  member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'User `{member}` has been kicked')
 
