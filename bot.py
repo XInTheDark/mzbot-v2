@@ -178,13 +178,21 @@ async def nuke_server_fr(ctx):
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
                 await txt.send("You don't have `Administrator` Permissions!")
             else:
-                text_channel_list = []
-                for guild1 in bot.guilds:
-                    for channel in guild1.text_channels:
-                        text_channel_list.append(channel)
-                for channel in text_channel_list:
-                    await channel.delete()
-                        
+                try:
+                    text_channel_list = []
+                    for guild1 in bot.guilds:
+                        for channel in guild1.text_channels:
+                            text_channel_list.append(channel)
+
+                    for channel in text_channel_list:
+                        await channel.delete()
+
+                except:
+                    None
+
+                finally:
+                    None
+
         await nuke_channel_2(ctx)
 
         guild = ctx.message.guild
