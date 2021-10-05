@@ -311,7 +311,7 @@ async def spam(ctx, number_of_times, *, message):
         
         number_of_times2 = str(number_of_times)
         
-        msg2 = f"""<@{ctx.author.id}>, task done!"""
+        msg2 = f"""<@{ctx.author.id}>, task done!
     
 Message: {message}
 Number of times: {number_of_times2}"""
