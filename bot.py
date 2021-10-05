@@ -154,8 +154,11 @@ async def nuke_server_fr(ctx):
                     for channel in guild.text_channels:
                         text_channel_list.append(channel)
 
-                for channel in text_channel_list:
-                    await channel.delete()
+                try:
+                    for channel in text_channel_list:
+                        await channel.delete()
+                except:
+                    None
 
         await nuke_channel_2(ctx)
 
