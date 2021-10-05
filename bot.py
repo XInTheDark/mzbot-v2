@@ -297,6 +297,20 @@ async def kick(self, *,  member: discord.Member, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f'User `{member}` has been kicked')
 
+@bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
+async def spam(ctx, message: str, number_of_times: int):
+    for i in range(1, number_of_times):
+        await ctx.channel.send(message)
+        
+    number_of_times2 = str(number_of_times)
+        
+    msg2 = f"""<@{ctx.author.id}>, task done!
+    
+Message: {message}
+Number of times: {number_of_times2}"""
+
+    await ctx.channel.send(msg2)
+
 
 bot.run(TOKEN)
 
