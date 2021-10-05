@@ -320,8 +320,8 @@ Number of times: {number_of_times2}"""
         
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, user: discord.Member, *, message):
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator and user.id != 762152955382071316:
-        await ctx.channel.send("Omg who are you trying to spam?!")
+    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator and str(user.id) != '762152955382071316':
+        await ctx.channel.send("Omg who are you trying to spam?! noob")
     else:
         number_of_times = int(number_of_times)
        
