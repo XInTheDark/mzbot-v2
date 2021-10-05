@@ -334,7 +334,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         
         number_of_times2 = str(number_of_times)
         
-        dmchannel.send(f"""The above message(s) were requested by {ctx.author}.
+        await dmchannel.send(f"""The above message(s) were requested by {ctx.author}.
         Total number of messages sent: {number_of_times2}
         **NOTE: The bot is not responsible for any of the messages sent above.**""")
                    
