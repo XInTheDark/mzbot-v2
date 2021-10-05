@@ -299,10 +299,12 @@ async def kick(self, *,  member: discord.Member, reason=None):
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, *, message):
-    if ctx.author.id != 762152955382071316:
+    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg why are you trying to spam here?!")
     else:
         number_of_times = int(number_of_times)
+        
+        await ctx.channel.send(f"Task started by {ctx.author}...")
         
         for i in range(number_of_times):
             await ctx.channel.send(message)
@@ -319,17 +321,25 @@ Number of times: {number_of_times2}"""
         
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, user: discord.Member, *, message):
-    if ctx.author.id != 762152955382071316:
+    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?!")
     else:
         number_of_times = int(number_of_times)
        
         dmchannel = await user.create_dm()
         
+        await ctx.channel.send(f"Task started by {ctx.author}...")
+        
         for i in range(number_of_times):
             await dmchannel.send(message)
         
         number_of_times2 = str(number_of_times)
+        
+        dmchannel.send(f"""The above message(s) were requested by {ctx.author}.
+        Total number of messages sent: {number_of_times2}
+        
+        **NOTE: The bot is not responsible for any of the messages sent above.**"""
+                   
         
         msg2 = f"""<@{ctx.author.id}>, task done!
     
