@@ -302,7 +302,7 @@ async def spam(ctx, number_of_times: int, *, message: str):
     if ctx.author.id != 877804981347029043:
         ctx.channel.send("Omg why are you trying to spam here?!")
     else:
-        for i in range(1, number_of_times):
+        for i in range(number_of_times):
             await ctx.channel.send(message)
         
         number_of_times2 = str(number_of_times)
@@ -323,7 +323,7 @@ async def spam(ctx, number_of_times: int, user: discord.Member, *, message: str)
         else:
             dmchannel = user.create_dm()
         
-            for i in range(1, number_of_times):
+            for i in range(number_of_times):
                 dmchannel.send(message)
         
             number_of_times2 = str(number_of_times)
