@@ -329,7 +329,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
             dmchannel = await user.create_dm()
         
             for i in range(number_of_times):
-                dmchannel.send(message)
+                await dmchannel.send(message)
         
             number_of_times2 = str(number_of_times)
         
