@@ -314,7 +314,9 @@ async def spam(ctx, number_of_times, message: str):
 Message: {message}
 Number of times: {number_of_times2}"""
     
-    
+        await ctx.channel.send(msg2)
+        
+        
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, user: discord.Member, *, message: str):
     if ctx.author.id != 762152955382071316:
