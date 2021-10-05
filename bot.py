@@ -300,7 +300,7 @@ async def kick(self, *,  member: discord.Member, reason=None):
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, message: str):
     if ctx.author.id != 877804981347029043:
-        ctx.channel.send("Omg why are you trying to spam here?!")
+        await ctx.channel.send("Omg why are you trying to spam here?!")
     else:
         number_of_times = int(number_of_times)
         
