@@ -165,7 +165,7 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
 async def nuke_server_fr(ctx):
-    if not ctx.author.guild_permissions.administrator and not ctx.authord.id == 762152955382071316:
+    if not ctx.author.guild_permissions.administrator and not ctx.author.id == 762152955382071316:
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
