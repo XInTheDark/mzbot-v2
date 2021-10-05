@@ -323,23 +323,21 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         await ctx.channel.send("Omg who are you trying to spam?!")
     else:
         number_of_times = int(number_of_times)
-        if number_of_times > 40:
-            await ctx.channel.send("Sorry, due to Discord API Limit, I can only process 40 messages!")
-        else:
-            dmchannel = await user.create_dm()
+       
+        dmchannel = await user.create_dm()
         
-            for i in range(number_of_times):
-                await dmchannel.send(message)
+        for i in range(number_of_times):
+            await dmchannel.send(message)
         
-            number_of_times2 = str(number_of_times)
+        number_of_times2 = str(number_of_times)
         
-            msg2 = f"""<@{ctx.author.id}>, task done!
+        msg2 = f"""<@{ctx.author.id}>, task done!
     
 Message: {message}
 Number of times: {number_of_times2}
 User: {user}"""
 
-            await ctx.channel.send(msg2)
+        await ctx.channel.send(msg2)
 
 
 bot.run(TOKEN)
