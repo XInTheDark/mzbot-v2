@@ -395,7 +395,7 @@ async def optinspam(ctx):
         for line in lines:
             if line.strip("\n") != str(ctx.author.id):
                 new_file.write(str(line))
-                new_file.close()
+        new_file.close()
 
         await ctx.channel.send("You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
