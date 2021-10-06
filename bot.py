@@ -384,7 +384,7 @@ async def optinspam(ctx):
         optoutlist3.append(y)
     optoutfile3.close()
 
-    if ctx.author.id not in optoutlist3:
+    if str(ctx.author.id) not in optoutlist3:
         await ctx.channel.send("You are already opted in for spam! If you wish to opt out, use the command `.optout_spam`!")
     else:
         a_file = open("optoutspam.txt", "r")
