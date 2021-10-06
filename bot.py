@@ -327,7 +327,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
     optoutlist = []
     for x in optoutfile:
         optoutlist.append(x)
-        
+
     if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
     elif str(user.id) in optoutlist:
@@ -370,7 +370,7 @@ async def optoutspam(ctx):
     else:
         optoutfile3 = open('optoutspam.txt', 'a')
         optoutfile3.write('\n')
-        optoutfile3.write(ctx.author.id)
+        optoutfile3.write(str(ctx.author.id))
         await ctx.channel.send("You have opted out for spam! If you wish to opt in again, use the command `.optin_spam`!")
         optoutfile3.close()
 
@@ -394,9 +394,9 @@ async def optinspam(ctx):
         new_file = open("optoutspam.txt", "w")
         for line in lines:
             if line.strip("\n") != str(ctx.author.id):
-                new_file.write(line)
+                new_file.write(str(line))
                 new_file.close()
-        
+
         await ctx.channel.send("You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
 
