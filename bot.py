@@ -229,7 +229,7 @@ async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
 <a:arrow_animated:875302270173085716> Didn't get a chance to join?
 <a:arrow_blue:874953616048402442> Make sure to prioritize MZ FreeRobux pings!
-    
+
 <a:arrow_blue:874953616048402442> Keep us on top for an exclusive role as well! 
 
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
@@ -247,7 +247,8 @@ async def tips(ctx):
 <a:arrow_blue:874953616048402442> Support us & Claim roles to get longer claim time!
 <a:arrow_blue:874953616048402442> Never miss any of our pings!
 
-<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
+<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
+                             color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
@@ -257,13 +258,14 @@ async def tips(ctx):
 @bot.command(name='won', help='Who won the giveaway?')
 @commands.has_role("Giveaways")
 async def whowon(ctx, userid, *, prize):
-
-    embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!", description=f"""{userid} Won the previous giveaway for **{prize}** !
+    embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!",
+                             description=f"""{userid} Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:orange_fire:875943965638152202> Check <#869120672964681729> for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
 
-<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",color=0x00ff08)
+<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
+                             color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
@@ -274,28 +276,29 @@ async def whowon(ctx, userid, *, prize):
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
 async def ban(self, *, member: discord.Member, reason=None):
-     await member.ban(reason=reason)
-     await ctx.send(f'User: `{member}` has been banned')
+    await member.ban(reason=reason)
+    await self.send(f'User: `{member}` has been banned')
 
 
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(administrator=True)
 async def unban(self, *, member):
-     banned_users = await ctx.guild.bans()
-     member_name, member_discriminator = member.split("#")
+    banned_users = await self.guild.bans()
+    member_name, member_discriminator = member.split("#")
 
-     for ban_entry in banned_users:
+    for ban_entry in banned_users:
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f'Unbanned {user.mention} successfully')
+            await self.guild.unban(user)
+            await self.send(f'Unbanned {user.mention} successfully')
 
 
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
-async def kick(self, *,  member: discord.Member, reason=None):
+async def kick(self, *, member: discord.Member, reason=None):
     await member.kick(reason=reason)
-    await ctx.send(f'User `{member}` has been kicked')
+    await self.send(f'User `{member}` has been kicked')
+
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, *, message):
@@ -303,48 +306,98 @@ async def spam(ctx, number_of_times, *, message):
         await ctx.channel.send("Omg why are you trying to spam here?!")
     else:
         number_of_times = int(number_of_times)
-        
+
         await ctx.channel.send(f"Task started by {ctx.author}...")
-        
+
         for i in range(number_of_times):
             await ctx.channel.send(message)
-        
+
         number_of_times2 = str(number_of_times)
-        
+
         msg2 = f"""<@{ctx.author.id}>, task done!
 Message: {message}
 Number of times: {number_of_times2}"""
-    
+
         await ctx.channel.send(msg2)
-        
-        
+
+
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, user: discord.Member, *, message):
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator and str(user.id) != '762152955382071316':
+    optoutfile = open('optoutspam.txt', 'r')
+    optoutlist = []
+    for x in optoutfile:
+        optoutlist.append(x)
+        
+    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
+    elif str(user.id) in optoutlist:
+        await ctx.channel.send(f"Sorry, that user [{user}] has opted out of the `dmspam` command.")
     else:
         number_of_times = int(number_of_times)
-       
+
         dmchannel = await user.create_dm()
-        
+
         await ctx.channel.send(f"Task started by {ctx.author}...")
-        
+
         for i in range(number_of_times):
             await dmchannel.send(message)
-        
+
         number_of_times2 = str(number_of_times)
-        
+
         await dmchannel.send(f"""The above message(s) were requested by {ctx.author}.
         Total number of messages sent: {number_of_times2}
         **NOTE: The bot is not responsible for any of the messages sent above.**""")
-                   
-        
+
         msg2 = f"""<@{ctx.author.id}>, task done!
 Message: {message}
 Number of times: {number_of_times2}
 User: {user}"""
 
         await ctx.channel.send(msg2)
+
+
+@bot.command(name='optout_spam', help="""Opts out of spam.""")
+async def optoutspam(ctx):
+    optoutlist2 = []
+
+    optoutfile2 = open('optoutspam.txt', 'r')
+    for y in optoutfile2:
+        optoutlist2.append(y)
+    optoutfile2.close()
+
+    if ctx.author.id in optoutlist2:
+        await ctx.channel.send("You are already in the opt-out list! If you wish to opt in again, use the command `.optin_spam`!")
+    else:
+        optoutfile3 = open('optoutspam.txt', 'a')
+        optoutfile3.write('\n')
+        optoutfile3.write(ctx.author.id)
+        await ctx.channel.send("You have opted out for spam! If you wish to opt in again, use the command `.optin_spam`!")
+        optoutfile3.close()
+
+
+@bot.command(name='optin_spam', help="""Opts in of spam [after opting out].""")
+async def optinspam(ctx):
+    optoutlist3 = []
+
+    optoutfile3 = open('optoutspam.txt', 'r')
+    for y in optoutfile3:
+        optoutlist3.append(y)
+    optoutfile3.close()
+
+    if ctx.author.id not in optoutlist3:
+        await ctx.channel.send("You are already opted in for spam! If you wish to opt out, use the command `.optout_spam`!")
+    else:
+        a_file = open("optoutspam.txt", "r")
+        lines = a_file.readlines()
+        a_file.close()
+
+        new_file = open("optoutspam.txt", "w")
+        for line in lines:
+            if line.strip("\n") != str(ctx.author.id):
+                new_file.write(line)
+                new_file.close()
+        
+        await ctx.channel.send("You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
 
 bot.run(TOKEN)
