@@ -352,7 +352,36 @@ User: {user}"""
 
         await ctx.channel.send(msg2)
 
+@bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""")
+async def spam(ctx, number_of_times, user: discord.Member, *, message):
 
+    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
+        await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
+    else:
+        number_of_times = int(number_of_times)
+
+        dmchannel = await user.create_dm()
+
+        await ctx.channel.send(f"Task started by Anonymous...")
+
+        for i in range(number_of_times):
+            await dmchannel.send(message)
+
+        number_of_times2 = str(number_of_times)
+
+        await dmchannel.send(f"""Information:
+        Total number of messages sent: {number_of_times2}
+        **NOTE: The bot is not responsible for any of the messages sent above.**""")
+
+        msg2 = f"""<@{ctx.author.id}>, task done!
+Message: {message}
+Number of times: {number_of_times2}
+User: {user}"""
+
+        userdm = await ctx.author.create_dm()
+        await userdm.send(msg2)
+
+        
 @bot.command(name='optout_spam', help="""Opts out of spam.""")
 async def optoutspam(ctx):
     optoutlist2 = []
