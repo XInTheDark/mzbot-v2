@@ -450,7 +450,7 @@ async def setdelay(ctx, seconds: int):
 @commands.has_permissions(manage_roles=True) # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     
-    role = discord.utils.get(member.server.roles, name=rolename)
+    role = discord.utils.get(ctx.author.server.roles, name=rolename)
     try:
         await bot.add_roles(member, role)
     except:
