@@ -431,13 +431,8 @@ async def lockall(ctx):
     if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg why are you trying to lock channels!")
     else:
-        text_channel_list = []
-        for guild in bot.guilds:
-            for channel in guild.text_channels:
-                text_channel_list.append(channel)
-        
-        for channel1 in text_channel_list:
-            await channel1.set_permissions(ctx.guild.default_role, send_messages=False)
+        for channel in ctx.guild.text_channels:
+            await channel.set_permissions(ctx.guild.default_role, send_messages=False, reason=f'User {ctx.author} used command lockall')
         
         await ctx.channel.send(f"<@{ctx.author.id}>, Locked all channels successfully!")
         
