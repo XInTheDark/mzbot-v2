@@ -445,6 +445,19 @@ async def setdelay(ctx, seconds: int):
         await ctx.channel.edit(slowmode_delay=seconds)
         await ctx.channel.send(f"Set the slowmode for #{ctx.channel} to {seconds} seconds!")
 
+
+@bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
+@commands.has_permissions(manage_roles=True) # This must be exactly the name of the appropriate role
+async def addrole(ctx, member: discord.Member, *, rolename):
+    
+    role = get(member.server.roles, name=rolename)
+    try:
+        await bot.add_roles(member, role)
+    except:
+        await ctx.channel.send("An error occurred! Check if the role you entered exists!")
         
+    await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+    
+    
 bot.run(TOKEN)
 
