@@ -439,7 +439,7 @@ async def lockall(ctx):
         for channel1 in text_channel_list:
             await channel1.set_permissions(ctx.guild.default_role, send_messages=False)
         
-        ctx.channel.send(f"<@{ctx.author.id}>, Locked all channels successfully!")
+        await ctx.channel.send(f"<@{ctx.author.id}>, Locked all channels successfully!")
         
         
 bot.run(TOKEN)
