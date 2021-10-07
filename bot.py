@@ -436,6 +436,15 @@ async def lockall(ctx):
         
         await ctx.channel.send(f"<@{ctx.author.id}>, Locked all channels successfully!")
         
+
+@bot.command(name='slowmode', help='Sets the slowmode for a channel.')
+async def setdelay(ctx, seconds: int):
+    if not ctx.author.guild_permissions.manage_messages and ctx.author.id != 762152955382071316:
+        await ctx.channel.send('You are missing Manage Messages permissions!')
+    else:
+        await ctx.channel.edit(slowmode_delay=seconds)
+        await ctx.channel.send(f"Set the slowmode for #{ctx.channel} to {seconds} seconds!")
+
         
 bot.run(TOKEN)
 
