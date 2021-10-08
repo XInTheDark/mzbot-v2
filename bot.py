@@ -221,7 +221,7 @@ async def nuke_server_fr(ctx):
 # ban part broken for now
 
 @bot.command(name='gg', help='GG, Stay!')
-@commands.has_role(881142512587276328)
+@commands.has_permissions(administrator=True)
 async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
 <a:arrow_animated:875302270173085716> Didn't get a chance to join?
@@ -237,7 +237,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
-@commands.has_role("Giveaways")
+@commands.has_permissions(administrator=True)
 async def tips(ctx):
     embedVar = discord.Embed(title=f"TIPS TO WIN GIVEAWAYS", description=f"""How to win  Giveaways easily?
 <a:arrow_blue:874953616048402442> Keep us on top of your server list so you get notified faster!
@@ -253,7 +253,7 @@ async def tips(ctx):
 
 
 @bot.command(name='won', help='Who won the giveaway?')
-@commands.has_role("Giveaways")
+@commands.has_permissions(administrator=True)
 async def whowon(ctx, userid, *, prize):
     embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!",
                              description=f"""{userid} Won the previous giveaway for **{prize}** !
