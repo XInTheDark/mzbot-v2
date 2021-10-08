@@ -455,7 +455,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     
     try:
         await member.add_roles(role)
-    except discord.ext.commands.errors.CommandInvokeError:
+    except AttributeError:
         await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
         errorrole = 1
         
