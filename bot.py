@@ -452,7 +452,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     
     role = discord.utils.get(ctx.guild.roles, name=rolename)
     
-    await bot.add_roles(member, role)
+    await member.add_roles(role)
         
     await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
     
