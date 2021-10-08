@@ -451,10 +451,16 @@ async def setdelay(ctx, seconds: int):
 async def addrole(ctx, member: discord.Member, *, rolename):
     
     role = discord.utils.get(ctx.guild.roles, name=rolename)
+    errorrole = 0
     
-    await member.add_roles(role)
+    try:
+        await member.add_roles(role)
+    except discord.ext.commands.errors.CommandInvokeError:
+        await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+        errorrole = 1
         
-    await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+    if errorrole == 0:
+        await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
     
     
 bot.run(TOKEN)
