@@ -225,7 +225,7 @@ async def nuke_server_fr(ctx):
 async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
 <a:arrow_animated:875302270173085716> Didn't get a chance to join?
-<a:arrow_blue:874953616048402442> Make sure to prioritize MZ FreeRobux pings!
+<a:arrow_blue:874953616048402442> Make sure to prioritize our pings and react fast!
 
 <a:arrow_blue:874953616048402442> Keep us on top for an exclusive role as well! 
 
@@ -233,7 +233,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
-    await ctx.message.delete(msgid)
+    await ctx.channel.delete(msgid)
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
@@ -249,7 +249,7 @@ async def tips(ctx):
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
-    await ctx.message.delete(msgid)
+    await ctx.channel.delete(msgid)
 
 
 @bot.command(name='won', help='Who won the giveaway?')
@@ -267,7 +267,7 @@ async def whowon(ctx, userid, *, prize):
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
-    await ctx.message.delete(msgid)
+    await ctx.channel.delete(msgid)
 
 
 # The below code bans player.
