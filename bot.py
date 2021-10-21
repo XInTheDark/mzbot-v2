@@ -268,11 +268,12 @@ async def whowon(ctx, userid, *, prize):
         for i in claimlines:
             if str(server_id) in i:
                 i = i.removeprefix(f"{server_id}:")
-                proofschannel = int(i)
+                proofschannel = f"<#{str(i)}>"
                 foundserver = True
                 break
         if not foundserver:
-            await ctx.channel.send(r"Cannot find proofs channel! Try using '.setproofchannel'!\n*(Due to a recent update, you must now set the proofs channel before you can use the .won command.)")
+            await ctx.channel.send(r"Cannot find proofs channel! Try using '.setproofschannel'!\n*(Due to a recent update, the proofs channel can now be set! We strongly encourage you to set it with `.setproofschannel`.)")
+            proofschannel = "the proofs channel (if any)"
         else:
             claimsfile.close()
             
@@ -280,7 +281,7 @@ async def whowon(ctx, userid, *, prize):
                              description=f"""{userid} Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:yellow_fire:875943816123789335> Check our vouches in the respective channels!
-<a:orange_fire:875943965638152202> Check <#{proofschannel}> for payout proofs!
+<a:orange_fire:875943965638152202> Check {proofschannel} for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
