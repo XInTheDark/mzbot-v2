@@ -471,6 +471,9 @@ async def addrole(ctx, member: discord.Member, *, rolename):
 
 @bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
 async def setclaimschannel(ctx, channelid: int):
+    
+    taskdone1 = False
+    
     if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
     else:
@@ -511,17 +514,25 @@ async def setclaimschannel(ctx, channelid: int):
             
 @bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
 async def claimed(ctx, member: discord.Member, how, *, prize):
-    claimsfile2 = open('claimschannel.txt', 'r')
-    claimlines = claimsfile2.readlines()
-    server_id = ctx.message.guild.id
-    for i in claimlines:
-        if str(server_id) in i:
-            i = i - f"{server_id}:"
-            claimschannel = int(i)
-            break
-       
-    channel = bot.get_channel(claimschannel)
-    await channel.send(f"""**Congratulations!**
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+        await ctx.channel.send("You're not an administrator!")
+    else:
+        claimsfile2 = open('claimschannel.txt', 'r')
+        claimlines = claimsfile2.readlines()
+        server_id = ctx.message.guild.id
+        foundserver = False
+    
+        for i in claimlines:
+            if str(server_id) in i:
+                i = i - f"{server_id}:"
+                claimschannel = int(i)
+                foundserver = True
+                break
+        if not foundserver:
+            await ctx.channel.send("Cannot find claims channel! Try using '.setclaimschannel'!")
+        else:
+            channel = bot.get_channel(claimschannel)
+            await channel.send(f"""**Congratulations!**
 {member.mention} claimed **{prize}** from **{how}**!""")
                              
 
