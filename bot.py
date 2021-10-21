@@ -508,6 +508,22 @@ async def setclaimschannel(ctx, channel: discord.Channel):
                 
             await ctx.channel.send(f"Successfully updated claims channel to <#{channel.id}>!")
               
+            
+@bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
+async def claimed(ctx, member: discord.Member, how, *, prize):
+    claimsfile2 = open('claimschannel.txt', 'r')
+    claimlines = claimsfile2.readlines()
+    server_id = ctx.message.guild.id
+    for i in claimlines:
+        if str(server_id) is in i:
+            i = i - f"{server_id}:"
+            claimschannel = int(i)
+            break
+       
+    channel = bot.get_channel(claimschannel)
+    await channel.send(f"""**Congratulations!**
+{member.mention} claimed **{prize}** from **{how}**!""")
                              
+
 bot.run(TOKEN)
 
