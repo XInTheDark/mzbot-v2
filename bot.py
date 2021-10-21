@@ -532,7 +532,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             await ctx.channel.send("Cannot find claims channel! Try using '.setclaimschannel'!")
         else:
             channel = bot.get_channel(int(claimschannel))
-            await channel.send(f"""**Congratulations!**
+            await channel.send(f"""🎉 **Congratulations!** 🎉
 {member.mention} claimed **{prize}** from **{how}**!""")
                              
 
