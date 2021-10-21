@@ -470,7 +470,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     
 
 @bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
-async def setclaimschannel(ctx, channel: discord.Channel):
+async def setclaimschannel(ctx, channelid: int):
     if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
     else:
@@ -491,12 +491,12 @@ async def setclaimschannel(ctx, channel: discord.Channel):
                 f.close()
                 claimsfile = open('claimschannel.txt', 'a')
                 claimsfile.write('\n')
-                claimsfile.write(f"{str(serverid)}:{str(channel.id)}")
+                claimsfile.write(f"{str(serverid)}:{str(channelid)}")
                 
                 claimsfile.close()
                 
                 taskdone1 = True
-                await ctx.channel.send(f"Successfully updated claims channel to <#{channel.id}>!")      
+                await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")      
                 break
                                  
         if not taskdone1:
@@ -506,7 +506,7 @@ async def setclaimschannel(ctx, channel: discord.Channel):
             claimsfile.write('\n')
             claimsfile.write(f"{str(serverid)}:{str(channel.id)}")
                 
-            await ctx.channel.send(f"Successfully updated claims channel to <#{channel.id}>!")
+            await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
               
             
 @bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
