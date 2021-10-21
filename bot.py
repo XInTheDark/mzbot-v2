@@ -277,15 +277,13 @@ async def whowon(ctx, userid, *, prize):
         else:
             claimsfile.close()
             
-    embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!",
-                             description=f"""{userid} Won the previous giveaway for **{prize}** !
+    embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!", description=f"""{userid} Won the previous giveaway for **{prize}**!
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:yellow_fire:875943816123789335> Check our vouches in the respective channels!
 <a:orange_fire:875943965638152202> Check {proofschannel} for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
 
-<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
-                             color=0x00ff08)
+<a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""", color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
