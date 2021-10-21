@@ -491,7 +491,7 @@ async def setclaimschannel(ctx, channel: discord.Channel):
                 f.close()
                 claimsfile = open('claimschannel.txt', 'a')
                 claimsfile.write('\n')
-                claimsfile.write(f"{str(serverid)}:{str(channel.id)})
+                claimsfile.write(f"{str(serverid)}:{str(channel.id)}")
                 
                 claimsfile.close()
                 
