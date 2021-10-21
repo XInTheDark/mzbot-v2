@@ -275,7 +275,7 @@ async def whowon(ctx, userid, *, prize):
         await ctx.channel.send(r"Cannot find proofs channel! Try using '.setproofschannel'!\n*(Due to a recent update, the proofs channel can now be set! We strongly encourage you to set it with `.setproofschannel`.)")
         proofschannel = "the proofs channel (if any)"
     else:
-        claimsfile.close()
+        claimsfile2.close()
             
         embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!", description=f"""{userid} Won the previous giveaway for **{prize}**!
 <a:blue_fire:874953550030061588> Ask them if we're legit!
@@ -552,7 +552,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             await channel.send(f"""🎉 **Congratulations!** 🎉
 {member.mention} claimed **{prize}** from **{how}**!""")
             await ctx.message.delete()
-            claimsfile.close()
+            claimsfile2.close()
                              
 
 @bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
