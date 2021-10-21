@@ -478,7 +478,7 @@ async def setclaimschannel(ctx, channel: discord.Channel):
         serverid = ctx.message.guild.id
         claimslines = claimsfile.readlines()
         for line in claimslines:
-            if str(serverid) is in line:
+            if str(serverid) in line:
                 claimsfile.close()
                 
                 with open("claimschannel.txt", "r") as f:
@@ -515,7 +515,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
     claimlines = claimsfile2.readlines()
     server_id = ctx.message.guild.id
     for i in claimlines:
-        if str(server_id) is in i:
+        if str(server_id) in i:
             i = i - f"{server_id}:"
             claimschannel = int(i)
             break
