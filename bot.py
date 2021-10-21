@@ -510,6 +510,8 @@ async def setclaimschannel(ctx, channelid: int):
             claimsfile.write(f"{str(serverid)}:{str(channelid)}")
                 
             await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
+            
+            claimsfile.close()
               
             
 @bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
@@ -535,6 +537,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             await channel.send(f"""🎉 **Congratulations!** 🎉
 {member.mention} claimed **{prize}** from **{how}**!""")
             await ctx.message.delete()
+            claimsfile.close()
                              
 
 bot.run(TOKEN)
