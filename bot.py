@@ -260,11 +260,27 @@ async def tips(ctx):
 @bot.command(name='won', help='Who won the giveaway?')
 @commands.has_permissions(administrator=True)
 async def whowon(ctx, userid, *, prize):
+        claimsfile2 = open('proofchannel.txt', 'r')
+        claimlines = claimsfile2.readlines()
+        server_id = ctx.message.guild.id
+        foundserver = False
+    
+        for i in claimlines:
+            if str(server_id) in i:
+                i = i.removeprefix(f"{server_id}:")
+                proofschannel = int(i)
+                foundserver = True
+                break
+        if not foundserver:
+            await ctx.channel.send(r"Cannot find proofs channel! Try using '.setproofchannel'!\n*(Due to a recent update, you must now set the proofs channel before you can use the .won command.)")
+        else:
+            claimsfile.close()
+            
     embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!",
                              description=f"""{userid} Won the previous giveaway for **{prize}** !
 <a:blue_fire:874953550030061588> Ask them if we're legit!
 <a:yellow_fire:875943816123789335> Check our vouches in the respective channels!
-<a:orange_fire:875943965638152202> Check <#891180543423684640> for payout proofs!
+<a:orange_fire:875943965638152202> Check <#{proofschannel}> for payout proofs!
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
@@ -540,5 +556,50 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             claimsfile.close()
                              
 
+@bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
+async def setproofschannel(ctx, channelid: int):
+    
+    taskdone1 = False
+    
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+        await ctx.channel.send("Omg look at who's fiddling with server settings?!")
+    else:
+        claimsfile = open("proofchannel.txt", "r")
+        serverid = ctx.message.guild.id
+        claimslines = claimsfile.readlines()
+        for line in claimslines:
+            if str(serverid) in line:
+                claimsfile.close()
+                
+                with open("proofchannel.txt", "r") as f:
+                    lines = f.readlines()
+                with open("proofchannel.txt", "w") as f:
+                    for line1 in lines:
+                        if line.strip("\n") != line:
+                            f.write(line1)
+                            
+                f.close()
+                claimsfile = open('proofchannel.txt', 'a')
+                claimsfile.write('\n')
+                claimsfile.write(f"{str(serverid)}:{str(channelid)}")
+                
+                claimsfile.close()
+                
+                taskdone1 = True
+                await ctx.channel.send(f"Successfully updated proofs channel to <#{channelid}>!")      
+                break
+                                 
+        if not taskdone1:
+                                 
+            claimsfile.close()
+            claimsfile = open('proofchannel.txt', 'a')
+            claimsfile.write('\n')
+            claimsfile.write(f"{str(serverid)}:{str(channelid)}")
+                
+            await ctx.channel.send(f"Successfully updated proofs channel to <#{channelid}>!")
+            
+            claimsfile.close()
+            
+            
 bot.run(TOKEN)
 
