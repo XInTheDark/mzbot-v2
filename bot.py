@@ -238,7 +238,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
-    await ctx.channel.delete(msgid)
+    await ctx.message.delete()
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
@@ -272,7 +272,7 @@ async def whowon(ctx, userid, *, prize):
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.fetch_message(ctx)
-    await ctx.channel.delete(msgid)
+    await ctx.message.delete()
 
 
 # The below code bans player.
@@ -534,6 +534,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             channel = bot.get_channel(int(claimschannel))
             await channel.send(f"""🎉 **Congratulations!** 🎉
 {member.mention} claimed **{prize}** from **{how}**!""")
+            await ctx.message.delete()
                              
 
 bot.run(TOKEN)
