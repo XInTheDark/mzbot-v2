@@ -524,7 +524,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
     
         for i in claimlines:
             if str(server_id) in i:
-                i = i - f"{server_id}:"
+                i = i.replace(f"{server_id}:", "")
                 claimschannel = int(i)
                 foundserver = True
                 break
