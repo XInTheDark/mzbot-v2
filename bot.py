@@ -507,7 +507,7 @@ async def setclaimschannel(ctx, channelid: int):
             claimsfile.close()
             claimsfile = open('claimschannel.txt', 'a')
             claimsfile.write('\n')
-            claimsfile.write(f"{str(serverid)}:{str(channel.id)}")
+            claimsfile.write(f"{str(serverid)}:{str(channelid)}")
                 
             await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
               
