@@ -468,6 +468,46 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     if errorrole == 0:
         await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
     
-    
+
+@bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
+async def setclaimschannel(ctx, channel: discord.Channel):
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+        await ctx.channel.send("Omg look at who's fiddling with server settings?!")
+    else:
+        claimsfile = open("claimschannel.txt", "r")
+        serverid = ctx.message.guild.id
+        claimslines = claimsfile.readlines()
+        for line in claimslines:
+            if str(serverid) is in line:
+                claimsfile.close()
+                
+                with open("claimschannel.txt", "r") as f:
+                    lines = f.readlines()
+                with open("claimschannel.txt", "w") as f:
+                    for line1 in lines:
+                        if line.strip("\n") != line:
+                            f.write(line1)
+                            
+                f.close()
+                claimsfile = open('claimschannel.txt', 'a')
+                claimsfile.write('\n')
+                claimsfile.write(f"{str(serverid)}:{str(channel.id)})
+                
+                claimsfile.close()
+                
+                taskdone1 = True
+                await ctx.channel.send(f"Successfully updated claims channel to <#{channel.id}>!")      
+                break
+                                 
+        if not taskdone1:
+                                 
+            claimsfile.close()
+            claimsfile = open('claimschannel.txt', 'a')
+            claimsfile.write('\n')
+            claimsfile.write(f"{str(serverid)}:{str(channel.id)})
+                
+            await ctx.channel.send(f"Successfully updated claims channel to <#{channel.id}>!")
+              
+                             
 bot.run(TOKEN)
 
