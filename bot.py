@@ -237,8 +237,8 @@ async def ggstay(ctx, *, server):
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
-    msgid = await ctx.fetch_message(ctx)
-    await ctx.message.delete()
+    msgid = await ctx.channel.fetch_message(ctx.message.id)
+    await msgid.delete()
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
@@ -253,8 +253,8 @@ async def tips(ctx):
                              color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
-    msgid = await ctx.fetch_message(ctx)
-    await ctx.channel.delete(msgid)
+    msgid = await ctx.channel.fetch_message(ctx.message.id)
+    await msgid.delete()
 
 
 @bot.command(name='won', help='Who won the giveaway?')
@@ -286,8 +286,8 @@ async def whowon(ctx, userid, *, prize):
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""", color=0x00ff08)
 
         await ctx.channel.send(embed=embedVar)
-        msgid = await ctx.fetch_message(ctx)
-        await ctx.message.delete()
+        msgid = await ctx.channel.fetch_message(ctx.message.id)
+        await msgid.delete()
 
 
 # The below code bans player.
@@ -552,7 +552,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
             await channel.send(f"""🎉 **Congratulations!** 🎉
 {member.mention} claimed **{prize}** from **{how}**!""")
             await ctx.message.delete()
-            claimsfile2.close()
+        claimsfile2.close()
                              
 
 @bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
