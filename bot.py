@@ -203,7 +203,10 @@ async def nuke_server_fr(ctx):
 
                     finally:
                         None
-        
+                except:
+                    None
+                finally:
+                    None
         
             guild = ctx.message.guild
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
