@@ -32,6 +32,7 @@ async def on_member_join(member):
         f'Hi @' + str({member.name}) + ', welcome to our server! We hope you have a good time here!'
     )
 
+     
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
     response = """**How does a drop work?**
@@ -93,7 +94,7 @@ async def nitrogen(ctx):
 
 
 @bot.command(name='shutdown', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
-async def on_message(message):
+async def shutdown(message):
     if str(message.author.id) != '762152955382071316':
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
         await message.send("LOL Only <@762152955382071316> can shutdown the bot, get lost\n**YOU GAY**")
@@ -687,22 +688,23 @@ async def setafk(ctx, reason='AFK'):
     afkdict.append(str(ctx.author.id))
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
 
-@client.event  
-async def on_message(msg):
+                   
+@client.event
+async def on_message(message):
     global afkdict
                    
-    if str(msg.author.id) in afkdict:
-       afkdict.pop(str(msg.author.id))
+    if str(message.author.id) in afkdict:
+       afkdict.pop(str(message.author.id))
 
-    for member in msg.mentions:  
-        if member != msg.author:  
+    for member in message.mentions:  
+        if member != message.author:  
             if member.id in afkdict:  
                 afkmsg = afkdict[str(member.id)]  
                    
-                await msg.channel.send(f"{member} is AFK: {afkmsg}")
+                await message.channel.send(f"{member} is AFK: {afkmsg}")
                    
-    await client.process_commands(msg)
+    await client.process_commands(message)
                    
-
+   
 bot.run(TOKEN)
 
