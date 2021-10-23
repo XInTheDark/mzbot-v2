@@ -17,12 +17,13 @@ bot = commands.Bot(command_prefix='.')
 
 @bot.event
 async def on_ready():
+    client = discord.Client()
+    
     guild = discord.utils.get(client.guilds, name=GUILD)
     print(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    client = discord.Client()
     
     asyncio.sleep(3)
     activity = discord.Activity(name='Muzhen <3', type=discord.ActivityType.watching)
