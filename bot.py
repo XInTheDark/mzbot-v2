@@ -671,8 +671,10 @@ async def purge(ctx, amount: int):
             messages.append(message)
 
     await channel.delete_messages(messages)
-    await ctx.send(f'{amount} messages have been purged by {ctx.message.author.mention}')
-
+    msg2 = await ctx.send(f'{amount} messages have been purged by {ctx.message.author.mention}.')
+    await asyncio.sleep(3)
+    
+    await msg2.delete()
         
 bot.run(TOKEN)
 
