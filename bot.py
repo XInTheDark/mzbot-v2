@@ -612,9 +612,27 @@ async def setproofschannel(ctx, channelid: int):
             
             claimsfile.close()
             
-@bot.command(name='ticket', help='Shows option to open ticket.', aliases=['openticket','tickets'])
-async def ticket(ctx):
-    message = "To open a ticket, press the button below!"
+@bot.command(name='rename', help='Renames the channel.', aliases=['renamechannel'])
+@commands.has_permissions(manage_channels=True)
+async def rename(ctx, channel=None, *, name):
+    if channel is not None:
+        try:
+            channelid = channel.removeprefix('<#').removesuffix('>')
+        except:
+            try:
+                channelid = int(channel)
+            except:
+                await ctx.channel.send('An error occurred! Check your syntax!')
+    else:
+        channelid = ctx.channel.id
+    
+    try:
+        channel2 = bot.get_channel(channelid)
+    except:
+        await ctx.channel.send('Cannot find channel! Check your command!')
+    
+    await channel2.edit(name=name)
+    
     
 bot.run(TOKEN)
 
