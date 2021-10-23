@@ -20,7 +20,7 @@ bot = commands.Bot(command_prefix='.')
 async def on_ready():
     client = discord.Client()
     
-    await asyncio.sleep(3)
+    
     activity = discord.Activity(name='Muzhen <3', type=discord.ActivityType.watching)
     client = discord.Client(activity=activity)
 
