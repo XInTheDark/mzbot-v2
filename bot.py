@@ -21,7 +21,7 @@ async def on_ready():
     client = discord.Client()
     
     # Setting `Watching ` status
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Muzhen <3"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Muzhen ❤"))
 
 @bot.event
 async def on_member_join(member):
