@@ -663,7 +663,7 @@ async def rename(ctx, channel=None, *, name):
 
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
-async def purge(ctx, number: int):
+async def purge(ctx, amount: int):
     channel = ctx.message.channel
     messages = []
     async for message in channel.history(limit=amount + 1):
