@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from discord.ext import commands
 import random
 import asyncio
+from requests import get
+import json
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -38,11 +40,13 @@ async def drop(ctx):
     await ctx.send(response)
 
 
-@bot.command(name='meme', help='[BROKEN RN] Pulls a meme from Dank Memer... but why are you using this command?!')
+@bot.command(name='meme', help='Generates a random meme.')
 async def plsmeme(ctx):
-    response = "Not functional rn. But just use DankMemer's `pls meme`..."
-
-    await ctx.send(response)
+    content = get("https://meme-api.herokuapp.com/gimme").text
+    data = json.loads(content,)
+    meme = discord.Embed(title=f"{data['title']}", Color = discord.Color.random()).set_image(url=f"{data['url']}")
+    
+    await ctx.reply(embed=meme)
 
 
 @bot.command(name='-.', help='.-.')
