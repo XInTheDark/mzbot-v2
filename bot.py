@@ -690,7 +690,7 @@ async def setafk(ctx, reason='AFK'):
 
                    
 @client.event
-async def on_message(message):
+async def on_afk_msg(message):
     global afkdict
                    
     if str(message.author.id) in afkdict:
