@@ -687,21 +687,20 @@ async def setafk(ctx, reason='AFK'):
     afkdict.append(str(ctx.author.id))
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
 
-@bot.event
-async def on_message(message):
+async def on_message(msg):
     global afkdict
                    
-    if str(message.author.id) in afkdict:
-       afkdict.pop(str(message.author.id))
+    if str(msg.author.id) in afkdict:
+       afkdict.pop(str(msg.author.id))
 
-    for member in message.mentions:  
-        if member != message.author:  
+    for member in msg.mentions:  
+        if member != msg.author:  
             if member. in afkdict:  
                 afkmsg = afkdict[str(member.id)]  
                    
-                await message.channel.send(f"{member} is AFK: {afkmsg}")
+                await msg.channel.send(f"{member} is AFK: {afkmsg}")
                    
-    await client.process_commands(message)
+    await client.process_commands(msg)
                    
 
 bot.run(TOKEN)
