@@ -20,7 +20,6 @@ bot = commands.Bot(command_prefix='.')
 async def on_ready():
     client = discord.Client()
     
-    
     activity = discord.Activity(name='Muzhen <3', type=discord.ActivityType.watching)
     client = discord.Client(activity=activity)
 
@@ -29,7 +28,7 @@ async def on_ready():
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(
-        f'Hi @' + str({member.name}) + ', welcome to MZ FreeRobux! We hope you have a good time here!'
+        f'Hi @' + str({member.name}) + ', welcome to our server! We hope you have a good time here!'
     )
 
 @bot.command(name='dw', help='Responds how a drop works.')
