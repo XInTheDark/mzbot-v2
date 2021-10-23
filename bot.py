@@ -687,6 +687,7 @@ async def setafk(ctx, reason='AFK'):
     afkdict.append(str(ctx.author.id))
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
 
+@client.event  
 async def on_message(msg):
     global afkdict
                    
