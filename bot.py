@@ -494,7 +494,23 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     
 
 @bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
-async def setclaimschannel(ctx, channelid: int):
+async def setclaimschannel(ctx, channel):
+    if channel is not None:
+        try:
+            channelid = channel.removeprefix('<#').removesuffix('>')
+        except:
+            try:
+                channelid = int(channel)
+            except:
+                await ctx.channel.send('An error occurred! Check your syntax!')
+    else:
+        channelid = ctx.channel.id
+    
+    try:
+        channeltest = client.get_channel(channelid)
+    except:
+        await ctx.channel.send('Cannot find channel! Check your command!')
+    
     
     taskdone1 = False
     
@@ -566,7 +582,22 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
 
 @bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
 async def setproofschannel(ctx, channelid: int):
+    if channel is not None:
+        try:
+            channelid = channel.removeprefix('<#').removesuffix('>')
+        except:
+            try:
+                channelid = int(channel)
+            except:
+                await ctx.channel.send('An error occurred! Check your syntax!')
+    else:
+        channelid = ctx.channel.id
     
+    try:
+        channeltest = client.get_channel(channelid)
+    except:
+        await ctx.channel.send('Cannot find channel! Check your command!')
+        
     taskdone1 = False
     
     if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
