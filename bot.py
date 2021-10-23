@@ -22,6 +22,10 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
+    
+    asyncio.sleep(3)
+    activity = discord.Activity(name='Muzhen <3', type=discord.ActivityType.watching)
+    client = discord.Client(activity=activity)
 
 
 @bot.event
@@ -30,7 +34,6 @@ async def on_member_join(member):
     await member.dm_channel.send(
         f'Hi @' + str({member.name}) + ', welcome to MZ FreeRobux! We hope you have a good time here!'
     )
-
 
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
@@ -606,6 +609,8 @@ async def setproofschannel(ctx, channelid: int):
             
             claimsfile.close()
             
-            
+@bot.command(name='ticket', help='Shows option to open ticket.', aliases=['openticket','tickets'])
+async def ticket(ctx):
+    
 bot.run(TOKEN)
 
