@@ -611,6 +611,7 @@ async def setproofschannel(ctx, channelid: int):
             
 @bot.command(name='ticket', help='Shows option to open ticket.', aliases=['openticket','tickets'])
 async def ticket(ctx):
+    message = "To open a ticket, press the button below!"
     
 bot.run(TOKEN)
 
