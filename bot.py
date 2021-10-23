@@ -696,7 +696,7 @@ async def on_message(msg):
 
     for member in msg.mentions:  
         if member != msg.author:  
-            if member. in afkdict:  
+            if member.id in afkdict:  
                 afkmsg = afkdict[str(member.id)]  
                    
                 await msg.channel.send(f"{member} is AFK: {afkmsg}")
