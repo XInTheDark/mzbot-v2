@@ -679,6 +679,30 @@ async def purge(ctx, amount: int):
     await asyncio.sleep(3)
     
     await msg2.delete()
-        
+    
+    
+@bot.command(name='afk', help='Sets AFK'.)
+async def setafk(ctx, reason='AFK'):
+    global afkdict
+    afkdict.append(str(ctx.author.id))
+    await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
+
+@bot.event
+async def on_message(message):
+    global afkdict
+                   
+    if str(message.author.id) in afkdict:
+       afkdict.pop(str(message.author.id))
+
+    for member in message.mentions:  
+        if member != message.author:  
+            if member. in afkdict:  
+                afkmsg = afkdict[str(member.id)]  
+                   
+                await message.channel.send(f"{member} is AFK: {afkmsg}")
+                   
+    await client.process_commands(message)
+                   
+
 bot.run(TOKEN)
 
