@@ -681,7 +681,7 @@ async def purge(ctx, amount: int):
     await msg2.delete()
     
     
-@bot.command(name='afk', help='Sets AFK'.)
+@bot.command(name='afk', help='Sets AFK.')
 async def setafk(ctx, reason='AFK'):
     global afkdict
     afkdict.append(str(ctx.author.id))
