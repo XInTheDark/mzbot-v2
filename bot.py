@@ -20,9 +20,8 @@ bot = commands.Bot(command_prefix='.')
 async def on_ready():
     client = discord.Client()
     
-    activity = discord.Activity(name='Muzhen <3', type=discord.ActivityType.watching)
-    client = discord.Client(activity=activity)
-
+    # Setting `Watching ` status
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Muzhen <3"))
 
 @bot.event
 async def on_member_join(member):
