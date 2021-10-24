@@ -36,7 +36,7 @@ async def on_member_join(member):
         f'Hi @' + str({member.name}) + ', welcome to our server! We hope you have a good time here!'
     )
 
-@client.event
+@bot.event
 async def on_message(message):
     
     global afkdict
