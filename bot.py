@@ -90,7 +90,11 @@ async def help(ctx):
 **Experimental features available:**
 - rename
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
-    await ctx.send(response)
+    
+    msg1 = await ctx.send("Loading...")
+    await asyncio.sleep(0.01)
+    await ctx.reply(response)
+    await msg1.delete()
 
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
