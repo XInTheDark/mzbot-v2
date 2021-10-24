@@ -7,6 +7,7 @@ import random
 import asyncio
 from requests import get
 import json
+import sys
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -715,8 +716,9 @@ Made by MuzhenGaming#9955
 ========================
 Version info:
 discord.py version {discord.__version__}
-release {discord.sys.version_info[4]}
+release {discord.version_info[4]}
 Python version {os.version}
+release {sys.version_info[4]}
 ========================
 Connection Info:
 Ping {client.latency * 1000}ms""")
