@@ -707,7 +707,7 @@ async def purge(ctx, amount: int):
 async def setafk(ctx, reason='AFK'):
     global afkdict
     afkdict.append(str(ctx.author.id))
-    await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}")
+    await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
 
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version'])
