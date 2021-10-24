@@ -657,7 +657,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
 
 @bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
 async def setproofschannel(ctx, channelid):
-    if channel is not None:
+    if channelid is not None:
         try:
             channelid = channelid.removeprefix('<#').removesuffix('>')
         except:
