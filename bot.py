@@ -56,12 +56,6 @@ async def on_message(message):
     await bot.process_commands(message)
 
     
-@bot.command(name='help', help='Help.')
-async def help(ctx):
-    response = """Test"""
-    await ctx.reply(response)
-
-    
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
     response = """**How does a drop work?**
