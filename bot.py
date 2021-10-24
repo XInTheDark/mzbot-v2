@@ -806,6 +806,44 @@ async def ping(ctx):
     await ctx.reply(f"Ping: {lavg} ms")
     await msg1.delete()
                                       
-   
+
+@bot.command(name='timedif', help='', aliases=['snowflake', 'timediff'])
+async def timedif(ctx, id1, id2):
+    try:
+        id1 = int(id1)
+        id2 = int(id2)
+        
+    except:
+        await ctx.reply("Check your message ID's! They are incorrect!")
+    
+    msg1 = bot.get_message(id1)
+    msg2 = bot.get_message(id2)
+        
+    time1 = msg1.created_at()
+    time2 = msg2.created_at()
+    
+    ts_diff = time2 - time1
+    secs = abs(ts_diff.total_seconds())
+    days,secs=divmod(secs,secs_per_day:=60*60*24)
+    hrs,secs=divmod(secs,secs_per_hr:=60*60)
+    mins,secs=divmod(secs,secs_per_min:=60)
+    secs=round(secs, 2)
+    answer='{} secs'.format(secs)
+    
+    if secs > 60:
+        answer='{} mins and {} secs'.format(int(mins),secs)
+        if mins > 60:
+            answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
+            if hrs > 24:
+                answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
+    
+    embed = discord.Embed(title="**Time Difference**", description=f"""IDs: {id1}, {id2}
+Time difference between the 2 IDs: 
+{answer}"""
+    await ctx.reply(embed=embed)
+        
+    
+    
+    
 bot.run(TOKEN)
 
