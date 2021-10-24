@@ -709,7 +709,15 @@ async def setafk(ctx, reason='AFK'):
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version'])
 async def checkversion(ctx):
-
+    
+    tests = 500 #the amount of tests to conduct
+    latency_list = [] #this is where the tests go
+    for x in range(tests): #this is the loop
+        latency = round(client.latency() * 1000) #this gathers the latency
+        latency_list.append(latency) #puts the latency in the list
+    lavg = round(sum(latency_list) / tests) #averages the list out
+    
+    
     msg1 = await ctx.send("Loading...")
     await ctx.reply(f"""
 MZ Bot V2
@@ -722,7 +730,7 @@ Python version {sys.version}
 release {sys.version_info[3]}
 ========================
 Connection Info:
-Ping {round(client.latency * 1000)}ms""")
+Ping {lavg} ms""")
     await msg1.delete()
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
@@ -731,9 +739,9 @@ async def ping(ctx):
     tests = 500 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
-        latency = client.latency() * 1000 #this gathers the latency
+        latency = round(client.latency() * 1000) #this gathers the latency
         latency_list.append(latency) #puts the latency in the list
-    lavg = sum(latency_list) / tests #averages the list out
+    lavg = round(sum(latency_list) / tests) #averages the list out
     
     await ctx.reply(f"Ping: {lavg} ms")
     await msg1.delete()
