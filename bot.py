@@ -43,7 +43,9 @@ async def on_message(message):
                    
     if str(message.author.id) in afkdict:
        afkdict.pop(str(message.author.id))
-       await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
+       welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
+       await asyncio.sleep(5)
+       await welcomebackmsg.delete()
         
     for member in message.mentions: 
         if not message.author.bot:
@@ -91,9 +93,11 @@ async def help(ctx):
 - rename
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
     
+    embed = discord.Embed(title="Help Page", desctiption=response)
+    
     msg1 = await ctx.send("Loading...")
     await asyncio.sleep(0.01)
-    await ctx.reply(response)
+    await ctx.reply(embed)
     await msg1.delete()
 
 @bot.command(name='dw', help='Responds how a drop works.')
