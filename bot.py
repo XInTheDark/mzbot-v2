@@ -715,6 +715,7 @@ Made by MuzhenGaming#9955
 Version info:
 discord.py version {discord.__version__}
 release {sys.version_info[4]}
+Python version {os.version}
 ========================
 More information coming soon""")
 
