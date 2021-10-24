@@ -816,8 +816,8 @@ async def timedif(ctx, id1, id2):
     except:
         await ctx.reply("Check your message ID's! They are incorrect!")
     
-    msg1 = await discord.fetch_message(id1)
-    msg2 = await discord.fetch_message(id2)
+    msg1 = await ctx.fetch_message(id1)
+    msg2 = await ctx.fetch_message(id2)
         
     time1 = msg1.created_at()
     time2 = msg2.created_at()
