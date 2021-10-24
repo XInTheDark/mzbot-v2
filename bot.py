@@ -43,7 +43,7 @@ async def on_message(message):
                    
     if str(message.author.id) in afkdict:
        afkdict.pop(str(message.author.id))
-       await message.reply(f"Welcome back {message.author}, I removed your AFK")
+       await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
         
     for member in message.mentions:  
         if member != message.author:  
