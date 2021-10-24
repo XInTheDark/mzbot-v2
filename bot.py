@@ -706,7 +706,7 @@ async def setafk(ctx, reason='AFK'):
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
 
 
-@bot.command(name='version', help='Version and developer info.')
+@bot.command(name='about', help='Version and developer info.')
 async def checkversion(ctx):
 # BROKEN PLS HELP
     await ctx.reply(f"""
