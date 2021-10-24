@@ -728,7 +728,14 @@ Ping {round(client.latency * 1000)}ms""")
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
     msg1 = await ctx.send("Loading...")
-    await ctx.reply(f"Ping: {round(client.latency * 1000)}ms")
+    tests = 500 #the amount of tests to conduct
+    latency_list = [] #this is where the tests go
+    for x in range(tests): #this is the loop
+        latency = client.latency() * 1000 #this gathers the latency
+        latency_list.append(latency) #puts the latency in the list
+    lavg = sum(latency_list) / tests #averages the list out
+    
+    await ctx.reply(f"Ping: {lavg} ms")
     await msg1.delete()
                                       
    
