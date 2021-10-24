@@ -724,7 +724,7 @@ Ping {client.latency * 1000}ms""")
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
-    await ctx.reply(f"Ping: {client.latency * 1000}ms)
+    await ctx.reply(f"Ping: {client.latency * 1000}ms")
 
                                       
    
