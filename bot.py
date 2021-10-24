@@ -710,7 +710,7 @@ async def setafk(ctx, reason='AFK'):
 @bot.command(name='about', help='Version and developer info.', aliases=['version'])
 async def checkversion(ctx):
     
-    tests = 500 #the amount of tests to conduct
+    tests = 10000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
         latency = round(bot.latency * 1000) #this gathers the latency
@@ -736,7 +736,7 @@ Ping {lavg} ms""")
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
     msg1 = await ctx.send("Loading...")
-    tests = 500 #the amount of tests to conduct
+    tests = 10000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
         latency = round(bot.latency * 1000) #this gathers the latency
