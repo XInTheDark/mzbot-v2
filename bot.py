@@ -19,7 +19,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 intents = discord.Intents().all()
 client = discord.Client()
 
-bot = commands.Bot(command_prefix='.')
+bot = commands.Bot(command_prefix='.', help_command=None)
 
 
 @bot.event
@@ -56,6 +56,42 @@ async def on_message(message):
     await bot.process_commands(message)
 
     
+@bot.command(name='help', help='idc.')
+async def help(ctx):
+    response = """**List of commands**
+**Public:**
+- meme
+- donate
+- dice
+- credits
+- nitro
+- afk
+- about
+- ping
+**Requires permissions:**
+- dw
+- mute
+- unmute
+- nuke
+- kick
+- ban
+- gg
+- tips
+- claimed
+- won
+- setproofschannel
+- setclaimschannel
+- spam
+- dmspam
+- dmspam_force
+- lockall
+- slowmode
+- purge
+**Experimental features available:**
+- rename
+**NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
+    await ctx.send(response)
+
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
     response = """**How does a drop work?**
