@@ -52,7 +52,7 @@ async def on_message(message):
                    
                 await message.channel.send(f"{member} is AFK: {afkmsg}")
                    
-    await client.process_commands(message)
+    await bot.process_commands(message)
 
     
 @bot.command(name='dw', help='Responds how a drop works.')
