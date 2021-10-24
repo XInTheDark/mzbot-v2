@@ -717,18 +717,18 @@ Made by MuzhenGaming#9955
 ========================
 Version info:
 discord.py version {discord.__version__}
-release {discord.version_info[4]}
+release {discord.version_info[3]}
 Python version {sys.version}
-release {sys.version_info[4]}
+release {sys.version_info[3]}
 ========================
 Connection Info:
-Ping {client.latency * 1000}ms""")
+Ping {round(client.latency * 1000)}ms""")
     await msg1.delete()
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
     msg1 = await ctx.send("Loading...")
-    await ctx.reply(f"Ping: {client.latency * 1000}ms")
+    await ctx.reply(f"Ping: {round(client.latency * 1000)}ms")
     await msg1.delete()
                                       
    
