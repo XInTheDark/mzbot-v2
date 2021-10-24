@@ -32,7 +32,24 @@ async def on_member_join(member):
         f'Hi @' + str({member.name}) + ', welcome to our server! We hope you have a good time here!'
     )
 
-     
+@client.event
+async def on_message(message):
+    
+    global afkdict
+                   
+    if str(message.author.id) in afkdict:
+       afkdict.pop(str(message.author.id))
+
+    for member in message.mentions:  
+        if member != message.author:  
+            if member.id in afkdict:  
+                afkmsg = afkdict[str(member.id)]  
+                   
+                await message.channel.send(f"{member} is AFK: {afkmsg}")
+                   
+    await client.process_commands(message)
+
+    
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
     response = """**How does a drop work?**
@@ -701,24 +718,7 @@ release {sys.version_info[4]}
 ========================
 More information coming soon""")
 
-                   
-@client.event
-async def on_message(message):
-    
-    global afkdict
-                   
-    if str(message.author.id) in afkdict:
-       afkdict.pop(str(message.author.id))
-
-    for member in message.mentions:  
-        if member != message.author:  
-            if member.id in afkdict:  
-                afkmsg = afkdict[str(member.id)]  
-                   
-                await message.channel.send(f"{member} is AFK: {afkmsg}")
-                   
-    await client.process_commands(message)
-                   
+                                      
    
 bot.run(TOKEN)
 
