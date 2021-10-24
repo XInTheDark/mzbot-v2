@@ -11,6 +11,7 @@ import sys
 
 # Setting variables
 afkdict = {}
+spam_ban = [726356086176874537]
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -398,7 +399,9 @@ async def kick(self, *, member: discord.Member, reason=None):
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, *, message):
     if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
-        await ctx.channel.send("Omg why are you trying to spam here?!")
+        await ctx.reply("Omg why are you trying to spam here?!")
+    elif ctx.author in spam_ban:
+        await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         number_of_times = int(number_of_times)
 
@@ -427,6 +430,8 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         await ctx.channel.send("Omg who are you trying to spam?! noob")
     elif str(user.id) in optoutlist:
         await ctx.channel.send(f"Sorry, that user [{user}] has opted out of the `dmspam` command.")
+    elif ctx.author in spam_ban:
+        await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         number_of_times = int(number_of_times)
 
@@ -455,6 +460,8 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
 
     if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
+    elif ctx.author in spam_ban:
+        await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         number_of_times = int(number_of_times)
 
