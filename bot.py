@@ -688,7 +688,7 @@ async def rename(ctx, channel=None, *, name):
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
-    if not amount < 100:
+    if not amount <= 100:
         await ctx.reply("Sorry, the limit is 100 messages!")
     else:
         
