@@ -703,14 +703,14 @@ async def purge(ctx, amount: int):
 async def setafk(ctx, reason='AFK'):
     global afkdict
     afkdict.append(str(ctx.author.id))
-    await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
+    await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}")
 
 
 @bot.command(name='about', help='Version and developer info.')
 async def checkversion(ctx):
 # BROKEN PLS HELP
     await ctx.reply(f"""
-MZ Bot V1
+MZ Bot V2
 Made by MuzhenGaming#9955
 ========================
 Version info:
