@@ -708,6 +708,7 @@ async def setafk(ctx, reason='AFK'):
 
 @bot.command(name='version', help='Version and developer info.')
 async def checkversion(ctx):
+# BROKEN PLS HELP
     await ctx.reply(f"""
 MZ Bot V1
 Made by MuzhenGaming#9955
