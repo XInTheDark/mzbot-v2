@@ -93,7 +93,7 @@ async def help(ctx):
 - rename
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
     
-    embed = discord.Embed(title="Help Page", description=response)
+    embed = discord.Embed(title="Help Page", description=response, color=discord.Color.random())
     
     msg1 = await ctx.send("Loading...")
     await asyncio.sleep(0.01)
