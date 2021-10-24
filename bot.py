@@ -97,7 +97,7 @@ async def help(ctx):
     
     msg1 = await ctx.send("Loading...")
     await asyncio.sleep(0.01)
-    await ctx.reply(embed)
+    await ctx.reply(embed=embed)
     await msg1.delete()
 
 @bot.command(name='dw', help='Responds how a drop works.')
