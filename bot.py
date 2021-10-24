@@ -45,12 +45,13 @@ async def on_message(message):
        afkdict.pop(str(message.author.id))
        await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
         
-    for member in message.mentions:  
-        if member.id != message.author.id:  
-            if str(member.id) in afkdict:  
-                afkmsg = afkdict[str(member.id)]  
+    for member in message.mentions: 
+        if not message.author.bot:
+            if member.id != message.author.id:  
+                if str(member.id) in afkdict:  
+                    afkmsg = afkdict[str(member.id)]  
                    
-                await message.channel.send(f"{member} is AFK: {afkmsg}")
+                    await message.channel.send(f"{member} is AFK: {afkmsg}")
                    
     await bot.process_commands(message)
 
