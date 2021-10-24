@@ -656,13 +656,13 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
                              
 
 @bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
-async def setproofschannel(ctx, channelid: int):
+async def setproofschannel(ctx, channelid):
     if channel is not None:
         try:
-            channelid = channel.removeprefix('<#').removesuffix('>')
+            channelid = channelid.removeprefix('<#').removesuffix('>')
         except:
             try:
-                channelid = int(channel)
+                channelid = int(channelid)
             except:
                 await ctx.channel.send('An error occurred! Check your syntax!')
     else:
