@@ -706,7 +706,7 @@ async def setafk(ctx, reason='AFK'):
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}")
 
 
-@bot.command(name='about', help='Version and developer info.')
+@bot.command(name='about', help='Version and developer info.', aliases=['version'])
 async def checkversion(ctx):
 # BROKEN PLS HELP
     await ctx.reply(f"""
@@ -715,7 +715,7 @@ Made by MuzhenGaming#9955
 ========================
 Version info:
 discord.py version {discord.__version__}
-release {sys.version_info[4]}
+release {discord.sys.version_info[4]}
 Python version {os.version}
 ========================
 More information coming soon""")
