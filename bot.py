@@ -688,6 +688,19 @@ async def setafk(ctx, reason='AFK'):
     afkdict.append(str(ctx.author.id))
     await ctx.send(f"{ctx.author.mention}, I set your afk: {reason}"
 
+
+@bot.command(name='version', help='Version and developer info.')
+async def version(ctx):
+    await ctx.reply(f"""
+MZ Bot V1
+Made by MuzhenGaming#9955
+========================
+Version info:
+discord.py version {discord.__version__}
+release {sys.version_info[4]}
+========================
+More information coming soon""")
+
                    
 @client.event
 async def on_message(message):
