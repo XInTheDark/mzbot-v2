@@ -713,7 +713,7 @@ async def checkversion(ctx):
     tests = 500 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
-        latency = round(client.latency * 1000) #this gathers the latency
+        latency = round(bot.latency * 1000) #this gathers the latency
         latency_list.append(latency) #puts the latency in the list
     lavg = round(sum(latency_list) / tests) #averages the list out
     
@@ -739,7 +739,7 @@ async def ping(ctx):
     tests = 500 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
-        latency = round(client.latency * 1000) #this gathers the latency
+        latency = round(bot.latency * 1000) #this gathers the latency
         latency_list.append(latency) #puts the latency in the list
     lavg = round(sum(latency_list) / tests) #averages the list out
     
