@@ -709,7 +709,8 @@ async def setafk(ctx, reason='AFK'):
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version'])
 async def checkversion(ctx):
-# BROKEN PLS HELP
+
+    msg1 = await ctx.send("Loading...")
     await ctx.reply(f"""
 MZ Bot V2
 Made by MuzhenGaming#9955
@@ -717,17 +718,18 @@ Made by MuzhenGaming#9955
 Version info:
 discord.py version {discord.__version__}
 release {discord.version_info[4]}
-Python version {os.version}
+Python version {sys.version}
 release {sys.version_info[4]}
 ========================
 Connection Info:
 Ping {client.latency * 1000}ms""")
-    
+    await msg1.delete()
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
+    msg1 = await ctx.send("Loading...")
     await ctx.reply(f"Ping: {client.latency * 1000}ms")
-
+    await msg1.delete()
                                       
    
 bot.run(TOKEN)
