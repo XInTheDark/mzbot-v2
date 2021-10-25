@@ -792,7 +792,7 @@ async def setafk(ctx, *, reason='AFK'):
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
     
-    tests = 10000 #the amount of tests to conduct
+    tests = 20000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
         latency = round(bot.latency * 1000) #this gathers the latency
@@ -812,6 +812,7 @@ release {sys.version_info[3]}
 ========================
 Connection Info:
 Ping {lavg} ms
+(To get a more accurate ping use '.ping')
 ========================
 Status Info:
 Bot connected to: {len(bot.guilds)} servers"""
@@ -823,8 +824,8 @@ Bot connected to: {len(bot.guilds)} servers"""
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
-    msg1 = await ctx.send("Loading...")
-    tests = 25000 #the amount of tests to conduct
+    msg1 = await ctx.send("Connecting...")
+    tests = 100000000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
         latency = round(bot.latency * 1000) #this gathers the latency
