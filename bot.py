@@ -848,9 +848,8 @@ async def timedif(ctx, id1, id2):
     msg1 = await ctx.fetch_message(id1)
     msg2 = await ctx.fetch_message(id2)
         
-    time1 = msg1.created_at
-    time2 = msg2.created_at
-    
+    time1 = discord.utils.snowflake_time(int(id1))
+    time2 = discord.utils.snowflake_time(int(id2))
     ts_diff = time2 - time1
     secs = abs(ts_diff.total_seconds())
     days,secs=divmod(secs,secs_per_day:=60*60*24)
