@@ -28,7 +28,7 @@ async def on_ready():
     client = discord.Client()
     
     # Setting `Watching ` status
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Muzhen ❤ | .help"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"Muzhen ❤ | .help | {len(bot.guilds)} servers"))
 
 @bot.event
 async def on_member_join(member):
@@ -75,7 +75,7 @@ async def updatelog(ctx):
 *Note: 1. This log only shows the LATEST update notes.
 2. The notes will only be updated for MAJOR updates, not small patches.*"""
 
-    embed = discord.Embed(title="**Update Log**", description=message)
+    embed = discord.Embed(title="**Update Log**", description=message, color=0x00ff08)
     await ctx.reply(embed=embed)
 
     
@@ -116,7 +116,7 @@ async def help(ctx):
 - timedif
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
     
-    embed = discord.Embed(title="Help Page", description=response, color=discord.Color.random())
+    embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
     
     msg1 = await ctx.send("Loading...")
     await asyncio.sleep(0.01)
@@ -799,9 +799,8 @@ async def checkversion(ctx):
         latency_list.append(latency) #puts the latency in the list
     lavg = round(sum(latency_list) / tests) #averages the list out
     
-    
     msg1 = await ctx.send("Loading...")
-    await ctx.reply(f"""
+    msgmain = f"""
 MZ Bot V2
 Made by MuzhenGaming#9955
 ========================
@@ -812,13 +811,20 @@ Python version {sys.version}
 release {sys.version_info[3]}
 ========================
 Connection Info:
-Ping {lavg} ms""")
+Ping {lavg} ms
+========================
+Status Info:
+Bot connected to: {len(bot.guilds)} servers"""
+    
+    embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
+    
+    await ctx.reply(embed=embed)
     await msg1.delete()
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
     msg1 = await ctx.send("Loading...")
-    tests = 10000 #the amount of tests to conduct
+    tests = 25000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
         latency = round(bot.latency * 1000) #this gathers the latency
