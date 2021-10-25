@@ -824,7 +824,7 @@ Bot connected to: {len(bot.guilds)} servers"""
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
-    msg1 = await ctx.send("Connecting...")
+    msg1 = await ctx.send("Connecting... (This can take up to a minute, as it takes many pings)")
     tests = 100000000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
