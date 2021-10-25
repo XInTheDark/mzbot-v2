@@ -789,7 +789,7 @@ async def setafk(ctx, *, reason='AFK'):
     await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
 
 
-@bot.command(name='about', help='Version and developer info.', aliases=['version'])
+@bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
     
     tests = 10000 #the amount of tests to conduct
