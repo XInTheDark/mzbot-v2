@@ -62,6 +62,7 @@ async def on_message(message):
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 25/10/2021
+- [NEWEST!] Fully fixed timedif command!
 - Optimized AFK command: it is now more user friendly.
 - Added timedif command: it is not fully working yet and in testing stage.
 - Added more aliases for some commands so that bot is more user friendly.
@@ -92,6 +93,7 @@ async def help(ctx):
 - about
 - ping
 - updates
+- timedif
 **Requires permissions:**
 - dw
 - mute
@@ -113,7 +115,6 @@ async def help(ctx):
 - purge
 **Experimental features available:**
 - rename
-- timedif
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
     
     embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
