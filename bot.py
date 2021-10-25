@@ -393,7 +393,7 @@ async def whowon(ctx, userid, *, prize):
 # The below code bans player.
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
-async def ban(self, *, member: discord.Member, reason=None):
+async def ban(self, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
     await self.send(f'User: `{member}` has been banned')
 
