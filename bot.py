@@ -45,7 +45,7 @@ async def on_message(message):
     if str(message.author.id) in afkdict:
        afkdict.pop(str(message.author.id))
        welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
-       await asyncio.sleep(5)
+       await asyncio.sleep(7)
        await welcomebackmsg.delete()
         
     for member in message.mentions: 
@@ -58,8 +58,28 @@ async def on_message(message):
                    
     await bot.process_commands(message)
 
+
+@bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
+async def updatelog(ctx):
+    message = """New Update: 25/10/2021
+- Optimized AFK command: it is now more user friendly.
+- Added timedif command: it is not fully working yet and in testing stage.
+- Added more aliases for some commands so that bot is more user friendly.
+- Coming in Next update: about command will have more info!
+- Coming VERY Soon: More complex help command, like '.help <command>' and '.help <Category>'
+- Coming Soon: Developer mode
+- Coming Later: Anti Nuke mode, maybe can be set up.
+- Coming Later: Ticket system, customizable
+- Coming Later: Currency system, may be global
+- Coming VERY Later: Chat system, since it needs EXTREMELY complex code
+*Note: 1. This log only shows the LATEST update notes.
+2. The notes will only be updated for MAJOR updates, not small patches.*"""
+
+    embed = discord.Embed(title="**Update Log**", description=message)
+    await ctx.reply(embed=embed)
+
     
-@bot.command(name='help', help='idc.')
+@bot.command(name='help', aliases=['commands', 'cmds'])
 async def help(ctx):
     response = """**List of commands**
 **Public:**
@@ -71,6 +91,7 @@ async def help(ctx):
 - afk
 - about
 - ping
+- updates
 **Requires permissions:**
 - dw
 - mute
@@ -92,6 +113,7 @@ async def help(ctx):
 - purge
 **Experimental features available:**
 - rename
+- timedif
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
     
     embed = discord.Embed(title="Help Page", description=response, color=discord.Color.random())
@@ -843,7 +865,6 @@ Time difference between the 2 IDs:
     await ctx.reply(embed=embed)
         
     
-    
-    
+
 bot.run(TOKEN)
 
