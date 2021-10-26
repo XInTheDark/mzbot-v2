@@ -760,7 +760,10 @@ async def rename(ctx, channel='', *, name):
         await ctx.channel.send('Cannot find channel! Check your command!')
     
     await channel2.edit(name=name)
-    
+    msg1 = await ctx.reply(f"Renamed {channel2} successfully!")
+    await asyncio.sleep(5)
+    await msg1.delete()
+    await ctx.delete()
 
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
