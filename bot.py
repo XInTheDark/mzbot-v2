@@ -752,7 +752,7 @@ async def rename(ctx, channel=None, *, name):
         channelid = ctx.channel.id
     
     try:
-        channel2 = ctx.get_channel(channelid)
+        channel2 = client.get_channel(id=channelid)
     except:
         await ctx.channel.send('Cannot find channel! Check your command!')
     
