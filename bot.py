@@ -752,7 +752,7 @@ async def rename(ctx, channel=None, *, name):
         channelid = ctx.channel.id
     
     try:
-        channel2 = bot.get_channel(channelid)
+        channel2 = ctx.get_channel(channelid)
     except:
         await ctx.channel.send('Cannot find channel! Check your command!')
     
@@ -863,9 +863,10 @@ async def timedif(ctx, id1, id2):
             if hrs > 24:
                 answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
     
-    embed = discord.Embed(title="**Time Difference**", description=f"""IDs: {id1}, {id2}
+    embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
+IDs: {id1}, {id2}
 Time difference between the 2 IDs: 
-{answer}""")
+**{answer}**""")
     await ctx.reply(embed=embed)
         
     
