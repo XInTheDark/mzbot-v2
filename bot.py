@@ -745,6 +745,7 @@ async def rename(ctx, channel='', *, name):
     if channel != '':
         try:
             channelid = channel.removeprefix('<#').removesuffix('>')
+            channelid = int(channelid)
         except:
             try:
                 channelid = int(channel)
