@@ -739,8 +739,10 @@ async def setproofschannel(ctx, channelid):
             
 @bot.command(name='rename', help='Renames the channel.', aliases=['renamechannel'])
 @commands.has_permissions(manage_channels=True)
-async def rename(ctx, channel=None, *, name):
-    if channel is not None:
+async def rename(ctx, channel='', *, name):
+    channel2 = None
+    
+    if channel != '':
         try:
             channelid = channel.removeprefix('<#').removesuffix('>')
         except:
