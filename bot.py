@@ -875,7 +875,22 @@ Time difference between the 2 IDs:
 **{answer}**""")
     await ctx.reply(embed=embed)
         
+@bot.command(name='removerole', help='Adds a role to someome.', pass_context=True)
+@commands.has_permissions(manage_roles=True) # This must be exactly the name of the appropriate role
+async def removerole(ctx, member: discord.Member, *, rolename):
     
+    role = discord.utils.get(ctx.guild.roles, name=rolename)
+    errorrole = 0
+    
+    try:
+        await member.remove_roles(role)
+    except AttributeError:
+        await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+        errorrole = 1
+        
+    if errorrole == 0:
+        await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+
 
 bot.run(TOKEN)
 
