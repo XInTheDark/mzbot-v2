@@ -889,7 +889,7 @@ async def removerole(ctx, member: discord.Member, *, rolename):
         errorrole = 1
         
     if errorrole == 0:
-        await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+        await ctx.channel.send(f"Removed role: {rolename} from member {member} successfully!")
 
 
 bot.run(TOKEN)
