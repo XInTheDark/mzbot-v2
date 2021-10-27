@@ -575,7 +575,7 @@ async def setdelay(ctx, seconds: int):
 
 
 @bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
-@commands.has_permissions(manage_roles=True) # This must be exactly the name of the appropriate role
+@commands.has_permissions(administrator=True) # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     
     role = discord.utils.get(ctx.guild.roles, name=rolename)
@@ -876,7 +876,7 @@ Time difference between the 2 IDs:
     await ctx.reply(embed=embed)
         
 @bot.command(name='removerole', help='Adds a role to someome.', pass_context=True)
-@commands.has_permissions(manage_roles=True) # This must be exactly the name of the appropriate role
+@commands.has_permissions(administrator=True) # This must be exactly the name of the appropriate role
 async def removerole(ctx, member: discord.Member, *, rolename):
     
     role = discord.utils.get(ctx.guild.roles, name=rolename)
