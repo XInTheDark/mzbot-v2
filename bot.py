@@ -917,7 +917,7 @@ async def ticket(ctx):
     }
     channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
     embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.tclose'")
-    await channel.send(f'{user.mention}'
+    await channel.send(f'{user.mention}')
     await channel.send(embed=embed)
 
 @bot.command(name='tclose', aliases=['tdelete'])
