@@ -12,6 +12,7 @@ import sys
 # Setting variables
 afkdict = {}
 spam_ban = [726356086176874537]
+global user
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -905,9 +906,8 @@ async def ticket(ctx):
     msg = await ctx.send(embed=embed)
     await msg.add_reaction("📩")
     def check(reaction, user1):
-        user = user1
         global user
-        
+        user = user1
         return str(reaction) == '📩' and ctx.author == user
 
     await bot.wait_for("reaction_add", check=check)
