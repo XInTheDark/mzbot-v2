@@ -920,7 +920,7 @@ async def ticket(ctx):
     await channel.send(f'{user.mention}'
     await channel.send(embed=embed)
 
-@bot.command(name='tclose', aliases=['tdelete']
+@bot.command(name='tclose', aliases=['tdelete'])
 async def tclose(ctx):
     if not isinstance(ctx.channel, PrivateChannel):
         await ctx.reply("Hey! This isn't a ticket!")
