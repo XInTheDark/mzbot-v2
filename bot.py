@@ -891,7 +891,7 @@ async def removerole(ctx, member: discord.Member, *, rolename):
     if errorrole == 0:
         await ctx.channel.send(f"Removed role: {rolename} from member {member} successfully!")
 
-@bot.command(name='ticket', aliases=['tickets']
+@bot.command(name='ticket', aliases=['tickets'])
 async def ticket(ctx):
     guild = ctx.guild
     embed = discord.Embed(
