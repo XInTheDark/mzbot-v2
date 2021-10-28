@@ -891,6 +891,53 @@ async def removerole(ctx, member: discord.Member, *, rolename):
     if errorrole == 0:
         await ctx.channel.send(f"Removed role: {rolename} from member {member} successfully!")
 
+@bot.command(name='ticket', aliases=['tickets']
+async def ticket(ctx):
+    guild = ctx.guild
+    embed = discord.Embed(
+        title = '**Ticket Tool [BETA]**',
+        description = 'React with 📩 to make a ticket',
+        color = 0
+    )
 
+    embed.set_footer(text="Ticket Tool Beta | MZ")
+
+    msg = await ctx.send(embed=embed)
+    await msg.add_reaction("📩")
+    def check(reaction):
+        return str(reaction) == '📩'
+
+    await client.wait_for("reaction_add", check=check)
+    
+    member = user
+    
+    overwrites = {
+        guild.default_role: discord.PermissionOverwrite(read_messages=False),
+        member: discord.PermissionOverwrite(read_messages=True),
+    }
+    channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
+    embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.tclose'")
+    await channel.send(f'{user.mention}'
+    await channel.send(embed=embed)
+
+@bot.command(name='tclose', aliases=['tdelete']
+async def tclose(ctx):
+    if not isinstance(ctx.channel, PrivateChannel):
+        await ctx.reply("Hey! This isn't a ticket!")
+    
+    else:
+        msg = await ctx.reply("""**Are you sure you wish to delete this ticket permanently?**
+This is an irreversible action.
+React with 👍 to close.""")
+        await msg.add_reaction("👍")
+        def check(reaction):
+            return str(reaction) == "👍"
+
+        await client.wait_for("reaction_add", check=check)
+        await ctx.send(f"{ctx.author.mention}, Ticket will be deleted in **5 seconds**")
+        await asyncio.sleep(5)
+        await ctx.channel.delete()
+         
+        
 bot.run(TOKEN)
 
