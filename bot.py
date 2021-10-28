@@ -907,7 +907,7 @@ async def ticket(ctx):
     def check(reaction):
         return str(reaction) == '📩'
 
-    await client.wait_for("reaction_add", check=check)
+    await bot.wait_for("reaction_add", check=check)
     
     member = user
     
@@ -933,7 +933,7 @@ React with 👍 to close.""")
         def check(reaction):
             return str(reaction) == "👍"
 
-        await client.wait_for("reaction_add", check=check)
+        await bot.wait_for("reaction_add", check=check)
         await ctx.send(f"{ctx.author.mention}, Ticket will be deleted in **5 seconds**")
         await asyncio.sleep(5)
         await ctx.channel.delete()
