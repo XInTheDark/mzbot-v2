@@ -904,8 +904,8 @@ async def ticket(ctx):
 
     msg = await ctx.send(embed=embed)
     await msg.add_reaction("📩")
-    def check(reaction):
-        return str(reaction) == '📩'
+    def check(reaction, user):
+        return str(reaction) == '📩' and ctx.author == user
 
     await bot.wait_for("reaction_add", check=check)
     
@@ -930,8 +930,8 @@ async def tclose(ctx):
 This is an irreversible action.
 React with 👍 to close.""")
         await msg.add_reaction("👍")
-        def check(reaction):
-            return str(reaction) == "👍"
+        def check(reaction, user):
+            return str(reaction) == "👍" and ctx.author == user
 
         await bot.wait_for("reaction_add", check=check)
         await ctx.send(f"{ctx.author.mention}, Ticket will be deleted in **5 seconds**")
