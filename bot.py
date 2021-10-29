@@ -902,7 +902,7 @@ async def ticket(ctx):
         color = 0
     )
 
-    embed.set_footer(text="Ticket Tool Beta | MZ")
+    embed.set_footer(text="Ticket Tool Beta | MZ Bot")
 
     msg = await ctx.send(embed=embed)
     await msg.add_reaction("📩")
@@ -920,26 +920,27 @@ async def ticket(ctx):
         member: discord.PermissionOverwrite(read_messages=True),
     }
     channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
-    embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.tclose'")
+    embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'")
+    embed.set_footer(text="Ticket Tool Beta | MZ")
+    
     await channel.send(f'{user.mention}')
     await channel.send(embed=embed)
 
-@bot.command(name='tclose', aliases=['tdelete'])
+@bot.command(name='delete', aliases=['tdelete, tclose'])
 async def tclose(ctx):
-    if not str(ctx.channel.type) == "private":
-        await ctx.reply("Hey! This isn't a ticket!")
     
-    else:
-        msg = await ctx.reply("""**Are you sure you wish to delete this ticket permanently?**
+        msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
-React with 👍 to close.""")
+React with 👍 to delete.""")
         await msg.add_reaction("👍")
         def check(reaction, user):
             return str(reaction) == "👍" and ctx.author == user
 
         await bot.wait_for("reaction_add", check=check)
-        await ctx.send(f"{ctx.author.mention}, Ticket will be deleted in **5 seconds**")
-        await asyncio.sleep(5)
+        await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
+        async with ctx.channel.typing:
+            await asyncio.sleep(5)
+        await ctx.send("Deleting channel...")
         await ctx.channel.delete()
          
         
