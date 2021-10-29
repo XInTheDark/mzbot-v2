@@ -13,7 +13,7 @@ import sys
 afkdict = {}
 spam_ban = [726356086176874537]
 global user
-dictionary = PyDictionary()
+
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
