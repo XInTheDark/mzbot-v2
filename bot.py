@@ -938,7 +938,7 @@ React with 👍 to delete.""")
 
         await bot.wait_for("reaction_add", check=check)
         await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
-        async with ctx.channel.typing:
+        async with ctx.channel.typing():
             await asyncio.sleep(5)
         await ctx.send("Deleting channel...")
         await ctx.channel.delete()
