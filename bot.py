@@ -8,7 +8,6 @@ import asyncio
 from requests import get
 import json
 import sys
-from PyDictionary import PyDictionary
 
 # Setting variables
 afkdict = {}
@@ -942,19 +941,19 @@ React with 👍 to delete.""")
         await ctx.channel.delete()
          
         
-@bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
-async def define(ctx, *, word):
-    with ctx.channel.typing():
-        try:
-            meaning = dictionary.meaning(word)
-        except:
-            await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
+# @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
+# async def define(ctx, *, word):
+#     with ctx.channel.typing():
+#         try:
+#             meaning = dictionary.meaning(word)
+#         except:
+#             await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
         
-        embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
-{meaning}""", color=0x00ff08)
-        embed.set_footer(text="Powered by PyDictionary | Beta")
+#         embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
+# {meaning}""", color=0x00ff08)
+#         embed.set_footer(text="Powered by PyDictionary | Beta")
     
-        await ctx.reply(embed=embed)
+#         await ctx.reply(embed=embed)
         
         
 bot.run(TOKEN)
