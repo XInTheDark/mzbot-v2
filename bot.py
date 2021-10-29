@@ -8,12 +8,13 @@ import asyncio
 from requests import get
 import json
 import sys
-from discord.abc import PrivateChannel
+from PyDictionary import PyDictionary
 
 # Setting variables
 afkdict = {}
 spam_ban = [726356086176874537]
 global user
+dictionary = PyDictionary()
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -874,7 +875,7 @@ async def timedif(ctx, id1, id2):
     embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
 IDs: {id1}, {id2}
 Time difference between the 2 IDs: 
-**{answer}**""")
+**{answer}**""", color=0x00ff08)
     await ctx.reply(embed=embed)
         
 @bot.command(name='removerole', help='Adds a role to someome.', pass_context=True)
@@ -899,7 +900,7 @@ async def ticket(ctx):
     embed = discord.Embed(
         title = '**Ticket Tool [BETA]**',
         description = 'React with 📩 to make a ticket',
-        color = 0
+        color=0x00ff08
     )
 
     embed.set_footer(text="Ticket Tool Beta | MZ Bot")
@@ -920,8 +921,8 @@ async def ticket(ctx):
         member: discord.PermissionOverwrite(read_messages=True),
     }
     channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
-    embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'")
-    embed.set_footer(text="Ticket Tool Beta | MZ")
+    embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'", color=0x00ff08)
+    embed.set_footer(text="Ticket Tool Beta | MZ Bot")
     
     await channel.send(f'{user.mention}')
     await channel.send(embed=embed)
@@ -943,6 +944,21 @@ React with 👍 to delete.""")
         await ctx.send("Deleting channel...")
         await ctx.channel.delete()
          
+        
+@bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
+async def define(ctx, *, word):
+    with ctx.channel.typing():
+        try:
+            meaning = dictionary.meaning(word)
+        except:
+            await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
+        
+        embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
+{meaning}""", color=0x00ff08)
+        embed.set_footer(text="Powered by PyDictionary | Beta")
+    
+        await ctx.reply(embed=embed)
+        
         
 bot.run(TOKEN)
 
