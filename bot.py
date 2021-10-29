@@ -64,14 +64,11 @@ async def on_message(message):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 28/10/2021
-- **[NEWEST!] ADDED Ticket! '.ticket'**
+    message = """New Update: 29/10/2021
+- **[NEWEST!] Added Definitions: `.define`**
+- ADDED Ticket! `.ticket`
 - Fully fixed timedif command!
-- Optimized AFK command: it is now more user friendly.
-- Added timedif command: it is not fully working yet and in testing stage.
-- Added more aliases for some commands so that bot is more user friendly.
-- Coming in Next update: about command will have more info!
-- Coming VERY Soon: More complex help command, like '.help <command>' and '.help <Category>'
+- Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
 - Coming Soon: Developer mode
 - Coming Later: Anti Nuke mode, maybe can be set up.
 - Coming Later: Currency system, may be global
