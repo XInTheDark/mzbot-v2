@@ -8,6 +8,7 @@ import asyncio
 from requests import get
 import json
 import sys
+from discord.abc import PrivateChannel
 
 # Setting variables
 afkdict = {}
@@ -925,7 +926,7 @@ async def ticket(ctx):
 
 @bot.command(name='tclose', aliases=['tdelete'])
 async def tclose(ctx):
-    if not isinstance(ctx.channel, discord.PrivateChannel):
+    if not isinstance(ctx.channel, PrivateChannel):
         await ctx.reply("Hey! This isn't a ticket!")
     
     else:
