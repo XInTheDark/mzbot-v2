@@ -926,7 +926,7 @@ async def ticket(ctx):
 
 @bot.command(name='tclose', aliases=['tdelete'])
 async def tclose(ctx):
-    if not str(message.channel.type) == "private":
+    if not str(ctx.channel.type) == "private":
         await ctx.reply("Hey! This isn't a ticket!")
     
     else:
