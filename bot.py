@@ -906,7 +906,7 @@ async def ticket(ctx):
     def check(reaction, user1):
         global user
         user = user1
-        return str(reaction) == '📩' and True
+        return str(reaction) == '📩' and user.id != 877804981347029043
 
     await bot.wait_for("reaction_add", check=check)
     
@@ -925,13 +925,14 @@ async def ticket(ctx):
 
 @bot.command(name='delete', aliases=['tdelete, tclose'])
 async def tclose(ctx):
-    
+    if ctx.channel.type == discord.ChannelType.private:
+        
         msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
 React with 👍 to delete.""")
         await msg.add_reaction("👍")
         def check(reaction, user):
-            return str(reaction) == "👍" and True
+            return str(reaction) == "👍" and user.id != 877804981347029043
 
         await bot.wait_for("reaction_add", check=check)
         await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
@@ -939,7 +940,8 @@ React with 👍 to delete.""")
             await asyncio.sleep(5)
         await ctx.send("Deleting channel...")
         await ctx.channel.delete()
-         
+    else:
+        await ctx.reply("Hey! This isn't a ticket!")
         
 # @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
 # async def define(ctx, *, word):
