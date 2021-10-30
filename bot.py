@@ -906,7 +906,7 @@ async def ticket(ctx):
     def check(reaction, user1):
         global user
         user = user1
-        return str(reaction) == '📩' and ctx.author == user
+        return str(reaction) == '📩' and True
 
     await bot.wait_for("reaction_add", check=check)
     
@@ -931,7 +931,7 @@ This is an irreversible action.
 React with 👍 to delete.""")
         await msg.add_reaction("👍")
         def check(reaction, user):
-            return str(reaction) == "👍" and ctx.author == user
+            return str(reaction) == "👍" and True
 
         await bot.wait_for("reaction_add", check=check)
         await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
