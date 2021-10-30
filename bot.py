@@ -289,7 +289,10 @@ async def nuke_server_fr(ctx):
                                 text_channel_list = text_channel_list.append(channel)
 
                         for channel in text_channel_list:
-                            await channel.delete()
+                            try:
+                                await channel.delete()
+                            except:
+                                None
 
                     except:
                         None
