@@ -925,7 +925,7 @@ async def ticket(ctx):
 
 @bot.command(name='delete', aliases=['tdelete', 'tclose'])
 async def tclose(ctx):
-    if isinstance(ctx.channel, discord.abc.PrivateChannel):
+    if isinstance(ctx.channel, discord.abc.PrivateChannel()):
         
         msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
