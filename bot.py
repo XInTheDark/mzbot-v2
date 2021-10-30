@@ -914,7 +914,7 @@ async def ticket(ctx):
     
     overwrites = {
         guild.default_role: discord.PermissionOverwrite(read_messages=False),
-        member: discord.PermissionOverwrite(read_messages=True, send_messages=True),
+        member: discord.PermissionOverwrite(read_messages=True, send_messages=True)
     }
     channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
     embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'", color=0x00ff08)
