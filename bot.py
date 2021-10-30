@@ -941,8 +941,8 @@ React with 👍 to delete.""")
             await asyncio.sleep(5)
         await ctx.send("Deleting channel...")
         await ctx.channel.delete()
-    else:
-        await ctx.reply("Hey! This isn't a ticket!")
+
+#         await ctx.reply("Hey! This isn't a ticket!")
         
 # @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
 # async def define(ctx, *, word):
