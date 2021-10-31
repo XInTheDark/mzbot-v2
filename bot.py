@@ -16,7 +16,8 @@ global user
 
 
 load_dotenv()
-TOKEN = str(os.getenv('DISCORD_TOKEN'))
+# TOKEN = stros.getenv('DISCORD_TOKEN')
+TOKEN = "ODc3ODA0OTgxMzQ3MDI5MDQz.YR39mA.rbH2eEl9ly2xk72ea1LN6htU88Q"
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents().all()
