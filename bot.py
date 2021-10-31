@@ -16,7 +16,7 @@ global user
 
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = str(os.getenv('DISCORD_TOKEN'))
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents().all()
