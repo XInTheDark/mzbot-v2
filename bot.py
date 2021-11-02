@@ -911,33 +911,35 @@ async def ticket(ctx):
         global user
         user = user1
         return str(reaction) == '📩' and user.id != 877804981347029043
-
-    await bot.wait_for("reaction_add", check=check)
     
-    member = user
+    while True:
+        
+        await bot.wait_for("reaction_add", check=check)
     
-    overwrites = {
-        guild.default_role: discord.PermissionOverwrite(read_messages=False),
-        member: discord.PermissionOverwrite(read_messages=True, send_messages=True)
-    }
+        member = user
     
-    file = open('tickets.txt', 'r')
-    lines = file.readlines()
-    file.close()
+        overwrites = {
+            guild.default_role: discord.PermissionOverwrite(read_messages=False),
+            member: discord.PermissionOverwrite(read_messages=True, send_messages=True)
+        }
     
-    if str(user.id) in lines and not user.guild_permissions.administrator:
-        await ctx.send(f"{user.mention}, You already have a ticket open!")
-    else:
-        channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
-        embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'", color=0x00ff08)
-        embed.set_footer(text="Ticket Tool Beta | MZ Bot")
-    
-        await channel.send(f'{user.mention}')
-        await channel.send(embed=embed)
-    
-        file = open('tickets.txt', 'a')
-        file.write(f"{user.id}")
+        file = open('tickets.txt', 'r')
+        lines = file.readlines()
         file.close()
+    
+        if str(user.id) in lines and not user.guild_permissions.administrator:
+            await ctx.send(f"{user.mention}, You already have a ticket open!")
+        else:
+            channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
+            embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'", color=0x00ff08)
+            embed.set_footer(text="Ticket Tool Beta | MZ Bot")
+    
+            await channel.send(f'{user.mention}')
+            await channel.send(embed=embed)
+    
+            file = open('tickets.txt', 'a')
+            file.write(f"{user.id}")
+            file.close()
     
 @bot.command(name='delete', aliases=['tdelete', 'tclose'])
 @commands.has_permissions(administrator=True)
