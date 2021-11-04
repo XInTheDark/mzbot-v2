@@ -13,7 +13,7 @@ import sys
 afkdict = {}
 spam_ban = [726356086176874537]
 global user
-
+global reaction
 
 load_dotenv()
 # TOKEN = stros.getenv('DISCORD_TOKEN')
@@ -909,13 +909,16 @@ async def ticket(ctx):
     await msg.add_reaction("📩")
     def check(reaction, user1):
         global user
+        global reaction
+        
         user = user1
         return str(reaction) == '📩' and user.id != 877804981347029043
     
     while True:
         
         await bot.wait_for("reaction_add", check=check)
-    
+        await reaction.remove
+        
         member = user
     
         overwrites = {
@@ -940,7 +943,8 @@ async def ticket(ctx):
             file = open('tickets.txt', 'a')
             file.write(f"{user.id}")
             file.close()
-    
+            
+        
 @bot.command(name='delete', aliases=['tdelete', 'tclose'])
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
