@@ -65,8 +65,8 @@ async def on_message(message):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 29/10/2021
-- **[NEWEST!] Added Definitions: `.define`**
+    message = """New Update: 4/11/2021
+- **[NEWEST!] Fully fixed ticket system!! Yay!**
 - ADDED Ticket! `.ticket`
 - Fully fixed timedif command!
 - Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
@@ -89,6 +89,8 @@ async def help(ctx):
 - donate
 - dice
 - credits
+- ticket
+- delete (For your own ticket)
 - nitro
 - afk
 - about
@@ -952,7 +954,7 @@ async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
         channelperms = ctx.channel.overwrites_for(ctx.author)
         memberoverwrite = channelperms
-        if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True):
+        if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True) or ctx.author.guild_permissions.manage_channels:
             
             msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
