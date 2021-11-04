@@ -950,9 +950,9 @@ async def ticket(ctx):
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
-        channelperms = discord.abc.GuildChannel.overwrites
+        channelperms = ctx.channel.overwrites_for(ctx.member)
         memberoverwrite = channelperms
-        if discord.PermissionOverwrite(read_messages=True, send_messages=True) in memberoverwrite:
+        if memberoverwrote == discord.PermissionOverwrite(read_messages=True, send_messages=True):
             
             msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
@@ -968,7 +968,7 @@ React with 👍 to delete.""")
             await ctx.send("Deleting channel...")
             await ctx.channel.delete()
         else:
-            await ctx.reply("This is not a ticket!")
+            await ctx.reply("This is not your ticket!")
 #         await ctx.reply("Hey! This isn't a ticket!")
         
 # @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
