@@ -952,7 +952,7 @@ async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
         channelperms = discord.abc.GuildChannel.overwrites
         memberoverwrite = channelperms
-        if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True):
+        if discord.PermissionOverwrite(read_messages=True, send_messages=True) in memberoverwrite:
             
             msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
