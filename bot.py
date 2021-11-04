@@ -968,7 +968,7 @@ React with 👍 to delete.""")
             await ctx.send("Deleting channel...")
             await ctx.channel.delete()
         else:
-            await ctx.reply("This is not your ticket!")
+            await ctx.reply("This is not a ticket!")
 #         await ctx.reply("Hey! This isn't a ticket!")
         
 # @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
