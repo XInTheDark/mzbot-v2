@@ -917,7 +917,7 @@ async def ticket(ctx):
     while True:
         
         await bot.wait_for("reaction_add", check=check)
-        reaction.remove
+        await msg.remove_reaction('📩', user)
         
         member = user
     
