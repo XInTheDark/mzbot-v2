@@ -950,8 +950,8 @@ async def ticket(ctx):
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
-        channelperms = dict(discord.abc.GuildChannel.overwrites)
-        memberoverwrite = channelperms[ctx.author]
+        channelperms = discord.abc.GuildChannel.overwrites
+        memberoverwrite = channelperms
         if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True):
             
             msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
