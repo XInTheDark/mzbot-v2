@@ -8,6 +8,7 @@ import asyncio
 from requests import get
 import json
 import sys
+import discord.abc
 
 # Setting variables
 afkdict = {}
@@ -949,21 +950,25 @@ async def ticket(ctx):
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
-        
-        msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
+        channelperms = discord.abc.GuildChannel.overwrites(ctx.channel)
+        memberoverwrite = channelperms[ctx.author]
+        if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True):
+            
+            msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
 React with 👍 to delete.""")
-        await msg.add_reaction("👍")
-        def check(reaction, user):
-            return str(reaction) == "👍" and user.id != 877804981347029043
+            await msg.add_reaction("👍")
+            def check(reaction, user):
+                return str(reaction) == "👍" and user.id != 877804981347029043
 
-        await bot.wait_for("reaction_add", check=check)
-        await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
-        async with ctx.channel.typing():
-            await asyncio.sleep(5)
-        await ctx.send("Deleting channel...")
-        await ctx.channel.delete()
-
+            await bot.wait_for("reaction_add", check=check)
+            await ctx.send(f"{ctx.author.mention}, Channel will be deleted in **5 seconds**")
+            async with ctx.channel.typing():
+                await asyncio.sleep(5)
+            await ctx.send("Deleting channel...")
+            await ctx.channel.delete()
+        else:
+            await ctx.reply("This is not your ticket!")
 #         await ctx.reply("Hey! This isn't a ticket!")
         
 # @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
