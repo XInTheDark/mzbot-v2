@@ -907,10 +907,10 @@ async def ticket(ctx):
 
     msg = await ctx.send(embed=embed)
     await msg.add_reaction("📩")
-    def check(reaction, user1):
+    def check(treaction, user1):
         global user
         global reaction
-        
+        reaction = treaction
         user = user1
         return str(reaction) == '📩' and user.id != 877804981347029043
     
