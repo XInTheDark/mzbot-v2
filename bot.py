@@ -950,7 +950,7 @@ async def ticket(ctx):
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
 #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
-        channelperms = discord.abc.GuildChannel.overwrites(ctx.channel)
+        channelperms = discord.abc.GuildChannel.overwrites
         memberoverwrite = channelperms[ctx.author]
         if memberoverwrite == discord.PermissionOverwrite(read_messages=True, send_messages=True):
             
