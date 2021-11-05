@@ -934,7 +934,9 @@ async def ticket(ctx):
         file.close()
     
         if str(user.id) in lines:
-            await ctx.send(f"{user.mention}, You already have a ticket open!")
+            errormsg = await ctx.send(f"{user.mention}, You already have a ticket open!")
+            await asyncio.sleep(4)
+            await errormsg.delete()
         else:
             channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
             embed = discord.Embed(title='**Welcome! Support will arrive shortly**', description="To delete this ticket, use '.delete'", color=0x00ff08)
