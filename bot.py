@@ -65,8 +65,9 @@ async def on_message(message):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 4/11/2021
-- **[NEWEST!] Fully fixed ticket system!! Yay!**
+    message = """New Update: 5/11/2021
+- **[NEWEST!] Optimized and enhanced purge command!**
+- Fully fixed ticket system!! Yay!
 - ADDED Ticket! `.ticket`
 - Fully fixed timedif command!
 - Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
