@@ -933,7 +933,7 @@ async def ticket(ctx):
         lines = file.readlines()
         file.close()
     
-        if str(user.id) in lines and not user.guild_permissions.administrator:
+        if str(user.id) in lines:
             await ctx.send(f"{user.mention}, You already have a ticket open!")
         else:
             channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
