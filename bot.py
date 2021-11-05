@@ -791,17 +791,18 @@ async def purge(ctx, amount: int):
                     amount3 += 1
                 else:
                     amount2 = amount - 1
-            await asyncio.sleep(0.1)
-        
+            await channel.delete_messages(messages)
+            messages = []
+
         async for message in channel.history(limit=rem + 1):
             if not message.pinned:
                 messages.append(message)
                 amount3 += 1
             else:
                 amount2 = amount - 1
-            
-        
         await channel.delete_messages(messages)
+        
+        
         msg2 = await ctx.send(f'{amount3} messages have been purged by {ctx.message.author.mention}.')
         await asyncio.sleep(3)
     
