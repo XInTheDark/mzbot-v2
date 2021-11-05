@@ -774,8 +774,33 @@ async def rename(ctx, channel='', *, name):
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
-    if not amount <= 100:
-        await ctx.reply("Sorry, the limit is 100 messages!")
+    if not amount < 100:
+        quo = int(amount/99)
+        rem = amount - quo
+        
+        channel = ctx.message.channel
+        messages = []
+        amount2 = amount
+    
+        for i in range(quo):
+            async for message in channel.history(limit=100):
+            if not message.pinned:
+                messages.append(message)
+            else:
+                amount2 = amount - 1
+        
+        async for message in channel.history(limit=rem + 1):
+            if not message.pinned:
+                messages.append(message)
+            else:
+                amount2 = amount - 1
+        
+        await channel.delete_messages(messages)
+        msg2 = await ctx.send(f'{amount2} messages have been purged by {ctx.message.author.mention}.')
+        await asyncio.sleep(3)
+    
+        await msg2.delete()
+    
     else:
         
         channel = ctx.message.channel
