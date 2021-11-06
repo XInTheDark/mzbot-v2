@@ -783,7 +783,7 @@ async def purge(ctx, amount: int):
         messages = []
         amount2 = amount
         amount3 = 0
-        for i in amount:
+        for i in range(amount):
             async for message in channel.history(limit=1):
                 if not message.pinned:
                     await message.delete()
