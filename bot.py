@@ -813,7 +813,7 @@ async def purge(ctx, amount: int):
        amount2 = amount
        amount3 = 0
     
-       async for message in channel.history(limit=amount + 1):
+       async for message in channel.history(limit=amount):
            if not message.pinned:
                 messages.append(message)
                 amount3 += 1
