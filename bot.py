@@ -775,47 +775,56 @@ async def rename(ctx, channel='', *, name):
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
-   # if not amount < 100:
-    #    quo = int(amount/99)
-    #    rem = amount - quo * 99
+    if not amount < 100:
+        quo = int(amount/99)
+        rem = amount - quo * 99
         
         channel = ctx.message.channel
         messages = []
         amount2 = amount
         amount3 = 0
-        for i in range(amount):
-            async for message in channel.history(limit=1):
+        
+        for i in range(quo):
+            async for message in channel.history(limit=100):
                 if not message.pinned:
-                    await message.delete()
+                    await messages.append(message)
                     amount3 += 1
                 else:
                     amount2 = amount - 1
-            
+            await channel.delete_messages(messages)
+
+        async for message in channel.history(limit=rem + 1):
+            if not message.pinned:
+                await messages.append(message)
+                amount3 += 1
+            else:
+                amount2 = amount - 1
+        await channel.delete_messages(messages)
 
         msg2 = await ctx.send(f'{amount3} messages have been purged by {ctx.message.author.mention}.')
         await asyncio.sleep(3)
     
         await msg2.delete()
     
-    # else:
+    else:
         
-     #  channel = ctx.message.channel
-     #  messages = []
-     #  amount2 = amount
-     #  amount3 = 0
+       channel = ctx.message.channel
+       messages = []
+       amount2 = amount
+       amount3 = 0
     
-     #  async for message in channel.history(limit=amount + 1):
-     #      if not message.pinned:
-     #           messages.append(message)
-     #           amount3 += 1
-     #      else:
-     #          amount2 = amount - 1
+       async for message in channel.history(limit=amount + 1):
+           if not message.pinned:
+                messages.append(message)
+                amount3 += 1
+           else:
+                amount2 = amount - 1
 
-     #  await channel.delete_messages(messages)
-     #  msg2 = await ctx.send(f'{amount3} messages have been purged by {ctx.message.author.mention}.')
-     #  await asyncio.sleep(3)
+       await channel.delete_messages(messages)
+       msg2 = await ctx.send(f'{amount3} messages have been purged by {ctx.message.author.mention}.')
+       await asyncio.sleep(3)
     
-     #  await msg2.delete()
+       await msg2.delete()
     
     
 @bot.command(name='afk', help='Sets AFK.')
