@@ -173,7 +173,7 @@ async def rolldice(ctx, number_of_dice: int, number_of_sides: int):
 @bot.command(name='credits', help='Shows some surprising credits.')
 async def credits(ctx):
     response = """Credits to:
-    <@762152955382071316> and NO ONE ELSE."""
+    <@762152955382071316> [MuzhenGaming#9955] and NO ONE ELSE."""
 
     await ctx.send(response)
 
@@ -382,7 +382,7 @@ async def whowon(ctx, userid, *, prize):
     if not foundserver:
         await ctx.channel.send(r"Cannot find proofs channel! Try using '.setproofschannel'!\n*(Due to a recent update, the proofs channel can now be set! We strongly encourage you to set it with `.setproofschannel`.)")
         proofschannel = "the proofs channel (if any)"
-    else:
+    
         claimsfile2.close()
             
         embedVar = discord.Embed(title=f"{userid} WON THE PREVIOUS GIVEAWAY!", description=f"""{userid} Won the previous giveaway for **{prize}**!
@@ -410,6 +410,7 @@ async def ban(self, member: discord.Member, *, reason=None):
 @commands.has_permissions(administrator=True)
 async def unban(self, *, member):
     banned_users = await self.guild.bans()
+    found = 0
     member_name, member_discriminator = member.split("#")
 
     for ban_entry in banned_users:
@@ -417,6 +418,10 @@ async def unban(self, *, member):
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f'`{user} has been unbanned`')
+            found = 1
+            break
+    if found == 0:
+        await ctx.reply("Could not find that banned user!")
 
 
 @bot.command(name='kick', help='Kicks a user.')
@@ -575,10 +580,10 @@ async def lockall(ctx):
 @bot.command(name='slowmode', help='Sets the slowmode for a channel.')
 async def setdelay(ctx, seconds: int):
     if not ctx.author.guild_permissions.manage_messages and ctx.author.id != 762152955382071316:
-        await ctx.channel.send('You are missing Manage Messages permissions!')
+        await ctx.channel.send('You are missing `Manage Messages` permissions!')
     else:
         await ctx.channel.edit(slowmode_delay=seconds)
-        await ctx.channel.send(f"Set the slowmode for #{ctx.channel} to {seconds} seconds!")
+        await ctx.channel.send(f"Set the slowmode for channel: `#{ctx.channel}` to `{seconds}` seconds!")
 
 
 @bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
