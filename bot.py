@@ -777,7 +777,7 @@ async def rename(ctx, channel='', *, name):
 async def purge(ctx, amount: int):
     if not amount < 100:
         quo = int(amount/99)
-        rem = amount - quo * 100
+        rem = amount - quo * 99
         
         channel = ctx.message.channel
         messages = []
