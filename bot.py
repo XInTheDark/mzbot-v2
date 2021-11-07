@@ -769,8 +769,8 @@ async def rename(ctx, channel='', *, name):
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
     if not amount < 100:
-        quo = int(amount/100)
-        rem = amount - quo * 100
+        quo = int(amount/99)
+        rem = amount - quo * 99
         
         channel = ctx.message.channel
         messages = []
@@ -808,7 +808,7 @@ async def purge(ctx, amount: int):
        amount2 = amount
        amount3 = 0
     
-       async for message in channel.history(limit=amount):
+       async for message in channel.history(limit=amount + 1):
            if not message.pinned:
                 messages.append(message)
                 amount3 += 1
