@@ -1037,7 +1037,7 @@ async def dmnitro(ctx, amount: int):
     genlistsplit = genlist.split("\n")
     channel = await ctx.author.create_dm()
     
-    for i in amount:
+    for i in range(amount):
         response = str(random.choice(genlistsplit))
 
         await channel.send(response)
