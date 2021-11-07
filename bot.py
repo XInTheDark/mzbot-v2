@@ -65,11 +65,9 @@ async def on_message(message):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 5/11/2021
-- **[NEWEST!] Optimized and enhanced purge command!**
-- Fully fixed ticket system!! Yay!
-- ADDED Ticket! `.ticket`
-- Fully fixed timedif command!
+    message = """New Update: 7/11/2021
+- **A few optimizations to `.purge` and `.ping`**
+- **New command: `.dmnitro` which generates nitro codes in your dms. You must specify amount of nitro to gen!**
 - Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
 - Coming Soon: Developer mode
 - Coming Later: Anti Nuke mode, maybe can be set up.
@@ -98,6 +96,7 @@ async def help(ctx):
 - ping
 - updates
 - timedif
+- dmnitro
 **Requires permissions:**
 - dw
 - mute
@@ -1032,6 +1031,19 @@ React with 👍 to delete.""")
     
 #         await ctx.reply(embed=embed)
         
+@bot.command(name='dmnitro', aliases=['massnitro', 'nitrospam'])
+async def dmnitro(ctx, amount: int):
+    genlist = str(open('nitrogenlist.txt', 'r').read())
+    genlistsplit = genlist.split("\n")
+    channel = await ctx.author.create_dm()
+    
+    for i in amount:
+        response = str(random.choice(genlistsplit))
+
+        await channel.send(response)
         
+    await channel.send(f"{ctx.author.mention}, Successfully generated {amount} nitro codes in your DM!")
+    
+    
 bot.run(TOKEN)
 
