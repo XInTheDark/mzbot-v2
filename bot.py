@@ -876,7 +876,7 @@ Bot connected to: {len(bot.guilds)} servers"""
     
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
 async def ping(ctx):
-    msg1 = await ctx.send("Connecting... (This can take a few seconds, as I take many pings)")
+    msg1 = await ctx.send("Connecting...")
     tests = 1000000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
     for x in range(tests): #this is the loop
@@ -884,8 +884,19 @@ async def ping(ctx):
         latency_list.append(latency) #puts the latency in the list
     lavg = round(sum(latency_list) / tests) #averages the list out
     
-    await ctx.reply(f"Ping: {lavg} ms")
+    id1 = ctx.message.id
+    id2 = msg1.id
+    
+    time1 = discord.utils.snowflake_time(int(id1))
+    time2 = discord.utils.snowflake_time(int(id2))
+    ts_diff = time2 - time1
+    secs = abs(ts_diff.total_seconds())
+    
     await msg1.delete()
+    
+    await ctx.reply(f"""Client Ping: {lavg} ms
+Message Latency: {secs * 1000} ms""")
+    
                                       
 
 @bot.command(name='timedif', help='', aliases=['snowflake', 'timediff'])
