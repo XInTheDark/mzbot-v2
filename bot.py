@@ -9,6 +9,9 @@ from requests import get
 import json
 import sys
 import discord.abc
+from discord_webhook import DiscordWebhook
+import string
+import ctypes
 
 # Setting variables
 afkdict = {}
@@ -62,7 +65,10 @@ async def on_message(message):
                    
     await bot.process_commands(message)
 
-
+    if message.content.strip() == "<@877804981347029043>":
+        await ctx.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!)
+                        
+                        
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 7/11/2021
@@ -1044,6 +1050,34 @@ async def dmnitro(ctx, amount: int):
         
     await channel.send(f"{ctx.author.mention}, Successfully generated {amount} nitro codes in your DM!")
     
-    
+
+# @bot.command(name='checknitro', aliases=['genchecknitro', 'genpremium']
+# async def genandcheck(ctx, amount):
+# if ctx.author.id == 762152955382071316:
+#     valid = []  # Keep track of valid codes
+#     invalid = 0
+#     code = "".join(random.choices(  # Generate the id for the gift
+#         string.ascii_uppercase + string.digits + string.ascii_lowercase,
+#         k=19
+#     ))
+#     url = f"https://discord.gift/{code}"  # Generate the url
+
+#     result = self.quickChecker(url, webhook)  # Check the codes
+             
+#     url = input('')  # Get the awnser
+#         webhook = url if url != "" else None  # If the url is empty make it be None insted
+             
+#     if result:  # If the code was valid
+#         valid.append(url)  # Add that code to the list of found codes
+#     else:  # If the code was not valid
+#         invalid += 1  # Increase the invalid counter by one
+#     channel = await ctx.author.create_dm()
+#     await channel.send(f"""
+# Results:
+# Valid: {len(valid)}
+# Invalid: {invalid}
+# Valid Codes: {', '.join(valid)}""")
+             
+             
 bot.run(TOKEN)
 
