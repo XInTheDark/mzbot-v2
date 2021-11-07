@@ -1021,6 +1021,11 @@ React with 👍 to delete.""")
                 await asyncio.sleep(5)
             await ctx.send("Deleting channel...")
             await ctx.channel.delete()
+            with open("tickets.txt", "r") as file_input:
+                with open("tickets.txt", "w") as output: 
+                    for line in file_input:
+                        if line.strip("\n") != str(ctx.author.id):
+                            output.write(line)
         else:
             await ctx.reply("This is not your ticket!")
 #         await ctx.reply("Hey! This isn't a ticket!")
