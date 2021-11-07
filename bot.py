@@ -895,7 +895,7 @@ async def ping(ctx):
     await msg1.delete()
     
     await ctx.reply(f"""Client Ping: {lavg} ms
-Message Latency: {secs * 1000} ms""")
+Message Latency: {int(secs * 1000)} ms""")
     
                                       
 
