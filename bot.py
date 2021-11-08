@@ -46,7 +46,10 @@ async def on_member_join(member):
 async def on_message(message):
     
     global afkdict
-                   
+    
+    if message.content.strip() == "<@877804981347029043>":
+        await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
+    
     if str(message.author.id) in afkdict:
        afkdict.pop(str(message.author.id))
        welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
@@ -63,8 +66,6 @@ async def on_message(message):
                    
     await bot.process_commands(message)
 
-    if message.content.strip() == "<@877804981347029043>":
-        await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
                         
                         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
