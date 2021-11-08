@@ -34,7 +34,10 @@ async def on_ready():
     
     # Setting `Watching ` status
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"Muzhen ❤ | .help | {len(bot.guilds)} servers"))
-
+    # Set Idle status
+    await bot.change_presence(status=discord.Status.idle)
+    # To set dnd change "Idle" to "dnd"
+    
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
