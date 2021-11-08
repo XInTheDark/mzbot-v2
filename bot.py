@@ -64,7 +64,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
     if message.content.strip() == "<@877804981347029043>":
-        await ctx.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
+        await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
                         
                         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
