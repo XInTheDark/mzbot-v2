@@ -695,7 +695,7 @@ async def setproofschannel(ctx, channelid):
             try:
                 channelid = int(channelid)
             except:
-                await ctx.channel.send('An error occurred! Check your syntax!')
+                await ctx.channel.send('An error occurred! Check your syntax!ww')
     else:
         channelid = ctx.channel.id
     
