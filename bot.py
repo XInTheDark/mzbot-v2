@@ -888,10 +888,25 @@ async def ping(ctx):
     ts_diff = time2 - time1
     secs = abs(ts_diff.total_seconds())
     
+    if lavg < 15:
+        jud1 = 'Fast'
+    elif lavg >= 15 and lavg < 40:
+        jud1 = 'Normal'
+    else:
+        jud1 = 'Slow - Bot Lagging!'
+        
+    if secs * 1000 < 120:
+        jud2 = 'Fast'
+    elif secs * 1000 >= 120 and secs * 1000 < 200:
+        jud2 = 'Normal'
+    else:
+        jud2 = 'Slow - Bot Lagging!'
+        
+    
     await msg1.delete()
     
-    await ctx.reply(f"""Client Ping: {lavg} ms
-Message Latency: {int(secs * 1000)} ms""")
+    await ctx.reply(f"""Client Ping: {lavg} ms ({jud1})
+Message Latency: {int(secs * 1000)} ms ({jud2})""")
     
                                       
 
