@@ -16,6 +16,8 @@ afkdict = {}
 spam_ban = [726356086176874537]
 global user
 global reaction
+global antinuke
+antinuke = []
 
 load_dotenv()
 # TOKEN = stros.getenv('DISCORD_TOKEN')
@@ -135,6 +137,29 @@ async def help(ctx):
     await asyncio.sleep(0.01)
     await ctx.reply(embed=embed)
     await msg1.delete()
+
+# ANTI NUKE
+@bot.command(name='antinuke', aliases=['protect', 'protection', 'shield'])
+@commands.has_permissions(administrator=True)
+async def antinuke(ctx):
+    guildid = ctx.message.guild.id
+    if not guildid in antinuke:
+        antinuke.append(guildid)
+        await ctx.reply("Antinuke is now enabled! To disable antinuke, use `.disableantinuke`.")
+    else:
+        await ctx.reply("Antinuke is already enabled for this server!")
+        
+        
+@bot.command(name='disableantinuke', aliases=['disableprotect', 'disableprotection', 'offshield'])
+@commands.has_permissions(administrator=True)
+async def disableantinuke(ctx):
+    guildid = ctx.message.guild.id
+    if guildid in antinuke:
+        antinuke.pop(guildid)
+        await ctx.reply("Antinuke is now disable! To enable antinuke, use `.antinuke`.")
+    else:
+        await ctx.reply("Antinuke is already disabled for this server!")
+        
 
 @bot.command(name='dw', help='Responds how a drop works.')
 async def drop(ctx):
