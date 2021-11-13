@@ -156,6 +156,8 @@ async def on_member_ban(guild, user):
 @bot.command(name='antinuke', aliases=['protect', 'protection', 'shield'])
 @commands.has_permissions(administrator=True)
 async def antinuke(ctx):
+    global antinuke
+    
     guildid = ctx.message.guild.id
     if not guildid in antinuke:
         antinuke.append(guildid)
