@@ -78,8 +78,9 @@ async def on_message(message):
                         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 7/11/2021
-- **A few optimizations to `.purge` and `.ping`**
+    message = """New Update: 13/11/2021
+- **New command: `membercount`**
+- A few optimizations to `.purge` and `.ping`
 - **New command: `.dmnitro` which generates nitro codes in your dms. You must specify amount of nitro to gen!**
 - Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
 - Coming Soon: Developer mode
@@ -110,6 +111,7 @@ async def help(ctx):
 - updates
 - timedif
 - dmnitro
+- membercount
 **Requires permissions:**
 - dw
 - mute
@@ -1133,6 +1135,12 @@ async def dmnitro(ctx, amount: int):
 # Invalid: {invalid}
 # Valid Codes: {', '.join(valid)}""")
              
+@bot.command(name='membercount', aliases=['mc', 'members']
+async def mc(ctx):
+    count = ctx.guild.members
+    embed = discord.Embed(title=f"**Member Count**", description=f"""Member count for {ctx.guild.name}:
+`{count}` members""")
+    await ctx.reply(embed=embed)
              
 bot.run(TOKEN)
 
