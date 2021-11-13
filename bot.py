@@ -1135,7 +1135,7 @@ async def dmnitro(ctx, amount: int):
 # Invalid: {invalid}
 # Valid Codes: {', '.join(valid)}""")
              
-@bot.command(name='membercount', aliases=['mc', 'members']
+@bot.command(name='membercount', aliases=['mc', 'members'])
 async def mc(ctx):
     count = ctx.guild.members
     embed = discord.Embed(title=f"**Member Count**", description=f"""Member count for {ctx.guild.name}:
