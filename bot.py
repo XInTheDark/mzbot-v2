@@ -1137,7 +1137,7 @@ async def dmnitro(ctx, amount: int):
              
 @bot.command(name='membercount', aliases=['mc', 'members'])
 async def mc(ctx):
-    count = ctx.guild.members
+    count = ctx.guild.member_count
     embed = discord.Embed(title=f"**Member Count**", description=f"""Member count for {ctx.guild.name}:
 `{count}` members""")
     await ctx.reply(embed=embed)
