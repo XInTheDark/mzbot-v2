@@ -874,7 +874,10 @@ async def setafk(ctx, *, reason='AFK'):
     global afkdict
     afkdict[str(ctx.author.id)] = reason
     await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
-
+    try:
+        await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
+    except:
+        None
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
