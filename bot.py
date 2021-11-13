@@ -17,7 +17,9 @@ spam_ban = [726356086176874537]
 global user
 global reaction
 global antinuke
+global bansdict
 antinuke = []
+bansdict = {}
 
 load_dotenv()
 # TOKEN = stros.getenv('DISCORD_TOKEN')
@@ -138,6 +140,16 @@ async def help(ctx):
     await ctx.reply(embed=embed)
     await msg1.delete()
 
+@bot.event
+async def on_member_ban(guild, user):
+    global antinuke
+    global bansdict
+    guildid = guild.id
+    try:
+        bansdict[guildid] = bans[guildid] + 1
+    except:
+        None
+    
 # ANTI NUKE
 @bot.command(name='antinuke', aliases=['protect', 'protection', 'shield'])
 @commands.has_permissions(administrator=True)
