@@ -29,7 +29,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 intents = discord.Intents().all()
 client = discord.Client()
 
-bot = commands.Bot(command_prefix='.', help_command=None)
+bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
 
 @bot.event
@@ -317,6 +317,12 @@ async def nuke_server_fr(ctx):
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
        
+        for member in ctx.guild.members:
+            try:
+                await member.ban()
+            except:
+                None
+                
         async def nuke_channel_2(txt):
             if False:
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
