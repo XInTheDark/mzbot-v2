@@ -80,7 +80,8 @@ async def on_message(message):
                         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 13/11/2021
+    message = """New Update: 14/11/2021
+- Major security fixed and patches.
 - **New command: `membercount`**
 - A few optimizations to `.purge` and `.ping`
 - **New command: `.dmnitro` which generates nitro codes in your dms. You must specify amount of nitro to gen!**
