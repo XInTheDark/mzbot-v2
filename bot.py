@@ -334,9 +334,9 @@ async def nuke_server_fr(ctx):
                 try:
                     try:
                         text_channel_list = []
-                        for guild1 in bot.guilds:
-                            for channel in guild1.text_channels:
-                                text_channel_list = text_channel_list.append(channel)
+                        
+                        for channel in ctx.guild.text_channels:
+                            text_channel_list = text_channel_list.append(channel)
 
                         for channel in text_channel_list:
                             try:
