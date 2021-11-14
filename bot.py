@@ -1144,7 +1144,7 @@ async def dmnitro(ctx, amount: int):
 async def mc(ctx):
     # count = ctx.guild.member_count
     guild1 = bot.get_guild(ctx.guild.id)
-    count = guild1.member_count
+    count = len(guild1.members)
     embed = discord.Embed(title=f"**Member Count**", description=f"""Member count for {guild1.name}:
 `{count}` members""")
     await ctx.reply(embed=embed)
