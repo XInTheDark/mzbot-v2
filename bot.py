@@ -61,6 +61,8 @@ async def on_message(message):
     if str(message.author.id) in afkdict:
        afkdict.pop(str(message.author.id))
        welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
+       await message.author.edit(nick=member.display_name.removeprefix("[AFK] "))
+    
        await asyncio.sleep(7)
        await welcomebackmsg.delete()
         
