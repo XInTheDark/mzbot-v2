@@ -18,8 +18,11 @@ global user
 global reaction
 global antinuke
 global bansdict
+global snipe
+
 antinuke = []
 bansdict = {}
+snipe = {}
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -78,8 +81,14 @@ async def on_message(message):
                    
     await bot.process_commands(message)
 
+@bot.event
+async def on_message_delete(message):
+    msg = message.content
+    author = message.author
+    
+    snipe[len(snipe)] = [author, msg.channel, msg]
                         
-                        
+
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 14/11/2021
@@ -636,18 +645,30 @@ async def setdelay(ctx, seconds: int):
 @bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
 @commands.has_permissions(administrator=True) # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
-    
-    role = discord.utils.get(ctx.guild.roles, name=rolename)
-    errorrole = 0
-    
-    try:
-        await member.add_roles(role)
-    except AttributeError:
-        await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
-        errorrole = 1
+    if str(member) = "all":
+        await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
         
-    if errorrole == 0:
-        await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+        for i in ctx.guild.members:
+            try:
+            await i.add_roles(role)
+        except AttributeError:
+            await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+            errorrole = 1
+            break
+        await ctx.send(f"{ctx.author.mention}, Added role '{rolename}' to {len(ctx.guild.members)} members successfully!")
+        
+    else:
+        role = discord.utils.get(ctx.guild.roles, name=rolename)
+        errorrole = 0
+    
+        try:
+            await member.add_roles(role)
+        except AttributeError:
+            await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+            errorrole = 1
+        
+        if errorrole == 0:
+            await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
     
 
 @bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
@@ -1161,5 +1182,43 @@ async def mc(ctx):
 `{count}` members""")
     await ctx.reply(embed=embed)
              
+@bot.command(name='snipe', aliases=['sniper'])
+async def snipe(ctx, pos=1):
+    try:
+        lst = snipe[pos - 1]
+        success1 = True
+    except:
+        if pos == 1:
+            await ctx.reply("No messages deleted yet.")
+        else:
+            await ctx.reply("There is no message found at that index.")
+    
+    if success1:
+        if not lst[1] == ctx.channel:
+            success2 = False
+            pos1 = pos
+            while True:
+                try:
+                    lst = snipe[pos1]
+                    if lst[1] == ctx.channel:
+                        success2 = True
+                        break
+                    
+                except:
+                    break
+                    
+                pos1 += 1
+        if not success2:
+            await ctx.reply("No messages deleted yet.")
+        
+        else:
+            embed = discord.Embed(title="**Sniper (BETA)**", description=f"""Successfully sniped a message!
+Sent in {ctx.channel}
+Sent by {lst[0]} ({lst[0].name})
+Message content:
+{lst[2]}""")
+            await ctx.reply(embed=embed)
+        
+        
 bot.run(TOKEN)
 
