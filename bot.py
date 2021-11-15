@@ -86,7 +86,7 @@ async def on_message_delete(message):
     msg = message.content
     author = message.author
     
-    snipe[len(snipe)] = [author, msg.channel, msg]
+    snipe[len(snipe)] = [author, message.channel, msg]
                         
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
