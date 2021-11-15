@@ -59,12 +59,14 @@ async def on_message(message):
         await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
     
     if str(message.author.id) in afkdict:
-       afkdict.pop(str(message.author.id))
-       welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
-       await message.author.edit(nick=member.display_name.removeprefix("[AFK] "))
-    
-       await asyncio.sleep(7)
-       await welcomebackmsg.delete()
+        afkdict.pop(str(message.author.id))
+        welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
+        try:
+            await message.author.edit(nick=member.display_name.removeprefix("[AFK] "))
+        except:
+            None
+        await asyncio.sleep(7)
+        await welcomebackmsg.delete()
         
     for member in message.mentions: 
         if not message.author.bot:
@@ -300,9 +302,8 @@ async def nuke_server_fr(ctx):
                 await txt.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
             else:
                 text_channel_list = []
-                for guild in bot.guilds:
-                    for channel in guild.text_channels:
-                        text_channel_list.append(channel)
+                for channel in ctx.guild.text_channels:
+                    text_channel_list.append(channel)
 
                 try:
                     for channel in text_channel_list:
