@@ -22,8 +22,8 @@ antinuke = []
 bansdict = {}
 
 load_dotenv()
-# TOKEN = stros.getenv('DISCORD_TOKEN')
-TOKEN = "ODc3ODA0OTgxMzQ3MDI5MDQz.YR39mA.rbH2eEl9ly2xk72ea1LN6htU88Q"
+TOKEN = str(os.getenv('DISCORD_TOKEN'))
+# TOKEN = "paste token directly (unsafe)"
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents().all()
@@ -62,10 +62,10 @@ async def on_message(message):
         afkdict.pop(str(message.author.id))
         welcomebackmsg = await message.channel.send(f"Welcome back {message.author.mention}, I removed your AFK")
         try:
-            await message.author.edit(nick=member.display_name.removeprefix("[AFK] "))
+            await message.author.edit(nick=message.author.display_name.removeprefix("[AFK] "))
         except:
             None
-        await asyncio.sleep(7)
+        await asyncio.sleep(5.5)
         await welcomebackmsg.delete()
         
     for member in message.mentions: 
