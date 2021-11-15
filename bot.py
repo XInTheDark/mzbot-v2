@@ -645,7 +645,7 @@ async def setdelay(ctx, seconds: int):
 @bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
 @commands.has_permissions(administrator=True) # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
-    if str(member) = "all":
+    if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
         
         for i in ctx.guild.members:
