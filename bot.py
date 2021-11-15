@@ -86,7 +86,7 @@ async def on_message_delete(message):
     msg = message.content
     author = message.author
     
-    snipes[len(snipes)] = [author, message.channel, msg]
+    snipes[len(snipes)] = [author, message.channel.id, msg]
                         
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
@@ -1195,13 +1195,13 @@ async def snipe(ctx, pos=1):
             await ctx.reply("There is no message found at that index.")
     
     if success1:
-        if not lst[1] == ctx.channel:
+        if not lst[1] == ctx.channel.id:
             success2 = False
             pos1 = pos
             while True:
                 try:
                     lst = snipes[pos1]
-                    if lst[1] == ctx.channel:
+                    if lst[1] == ctx.channel.id:
                         success2 = True
                         break
                     
@@ -1209,6 +1209,7 @@ async def snipe(ctx, pos=1):
                     break
                     
                 pos1 += 1
+                
         if not success2:
             await ctx.reply("No messages deleted yet.")
         
