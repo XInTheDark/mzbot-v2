@@ -1183,6 +1183,7 @@ async def mc(ctx):
 @bot.command(name='snipe', aliases=['sniper'])
 async def snipe(ctx, pos=1):
     success1 = False
+    success2 = False
     
     try:
         lst = snipes[pos - 1]
