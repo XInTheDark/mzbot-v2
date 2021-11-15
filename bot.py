@@ -650,11 +650,11 @@ async def addrole(ctx, member: discord.Member, *, rolename):
         
         for i in ctx.guild.members:
             try:
-            await i.add_roles(role)
-        except AttributeError:
-            await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
-            errorrole = 1
-            break
+                await i.add_roles(role)
+            except AttributeError:
+                await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+                errorrole = 1
+                break
         await ctx.send(f"{ctx.author.mention}, Added role '{rolename}' to {len(ctx.guild.members)} members successfully!")
         
     else:
