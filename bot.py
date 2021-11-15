@@ -18,11 +18,11 @@ global user
 global reaction
 global antinuke
 global bansdict
-global snipe
+global snipes
 
 antinuke = []
 bansdict = {}
-snipe = {}
+snipes = {}
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -86,7 +86,7 @@ async def on_message_delete(message):
     msg = message.content
     author = message.author
     
-    snipe[len(snipe)] = [author, message.channel, msg]
+    snipes[len(snipes)] = [author, message.channel, msg]
                         
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
@@ -1185,7 +1185,7 @@ async def snipe(ctx, pos=1):
     success1 = False
     
     try:
-        lst = snipe[pos - 1]
+        lst = snipes[pos - 1]
         success1 = True
     except:
         if pos == 1:
@@ -1199,7 +1199,7 @@ async def snipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = snipe[pos1]
+                    lst = snipes[pos1]
                     if lst[1] == ctx.channel:
                         success2 = True
                         break
