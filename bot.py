@@ -1308,7 +1308,12 @@ async def invites(ctx, person=None):
         try:
             personid = person.removeprefix("<@").removesuffix(">")
             member = bot.get_user(int(personid))
-            
+        except:
+            try:
+                member = bot.get_user(int(person))
+            except:
+                await ctx.reply("I can't find that user.")
+                
     totalInvites = 0
     for i in await ctx.guild.invites():
         if i.inviter == member:
