@@ -1209,7 +1209,9 @@ async def snipe(ctx, pos=1):
                     break
                     
                 pos1 += 1
-                
+        else:
+            success2 = True
+            
         if not success2:
             await ctx.reply("No messages deleted yet.")
         
