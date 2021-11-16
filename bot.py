@@ -1297,8 +1297,10 @@ Sent by {lst[0]}
             
             
 @bot.command(name='invites')
-async def invites(ctx, person=ctx.author):
-    
+async def invites(ctx, person=None):
+    if person is None:
+        person = ctx.author
+        
     if person != ctx.author:
         person = discord.Member(person)
         
