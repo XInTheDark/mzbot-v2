@@ -1307,10 +1307,10 @@ async def invites(ctx, person=None):
     if person != ctx.author:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
-            member = bot.get_user(int(personid))
+            member = bot.get_user(id=int(personid))
         except:
             try:
-                member = bot.get_user(int(person))
+                member = bot.get_user(id=int(person))
             except:
                 await ctx.reply("I can't find that user.")
                 
