@@ -19,10 +19,12 @@ global reaction
 global antinuke
 global bansdict
 global snipes
+global esnipes
 
 antinuke = []
 bansdict = {}
 snipes = {}
+esnipes = {}
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -88,7 +90,16 @@ async def on_message_delete(message):
     
     snipes[len(snipes)] = [author, message.channel.id, msg]
                         
+@bot.event
+async def on_message_edit(old, new):
+    oldmsg = old.content
+    newmsg = new.content
+    author = new.author
+    
+    esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
+                        
 
+        
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 14/11/2021
@@ -1179,7 +1190,8 @@ async def mc(ctx):
     embed = discord.Embed(title=f"**Member Count**", description=f"""Member count for {guild1.name}:
 `{count}` members""")
     await ctx.reply(embed=embed)
-             
+            
+        
 @bot.command(name='snipe', aliases=['sniper'])
 async def snipe(ctx, pos=1):
     success1 = False
@@ -1222,7 +1234,51 @@ Sent by {lst[0]}
 Message content:
 {lst[2]}""")
             await ctx.reply(embed=embed)
+     
+@bot.command(name='editsnipe', aliases=['editsniper', 'esnipe'])
+async def esnipe(ctx, pos=1):
+    success1 = False
+    success2 = False
+    
+    try:
+        lst = esnipes[len(esnipes) - 1]
+        success1 = True
+    except:
+        if pos == 1:
+            await ctx.reply("No messages edited yet.")
+        else:
+            await ctx.reply("There is no message found at that index.")
+    
+    if success1:
+        if not lst[1] == ctx.channel.id:
+            success2 = False
+            pos1 = pos
+            while True:
+                try:
+                    lst = esnipes[len(esnipes) - pos1]
+                    if lst[1] == ctx.channel.id:
+                        success2 = True
+                        break
+                    
+                except:
+                    break
+                    
+                pos1 += 1
+        else:
+            success2 = True
+            
+        if not success2:
+            await ctx.reply("No messages edited yet.")
         
-        
+        else:
+            embed = discord.Embed(title="**EditSniper (BETA)**", description=f"""**Successfully editsniped a message!**
+Sent in {ctx.channel}
+Sent by {lst[0]}
+**Original Message content:**
+{lst[2]}
+**New Message content:**
+{lst[3]}""")
+            await ctx.reply(embed=embed)
+            
 bot.run(TOKEN)
 
