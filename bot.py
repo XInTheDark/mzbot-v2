@@ -51,9 +51,7 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi @' + str({member.name}) + ', welcome to our server! We hope you have a good time here!'
-    )
+    await member.dm_channel.send(f"Hi {member.mention}! Welcome to our server! We hope you enjoy your stay :) ")
 
 @bot.event
 async def on_message(message):
@@ -1282,5 +1280,16 @@ Sent by {lst[0]}
 {lst[3]}""")
             await ctx.reply(embed=embed)
             
+            
+@bot.command(name='invites')
+async def invites(ctx):
+    totalInvites = 0
+    for i in await ctx.guild.invites():
+        if i.inviter == ctx.author:
+            totalInvites += i.uses
+    embed = discord.Embed(title=f'**Invites for {ctx.author}**', description=f'''You have **{totalInvites}** invite code uses. 
+*Note: This is not the actual number of invites you have.*'''
+    await ctx.reply(embed=embed)
+                          
 bot.run(TOKEN)
 
