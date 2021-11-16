@@ -1298,17 +1298,22 @@ Sent by {lst[0]}
             
 @bot.command(name='invites')
 async def invites(ctx, person=None):
+    member = ""
+    
     if person is None:
         person = ctx.author
+        member = person
         
     if person != ctx.author:
-        person = discord.Member(person)
-        
+        try:
+            personid = person.removeprefix("<@").removesuffix(">")
+            member = bot.get_user(int(personid))
+            
     totalInvites = 0
     for i in await ctx.guild.invites():
-        if i.inviter == person:
+        if i.inviter == member:
             totalInvites += i.uses
-    embed = discord.Embed(title=f'**Invites for {ctx.author}**', description=f'''You have **{totalInvites}** invites. 
+    embed = discord.Embed(title=f'**Invites for {member}**', description=f'''You have **{totalInvites}** invites. 
 *Note: This is in testing and may not be the actual number of invites you have.*''')
     await ctx.reply(embed=embed)
                           
