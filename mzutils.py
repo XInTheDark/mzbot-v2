@@ -42,5 +42,5 @@ def timestr(secs, mins=0, hrs=0, days=0):
     
     return answer
   
-  def filewrite(filename, msg):
-      workinprogress=True
+def filewrite(filename, msg):
+  workinprogress=True
