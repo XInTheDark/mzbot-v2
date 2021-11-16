@@ -1214,7 +1214,7 @@ async def snipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = snipes[len(snipes) - pos1]
+                    lst = snipes[len(snipes) - pos1 + 1]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1257,7 +1257,7 @@ async def esnipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = esnipes[len(esnipes) - pos1]
+                    lst = esnipes[len(esnipes) - pos1 + 1]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
