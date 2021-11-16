@@ -102,8 +102,8 @@ async def on_message_edit(old, new):
         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 14/11/2021
-- **New command! `.snipe`, it works similarly to Apollo bot's except you can't specify a channel yet. That will be added later.**
+    message = """New Update: 16/11/2021
+- **New commands! `.snipe` and `.editsnipe`, it works similarly to Apollo bot's except you can't specify a channel yet. That will be added later.**
 - **New option for `.addrole`: `.addrole all` which adds a role to everyone in the server.** 
 - Coming Soon: More complex help command, like '.help <command>' and '.help <Category>'
 - Coming Soon: Developer mode
@@ -135,6 +135,8 @@ async def help(ctx):
 - timedif
 - dmnitro
 - membercount
+- snipe
+- editsnipe
 **Requires permissions:**
 - dw
 - mute
