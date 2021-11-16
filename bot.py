@@ -1297,8 +1297,11 @@ Sent by {lst[0]}
             
             
 @bot.command(name='invites')
-async def invites(ctx, person=ctx.author: discord.Member):
+async def invites(ctx, person: discord.Member):
     
+    if person is None:
+        person = ctx.author
+        
     totalInvites = 0
     for i in await ctx.guild.invites():
         if i.inviter == person:
