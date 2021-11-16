@@ -1200,7 +1200,7 @@ async def snipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = snipes[pos1]
+                    lst = snipes[len(snipes) - pos1]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
