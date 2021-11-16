@@ -41,6 +41,8 @@ bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
 @bot.event
 async def on_ready():
+    global uptime
+    
     client = discord.Client()
     
     # Set Idle status
@@ -929,6 +931,8 @@ async def setafk(ctx, *, reason='AFK'):
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
+    
+    global uptime
     
     tests = 20000 #the amount of tests to conduct
     latency_list = [] #this is where the tests go
