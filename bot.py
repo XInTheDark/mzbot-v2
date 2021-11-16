@@ -1304,7 +1304,7 @@ async def invites(ctx, person=None):
         person = ctx.author
         member = person
         
-    if person != ctx.author:
+    if person.id != ctx.author.id:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
             member = bot.get_user(id=int(personid))
