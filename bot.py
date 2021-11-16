@@ -20,11 +20,13 @@ global antinuke
 global bansdict
 global snipes
 global esnipes
+global uptime
 
 antinuke = []
 bansdict = {}
 snipes = {}
 esnipes = {}
+uptime = 0
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -48,6 +50,10 @@ async def on_ready():
     # Setting `Watching ` status
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"Muzhen ❤ | .help | {len(bot.guilds)} servers"))
     
+    while True:
+        await asyncio.sleep(0.5)
+        uptime += 0.5
+        
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
@@ -947,7 +953,8 @@ Ping {lavg} ms
 (To get a more accurate ping use '.ping')
 ========================
 Status Info:
-Bot connected to: {len(bot.guilds)} servers"""
+Bot connected to: {len(bot.guilds)} servers
+Bot uptime: {uptime} secs"""
     
     embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
     
@@ -1288,7 +1295,7 @@ async def invites(ctx):
         if i.inviter == ctx.author:
             totalInvites += i.uses
     embed = discord.Embed(title=f'**Invites for {ctx.author}**', description=f'''You have **{totalInvites}** invite code uses. 
-*Note: This is not the actual number of invites you have.*'''
+*Note: This is not the actual number of invites you have.*''')
     await ctx.reply(embed=embed)
                           
 bot.run(TOKEN)
