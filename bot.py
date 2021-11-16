@@ -1297,10 +1297,10 @@ Sent by {lst[0]}
             
             
 @bot.command(name='invites')
-async def invites(ctx, person: discord.Member):
+async def invites(ctx, person=ctx.author):
     
-    if person is None:
-        person = ctx.author
+    if person != ctx.author:
+        person = discord.Member(person)
         
     totalInvites = 0
     for i in await ctx.guild.invites():
