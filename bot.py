@@ -1186,7 +1186,7 @@ async def snipe(ctx, pos=1):
     success2 = False
     
     try:
-        lst = snipes[len(snipes)]
+        lst = snipes[len(snipes) - 1]
         success1 = True
     except:
         if pos == 1:
