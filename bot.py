@@ -63,6 +63,11 @@ async def on_member_join(member):
     await member.dm_channel.send(f"Hi {member.mention}! Welcome to our server! We hope you enjoy your stay :) ")
 
 @bot.event
+async def on_guild_join(guild):
+    await guild.channels[0].send("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
+    
+    
+@bot.event
 async def on_message(message):
     
     global afkdict
@@ -77,7 +82,7 @@ async def on_message(message):
             await message.author.edit(nick=message.author.display_name.removeprefix("[AFK] "))
         except:
             None
-        await asyncio.sleep(5.5)
+        await asyncio.sleep(5)
         await welcomebackmsg.delete()
         
     for member in message.mentions: 
@@ -1307,10 +1312,10 @@ async def invites(ctx, person=None):
     if person.id != ctx.author.id:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
-            member = bot.get_user(id=int(personid))
+            member = await ctx.fetch_user(id=int(personid))
         except:
             try:
-                member = bot.get_user(id=int(person))
+                member = await ctx.fetch_user(id=int(person))
             except:
                 await ctx.reply("I can't find that user.")
                 
