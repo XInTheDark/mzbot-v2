@@ -942,6 +942,9 @@ async def checkversion(ctx):
     lavg = round(sum(latency_list) / tests) #averages the list out
     
     msg1 = await ctx.send("Loading...")
+    
+    uptime2 = mzutils.timestr(secs=uptime)
+    
     msgmain = f"""
 MZ Bot V2
 Made by MuzhenGaming#9955
@@ -958,7 +961,7 @@ Ping {lavg} ms
 ========================
 Status Info:
 Bot connected to: {len(bot.guilds)} servers
-Bot uptime: {uptime} secs"""
+Bot uptime: {uptime2}"""
     
     embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
     
