@@ -1233,7 +1233,7 @@ async def snipe(ctx, pos=1):
             embed = discord.Embed(title="**Sniper (BETA)**", description=f"""**Successfully sniped a message!**
 Sent in {ctx.channel}
 Sent by {lst[0]}
-Message content:
+**Message content:**
 {lst[2]}""")
             await ctx.reply(embed=embed)
      
