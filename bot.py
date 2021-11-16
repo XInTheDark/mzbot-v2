@@ -1303,7 +1303,8 @@ Sent by {lst[0]}
             
 @bot.command(name='invites')
 async def invites(ctx, person=None):
-    member = ""
+    
+    member = None
     
     if person is None:
         person = ctx.author
@@ -1312,10 +1313,10 @@ async def invites(ctx, person=None):
     if person.id != ctx.author.id:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
-            member = await ctx.fetch_user(id=int(personid))
+            member = await bot.fetch_user(id=int(personid))
         except:
             try:
-                member = await ctx.fetch_user(id=int(person))
+                member = await bot.fetch_user(id=int(person))
             except:
                 await ctx.reply("I can't find that user.")
                 
