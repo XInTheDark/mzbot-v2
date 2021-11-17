@@ -1305,6 +1305,13 @@ Sent by {lst[0]}
 async def invites(ctx, person=None):
     member = None
     
+    if person is not None:
+        try:
+            personid = person.removeprefix("<@").removesuffix(">")
+            person = bot.get_user(id=int(personid))
+        except:
+            await ctx.reply("I can't find that user.")
+    
     if person is None:
         person = ctx.author
         member = person
