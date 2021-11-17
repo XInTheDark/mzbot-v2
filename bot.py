@@ -64,7 +64,7 @@ async def on_member_join(member):
 
 @bot.event
 async def on_guild_join(guild):
-    await guild.channels[0].send("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
+    await guild.text_channels[0].send("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
     
     
 @bot.event
