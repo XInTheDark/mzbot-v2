@@ -1363,8 +1363,12 @@ async def invites(ctx, person=None):
                 
         
 @bot.command(name='dminvite', aliases=['inviteuser', 'inviteu'])
-async def dmsinviteuser(ctx, user: discord.Member, channelid=ctx.channel.id, *, reason="No Reason Provided"):
-    channelid = int(channelid)
+async def dmsinviteuser(ctx, user: discord.Member, channelid=None, *, reason="No Reason Provided"):
+    if channelid is not None:
+        channelid = int(channelid)
+    else:
+        channelid = ctx.channel.id
+        
     channel = discord.get_channel(id)
     
     inviteurl = await channel.create_invite(unique=False, reason=f"{ctx.author} Used .dminvite")
