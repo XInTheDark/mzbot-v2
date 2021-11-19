@@ -1362,7 +1362,7 @@ async def invites(ctx, person=None):
     await ctx.reply(embed=embed)
                 
         
-@bot.command(name='dminvite', aliases=['inviteuser', 'inviteu'])
+@bot.command(name='dminvite', aliases=['inviteuser', 'inviteu', 'sendinvite', 'sendinv'])
 async def dmsinviteuser(ctx, user: discord.Member, channelid=None, *, reason="No Reason Provided"):
     if channelid is not None:
         channelid = int(channelid)
@@ -1399,7 +1399,7 @@ async def dmsinviteuser(ctx, user: discord.Member, channelid=None, *, reason="No
 Reason: {reason}
 Invite link: {inviteurl}
 *Please Note: MZ Bot is not responsible for any content in that server.*""")
-
+            await ctx.reply("✅ Sent.")
             
 bot.run(TOKEN)
 
