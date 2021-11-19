@@ -521,7 +521,7 @@ async def spam(ctx, number_of_times, *, message):
 
         await ctx.channel.send(f"Task started by {ctx.author}...")
          
-        await ctx.delete()
+        await ctx.message.delete()
         
         for i in range(number_of_times):
             await ctx.channel.send(message)
@@ -931,7 +931,7 @@ async def purge(ctx, amount: int):
 async def setafk(ctx, *, reason='AFK'):
     global afkdict
     afkdict[str(ctx.author.id)] = reason
-    await ctx.delete()
+    await ctx.message.delete()
     await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
