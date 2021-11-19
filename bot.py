@@ -1363,7 +1363,7 @@ async def invites(ctx, person=None):
                 
         
 @bot.command(name='dminvite', aliases=['inviteuser', 'inviteu'])
-async def dmsinviteuser(ctx, user: discord.User, channelid=ctx.channel.id, *, reason="No Reason Provided"):
+async def dmsinviteuser(ctx, user: discord.Member, channelid=ctx.channel.id, *, reason="No Reason Provided"):
     channelid = int(channelid)
     channel = discord.get_channel(id)
     
