@@ -43,7 +43,7 @@ bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 @bot.event
 async def on_ready():
     global uptime
-    
+
     client = discord.Client()
     
     # Set Idle status
@@ -100,7 +100,8 @@ async def on_message_delete(message):
     msg = message.content
     author = message.author
     
-    snipes[len(snipes)] = [author, message.channel.id, msg]
+    if author.id != bot.user.id:
+        snipes[len(snipes)] = [author, message.channel.id, msg]
                         
 @bot.event
 async def on_message_edit(old, new):
@@ -108,7 +109,8 @@ async def on_message_edit(old, new):
     newmsg = new.content
     author = new.author
     
-    esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
+    if author.id != bot.user.id:
+        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
                         
 
         
