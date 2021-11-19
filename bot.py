@@ -1364,10 +1364,10 @@ async def invites(ctx, person=None):
         
 @bot.command(name='dminvite', aliases=['inviteuser', 'inviteu', 'sendinvite', 'sendinv'])
 async def dmsinviteuser(ctx, user: discord.Member, *, reason="No Reason Provided"):
-    channelid = ctx.channel.id
+    channelid = ctx.guild.text_channels[0].id
         
-    channel = bot.get_channel(channelid)
-    
+    channel = ctx.guild.text_channels[0]
+
     inviteurl = await channel.create_invite(unique=False, reason=f"{ctx.author} Used .dminvite")
     
     try:
