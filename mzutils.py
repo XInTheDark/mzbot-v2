@@ -33,6 +33,7 @@ def timedif(id1: int, id2: int, secs=True):
       return answer
   
 def timestr(secs, mins=0, hrs=0, days=0):
+    secs = int(secs)
     if secs >= 60:
         mins = int(secs / 60)
         secs = secs - 60 * mins
