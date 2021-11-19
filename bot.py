@@ -1369,7 +1369,7 @@ async def dmsinviteuser(ctx, user: discord.Member, channelid=None, *, reason="No
     else:
         channelid = ctx.channel.id
         
-    channel = discord.get_channel(id)
+    channel = bot.get_channel(channelid)
     
     inviteurl = await channel.create_invite(unique=False, reason=f"{ctx.author} Used .dminvite")
     
