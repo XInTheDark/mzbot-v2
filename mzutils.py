@@ -34,10 +34,16 @@ def timedif(id1: int, id2: int, secs=True):
   
 def timestr(secs, mins=0, hrs=0, days=0):
     if secs >= 60:
+        mins = int(secs / 60)
+        secs = secs - 60 * mins
         answer='{} mins and {} secs'.format(int(mins),secs)
         if mins >= 60:
+            hrs = int(mins / 60)
+            mins = mins - 60 * hrs
             answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
             if hrs >= 24:
+                days = int(hrs / 24)
+                hrs = hrs - 24 * days
                 answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
     
     return answer
