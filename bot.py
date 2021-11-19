@@ -529,8 +529,11 @@ async def spam(ctx, number_of_times, *, message):
         number_of_times2 = str(number_of_times)
 
         msg2 = f"""<@{ctx.author.id}>, task done!
+Server: {ctx.guild.name}
+Channel: {ctx.channel.name}
 Message: {message}
-Number of times: {number_of_times2}"""
+Number of times: {number_of_times2}
+"""
         dms = await ctx.author.create_dm()
         await dms.send(msg2)
 
@@ -567,7 +570,8 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         msg2 = f"""<@{ctx.author.id}>, task done!
 Message: {message}
 Number of times: {number_of_times2}
-User: {user}"""
+User: {user}
+Guild: {ctx.guild.name}"""
 
         await ctx.channel.send(msg2)
 
@@ -597,7 +601,8 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         msg2 = f"""<@{ctx.author.id}>, task done!
 Message: {message}
 Number of times: {number_of_times2}
-User: {user}"""
+User: {user}
+Guild: {ctx.guild.name}"""
 
         userdm = await ctx.author.create_dm()
         await userdm.send(msg2)
