@@ -1360,6 +1360,42 @@ async def invites(ctx, person=None):
     embed = discord.Embed(title=f'**Invites for {member}**', description=f'''You have **{totalInvites}** invites. 
 *Note: This is in testing and may not be the actual number of invites you have.*''')
     await ctx.reply(embed=embed)
-                          
+                
+        
+@bot.command(name='dminvite', aliases=['inviteuser', 'inviteu'])
+async def inviteuser(ctx, user: discord.User, channelid=ctx.channel.id, *, reason="No Reason Provided"):
+    channelid = int(channelid)
+    channel = discord.get_channel(id)
+    
+    inviteurl = await channel.create_invite(unique=False, reason=f"{ctx.author} Used .dminvite")
+    
+    try:
+        person = await bot.fetch_user(user.id)
+        success1 = True
+    except:
+        person = bot.get_user(user.id)
+        if person is not None:
+            success1 = True
+            
+    success2 = True
+    
+    if not success1:
+        await ctx.reply("I can't find that user.")
+    else:
+        try: 
+            dms = await person.create_dm()
+            
+        except:
+            await ctx.reply("I cannot create a DM with that user.")
+            success2 = False
+        
+        if success2:
+            await dms.send(f"""Hi {person.mention},
+{ctx.author.name} has invited you to join "{ctx.guild.name}".
+Reason: {reason}
+Invite link: {inviteurl}
+*Please Note: MZ Bot is not responsible for any content in that server.*""")
+
+            
 bot.run(TOKEN)
 
