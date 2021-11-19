@@ -520,7 +520,9 @@ async def spam(ctx, number_of_times, *, message):
         number_of_times = int(number_of_times)
 
         await ctx.channel.send(f"Task started by {ctx.author}...")
-
+         
+        await ctx.delete()
+        
         for i in range(number_of_times):
             await ctx.channel.send(message)
 
@@ -529,8 +531,8 @@ async def spam(ctx, number_of_times, *, message):
         msg2 = f"""<@{ctx.author.id}>, task done!
 Message: {message}
 Number of times: {number_of_times2}"""
-
-        await ctx.channel.send(msg2)
+        dms = await ctx.author.create_dm()
+        await dms.send(msg2)
 
 
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
