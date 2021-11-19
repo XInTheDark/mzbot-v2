@@ -496,12 +496,14 @@ async def whowon(ctx, userid, *, prize):
 @commands.has_permissions(ban_members=True)
 async def ban(self, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
-    await self.send(f'User: `{member}` has been banned')
+    await self.send(f'''User: `{member}` has been banned
+Reason: {reason}
+- by {ctx.author.name}''')
 
 
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(ban_members=True)
-async def unban(self, *, member):
+async def unban(self, *, member: str):
     banned_users = await self.guild.bans()
     found = 0
     member_name, member_discriminator = member.split("#")
@@ -510,7 +512,8 @@ async def unban(self, *, member):
         user = ban_entry.user
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
-            await self.send(f"""`{user}` has been unbanned""")
+            await self.send(f"""`{user}` has been unbanned
+- by {ctx.author.name}""")
             found = 1
             break
     if found == 0:
@@ -521,8 +524,9 @@ async def unban(self, *, member):
 @commands.has_permissions(kick_members=True)
 async def kick(self, *, member: discord.Member, reason=None):
     await member.kick(reason=reason)
-    await self.send(f"""User `{member}` has been kicked"
-Reason: {reason}""")
+    await self.send(f"""User `{member}` has been kicked
+Reason: {reason}
+- by {ctx.author.name}""")
 
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
