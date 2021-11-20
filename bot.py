@@ -116,11 +116,11 @@ async def on_message_edit(old, new):
 
 @commands.Cog.listener()
 async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
-    if isinstance(error, commands.errors.CommandNotFound):
+    if isinstance(error, commands.CommandNotFound):
         return  # Return because we don't want to show an error for every command not found
-    elif isinstance(error, commands.errors.MissingPermissions):
+    elif isinstance(error, commands.MissingPermissions):
         message = "Error: You are missing required permissions."
-    elif isinstance(error, commands.errors.UserInputError) or isinstance(error, commands.errors.BadArgument):
+    elif isinstance(error, commands.UserInputError) or isinstance(error, commands.BadArgument):
         message = "Error: Your input format is incorrect."
     else:
         message = "Error: Something went wrong."
