@@ -112,6 +112,19 @@ async def on_message_edit(old, new):
     if author.id != bot.user.id:
         esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
                         
+# Error handling
+@commands.Cog.listener()
+async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+    if isinstance(error, commands.CommandNotFound):
+        return  # Return because we don't want to show an error for every command not found
+    elif isinstance(error, commands.MissingPermissions):
+        message = "Error: You are missing required permissions."
+    elif isinstance(error, commands.UserInputError):
+        message = "Error: Your input format is incorrect."
+    else:
+        message = "Error: Something went wrong."
+
+    await ctx.send(message)
 
         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
