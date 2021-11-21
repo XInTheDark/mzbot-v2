@@ -1417,7 +1417,7 @@ Invite link: {inviteurl}
 @bot.command(name='setnsfw', aliases=['nsfwsettings'])
 async def setnsfw(ctx, status=None):
     if status is None:
-        nsfwon = async ctx.channel.is_nsfw()
+        nsfwon = await ctx.channel.is_nsfw()
         status = not nsfwon
     if status.strip().lower() == 'on' or status.strip().lower() == 'off':
         status = True if status == 'on' else False
