@@ -184,6 +184,7 @@ async def help(ctx):
 - lockall
 - slowmode
 - purge
+- setnsfw
 **Experimental features available:**
 - rename
 **NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
@@ -1412,5 +1413,14 @@ Invite link: {inviteurl}
 *Please Note: MZ Bot is not responsible for any content in that server.*""")
             await ctx.reply("✅ Sent.")
             
+            
+@bot.command(name='setnsfw', aliases=['nsfwsettings'])
+async def setnsfw(ctx, status=None):
+    if status is None:
+        nsfwon = async ctx.channel.is_nsfw()
+        status = not nsfwon
+    if status.strip().lower() == 'on' or status.strip().lower() == 'off':
+        status = True if status == 'on' else False
+        
 bot.run(TOKEN)
 
