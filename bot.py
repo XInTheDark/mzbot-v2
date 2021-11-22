@@ -113,8 +113,7 @@ async def on_message_edit(old, new):
         esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
                         
 # Error handling
-
-@commands.Cog.listener()
+@bot.event
 async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
     if isinstance(error, commands.CommandNotFound):
         return  # Return because we don't want to show an error for every command not found
