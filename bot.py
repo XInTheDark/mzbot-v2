@@ -87,7 +87,6 @@ async def on_message(message):
         afklen = mzutils.timestr(timesec)
         
         welcomebackmsg = await message.channel.send(f"""Welcome back {message.author.mention}, I removed your AFK
-
 You were AFK for {afklen}""")
         
         try:
