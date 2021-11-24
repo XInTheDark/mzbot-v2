@@ -18,36 +18,34 @@ def timedif(id1: int, id2: int, secs=True):
     if secs:
         return secs
     else:
-      days,secs=divmod(secs,secs_per_day:=60*60*24)
-      hrs,secs=divmod(secs,secs_per_hr:=60*60)
-      mins,secs=divmod(secs,secs_per_min:=60)
-      secs=round(secs, 2)
-      answer='{} secs'.format(secs)
+        days,secs=divmod(secs,secs_per_day:=60*60*24)
+        hrs,secs=divmod(secs,secs_per_hr:=60*60)
+        mins,secs=divmod(secs,secs_per_min:=60)
+        secs=round(secs, 2)
+        answer='{} secs'.format(secs)
     
-      if secs >= 60:
-          answer='{} mins and {} secs'.format(int(mins),secs)
-          if mins >= 60:
-              answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
-              if hrs >= 24:
-                  answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
-      return answer
-  
+        if mins > 0:
+            answer='{} mins and {} secs'.format(int(mins),secs)
+        if hrs > 0:
+            answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
+        if days > 0:
+            answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
+        
+        return answer
+        
 def timestr(secs, mins=0, hrs=0, days=0):
     secs = int(secs)
-    if secs >= 60:
-        mins = int(secs / 60)
-        secs = secs - 60 * mins
+    days,secs=divmod(secs,secs_per_day:=60*60*24)
+    hrs,secs=divmod(secs,secs_per_hr:=60*60)
+    mins,secs=divmod(secs,secs_per_min:=60)
+        
+    if mins > 0:
         answer='{} mins and {} secs'.format(int(mins),secs)
-        if mins >= 60:
-            hrs = int(mins / 60)
-            mins = mins - 60 * hrs
-            answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
-            if hrs >= 24:
-                days = int(hrs / 24)
-                hrs = hrs - 24 * days
-                answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
-    
+    if hrs > 0:
+        answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
+    if days > 0:
+        answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
     return answer
-  
+
 def filewrite(filename, msg):
   workinprogress=True
