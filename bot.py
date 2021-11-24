@@ -1056,7 +1056,9 @@ Message Latency: {int(secs * 1000)} ms ({jud2})""")
                                       
 
 @bot.command(name='timedif', help='', aliases=['snowflake', 'timediff'])
-async def timedif(ctx, id1, id2):
+async def timedif(ctx, id1, id2=None):
+    if ctx.message.reference is not None:
+        id2 = ctx.message.reference.message_id
     try:
         id1 = int(id1)
         id2 = int(id2)
