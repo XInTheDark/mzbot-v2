@@ -1091,8 +1091,8 @@ async def timedif(ctx, id1, id2=None):
         greater = 2
         
     embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
-ID1: {id1} Sent <t:{time1}:R>: <t:{time1}>
-ID2: {id2} Sent <t:{time2}:R>: <t:{time2}>
+ID1: {id1} Sent <t:{time1.timestamp()}:R>: <t:{time1.timestamp()}>
+ID2: {id2} Sent <t:{time2.timestamp()}:R>: <t:{time2.timestamp()}>
 Time difference between the 2 IDs: 
 **{answer}**""", color=0x00ff08)
     await ctx.reply(embed=embed)
