@@ -1076,11 +1076,11 @@ async def timedif(ctx, id1, id2=None):
     secs=round(secs, 2)
     answer='{} secs'.format(secs)
     
-    if secs > 60:
+    if mins > 0:
         answer='{} mins and {} secs'.format(int(mins),secs)
-        if mins > 60:
+        if hrs > 0:
             answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
-            if hrs > 24:
+            if days > 0:
                 answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
     
     embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
