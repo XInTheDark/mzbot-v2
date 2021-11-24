@@ -24,13 +24,6 @@ def timedif(id1: int, id2: int, secs=True):
         secs=round(secs, 2)
         answer='{} secs'.format(secs)
     
-        if mins > 0:
-            answer='{} mins and {} secs'.format(int(mins),secs)
-        if hrs > 0:
-            answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
-        if days > 0:
-            answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
-        
         return answer
         
 def timestr(secs, mins=0, hrs=0, days=0):
