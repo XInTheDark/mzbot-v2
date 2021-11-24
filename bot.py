@@ -1083,8 +1083,16 @@ async def timedif(ctx, id1, id2=None):
     if days > 0:
         answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
     
+    greater = 2
+    # find earlier id
+    if max((time1, time2)) == time1:
+        greater = 1
+    else:
+        greater = 2
+        
     embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
-IDs: {id1}, {id2}
+ID1: {id1} [{'earlier' if greater==1 else 'later'}]
+ID2: {id2} [{'earlier' if greater==2 else 'later'}]
 Time difference between the 2 IDs: 
 **{answer}**""", color=0x00ff08)
     await ctx.reply(embed=embed)
