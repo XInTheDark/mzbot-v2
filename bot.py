@@ -78,7 +78,7 @@ async def on_message(message):
     
     if str(message.author.id) in afkdict:
         afkdict.pop(str(message.author.id))
-        timethen = datetime.datetime.fromtimestamp(int(afkdict[str(member.id)][1]))
+        timethen = datetime.datetime.fromtimestamp(int(afkdict[str(message.author.id)][1]))
         timern = datetime.datetime.utcnow()
         timesec = timern - timethen
         
