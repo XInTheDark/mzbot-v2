@@ -23,7 +23,7 @@ def timedif(id1: int, id2: int, secs=True):
         mins,secs=divmod(secs,secs_per_min:=60)
         secs=round(secs, 2)
         answer='{} secs'.format(secs)
-    
+        
         return answer
         
 def timestr(secs, mins=0, hrs=0, days=0):
@@ -31,13 +31,15 @@ def timestr(secs, mins=0, hrs=0, days=0):
     days,secs=divmod(secs,secs_per_day:=60*60*24)
     hrs,secs=divmod(secs,secs_per_hr:=60*60)
     mins,secs=divmod(secs,secs_per_min:=60)
-        
+    
+    secs = round(secs, 2)
     if mins > 0:
         answer='{} mins and {} secs'.format(int(mins),secs)
     if hrs > 0:
         answer='{} hrs, {} mins and {} secs'.format(int(hrs),int(mins),secs)
     if days > 0:
         answer='{} days, {} hrs, {} mins and {} secs'.format(int(days),int(hrs),int(mins),secs)
+    
     return answer
 
 def filewrite(filename, msg):
