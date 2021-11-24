@@ -11,6 +11,7 @@ import sys
 import discord.abc
 from discord_webhook import DiscordWebhook
 import mzutils
+import datetime
 
 # Setting variables
 afkdict = {}
