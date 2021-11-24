@@ -89,9 +89,11 @@ async def on_message(message):
         if not message.author.bot:
             if member.id != message.author.id:  
                 if str(member.id) in afkdict:  
-                    afkmsg = afkdict[str(member.id)]  
-                   
-                    await message.channel.send(f"{member} is AFK: {afkmsg}")
+                    afklist = afkdict[str(member.id)]
+                    afkmsg = afklist[0]
+                    afktime = afklist[1]
+
+                    await message.channel.send(f"{member} is AFK: {afkmsg} - <t:{afktime}:R>")
                    
     await bot.process_commands(message)
 
@@ -968,7 +970,7 @@ async def purge(ctx, amount: int):
 @bot.command(name='afk', help='Sets AFK.')
 async def setafk(ctx, *, reason='AFK'):
     global afkdict
-    afkdict[str(ctx.author.id)] = reason
+    afkdict[str(ctx.author.id)] = [reason, int(datetime.datetime.utcnow().timestamp())]
     await ctx.message.delete()
     await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
