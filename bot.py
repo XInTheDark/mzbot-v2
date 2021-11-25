@@ -84,7 +84,9 @@ async def on_message(message):
         timern = datetime.datetime.utcnow()
         timesec = timern - timethen
         
-        afklen = mzutils.timestr(timesec)
+        timesecs = timesec.total_seconds()
+        
+        afklen = mzutils.timestr(timesecs)
         
         afkdict.pop(str(message.author.id))
         
