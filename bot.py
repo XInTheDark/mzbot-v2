@@ -251,7 +251,8 @@ None
 Information: {helpd}
 
 Usage: {usaged}
-* Note: <> means required argument(s), [] means optional argument(s).""", color=0x00ff08)
+
+*Note: `<>` means required argument(s), `[]` means optional argument(s).""", color=0x00ff08)
              
             msgo = await ctx.send("Loading...")
             await asyncio.sleep(0.01)
