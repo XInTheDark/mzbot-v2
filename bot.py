@@ -215,8 +215,8 @@ None
 
 **You may use `.help <command>` for help on that command.**"""
     
-    helpdict = mzhelp.helpcmd()
-    usagedict = mzhelp.helpusage()
+    helpdict = dict(mzhelp.helpcmd())
+    usagedict = dict(mzhelp.helpusage())
     
     if cmd is None:
         embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
