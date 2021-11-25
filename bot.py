@@ -1506,13 +1506,14 @@ async def timer(ctx, duration, *, item=' '):
        #  corr2 = datetime.timedelta(seconds=5) - corr1
         # await asyncio.sleep(corr2.total_seconds())
         
-        lasttt = stopped - start
+        if start != 0:
+            lasttt = stopped - start
         
         start = timeit.default_timer()
         
         await asyncio.sleep(10 - lasttt)
         
-        iters += 1
+        
         timel = timel - (10 - lasttt)
         timels = mzutils.timestr(timel)
                     
