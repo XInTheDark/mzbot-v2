@@ -34,7 +34,7 @@ def timestr(secs, mins=0, hrs=0, days=0):
     
     secs = round(secs, 2)
     
-    answer = str(secs)
+    answer = f"{secs} secs"
     if mins > 0:
         answer='{} mins and {} secs'.format(int(mins),secs)
     if hrs > 0:
