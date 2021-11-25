@@ -13,6 +13,7 @@ from discord_webhook import DiscordWebhook
 import mzutils
 import datetime
 import timeit
+import mzhelp
 
 # Setting variables
 global afkdict
@@ -148,6 +149,7 @@ async def on_message_edit(old, new):
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 25/11/2021
+- **HUGE** revamp to the HELP command! You can now use '.help <command>'!!
 - **NEW COMMAND:** `.timer`!!
 (Archive)
 - **New commands! `.snipe` and `.editsnipe`, it works similarly to Apollo bot's except you can't specify a channel yet. That will be added later.**
@@ -165,7 +167,7 @@ async def updatelog(ctx):
 
     
 @bot.command(name='help', aliases=['commands', 'cmds'])
-async def help(ctx):
+async def help(ctx, cmd=None):
     response = """**List of commands**
 **Public:**
 - meme
@@ -191,6 +193,7 @@ async def help(ctx):
 - nuke
 - kick
 - ban
+- unban
 - gg
 - tips
 - claimed
@@ -206,16 +209,54 @@ async def help(ctx):
 - setnsfw
 - timer
 **Experimental features available:**
-- rename
-**NOTE: Other features that may exist are solely for Alpha testing and not for public usage.**"""
-    
-    embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
-    
-    msg1 = await ctx.send("Loading...")
-    await asyncio.sleep(0.01)
-    await ctx.reply(embed=embed)
-    await msg1.delete()
+None
 
+*Note: Other features that may exist are solely for Alpha testing and not for public usage.*
+
+**You may use `.help <command> for help on that command.**"""
+    
+    helpdict = mzhelp.helpcmd()
+    usagedict = mzhelp.helpusage()
+    
+    if cmd is None:
+        embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
+    
+        msg1 = await ctx.send("Loading...")
+        await asyncio.sleep(0.01)
+        await ctx.reply(embed=embed)
+        await msg1.delete()
+        
+   else:
+        found = False
+        helpd = ''
+        usaged = ''
+        
+        for i in helpdict.keys():
+            if isinstance(i, list):
+                for name in i:
+                    if name == cmd.strip():
+                        helpd = helpdict[i]
+                        found = True
+                        break
+            else:
+                if i == cmd.strip():
+                    helpd = helpdict[i]
+                    found = True
+                    break
+        usaged = usagedict[i]
+        if found:
+            embed = discord.Embed(title="Command Help Page", description=f"""Command: `.{cmd}`
+
+Information: {helpd}
+
+Usage: {usaged}
+* Note: <> means required argument(s), [] means optional argument(s).""", color=0x00ff08)
+        
+            await ctx.reply(embed=embed)
+            
+        else:
+            await ctx.reply("I cannot find that command.")
+            
 @bot.event
 async def on_member_ban(guild, user):
     global antinuke
