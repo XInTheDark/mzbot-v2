@@ -1508,7 +1508,7 @@ async def timer(ctx, duration, *, item=' '):
         
         start = timeit.default_timer()
         
-        await asyncio.sleep(5 - lasttt)
+        await asyncio.sleep(10 - lasttt)
         
         iters += 1
         timel = timel - 5
