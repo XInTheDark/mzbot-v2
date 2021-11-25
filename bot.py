@@ -1509,7 +1509,7 @@ async def timer(ctx, duration, *, item=' '):
 
         for field in embed_dict["fields"]:
             if field["name"] == "Time remaining:":
-                field["value"] = f"{timels}"
+                field["value"] = f"**{timels}**"
 
         newembed = discord.Embed.from_dict(embed_dict)
 
@@ -1517,13 +1517,14 @@ async def timer(ctx, duration, *, item=' '):
     
     embed_dict = embed.to_dict()
     for field in embed_dict["fields"]:
-        if field["name"] == "Time remaining":
-            field["value"] = f"Ended <t:{datetime.datetime.utcnow().timestamp()}:R>"
+        if field["name"] == "Time remaining:":
+            field["value"] = f"**Ended** <t:{datetime.datetime.utcnow().timestamp()}:R>"
 
     newembed = discord.Embed.from_dict(embed_dict)
 
     await msg.edit(embed=newembed)
-        
+    
+    await msg.channel.send(f"**The countdown {("for " + item) if item !=' ' else ''} has ended!**")
         
 bot.run(TOKEN)
 
