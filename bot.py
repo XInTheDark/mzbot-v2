@@ -213,7 +213,7 @@ None
 
 *Note: Other features that may exist are solely for Alpha testing and not for public usage.*
 
-**You may use `.help <command> for help on that command.**"""
+**You may use `.help <command>` for help on that command.**"""
     
     helpdict = mzhelp.helpcmd()
     usagedict = mzhelp.helpusage()
