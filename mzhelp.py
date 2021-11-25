@@ -1,4 +1,4 @@
-helpcmd = {
+helpcmdz = {
     'meme': "Generates a random meme from reddit.",
     'donate': "Donate me pls",
     'nitro': "Generates random nitro code, I promise 100% real real ;)",
@@ -73,9 +73,3 @@ helpusage = {
 }
 
 
-def helpcmd():
-    return dict(helpcmd)
-
-
-def helpusage():
-    return dict(helpusage)
