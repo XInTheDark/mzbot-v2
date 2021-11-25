@@ -1491,6 +1491,8 @@ async def timer(ctx, duration, *, item=' '):
     msg = await ctx.send(embed=embed)
     await ctx.message.delete()
     
+    start = 0
+    stopped = 0
     while not stop:
         if timel < 5:
             await asyncio.sleep(timel)
@@ -1502,8 +1504,11 @@ async def timer(ctx, duration, *, item=' '):
        #  corr2 = datetime.timedelta(seconds=5) - corr1
         # await asyncio.sleep(corr2.total_seconds())
         
+        lasttt = stopped - start
+        
         start = timeit.default_timer()
-        await asyncio.sleep(5)
+        
+        await asyncio.sleep(5 - lasttt)
         
         iters += 1
         timel = timel - 5
@@ -1518,10 +1523,7 @@ async def timer(ctx, duration, *, item=' '):
         newembed = discord.Embed.from_dict(embed_dict)
 
         await msg.edit(embed=newembed)
-        
-        stop = timeit.default_timer()
-        
-        await ctx.send(f"{stop - start}")
+        stopped = timeit.default_timer()
         
     embed_dict = embed.to_dict()
     for field in embed_dict["fields"]:
