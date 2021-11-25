@@ -233,7 +233,7 @@ None
         usaged = ''
         
         for i in helpdict.keys():
-            if isinstance(i, list):
+            if isinstance(i, tuple):
                 for name in i:
                     if name == cmd.strip():
                         helpd = helpdict[i]
