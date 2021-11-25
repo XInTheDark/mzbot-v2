@@ -1524,7 +1524,7 @@ async def timer(ctx, duration, *, item=' '):
 
     await msg.edit(embed=newembed)
     
-    await msg.channel.send(f"**The countdown {("for " + item) if item !=' ' else ''} has ended!**")
+    await msg.channel.send(f"**The countdown for {item if item !=' ' else '(undefined)'} has ended!**")
         
 bot.run(TOKEN)
 
