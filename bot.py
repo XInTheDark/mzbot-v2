@@ -14,6 +14,7 @@ import mzutils
 import datetime
 
 # Setting variables
+global afkdict
 afkdict = {}
 spam_ban = [726356086176874537]
 global user
