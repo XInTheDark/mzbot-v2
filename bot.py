@@ -1511,7 +1511,8 @@ async def timer(ctx, duration, *, item=' '):
         newembed = discord.Embed.from_dict(embed_dict)
 
         await msg.edit(embed=newembed)
-        
+    
+    embed_dict = embed.to_dict()
     for field in embed_dict["fields"]:
         if field["name"] == "Time remaining":
             field["value"] = f"Ended <t:{datetime.datetime.utcnow().timestamp()}:R>"
