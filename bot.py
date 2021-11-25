@@ -225,8 +225,9 @@ None
         await asyncio.sleep(0.01)
         await ctx.reply(embed=embed)
         await msg1.delete()
-        
-   else:
+    
+       
+    else:
         found = False
         helpd = ''
         usaged = ''
