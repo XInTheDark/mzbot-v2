@@ -215,7 +215,7 @@ None
 
 **You may use `.help <command>` for help on that command.**"""
     
-    helpdict = mzhelp.helpcmd
+    helpdict = mzhelp.helpcmdz
     usagedict = mzhelp.helpusage
     
     if cmd is None:
