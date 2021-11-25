@@ -252,8 +252,11 @@ Information: {helpd}
 
 Usage: {usaged}
 * Note: <> means required argument(s), [] means optional argument(s).""", color=0x00ff08)
-        
-            await ctx.reply(embed=embed)
+             
+            msgo = await ctx.send("Loading...")
+            await asyncio.sleep(0.01)
+            await msgo.delete()
+            msg = await ctx.reply(embed=embed)
             
         else:
             await ctx.reply("I cannot find that command.")
