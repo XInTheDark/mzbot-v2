@@ -1497,9 +1497,11 @@ async def timer(ctx, duration, *, item=' '):
             timel = 0
             break
             
-        corr1 = datetime.datetime.utcnow() - datetime.timedelta(seconds=5) - startt
-        corr2 = datetime.timedelta(seconds=5) - corr1
-        await asyncio.sleep(corr2.total_seconds())
+        # corr1 = datetime.datetime.utcnow() - datetime.timedelta(seconds=5) - startt
+       #  corr2 = datetime.timedelta(seconds=5) - corr1
+        # await asyncio.sleep(corr2.total_seconds())
+      
+        await asyncio.sleep(5)
         
         iters += 1
         timel = timel - 5
@@ -1518,7 +1520,7 @@ async def timer(ctx, duration, *, item=' '):
     embed_dict = embed.to_dict()
     for field in embed_dict["fields"]:
         if field["name"] == "Time remaining:":
-            field["value"] = f"**Ended** <t:{datetime.datetime.utcnow().timestamp()}:R>"
+            field["value"] = f"**Ended** <t:{round(datetime.datetime.utcnow().timestamp())}:R>"
 
     newembed = discord.Embed.from_dict(embed_dict)
 
