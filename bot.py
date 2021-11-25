@@ -1497,7 +1497,9 @@ async def timer(ctx, duration, *, item=' '):
             timel = 0
             break
             
-        await asyncio.sleep((datetime.timedelta(seconds=5) - (datetime.datetime.utcnow() - datetime.timedelta(seconds=(5*iters)) - startt).total_seconds()))
+        corr1 = datetime.datetime.utcnow() - datetime.timedelta(seconds=5) - startt
+        corr2 = datetime.timedelta(seconds=5) - corr1
+        await asyncio.sleep(corr2.total_seconds())
         
         iters += 1
         timel = timel - 5
