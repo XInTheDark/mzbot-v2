@@ -12,6 +12,7 @@ import discord.abc
 from discord_webhook import DiscordWebhook
 import mzutils
 import datetime
+import timeit
 
 # Setting variables
 global afkdict
@@ -1500,7 +1501,8 @@ async def timer(ctx, duration, *, item=' '):
         # corr1 = datetime.datetime.utcnow() - datetime.timedelta(seconds=5) - startt
        #  corr2 = datetime.timedelta(seconds=5) - corr1
         # await asyncio.sleep(corr2.total_seconds())
-      
+        
+        start = timeit.default_timer()
         await asyncio.sleep(5)
         
         iters += 1
@@ -1516,7 +1518,11 @@ async def timer(ctx, duration, *, item=' '):
         newembed = discord.Embed.from_dict(embed_dict)
 
         await msg.edit(embed=newembed)
-    
+        
+        stop = timeit.default_timer()
+        
+        await ctx.send(f"{stop - start}")
+        
     embed_dict = embed.to_dict()
     for field in embed_dict["fields"]:
         if field["name"] == "Time remaining:":
