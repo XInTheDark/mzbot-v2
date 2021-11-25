@@ -1493,9 +1493,11 @@ async def timer(ctx, duration, *, item=' '):
     
     start = 0
     stopped = 0
+    lasttt = 5
+    
     while not stop:
         if timel < 5:
-            await asyncio.sleep(timel)
+            await asyncio.sleep(timel + 5 - lasttt)
             stop = True
             timel = 0
             break
