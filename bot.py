@@ -1497,7 +1497,8 @@ async def timer(ctx, duration, *, item=' '):
             timel = 0
             break
             
-        await asyncio.sleep(datetime.timedelta(seconds=5) - (datetime.datetime.utcnow() - datetime.timedelta(seconds=5*iters) - startt))
+     #  await asyncio.sleep(datetime.timedelta(seconds=5) - (datetime.datetime.utcnow() - datetime.timedelta(seconds=5*iters) - startt))
+        await asyncio.sleep(5)
         iters += 1
         timel = timel - 5
         timels = mzutils.timestr(timel)
