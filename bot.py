@@ -1454,7 +1454,7 @@ async def setnsfw(ctx, status=None):
         
 @bot.command(name="timer", aliases=['countdown'])
 @commands.has_permissions(administrator=True)
-async def timer(ctx, duration, *, item):
+async def timer(ctx, duration, *, item=''):
     if 's' in duration:
         duration2 = int(duration.removesuffix('s'))
         duration3 = duration.removesuffix('s') + ' seconds'
@@ -1482,7 +1482,7 @@ async def timer(ctx, duration, *, item):
     startt = datetime.datetime.utcnow()
     
     embed = discord.Embed(title=f"Countdown: **{item}**")
-    endtt = (datetime.datetime.utcnow() + duration2).timestamp()
+    endtt = (datetime.datetime.utcnow() + datetime.timedelta(seconds=duration2)).timestamp()
     
     embed.add_field(name="Time remaining:", value=f"**{timels}**")
     embed.add_field(name="Ends at:", value=f"<t:{endtt}>")
@@ -1497,7 +1497,7 @@ async def timer(ctx, duration, *, item):
             timel = 0
             break
             
-        await asyncio.sleep(5 - (datetime.datetime.utcnow() - 5*iters - startt))
+        await asyncio.sleep(datetime.timedelta(seconds=5) - (datetime.datetime.utcnow() - 5*iters - startt))
         iters += 1
         timel = timel - 5
         timels = mzutils.timestr(timel)
