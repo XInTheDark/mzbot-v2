@@ -98,7 +98,7 @@ You were AFK for {afklen}""")
         except:
             None
             
-        await asyncio.sleep(5)
+        await asyncio.sleep(8)
         await welcomebackmsg.delete()
         
     for member in message.mentions: 
