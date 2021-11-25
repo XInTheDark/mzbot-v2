@@ -1452,5 +1452,75 @@ async def setnsfw(ctx, status=None):
     if status.strip().lower() == 'on' or status.strip().lower() == 'off':
         status = True if status == 'on' else False
         
+        
+@bot.command(name="timer", aliases=['countdown'])
+@commands.has_permissions(administrator=True)
+async def timer(ctx, time):
+    if 's' in duration:
+        duration2 = int(duration.removesuffix('s'))
+        duration3 = duration.removesuffix('s') + ' seconds'
+    elif 'm' in duration:
+        duration2 = 60 * int(duration.removesuffix('m'))
+        duration3 = duration.removesuffix('m') + ' minutes'
+    elif 'h' in duration:
+        duration2 = 3600 * int(duration.removesuffix('h'))
+        duration3 = duration.removesuffix('h') + ' hours'
+    elif 'd' in duration:
+        duration2 = 3600 * 24 * int(duration.removesuffix('d'))
+        duration3 = duration.removesuffix('d') + ' days'
+    else:
+        try:
+            duration2 = int(duration)
+        except:
+            duration2 = 0
+
+            duration3 = 'undefined'
+    
+    stop = False
+    timel = duration2
+    timels = mzutils.timestr(duration2)
+    iters = 0
+    startt = datetime.datetime.utcnow()
+    
+    embed = discord.Embed(title="**Countdown Timer**")
+    endtt = (datetime.datetime.utcnow() + duration2).timestamp()
+    
+    embed.add_field(name="Time remaining:", value=f"**{timels}**")
+    embed.add_field(name="Ends at:", value=f"<t:{endtt}>")
+    
+    msg = await ctx.send(embed=embed)
+    await ctx.message.delete()
+    
+    while not stop:
+        if timel < 5:
+            await asyncio.sleep(timel)
+            stop = True
+            timel = 0
+            break
+            
+        await asyncio.sleep(5 - (datetime.datetime.utcnow() - 5*iters - startt))
+        iters += 1
+        timel = timel - 5
+        timels = mzutils.timestr(timel)
+                    
+        embed_dict = embed.to_dict()
+
+        for field in embed_dict["fields"]:
+            if field["name"] == "Time remaining":
+                field["value"] = f"{timels}"
+
+        newembed = discord.Embed.from_dict(embed_dict)
+
+        await msg.edit(embed=newembed)
+        
+    for field in embed_dict["fields"]:
+        if field["name"] == "Time remaining":
+            field["value"] = f"Ended <t:{datetime.datetime.utcnow().timestamp()}:R>"
+
+    newembed = discord.Embed.from_dict(embed_dict)
+
+    await msg.edit(embed=newembed)
+        
+        
 bot.run(TOKEN)
 
