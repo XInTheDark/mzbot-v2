@@ -33,6 +33,8 @@ def timestr(secs, mins=0, hrs=0, days=0):
     mins,secs=divmod(secs,secs_per_min:=60)
     
     secs = round(secs, 2)
+    
+    answer = str(secs)
     if mins > 0:
         answer='{} mins and {} secs'.format(int(mins),secs)
     if hrs > 0:
