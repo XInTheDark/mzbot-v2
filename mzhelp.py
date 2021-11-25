@@ -74,8 +74,8 @@ helpusage = {
 
 
 def helpcmd():
-    return helpcmd
+    return dict(helpcmd)
 
 
 def helpusage():
-    return helpusage
+    return dict(helpusage)
