@@ -1513,7 +1513,7 @@ async def timer(ctx, duration, *, item=' '):
         await asyncio.sleep(10 - lasttt)
         
         iters += 1
-        timel = timel - 5
+        timel = timel - (10 - lasttt)
         timels = mzutils.timestr(timel)
                     
         embed_dict = embed.to_dict()
