@@ -131,18 +131,17 @@ async def on_message_edit(old, new):
         esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
                         
 # Error handling
-@bot.event
-async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
-    if isinstance(error, commands.CommandNotFound):
-        return  # Return because we don't want to show an error for every command not found
-    elif isinstance(error, commands.MissingPermissions):
-        message = "Error: You are missing required permissions."
-    elif isinstance(error, commands.UserInputError) or isinstance(error, commands.BadArgument):
-        message = "Error: Your input format is incorrect."
-    else:
-        message = "Error: Something went wrong."
+# @bot.event
+# async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+#     if isinstance(error, commands.CommandNotFound):
+#        return  # Return because we don't want to show an error for every command not found
+#    elif isinstance(error, commands.MissingPermissions):
+#       message = "Error: You are missing required permissions."    elif isinstance(error, commands.UserInputError) or isinstance(error, commands.BadArgument):
+ #       message = "Error: Your input format is incorrect."
+ #   else:
+   #     message = "Error: Something went wrong."
 
-    await ctx.send(message)
+ #   await ctx.send(message)
 
         
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
@@ -1455,7 +1454,7 @@ async def setnsfw(ctx, status=None):
         
 @bot.command(name="timer", aliases=['countdown'])
 @commands.has_permissions(administrator=True)
-async def timer(ctx, time):
+async def timer(ctx, duration, *, item):
     if 's' in duration:
         duration2 = int(duration.removesuffix('s'))
         duration3 = duration.removesuffix('s') + ' seconds'
@@ -1482,7 +1481,7 @@ async def timer(ctx, time):
     iters = 0
     startt = datetime.datetime.utcnow()
     
-    embed = discord.Embed(title="**Countdown Timer**")
+    embed = discord.Embed(title=f"Countdown: **{item}**")
     endtt = (datetime.datetime.utcnow() + duration2).timestamp()
     
     embed.add_field(name="Time remaining:", value=f"**{timels}**")
