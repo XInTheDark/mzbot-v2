@@ -78,7 +78,6 @@ async def on_message(message):
         await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
     
     if str(message.author.id) in afkdict:
-        afkdict.pop(str(message.author.id))
         afklist = afkdict[str(message.author.id)]
         tmstp = afklist[1]
         timethen = datetime.datetime.fromtimestamp(int(tmstp))
@@ -86,6 +85,8 @@ async def on_message(message):
         timesec = timern - timethen
         
         afklen = mzutils.timestr(timesec)
+        
+        afkdict.pop(str(message.author.id))
         
         welcomebackmsg = await message.channel.send(f"""Welcome back {message.author.mention}, I removed your AFK
 You were AFK for {afklen}""")
@@ -983,7 +984,7 @@ async def purge(ctx, amount: int):
 @bot.command(name='afk', help='Sets AFK.')
 async def setafk(ctx, *, reason='AFK'):
     global afkdict
-    afkdict[str(ctx.author.id)] = (reason, str(int(datetime.datetime.utcnow().timestamp())))
+    afkdict[str(ctx.author.id)] = [reason, str(int(datetime.datetime.utcnow().timestamp()))]
     await ctx.message.delete()
     await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
