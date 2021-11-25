@@ -35,6 +35,47 @@ helpcmd = {
     ['timer', 'countdown']: "Sets a countdown timer. **Requires Permission(s): Administrator**"
 }
 
+helpusage = {
+    'meme': "`.meme`",
+    'donate': "`.donate`",
+    'nitro': "`.nitro`",
+    'dice': "`.dice <amount> <number of sides>`",
+    'credits': "`.credits`",
+    'ticket': "`.ticket`",
+    ['delete', 'tclose', 'tdelete']: "`.delete|tclose|tdelete`",
+    'afk': "`.afk [reason (default 'AFK')]`",
+    ['about', 'info']: "`.about|info`",
+    'ping': "`.ping`",
+    ['updates', 'update']: "`.updates|update`",
+    'dmnitro': "`.dmnitro <amount>`",
+    ['membercount', 'mc']: "`.membercount|mc`",
+    ['snipe', 'sniper']: "`.snipe [index]`",
+    ['editsnipe', 'esnipe']: "`.editsnipe|esnipe [index]`",
+    ['dw']: "`.dw`",
+    'mute': "`.mute <discord.Member>`",
+    'unmute': "`.unmute <discord.Member>`",
+    'kick': "`.kick <discord.Member> [reason (default 'None')]`",
+    'ban': "`.ban <discord.Member> [reason (default 'None')]`",
+    'unban': "`.unban <User's Name + Discrim>`",
+    'gg':"`.gg <server name>`",
+    'tips': "`.tips`",
+    'claimed': "`.claimed <discord.Member> <name>`",
+    'setclaimschannel': "`.setclaimschannel <mention channel|channel ID>`",
+    'won': "`.won <discord.Member> <name>`",
+    'setproofschannel': "`.setproofschannel <mention channel|channel ID>`",
+    'spam': "`.spam <number of times> <message>`",
+    'dmspam': "`.dmspam <number of times> <discord.Member> <message>`",
+    'dmspam_force': "`.dmspam_force <number of times> <discord.Member> <message>`",
+    'lockall': "`.lockall`",
+    'slowmode': "`.slowmode <seconds>`",
+    'purge': "`.purge <limit>`",
+    ['timer', 'countdown']: "`.timer|countdown <time> [timer name (defaults to none)]`"
+}
+
 
 def helpcmd():
-  return helpcmd
+    return helpcmd
+
+
+def helpusage():
+    return helpusage
