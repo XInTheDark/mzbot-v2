@@ -1104,9 +1104,7 @@ Bot uptime: {uptime2}
 ========================
 {sysinfl[0]}
 {sysinfl[1]}
-{sysinfl[2]}
-{sysinfl[3]}
-"""
+{sysinfl[2]}"""
     
     embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
     
