@@ -1651,7 +1651,7 @@ async def whois(ctx, person: discord.Member):
         
     embed = discord.Embed(title=f"**User info for {mname}**", description=f"""**Nickname:** {mnick}
 **Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
-**Joined Server at:** <t:{joinedg}:R>: <t:{joinedg}}>
+**Joined Server at:** <t:{joinedg}:R>: <t:{joinedg}>
 **Roles:** {mrolestr}
 
 **Permissions:** {mpermstr}""", color=0x00ff08)
