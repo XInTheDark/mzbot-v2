@@ -376,9 +376,20 @@ async def shutdown(message):
         await message.send("LOL Only <@762152955382071316> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
-        exit()
+        sys.exit()
 
+@bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
+async def restart(message):
+    if str(message.author.id) != '762152955382071316':
+        print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
+        await message.send("LOL Only <@762152955382071316> can shutdown the bot, get lost\n**YOU GAY**")
+    else:
+        await message.send("`Restart Executing...`")
+        
+        os.execv(sys.executable, ['python'] + sys.argv)
+        await message.send("`Restart Executed Successfully`")
 
+        
 @bot.command(name='mute', help='Mutes someone.')
 async def mute(ctx, member: discord.Member, *, reason=None):
     if str(ctx.author.id) != '762152955382071316' and not ctx.author.guild_permissions.manage_server:
