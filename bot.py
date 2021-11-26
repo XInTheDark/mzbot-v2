@@ -1082,6 +1082,8 @@ async def checkversion(ctx):
     
     uptime2 = mzutils.timestr(secs=uptime)
     
+    sysinfl = mzutils.sysinf()
+    
     msgmain = f"""
 MZ Bot V2
 Made by MuzhenGaming#9955
@@ -1098,7 +1100,13 @@ Ping {lavg} ms
 ========================
 Status Info:
 Bot connected to: {len(bot.guilds)} servers
-Bot uptime: {uptime2}"""
+Bot uptime: {uptime2}
+========================
+{sysinfl[0]}
+{sysinfl[1]}
+{sysinfl[2]}
+{sysinfl[3]}
+"""
     
     embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
     
