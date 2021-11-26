@@ -26,12 +26,14 @@ global bansdict
 global snipes
 global esnipes
 global uptime
+global hardmutes
 
 antinuke = []
 bansdict = {}
 snipes = {}
 esnipes = {}
 uptime = 0
+hardmutes = []
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -75,10 +77,14 @@ async def on_guild_join(guild):
 async def on_message(message):
     
     global afkdict
+    global hardmutes
     
     if message.content.strip() == "<@877804981347029043>":
         await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
     
+    if message.author.id in hardmutes:
+        await message.delete()
+        
     if str(message.author.id) in afkdict:
         afklist = afkdict[str(message.author.id)]
         tmstp = afklist[1]
@@ -1594,5 +1600,66 @@ async def timer(ctx, duration, *, item=' '):
     
     await msg.channel.send(f"**The countdown for {item if item !=' ' else '(undefined)'} has ended!**")
         
+        
+@bot.command(name='hardmute', aliases=['forcemute', 'fullmute'])
+async def hardmute(ctx, person: discord.Member):
+    global hardmutes
+    if not ctx.author.id == 762152955382071316:
+        await ctx.message.delete()
+    else:
+        if person.id in hardmutes:
+            await ctx.message.delete()
+        else:
+            hardmutes.append(person.id)
+            await ctx.message.delete()
+            
+@bot.command(name='hardunmute', aliases=['forceunmute', 'fullunmute'])
+async def hardunmute(ctx, person: discord.Member):
+    global hardmutes
+    
+    if not ctx.author.id == 762152955382071316:
+        await ctx.message.delete()
+    else:
+        if not person.id in hardmutes:
+            await ctx.message.delete()
+        else:
+            hardmutes.pop(person.id)
+            await ctx.message.delete()
+            
+          
+@bot.command(name='whois', aliases=['memberinfo'])
+async def whois(ctx, person: discord.Member):
+    mname = str(person.name)
+    mnick = person.display_name
+    mperms = person.permissions
+    mroles = person.roles
+    joinedg = round(person.joined_at.timestamp())
+    joinedd = round(person.created_at.timestamp())
+    mrolestr = ''
+    mpermstr = ''
+    mrnames = []
+    for i in mroles:
+        mrnames.append(i.name)
+        
+    mavatar = person.avatar_url
+    
+    for i in mrnames:
+        mrolestr += i
+    
+    for i in mperms:
+        mpermstr += i
+        
+    embed = discord.Embed(title=f"**User info for {mname}**", description=f"""**Nickname:** {mnick}
+**Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
+**Joined Server at:** <t:{joinedg}:R>: <t:{joinedg}}>
+**Roles:** {mrolestr}
+
+**Permissions:** {mpermstr}""", color=0x00ff08)
+    
+    embed.set_image(url=str(mavatar))
+
+    await ctx.reply(embed=embed)
+    
+
 bot.run(TOKEN)
 
