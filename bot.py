@@ -231,6 +231,7 @@ None
         found = False
         helpd = ''
         usaged = ''
+        dictcmdi = None
         
         for i in helpdict.keys():
             if isinstance(i, tuple):
@@ -238,13 +239,18 @@ None
                     if name == cmd.strip():
                         helpd = helpdict[i]
                         found = True
+                        dictcmdi = i
                         break
+    
             else:
                 if i == cmd.strip():
                     helpd = helpdict[i]
                     found = True
+                    dictcmdi = i
                     break
-        usaged = usagedict[i]
+
+        usaged = usagedict[dictcmdi]
+        
         if found:
             embed = discord.Embed(title="Command Help Page", description=f"""Command: `.{cmd}`
 
