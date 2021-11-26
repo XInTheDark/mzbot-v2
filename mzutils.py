@@ -53,7 +53,7 @@ def sysinf():
     
     vcpu="Used CPU: " + str(psutil.cpu_percent()) + "%"
     
-    usedram = ('Used RAM: ',psutil.virtual_memory().percent,'%')
-    availram = ('Available RAM: ',psutil.virtual_memory().available * 100 / psutil.virtual_memory().total,'%')
+    usedram = 'Used RAM: '+ str(psutil.virtual_memory().percent) + '%'
+    availram = 'Available RAM: ' + str(psutil.virtual_memory().available) * 100 / psutil.virtual_memory().total + '%'
     
     return [vcpu, usedram, availram]
