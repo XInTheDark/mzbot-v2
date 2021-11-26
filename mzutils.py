@@ -4,6 +4,7 @@ import random
 import asyncio
 from discord.ext import commands
 import os
+import psutil
 
 def snowflake(id: int):
     snowflake_time = discord.utils.snowflake_time(int(id1))
@@ -46,3 +47,15 @@ def timestr(secs, mins=0, hrs=0, days=0):
 
 def filewrite(filename, msg):
   workinprogress=True
+
+
+def sysinf():
+    
+    vcpu="Used CPU: " + str(psutil.cpu_percent()) + "%"
+    
+    vvm="Virtual Memory: " + str(psutil.virtual_memory()/1024/1024) + " MB"
+
+    usedram = ('Used RAM: ',psutil.virtual_memory().percent,'%')
+    availram = ('Available RAM: ',psutil.virtual_memory().available * 100 / psutil.virtual_memory().total,'%')
+    
+    return [vcpu, vvm, usedram, availram]
