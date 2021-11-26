@@ -1631,7 +1631,7 @@ async def hardunmute(ctx, person: discord.Member):
 async def whois(ctx, person: discord.Member):
     mname = str(person.name)
     mnick = person.display_name
-    mperms = person.permissions
+    mperms = person.guild_permissions
     mroles = person.roles
     joinedg = round(person.joined_at.timestamp())
     joinedd = round(person.created_at.timestamp())
@@ -1639,12 +1639,12 @@ async def whois(ctx, person: discord.Member):
     mpermstr = ''
     mrnames = []
     for i in mroles:
-        mrnames.append(i.name)
+        mrnames.append(i.id)
         
     mavatar = person.avatar_url
     
     for i in mrnames:
-        mrolestr += i
+        mrolestr += f"<@&{str(i)}>"
     
     for i in mperms:
         mpermstr += i
