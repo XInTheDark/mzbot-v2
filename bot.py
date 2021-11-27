@@ -1653,11 +1653,13 @@ async def whois(ctx, person: discord.Member):
     mdiscrim = person.discriminator
     joinedg = round(person.joined_at.timestamp())
     joinedd = round(person.created_at.timestamp())
-    mrolestr = ''
+    mrolestr = '@everyone '
     mpermstr = ''
     mrnames = []
     for i in mroles:
-        mrnames.append(i.id)
+        if i.name != "@everyone":
+            mrnames.append(i.id)
+        
         
     mavatar = person.avatar.url
     
@@ -1669,8 +1671,10 @@ async def whois(ctx, person: discord.Member):
             mpermstr += f"`{i[0]}` "
         
     embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""**Nickname:** {mnick}
+    
 **Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
 **Joined Server at:** <t:{joinedg}:R>: <t:{joinedg}>
+
 **Roles:** {mrolestr}
 
 **Permissions:** {mpermstr}""", color=0x00ff08)
