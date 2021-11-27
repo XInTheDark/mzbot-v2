@@ -1662,7 +1662,7 @@ async def whois(ctx, person: discord.Member):
             mrnames.append(i.id)
         
         
-    mavatar = person.avatar_url_as(size=256)
+    mavatar = person.avatar.url
     
     for i in mrnames:
         mrolestr += f"<@&{str(i)}> "
@@ -1680,7 +1680,7 @@ async def whois(ctx, person: discord.Member):
 
 **Permissions:** {mpermstr}""", color=0x00ff08)
     
-    embed.set_image(url=str(mavatar))
+    embed.set_thumbnail(url=str(mavatar))
 
     await ctx.reply(embed=embed)
     
