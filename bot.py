@@ -1664,7 +1664,7 @@ async def whois(ctx, person: discord.Member):
         mrolestr += f"<@&{str(i)}>"
     
     for i in mperms:
-        mpermstr += i
+        mpermstr += str(i)
         
     embed = discord.Embed(title=f"**User info for {mname}**", description=f"""**Nickname:** {mnick}
 **Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
