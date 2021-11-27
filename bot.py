@@ -1662,7 +1662,7 @@ async def whois(ctx, person: discord.Member):
             mrnames.append(i.id)
         
         
-    mavatar = person.avatar.url
+    mavatar = person.avatar_url_as(size=256)
     
     for i in mrnames:
         mrolestr += f"<@&{str(i)}> "
