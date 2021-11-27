@@ -33,7 +33,8 @@ helpcmdz = {
     'lockall': "MASS LOCKDOWNS all the channels! **Requires Permission(s): Manage Channels**",
     'slowmode': "Sets the slowmode. **Requires Permission(s): Manage Channels**",
     'purge': "Purges messages. Avoids pinned messages. **Requires Permission(s): Manage Messages**",
-    ('timer', 'countdown'): "Sets a countdown timer. **Requires Permission(s): Administrator**"
+    ('timer', 'countdown'): "Sets a countdown timer. **Requires Permission(s): Administrator**",
+    ('whois', 'memberinfo'): "Checks a member's info such as role, avatar, permissions, and join date."
 }
 
 helpusage = {
@@ -71,7 +72,7 @@ helpusage = {
     'lockall': "`.lockall`",
     'slowmode': "`.slowmode <seconds>`",
     'purge': "`.purge <limit>`",
-    ('timer', 'countdown'): "`.timer|countdown <time> [timer name (defaults to none)]`"
+    ('timer', 'countdown'): "`.timer|countdown <time> [timer name (defaults to none)]`",
+    ('whois', 'memberinfo'): "`.whois|memberinfo <discord.Member>`"
 }
-
 
