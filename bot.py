@@ -602,7 +602,7 @@ async def ban(self, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
     await self.send(f'''User: `{member}` has been banned
 Reason: {reason}
-- by {ctx.author.name}''')
+- by {self.author}''')
 
 
 @bot.command(name='unban', help='Unbans a user.')
@@ -617,7 +617,7 @@ async def unban(self, *, member: str):
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f"""`{user}` has been unbanned
-- by {ctx.author.name}""")
+- by {self.author}""")
             found = 1
             break
     if found == 0:
@@ -630,7 +630,7 @@ async def kick(self, *, member: discord.Member, reason=None):
     await member.kick(reason=reason)
     await self.send(f"""User `{member}` has been kicked
 Reason: {reason}
-- by {ctx.author.name}""")
+- by {self.author}""")
 
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
