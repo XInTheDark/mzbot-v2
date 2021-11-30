@@ -1355,12 +1355,14 @@ async def mc(ctx):
     # count = ctx.guild.member_count
     botc = 0
     for i in range(2):
+        botc = 0
         guild1 = bot.get_guild(ctx.guild.id)
         count = len(guild1.members)
         
         for m in guild1.members:
             if m.bot:
                 botc += 1
+                
                     
     embed = discord.Embed(title=f"**Member Count**", description=f"""**Member count for {guild1.name}:**
 
