@@ -1700,9 +1700,15 @@ async def whois(ctx, person: discord.Member):
 async def swebhook(ctx, *, txt):
     if '""' in txt:
         txtlst = txt.split('""', 1)
-    else:
+    elif '" "' in txt:
         txtlst = txt.split('" "', 1)
-    
+    elif '””' in txt:
+        txtlst = txt.split('””', 1)
+    elif '” ”' in txt:
+        txtlst = txt.split('” ”', 1)
+    else:
+        txtlst = []
+        
     txtlst[0] = txtlst[0].removeprefix('"')
     txtlst[1] = txtlst[1].removesuffix('"')
     # testing
