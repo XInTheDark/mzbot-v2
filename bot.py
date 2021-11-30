@@ -1698,19 +1698,25 @@ async def whois(ctx, person: discord.Member):
 @bot.command(name="webhook", aliases=['botsend'])
 @commands.has_permissions(administrator=True)
 async def swebhook(ctx, *, txt):
+    separator = ''
+    
     if '""' in txt:
         txtlst = txt.split('""', 1)
+        separator = '"'
     elif '" "' in txt:
         txtlst = txt.split('" "', 1)
+        separator = '"'
     elif '””' in txt:
         txtlst = txt.split('””', 1)
+        separator = '”'
     elif '” ”' in txt:
         txtlst = txt.split('” ”', 1)
+        separator = '”'
     else:
         txtlst = []
         
-    txtlst[0] = txtlst[0].removeprefix('"')
-    txtlst[1] = txtlst[1].removesuffix('"')
+    txtlst[0] = txtlst[0].removeprefix(separator)
+    txtlst[1] = txtlst[1].removesuffix(separator)
     # testing
     await ctx.reply(str(txtlst))
     
