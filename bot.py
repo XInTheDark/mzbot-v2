@@ -1715,10 +1715,10 @@ async def swebhook(ctx, *, txt):
     else:
         txtlst = []
         
-    txtlst[0] = txtlst[0].removeprefix(separator)
-    txtlst[1] = txtlst[1].removesuffix(separator)
+    txtlst[0] = txtlst[0].replace(separator, '', 1)
+    txtlst[1] = txtlst[1].replace(separator, '', 1)
     # testing
-    await ctx.reply(str(txtlst))
+#     await ctx.reply(str(txtlst))
     
     webhook = await ctx.channel.create_webhook(name=txtlst[0], reason=str(ctx.author))
     await ctx.message.delete()
