@@ -1706,6 +1706,9 @@ async def swebhook(ctx, *, txt):
     for tix in txtlst:
         tix.replace('"', '')
         
+    # testing
+    await ctx.reply(str(txtlst))
+    
     webhook = await ctx.channel.create_webhook(name=txtlst[0], reason=str(ctx.author))
     await ctx.message.delete()
     await webhook.send(content=txtlst[1], username=txtlst[0], avatar_url=ctx.author.avatar.url)
