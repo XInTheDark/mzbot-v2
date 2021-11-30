@@ -1725,5 +1725,13 @@ async def swebhook(ctx, *, txt):
     await webhook.send(content=txtlst[1], username=txtlst[0], avatar_url=ctx.author.avatar.url)
     
     
+@bot.command(name='invite', aliases=['url', 'inviteurl', 'inv'])
+async def inviteurl(ctx):
+    await ctx.reply("""Click below to invite me!
+
+https://discord.com/api/oauth2/authorize?client_id=877804981347029043&permissions=8&scope=bot""")
+    
+    
+    
 bot.run(TOKEN)
 
