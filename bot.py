@@ -1694,6 +1694,18 @@ async def whois(ctx, person: discord.Member):
 
     await ctx.reply(embed=embed)
     
-
+    
+@bot.command(name="webhook", aliases=['botsend'])
+@commands.has_permissions(administrator=True)
+async def swebhook(ctx, txt):
+    txtlst = txt.split(r'""')
+    for tix in txt:
+        tix.replace('"', '')
+        
+    webhook = await ctx.channel.create_webhook(name=txt[0], reason=str(ctx.author))
+    await ctx.message.delete()
+    await webhook.send(content=txt[1], username=txt[0], avatar_url=ctx.author.avatar.url)
+    
+    
 bot.run(TOKEN)
 
