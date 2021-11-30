@@ -1699,12 +1699,12 @@ async def whois(ctx, person: discord.Member):
 @commands.has_permissions(administrator=True)
 async def swebhook(ctx, txt):
     txtlst = txt.split(r'""')
-    for tix in txt:
+    for tix in txtlst:
         tix.replace('"', '')
         
-    webhook = await ctx.channel.create_webhook(name=txt[0], reason=str(ctx.author))
+    webhook = await ctx.channel.create_webhook(name=txtlst[0], reason=str(ctx.author))
     await ctx.message.delete()
-    await webhook.send(content=txt[1], username=txt[0], avatar_url=ctx.author.avatar.url)
+    await webhook.send(content=txtlst[1], username=txtlst[0], avatar_url=ctx.author.avatar.url)
     
     
 bot.run(TOKEN)
