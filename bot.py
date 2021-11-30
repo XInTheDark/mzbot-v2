@@ -1699,13 +1699,10 @@ async def whois(ctx, person: discord.Member):
 @commands.has_permissions(administrator=True)
 async def swebhook(ctx, *, txt):
     if r'""' in txt:
-        txtlst = txt.split(r'""', 1)
+        txtlst = txt.replace('""','"').split('"')[1:-1]
     else:
-        txtlst = txt.split(r'" "', 1)
-        
-    for tix in txtlst:
-        tix = tix.replace('"', '')
-        
+        txtlst = txt.replace('" "','"').split('"')[1:-1]
+    
     # testing
     await ctx.reply(str(txtlst))
     
