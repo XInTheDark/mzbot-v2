@@ -1764,15 +1764,15 @@ async def insults(ctx):
         i = 0
         
         for j in range(len(insultlist)):
-            i += 1
-            msga = await ctx.fetch_message(msg.id)
             
-            msgcon = msga.content
+            msga = await ctx.fetch_message(msg.id)
             
             txt = insultlist[i]
             
             await msga.edit(txt)
             await asyncio.sleep(0.075)
+            
+            i += 1
             
         await ctx.send("EZEZEZEZEZEZEZEZ GET TRASHED NOOB")
         
