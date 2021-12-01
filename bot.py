@@ -127,7 +127,7 @@ async def on_message_delete(message):
     author = message.author
     
     if author.id != bot.user.id:
-        snipes[len(snipes)] = [author, message.channel.id, msg]
+        snipes[len(snipes)] = [author, message.channel.id, msg, message.created_at.timestamp(), datetime.datetime.utcnow().timestamp()]
                         
 @bot.event
 async def on_message_edit(old, new):
@@ -136,7 +136,7 @@ async def on_message_edit(old, new):
     author = new.author
     
     if author.id != bot.user.id:
-        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg]
+        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, old.created_at.timestamp(), datetime.datetime.utcnow().timestamp()]
                         
 # Error handling
 # @bot.event
@@ -1379,7 +1379,7 @@ async def snipe(ctx, pos=1):
     success2 = False
     
     try:
-        lst = snipes[len(snipes) - 1]
+        lst = snipes[max(snipes.keys())]
         success1 = True
     except:
         if pos == 1:
@@ -1393,7 +1393,7 @@ async def snipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = snipes[len(snipes) - pos1 + 1]
+                    lst = snipes[max(snipes.keys()) - pos1 + 1]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1412,6 +1412,9 @@ async def snipe(ctx, pos=1):
             embed = discord.Embed(title="**Sniper (BETA)**", description=f"""**Successfully sniped a message!**
 Sent in {ctx.channel}
 Sent by {lst[0]}
+Sent <t:{lst[3]:R}>
+Deleted <t:{lst[4]}:R>
+
 **Message content:**
 {lst[2]}""")
             await ctx.reply(embed=embed)
@@ -1422,7 +1425,7 @@ async def esnipe(ctx, pos=1):
     success2 = False
     
     try:
-        lst = esnipes[len(esnipes) - 1]
+        lst = esnipes[max(esnipes.keys())]
         success1 = True
     except:
         if pos == 1:
@@ -1436,7 +1439,7 @@ async def esnipe(ctx, pos=1):
             pos1 = pos
             while True:
                 try:
-                    lst = esnipes[len(esnipes) - pos1 + 1]
+                    lst = snipes[max(snipes.keys()) - pos1 + 1]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1455,8 +1458,12 @@ async def esnipe(ctx, pos=1):
             embed = discord.Embed(title="**EditSniper (BETA)**", description=f"""**Successfully editsniped a message!**
 Sent in {ctx.channel}
 Sent by {lst[0]}
+Sent <t:{lst[4]:R}>
+Edited <t:{lst[5]}:R>
+
 **Original Message content:**
 {lst[2]}
+
 **New Message content:**
 {lst[3]}""")
             await ctx.reply(embed=embed)
