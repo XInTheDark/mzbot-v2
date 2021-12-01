@@ -1773,8 +1773,11 @@ async def insults(ctx):
             
             await msg.edit("EZ") if l == 1 else await msg.edit("LOL NOOB")
             
-            l = 1 if l == 0 else l = 0
-            
+            if l == 0:
+                l = 1
+            else:
+                l = 0
+                
             await asyncio.sleep(0.2)
         
 bot.run(TOKEN)
