@@ -1761,21 +1761,21 @@ async def insults(ctx):
             
             await asyncio.sleep(0.5)
        
-        i = 0
+    
+        msg2 = await ctx.send("EZEZEZEZEZEZEZEZ GET TRASHED NOOB")
+        l = 0
         
-        for j in range(len(insultlist)):
-            
-            msga = await ctx.fetch_message(msg.id)
-            
-            txt = insultlist[i]
-            
-            await msga.edit(txt)
-            await asyncio.sleep(0.075)
-            
-            i += 1
-            
-        await ctx.send("EZEZEZEZEZEZEZEZ GET TRASHED NOOB")
+        await asyncio.sleep(2)
         
+        for k in range(50):
+            
+            msg = ctx.fetch_message(msg2.id)
+            
+            await msg.edit("EZ") if l == 1 else await msg.edit("LOL NOOB")
+            
+            l = 1 if l == 0 else l = 0
+            
+            await asyncio.sleep(0.2)
         
 bot.run(TOKEN)
 
