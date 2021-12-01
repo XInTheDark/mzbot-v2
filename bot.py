@@ -1739,6 +1739,23 @@ async def inviteurl(ctx):
 https://discord.com/api/oauth2/authorize?client_id=877804981347029043&permissions=8&scope=bot""")
     
     
-    
+@bot.command(name='insult', aliases=['insults'])
+async def insults(ctx):
+    if ctx.author.id == 762152955382071316:
+        insulttxt = "Ratio + don't care + didn't ask + cry about it + stay mad + get real + L + mald seethe cope harder + hoes mad + basic + skill issue + you fell off + the audacity + triggered + any askers + redpilled + get a life + ok and? + cringe + touch grass + donowalled + not based + your're a (insert stereotype) + not funny didn't laugh + you're* + grammar issue + go outside + get good + reported + ad hominem + GG! + ask deez + ez clap + straight cash + ratio again + final ratio + stay mad + stay pressed..."
+        insultlist = insulttxt.split(" + ")
+        i = 0
+        text = insultlist[i]
+        msg = await ctx.send(text)
+        
+        
+        for j in range(len(insultlist)):
+            i += 1
+            msgcon = msg.content
+            txt = msgcon + " + " + insultlist[i]
+            
+            await msg.edit(txt)
+            
+            
 bot.run(TOKEN)
 
