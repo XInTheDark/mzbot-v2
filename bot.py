@@ -1412,7 +1412,7 @@ async def snipe(ctx, pos=1):
             embed = discord.Embed(title="**Sniper (BETA)**", description=f"""**Successfully sniped a message!**
 Sent in {ctx.channel}
 Sent by {lst[0]}
-Sent <t:{lst[3]:R}>
+Sent <t:{lst[3]}:R>
 Deleted <t:{lst[4]}:R>
 
 **Message content:**
@@ -1458,7 +1458,7 @@ async def esnipe(ctx, pos=1):
             embed = discord.Embed(title="**EditSniper (BETA)**", description=f"""**Successfully editsniped a message!**
 Sent in {ctx.channel}
 Sent by {lst[0]}
-Sent <t:{lst[4]:R}>
+Sent <t:{lst[4]}:R>
 Edited <t:{lst[5]}:R>
 
 **Original Message content:**
