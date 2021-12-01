@@ -1751,11 +1751,15 @@ async def insults(ctx):
         
         for j in range(len(insultlist)):
             i += 1
-            msgcon = msg.content
+            msga = await ctx.fetch_message(msg.id)
+            
+            msgcon = msga.content
+            
             txt = msgcon + " + " + insultlist[i]
             
-            await msg.edit(txt)
+            await msga.edit(txt)
             
+            await asyncio.sleep(0.5)
             
 bot.run(TOKEN)
 
