@@ -1749,8 +1749,10 @@ async def insults(ctx):
         msg = await ctx.send(text)
         
         
-        for j in range(len(insultlist)):
+        for j in range(len(insultlist) - 1):
+            
             i += 1
+            
             msga = await ctx.fetch_message(msg.id)
             
             msgcon = msga.content
@@ -1761,17 +1763,19 @@ async def insults(ctx):
             
             await asyncio.sleep(0.5)
        
-    
+        
+        await msg.edit("NOOB 🤪🍆💦💦💦👼 NOOB")
+        
         msg2 = await ctx.send("EZEZEZEZEZEZEZEZ GET TRASHED NOOB")
         l = 0
         
         await asyncio.sleep(2)
         
-        for k in range(50):
+        for k in range(100):
             
             msg = ctx.fetch_message(msg2.id)
             
-            ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ"]
+            ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ", "Wanna get banned babe?"]
             lollst = ["STFU NOOB", "N00B N00B SUPER MEGA BIG NOOB", "ULTRA NOOB 69420%", "idc cri cri babe call mom", "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO"]
 
             if l == 0:
