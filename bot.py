@@ -1771,14 +1771,18 @@ async def insults(ctx):
             
             msg = ctx.fetch_message(msg2.id)
             
-            await msg.edit("EZ") if l == 1 else await msg.edit("LOL NOOB")
-            
+            ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ"]
+            lollst = ["STFU NOOB", "N00B N00B SUPER MEGA BIG NOOB", "ULTRA NOOB 69420%", "idc cri cri babe call mom", "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO"]
+
             if l == 0:
+                await msg.edit(random.choice(ezlst))
                 l = 1
+                
             else:
+                await msg.edit(random.choice(lollst))
                 l = 0
                 
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(0.3)
         
 bot.run(TOKEN)
 
