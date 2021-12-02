@@ -1773,7 +1773,7 @@ async def insults(ctx):
         
         for k in range(100):
             
-            msg = ctx.fetch_message(msg2.id)
+            msg = await ctx.fetch_message(msg2.id)
             
             ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ", "Wanna get banned babe?"]
             lollst = ["STFU NOOB", "N00B N00B SUPER MEGA BIG NOOB", "ULTRA NOOB 69420%", "idc cri cri babe call mom", "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO"]
