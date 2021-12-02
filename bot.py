@@ -1775,8 +1775,8 @@ async def insults(ctx):
             
             msg = await ctx.fetch_message(msg2.id)
             
-            ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ", "Wanna get banned babe?"]
-            lollst = ["STFU NOOB", "N00B N00B SUPER MEGA BIG NOOB", "ULTRA NOOB 69420%", "idc cri cri babe call mom", "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO"]
+            ezlst = ["EZ GET REKT", "L SORE LOSER", "GET NOOBED SUPER NOOB", "CRI ABOUT IT", "UR MOM DOESNT CARE", "TRASHED EZZZZZZ", "Wanna get banned babe?", "EWWW NOOB", "Ban Hammer's waiting, go for it!", "OMFG WHAT A REAL BIGHEAD", "OML GET A PROPER FACE BRO", "WTF WHATS THAT STINK COMING FROM? UR 8 VAGINAS?", "Go fuck ur daddy with 16 vaginas on his face", "https://sex.com"]
+            lollst = ["STFU NOOB", "N00B N00B SUPER MEGA BIG NOOB", "ULTRA NOOB 69420%", "idc cri cri babe call mom", "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO", "OMFG A REAL NOOB HERE!!", "WOWWWWWWWW NOOBS IN HERE?!", "go get some brains, ur mom is sad", "Get better at fucking, fuck her harder", "https://pornhub.com/", "https://pornhub.com LMFAO", "https://sex.com/ pro"]
 
             if l == 0:
                 await msg.edit(random.choice(ezlst))
