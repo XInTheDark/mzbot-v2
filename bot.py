@@ -1810,7 +1810,7 @@ async def typer(ctx, length=None):
                     continue
             else:
                 await asyncio.sleep(int(length))
-                istyping.pop(ctx.channel.id)
+                istyping.remove(ctx.channel.id)
                 
         
 @bot.command(name="stoptyping", aliases=['stoptype'])
@@ -1821,7 +1821,7 @@ async def stoptyper(ctx):
     if ctx.author.id == ownerid:
     
         if ctx.channel.id in istyping:
-            istyping.pop(ctx.channel.id)
+            istyping.remove(ctx.channel.id)
         
         await ctx.message.delete()
     
