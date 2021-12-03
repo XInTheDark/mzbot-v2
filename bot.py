@@ -1805,7 +1805,7 @@ async def typer(ctx, length=None):
         await ctx.message.delete()
     
         async with ctx.typing():
-            if length is not None:
+            if length is None:
                 while ctx.channel.id in istyping:
                     continue
             else:
