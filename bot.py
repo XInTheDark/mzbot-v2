@@ -27,6 +27,8 @@ global snipes
 global esnipes
 global uptime
 global hardmutes
+global ownerid
+global istyping
 
 antinuke = []
 bansdict = {}
@@ -34,6 +36,8 @@ snipes = {}
 esnipes = {}
 uptime = 0
 hardmutes = []
+ownerid = 762152955382071316
+istyping = []
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -1787,6 +1791,40 @@ async def insults(ctx):
                 l = 0
                 
             await asyncio.sleep(0.3)
+
+          
+@bot.command(name="typing", aliases=['type'])
+async def typer(ctx, length=None):
+    global istyping
+    global ownerid
+    
+    if ctx.author.id == ownerid:
+        if not ctx.channel.id in istyping:
+            istyping.append(ctx.channel.id)
         
+        await ctx.message.delete()
+    
+        async with ctx.typing():
+            if length is not None:
+                while ctx.channel.id in istyping:
+                    continue
+            else:
+                await asyncio.sleep(int(length))
+                istyping.pop(ctx.channel.id)
+                
+        
+@bot.command(name="stoptyping", aliases=['stoptype'])
+async def stoptyper(ctx):
+    global ownerid
+    global istyping
+    
+    if ctx.author.id == ownerid:
+    
+        if ctx.channel.id in istyping:
+            istyping.pop(ctx.channel.id)
+        
+        await ctx.message.delete()
+    
+    
 bot.run(TOKEN)
 
