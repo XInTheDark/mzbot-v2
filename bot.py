@@ -1825,6 +1825,6 @@ async def stoptyper(ctx):
         
         await ctx.message.delete()
     
-    
+
 bot.run(TOKEN)
 
