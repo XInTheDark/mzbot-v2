@@ -541,13 +541,24 @@ async def ggstay(ctx, *, server):
 <a:arrow_animated:875302270173085716> Didn't get a chance to join?
 <a:arrow_blue:874953616048402442> Make sure to prioritize our pings and react fast!
 
-<a:arrow_blue:874953616048402442> Keep us on top for an exclusive role as well! 
+<a:arrow_blue:874953616048402442> Keep us on top of your server list!
 
 Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.channel.fetch_message(ctx.message.id)
     await msgid.delete()
+
+    
+@bot.command(name='leave', help='GG, Stay!', aliases=['lost'])
+@commands.has_permissions(administrator=True)
+async def ooflost(ctx, *, server):
+    embedVar = discord.Embed(title=f"We lost! Leave **{server}**", description=f"""Sorry, we lost! Leave that server (**{server}**) now!**""", color=0x00ff08)
+
+    await ctx.channel.send(embed=embedVar)
+    msgid = await ctx.channel.fetch_message(ctx.message.id)
+    await msgid.delete()
+
 
 
 @bot.command(name='tips', help='Tips for MZ Giveaways')
