@@ -1394,7 +1394,7 @@ async def snipe(ctx, pos=1):
     success2 = False
     
     try:
-        lst = snipes[max(snipes.keys())]
+        lst = snipes[sorted(snipes.keys())[-1]]
         success1 = True
     except:
         if pos == 1:
@@ -1405,10 +1405,10 @@ async def snipe(ctx, pos=1):
     if success1:
         if not lst[1] == ctx.channel.id:
             success2 = False
-            pos1 = pos
+            pos1 = pos - 1
             while True:
                 try:
-                    lst = snipes[max(snipes.keys()) - pos1 + 1]
+                    lst = snipes[sorted(snipes.keys())[-1-pos1]]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1440,7 +1440,7 @@ async def esnipe(ctx, pos=1):
     success2 = False
     
     try:
-        lst = esnipes[max(esnipes.keys())]
+        lst = esnipes[sorted(esnipes.keys())[-1]]
         success1 = True
     except:
         if pos == 1:
@@ -1451,10 +1451,10 @@ async def esnipe(ctx, pos=1):
     if success1:
         if not lst[1] == ctx.channel.id:
             success2 = False
-            pos1 = pos
+            pos1 = pos - 1
             while True:
                 try:
-                    lst = snipes[max(snipes.keys()) - pos1 + 1]
+                    lst = snipes[sorted(snipes.keys())[-1-pos1]]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
