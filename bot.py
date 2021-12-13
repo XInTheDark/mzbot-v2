@@ -1446,19 +1446,25 @@ async def mc(ctx):
     botc = 0
     for i in range(2):
         botc = 0
+        onlc = 0
         guild1 = bot.get_guild(ctx.guild.id)
         count = len(guild1.members)
         
         for m in guild1.members:
             if m.bot:
                 botc += 1
+            elif str(m.status) in ['online', 'dnd', 'idle']:
+                onlc += 1
                 
                     
     embed = discord.Embed(title=f"**Member Count**", description=f"""**Member count for {guild1.name}:**
 
 `{count}` members
 `{botc}` bots
-`{count - botc}` humans""", color=0x00ff08)
+`{count - botc}` humans
+
+`{onlc}` online
+`{count - onlc}` offline""", color=0x00ff08)
     
     await ctx.reply(embed=embed)
             
