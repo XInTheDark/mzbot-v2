@@ -1453,7 +1453,7 @@ async def mc(ctx):
         for m in guild1.members:
             if m.bot:
                 botc += 1
-            elif not str(m.status) == "offline":
+            elif not str(m.raw_status) == "offline":
                 onlc += 1
                 
                     
