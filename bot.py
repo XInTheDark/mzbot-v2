@@ -1463,8 +1463,8 @@ async def mc(ctx):
 `{botc}` bots
 `{count - botc}` humans
 
-`{onlc}` online
-`{count - onlc}` offline""", color=0x00ff08)
+`{onlc}` humans online
+`{count - botc - onlc}` humans offline""", color=0x00ff08)
     
     await ctx.reply(embed=embed)
             
