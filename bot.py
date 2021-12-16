@@ -29,6 +29,7 @@ global uptime
 global hardmutes
 global ownerid
 global istyping
+global msgpings
 
 antinuke = []
 bansdict = {}
@@ -38,6 +39,7 @@ uptime = 0
 hardmutes = []
 ownerid = 762152955382071316
 istyping = []
+msgpings = {}
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
@@ -82,6 +84,7 @@ async def on_message(message):
     
     global afkdict
     global hardmutes
+    global msgpings
     
     if message.content.strip() == "<@877804981347029043>":
         await message.reply("Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
@@ -123,6 +126,9 @@ You were AFK for {afklen}""")
 
                     await message.channel.send(f"{member} is AFK: {afkmsg} - <t:{afktime}:R>")
                    
+    if ctx.channel.id in msgpings.keys():
+        await ctx.reply(msgpings[ctx.channel.id])
+        
     await bot.process_commands(message)
 
 @bot.event
@@ -1918,5 +1924,15 @@ async def stoptyper(ctx):
         await ctx.message.delete()
     
 
+@bot.command(aliases=['notif'])
+@commands.has_permissions(administrator=True)
+async def msgping(ctx, *, msg):
+    global msgpings
+    
+    msgpings[ctx.channel.id] = msg
+        
+    await ctx.message.delete()
+    
+    
 bot.run(TOKEN)
 
