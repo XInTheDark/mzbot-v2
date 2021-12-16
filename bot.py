@@ -126,7 +126,7 @@ You were AFK for {afklen}""")
 
                     await message.channel.send(f"{member} is AFK: {afkmsg} - <t:{afktime}:R>")
                    
-    if message.channel.id in msgpings.keys():
+    if message.channel.id in msgpings.keys() and message.author != bot.user:
         await message.reply(msgpings[message.channel.id])
         
     await bot.process_commands(message)
