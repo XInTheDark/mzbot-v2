@@ -43,7 +43,7 @@ msgpings = {}
 
 load_dotenv()
 # TOKEN = str(os.getenv('DISCORD_TOKEN'))
-TOKEN = "ODc3ODA0OTgxMzQ3MDI5MDQz.YR39mA.rbH2eEl9ly2xk72ea1LN6htU88Q"
+TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents().all()
