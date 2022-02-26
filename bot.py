@@ -37,7 +37,7 @@ snipes = {}
 esnipes = {}
 uptime = 0
 hardmutes = []
-ownerid = 762152955382071316
+ownerid = 926410988738183189
 istyping = []
 msgpings = {}
 
@@ -300,7 +300,7 @@ async def on_member_ban(guild, user):
         rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
         krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
 
-        if str(user.id) != '762152955382071316':
+        if user.id != ownerid:
             print(str(user.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         else:
        
@@ -422,7 +422,7 @@ async def dotdashdot(ctx):
 @bot.command(name='donate', help='Fund our development!')
 async def donate(ctx):
     response = """To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
-    OR <@762152955382071316>'s NITRO IS ENDING SOON, PLS DONATE HIM SOME NITRO IN HIS DMS PLS PLS PLS😭😭"""
+    OR <@926410988738183189>'s NITRO IS ENDING SOON, PLS DONATE HIM SOME NITRO IN HIS DMS PLS PLS PLS😭😭"""
 
     await ctx.send(response)
 
@@ -457,18 +457,18 @@ async def nitrogen(ctx):
 
 @bot.command(name='shutdown', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
 async def shutdown(message):
-    if str(message.author.id) != '762152955382071316':
+    if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send("LOL Only <@762152955382071316> can shutdown the bot, get lost\n**YOU GAY**")
+        await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
         sys.exit()
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
 async def restart(message):
-    if str(message.author.id) != '762152955382071316':
+    if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send("LOL Only <@762152955382071316> can shutdown the bot, get lost\n**YOU GAY**")
+        await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("`Restart Executing...`")
         
@@ -478,7 +478,7 @@ async def restart(message):
         
 @bot.command(name='mute', help='Mutes someone.')
 async def mute(ctx, member: discord.Member, *, reason=None):
-    if str(ctx.author.id) != '762152955382071316' and not ctx.author.guild_permissions.manage_server:
+    if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to mute", member, "by using .mute")
         await ctx.send("You don't have permissions!")
     else:
@@ -490,7 +490,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
 
 @bot.command(name='unmute', help='Unmutes someone.')
 async def unmute(ctx, member: discord.Member):
-    if str(ctx.author.id) != '762152955382071316' and not ctx.author.guild_permissions.manage_server:
+    if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to unmute", member, "by using .unmute")
         await ctx.send("You don't have permissions!")
     else:
@@ -501,7 +501,7 @@ async def unmute(ctx, member: discord.Member):
 
 @bot.command(name='nuke', help='Nukes this channel... Yep.')
 async def nuke_channel(ctx):
-    if not ctx.author.guild_permissions.administrator and not ctx.author.id == 762152955382071316:
+    if not ctx.author.guild_permissions.administrator and not ctx.author.id == ownerid:
         print(str(ctx.author.id), "Tried to nuke channel:", ctx.channel, "by using .nuke")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
@@ -515,15 +515,15 @@ Nuke performed by: <@{ctx.author.id}>""")
 
 @bot.command(name='softnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!!', aliases=['raidstep1'])
 async def nuke_server_fr(ctx):
-    if str(ctx.author.id) != '762152955382071316':
+    if str(ctx.author.id) != str(ownerid):
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .softnuke_server")
         await ctx.send(
-            "LOL ONLY <@762152955382071316> can nuke THE ENTIRE SERVER ||(and why would he)||, get lost noob\n**YOU FUCKING RETARD**")
+            "LOL ONLY <@926410988738183189> can nuke THE ENTIRE SERVER ||(and why would he)||, get lost noob\n**YOU FUCKING RETARD**")
     else:
         async def nuke_channel_2(txt):
-            if str(txt.author.id) != '762152955382071316':
+            if str(txt.author.id) != str(ownerid):
                 print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
-                await txt.send("LOL ONLY <@762152955382071316> can nuke this channel, get lost noob\n**YOU GAY**")
+                await txt.send("LOL ONLY <@926410988738183189> can nuke this channel, get lost noob\n**YOU GAY**")
             else:
                 text_channel_list = []
                 for channel in ctx.guild.text_channels:
@@ -543,7 +543,7 @@ async def nuke_server_fr(ctx):
     rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
     krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
 
-    if str(ctx.author.id) != '762152955382071316':
+    if str(ctx.author.id) != str(ownerid):
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
@@ -731,7 +731,7 @@ Reason: {reason}
 
 @bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
 async def spam(ctx, number_of_times, *, message):
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.reply("Omg why are you trying to spam here?!")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
@@ -764,7 +764,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
     for x in optoutfile:
         optoutlist.append(x)
 
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
     elif str(user.id) in optoutlist:
         await ctx.channel.send(f"Sorry, that user [{user}] has opted out of the `dmspam` command.")
@@ -797,7 +797,7 @@ Guild: {ctx.guild.name}"""
 @bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""")
 async def spam(ctx, number_of_times, user: discord.Member, *, message):
 
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
@@ -873,7 +873,7 @@ async def optinspam(ctx):
 
 @bot.command(name='lockall', help='Lock all channels.')
 async def lockall(ctx):
-    if ctx.author.id != 762152955382071316 and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg why are you trying to lock channels!")
     else:
         for channel in ctx.guild.text_channels:
@@ -941,7 +941,7 @@ async def setclaimschannel(ctx, channel):
     
     taskdone1 = False
     
-    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
     else:
         claimsfile = open("claimschannel.txt", "r")
