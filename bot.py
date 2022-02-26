@@ -884,7 +884,7 @@ async def lockall(ctx):
 
 @bot.command(name='slowmode', help='Sets the slowmode for a channel.')
 async def setdelay(ctx, seconds: int):
-    if not ctx.author.guild_permissions.manage_messages and ctx.author.id != 762152955382071316:
+    if not ctx.author.guild_permissions.manage_messages and ctx.author.id != ownerid:
         await ctx.channel.send('You are missing `Manage Messages` permissions!')
     else:
         await ctx.channel.edit(slowmode_delay=seconds)
@@ -983,7 +983,7 @@ async def setclaimschannel(ctx, channel):
             
 @bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
 async def claimed(ctx, member: discord.Member, how, *, prize):
-    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("You're not an administrator!")
     else:
         claimsfile2 = open('claimschannel.txt', 'r')
@@ -1027,7 +1027,7 @@ async def setproofschannel(ctx, channelid):
         
     taskdone1 = False
     
-    if not ctx.author.guild_permissions.administrator and ctx.author.id != 762152955382071316:
+    if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
     else:
         claimsfile = open("proofchannel.txt", "r")
