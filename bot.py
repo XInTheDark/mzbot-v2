@@ -1876,7 +1876,7 @@ async def swebhook(ctx, *, txt):
 async def inviteurl(ctx):
     await ctx.reply("""Click below to invite me!
 
-https://discord.com/api/oauth2/authorize?client_id=877804981347029043&permissions=8&scope=bot""")
+https://discord.com/api/oauth2/authorize?client_id=946761823384915968&permissions=8&scope=bot""")
 
 
 @bot.command(name='insult', aliases=['insults'])
