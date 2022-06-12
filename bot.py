@@ -1139,7 +1139,7 @@ async def purge(ctx, amount: int):
 
         for i in range(quo):
             async for message in channel.history(limit=100):
-                if not message.pinned and (datetime.datetime.utcnow() - message.created_at).total_seconds() < 1209600:
+                if not message.pinned and (datetime.datetime.now() - message.created_at).total_seconds() < 1209600:
                     messages.append(message)
                     amount3 += 1
                 else:
