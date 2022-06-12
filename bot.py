@@ -1897,11 +1897,11 @@ async def insults(ctx):
 
             txt = msgcon + " + " + insultlist[i]
 
-            await msga.edit(txt)
+            await msga.edit(content=txt)
 
             await asyncio.sleep(0.5)
 
-        await msg.edit("NOOB 🤪🍆💦💦💦👼 NOOB")
+        await msg.edit(content="NOOB 🤪🍆💦💦💦👼 NOOB")
 
         msg2 = await ctx.send("EZEZEZEZEZEZEZEZ GET TRASHED NOOB")
         l = 0
@@ -1924,11 +1924,11 @@ async def insults(ctx):
                       "https://sex.com/ pro"]
 
             if l == 0:
-                await msg.edit(random.choice(ezlst))
+                await msg.edit(content=random.choice(ezlst))
                 l = 1
 
             else:
-                await msg.edit(random.choice(lollst))
+                await msg.edit(content=random.choice(lollst))
                 l = 0
 
             await asyncio.sleep(0.3)
