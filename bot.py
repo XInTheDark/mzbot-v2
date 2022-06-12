@@ -30,6 +30,7 @@ global hardmutes
 global ownerid
 global istyping
 global msgpings
+global launch_time
 
 antinuke = []
 bansdict = {}
@@ -47,7 +48,7 @@ TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents.all()
-client = discord.Client()
+client = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
@@ -55,8 +56,6 @@ bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 @bot.event
 async def on_ready():
     global uptime
-
-    client = discord.Client(intents=intents)
 
     # Set Idle status
     await bot.change_presence(status=discord.Status.idle)
@@ -66,10 +65,8 @@ async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                         name=f"Muzhen ❤ | .help | {len(bot.guilds)} servers"))
 
-    while True:
-        await asyncio.sleep(0.5)
-        uptime += 0.5
-
+    global launch_time
+    launch_time = datetime.datetime.utcnow()
 
 @bot.event
 async def on_member_join(member):
@@ -1199,7 +1196,7 @@ async def setafk(ctx, *, reason='AFK'):
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
-    global uptime
+    global uptime, launch_time
 
     tests = 20000  # the amount of tests to conduct
     latency_list = []  # this is where the tests go
@@ -1207,6 +1204,8 @@ async def checkversion(ctx):
         latency = round(bot.latency * 1000)  # this gathers the latency
         latency_list.append(latency)  # puts the latency in the list
     lavg = round(sum(latency_list) / tests)  # averages the list out
+
+    uptime = (datetime.datetime.utcnow() - launch_time).total_seconds()
 
     msg1 = await ctx.send("Loading...")
 
