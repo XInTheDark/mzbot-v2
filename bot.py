@@ -46,7 +46,7 @@ load_dotenv()
 TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
 GUILD = os.getenv('DISCORD_GUILD')
 
-intents = discord.Intents().all()
+intents = discord.Intents.all()
 client = discord.Client()
 
 bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
@@ -89,7 +89,7 @@ async def on_message(message):
     global hardmutes
     global msgpings
 
-    if message.content.strip() == "<@877804981347029043>":
+    if message.content.strip() == "<@946761823384915968>":
         await message.reply(
             "Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
 
