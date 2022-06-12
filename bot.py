@@ -58,12 +58,12 @@ async def on_ready():
     global uptime
 
     # Set Idle status
-    await bot.change_presence(status=discord.Status.idle)
+    await bot.change_presence(status=discord.Status.dnd)
     # To set dnd change "Idle" to "dnd"
 
     # Setting `Watching ` status
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
-                                                        name=f"Muzhen ❤ | .help | {len(bot.guilds)} servers"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
+                                                        name=f".help | {len(bot.guilds)} servers"))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
