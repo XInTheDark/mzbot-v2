@@ -58,7 +58,7 @@ async def on_ready():
     global uptime
 
     # Set Idle status
-    await bot.change_presence(status=discord.Status.dnd)
+    await bot.change_presence(status=discord.Status.idle)
     # To set dnd change "Idle" to "dnd"
 
     # Setting `Watching ` status
@@ -1139,7 +1139,7 @@ async def purge(ctx, amount: int):
 
         for i in range(quo):
             async for message in channel.history(limit=100):
-                if not message.pinned:
+                if not message.pinned and (datetime.datetime.utcnow() - message.created_at).total_seconds() < 1209600:
                     messages.append(message)
                     amount3 += 1
                 else:
