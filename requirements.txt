@@ -6,3 +6,4 @@ async-timeout==3.0.1
 requests
 discord_webhook
 psutil
+pytz
