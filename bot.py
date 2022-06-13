@@ -52,7 +52,7 @@ intents = discord.Intents.all()
 # activity = discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers")
 client = discord.Client(intents=intents)
 
-bot = commands.Bot(command_prefix='.', help_command=None, intents=intents, status=discord.Status.dnd)
+bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
 
 @bot.event
@@ -64,7 +64,9 @@ async def on_ready():
     # # To set dnd change "Idle" to "dnd"
     #
     # # Setting `Watching ` status
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
+    # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
+
+    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url=""))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
