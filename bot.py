@@ -14,6 +14,7 @@ import mzutils
 import datetime
 import timeit
 import mzhelp
+import pytz
 
 # Setting variables
 global afkdict
@@ -48,9 +49,10 @@ TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
 GUILD = os.getenv('DISCORD_GUILD')
 
 intents = discord.Intents.all()
+# activity = discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers")
 client = discord.Client(intents=intents)
 
-bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
+bot = commands.Bot(command_prefix='.', help_command=None, intents=intents, status=discord.Status.dnd)
 
 
 @bot.event
@@ -58,12 +60,11 @@ async def on_ready():
     global uptime
 
     # Set Idle status
-    await bot.change_presence(status=discord.Status.idle)
-    # To set dnd change "Idle" to "dnd"
-
-    # Setting `Watching ` status
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening,
-                                                        name=f".help | {len(bot.guilds)} servers"))
+    # await bot.change_presence(status=discord.Status.idle)
+    # # To set dnd change "Idle" to "dnd"
+    #
+    # # Setting `Watching ` status
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
@@ -1139,7 +1140,7 @@ async def purge(ctx, amount: int):
 
         for i in range(quo):
             async for message in channel.history(limit=100):
-                if not message.pinned and (datetime.datetime.now() - message.created_at).total_seconds() < 1209600:
+                if not message.pinned and (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - message.created_at).total_seconds() < 1209600:
                     messages.append(message)
                     amount3 += 1
                 else:
