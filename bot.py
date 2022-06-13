@@ -66,7 +66,7 @@ async def on_ready():
     # # Setting `Watching ` status
     # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
 
-    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="twitch.tv/xinthedarky"))
+    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers | Made by Muzhen Gaming", url="https://www.youtube.com/muzhengaming"))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
