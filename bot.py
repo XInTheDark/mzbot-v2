@@ -104,21 +104,21 @@ async def on_message(message):
         timesec = timern - timethen
 
         timesecs = timesec.total_seconds()
-        
-        if timesecs > 5:
-            
+
+        if timesecs > 10:
+
             afklen = mzutils.timestr(timesecs)
-            
+
             afkdict.pop(str(message.author.id))
-    
+
             welcomebackmsg = await message.channel.send(f"""Welcome back {message.author.mention}, I removed your AFK
 You were AFK for {afklen}""")
-    
+
             try:
                 await message.author.edit(nick=message.author.display_name.removeprefix("[AFK] "))
             except:
                 None
-    
+
             await asyncio.sleep(8)
             await welcomebackmsg.delete()
 
