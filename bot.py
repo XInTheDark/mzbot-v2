@@ -66,10 +66,10 @@ async def on_ready():
     # # Setting `Watching ` status
     # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
 
-    # await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
-    await bot.change_presence(
-        activity=discord.Activity(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/",
-                                  type=discord.ActivityType.competing))
+    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
+    # await bot.change_presence(
+    #     activity=discord.Activity(name=f"{len(bot.guilds)} servers | .help", url="https://www.twitch.tv/xinthedarky/",
+    #                               type=discord.ActivityType.competing))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
@@ -422,12 +422,18 @@ async def dotdashdot(ctx):
     response = ".-. .-. .-. .-. .-. .-. .-. .-. .-. .-."
 
     await ctx.send(response)
+    
+@bot.command(name='_.', help='._.')
+async def dotdashdot2(ctx):
+    response = "._. ._. ._. ._. ._. ._. ._. ._. ._. ._."
+
+    await ctx.send(response)
 
 
 @bot.command(name='donate', help='Fund our development!')
 async def donate(ctx):
     response = """To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
-    OR <@926410988738183189>'s NITRO IS ENDING SOON, PLS DONATE HIM SOME NITRO IN HIS DMS PLS PLS PLS😭😭"""
+    Or donate some nitro to <@926410988738183189> ;)"""
 
     await ctx.send(response)
 
