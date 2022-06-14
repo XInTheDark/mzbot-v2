@@ -74,7 +74,7 @@ async def on_ready():
     global launch_time
     launch_time = datetime.datetime.utcnow()
 
-    owner_user = await bot.fetch_user(user_id=ownerid)
+    owner_user = await bot.fetch_user(ownerid)
     channel = owner_user.create_dm()
     embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{launch_time.timestamp()}:f>",
                           color=0x00ff00)
@@ -480,7 +480,9 @@ async def shutdown(message):
         await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
-        sys.exit()
+        quit()
+        await asyncio.sleep(2.5)
+        quit()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
