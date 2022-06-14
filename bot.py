@@ -74,6 +74,13 @@ async def on_ready():
     global launch_time
     launch_time = datetime.datetime.utcnow()
 
+    owner_user = await client.fetch_user(ownerid)
+    channel = owner_user.create_dm()
+    embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{launch_time.timestamp()}:f>",
+                          color=0x00ff00)
+    await channel.send(embed=embed)
+
+
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
@@ -183,7 +190,7 @@ async def updatelog(ctx):
 *Note: 1. This log only shows the LATEST update notes.
 2. The notes will only be updated for MAJOR updates, not small patches.*"""
 
-    embed = discord.Embed(title="**Update Log**", description=message, color=0x00ff08)
+    embed = discord.Embed(title="**Update Log**", description=message, color=0x00ff00)
     await ctx.reply(embed=embed)
 
 
@@ -241,7 +248,7 @@ None
     usagedict = mzhelp.helpusage
 
     if cmd is None:
-        embed = discord.Embed(title="Help Page", description=response, color=0x00ff08)
+        embed = discord.Embed(title="Help Page", description=response, color=0x00ff00)
 
         msg1 = await ctx.send("Loading...")
         await asyncio.sleep(0.01)
@@ -280,7 +287,7 @@ Information: {helpd}
 
 Usage: {usaged}
 
-*Note: `<>` means required argument(s), `[]` means optional argument(s).""", color=0x00ff08)
+*Note: `<>` means required argument(s), `[]` means optional argument(s).""", color=0x00ff00)
 
             msgo = await ctx.send("Loading...")
             await asyncio.sleep(0.01)
@@ -652,7 +659,7 @@ async def ggstay(ctx, *, server):
 
 <a:arrow_blue:874953616048402442> Keep us on top of your server list!
 
-Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff08)
+Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", color=0x00ff00)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.channel.fetch_message(ctx.message.id)
@@ -663,7 +670,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
 @commands.has_permissions(administrator=True)
 async def ooflost(ctx, *, server):
     embedVar = discord.Embed(title=f"We lost! Leave **{server}**",
-                             description=f"""Sorry, we lost! Leave that server (**{server}**) now!**""", color=0x00ff08)
+                             description=f"""Sorry, we lost! Leave that server (**{server}**) now!**""", color=0x00ff00)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.channel.fetch_message(ctx.message.id)
@@ -679,7 +686,7 @@ async def tips(ctx):
 <a:arrow_blue:874953616048402442> Never miss any of our pings!
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
-                             color=0x00ff08)
+                             color=0x00ff00)
 
     await ctx.channel.send(embed=embedVar)
     msgid = await ctx.channel.fetch_message(ctx.message.id)
@@ -715,7 +722,7 @@ async def whowon(ctx, userid, *, prize):
 <a:red_fire:875943904158027776> Missed out the last giveaway? Don't worry, we host a lot of giveaways every day! Stay active!
 
 <a:robux_animated:875280974269784094> Good luck in our giveaways! Have fun! <a:robux_animated:875280974269784094>""",
-                                 color=0x00ff08)
+                                 color=0x00ff00)
 
         await ctx.channel.send(embed=embedVar)
         msgid = await ctx.channel.fetch_message(ctx.message.id)
@@ -1240,7 +1247,7 @@ Bot uptime: {uptime2}
 {sysinfl[1]}
 {sysinfl[2]}"""
 
-    embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff08)
+    embed = discord.Embed(title='**System Info**', description=msgmain, color=0x00ff00)
 
     await ctx.reply(embed=embed)
     await msg1.delete()
@@ -1326,7 +1333,7 @@ Sent <t:{int(time1.timestamp())}:R>: <t:{int(time1.timestamp())}>
 Sent <t:{int(time2.timestamp())}:R>: <t:{int(time2.timestamp())}>
 
 Time difference between the 2 IDs: 
-**{answer}**""", color=0x00ff08)
+**{answer}**""", color=0x00ff00)
     await ctx.reply(embed=embed)
 
 
@@ -1352,7 +1359,7 @@ async def ticket(ctx):
     embed = discord.Embed(
         title='**Ticket Tool [BETA]**',
         description='React with 📩 to make a ticket',
-        color=0x00ff08
+        color=0x00ff00
     )
 
     embed.set_footer(text="Ticket Tool Beta | MZ Bot")
@@ -1390,7 +1397,7 @@ async def ticket(ctx):
         else:
             channel = await guild.create_text_channel(f'ticket-{user}', overwrites=overwrites)
             embed = discord.Embed(title='**Welcome! Support will arrive shortly**',
-                                  description="To delete this ticket, use '.delete'", color=0x00ff08)
+                                  description="To delete this ticket, use '.delete'", color=0x00ff00)
             embed.set_footer(text="Ticket Tool Beta | MZ Bot")
 
             await channel.send(f'{user.mention}')
@@ -1444,7 +1451,7 @@ React with 👍 to delete.""")
 #             await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
 
 #         embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
-# {meaning}""", color=0x00ff08)
+# {meaning}""", color=0x00ff00)
 #         embed.set_footer(text="Powered by PyDictionary | Beta")
 
 #         await ctx.reply(embed=embed)
@@ -1513,7 +1520,7 @@ async def mc(ctx):
 `{count - botc}` humans
 
 `{onlc}` humans online
-`{count - botc - onlc}` humans offline""", color=0x00ff08)
+`{count - botc - onlc}` humans offline""", color=0x00ff00)
 
     await ctx.reply(embed=embed)
 
@@ -1840,7 +1847,7 @@ async def whois(ctx, person: discord.Member):
 
 **Roles:** {mrolestr}
 
-**Permissions:** {mpermstr}""", color=0x00ff08)
+**Permissions:** {mpermstr}""", color=0x00ff00)
 
     embed.set_thumbnail(url=str(mavatar))
 
