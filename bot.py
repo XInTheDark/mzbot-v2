@@ -74,7 +74,7 @@ async def on_ready():
     global launch_time
     launch_time = datetime.datetime.utcnow()
 
-    owner_user = await client.fetch_user(ownerid)
+    owner_user = await bot.fetch_user(user_id=ownerid)
     channel = owner_user.create_dm()
     embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{launch_time.timestamp()}:f>",
                           color=0x00ff00)
