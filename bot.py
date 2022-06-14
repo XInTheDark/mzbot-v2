@@ -69,7 +69,7 @@ async def on_ready():
     # await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
     await bot.change_presence(
         activity=discord.Activity(name=f".help | {len(bot.guilds)} servers", url="https://www.youtube.com/c/MuzhenGaming/",
-                                  type=discord.ActivityType.competing, state="Bot Running"))
+                                  type=discord.ActivityType.custom, state="Bot Running"))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
