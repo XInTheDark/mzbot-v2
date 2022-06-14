@@ -66,7 +66,7 @@ async def on_ready():
     # # Setting `Watching ` status
     # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
 
-    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", platform="YouTube", url="https://www.youtube.com/c/MuzhenGaming/"))
+    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
 
     global launch_time
     launch_time = datetime.datetime.utcnow()
@@ -119,7 +119,7 @@ You were AFK for {afklen}""")
             except:
                 None
 
-            await asyncio.sleep(8)
+            await asyncio.sleep(7.5)
             await welcomebackmsg.delete()
 
     for member in message.mentions:
@@ -175,17 +175,8 @@ async def on_message_edit(old, new):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 27/11/2021
-- New `.whois` command!
-- **HUGE** revamp to the HELP command! You can now use '.help <command>'!!
-- **NEW COMMAND:** `.timer`!!
-(Archive)
-- **New commands! `.snipe` and `.editsnipe`, it works similarly to Apollo bot's except you can't specify a channel yet. That will be added later.**
-- **New option for `.addrole`: `.addrole all` which adds a role to everyone in the server.** 
-- Coming Soon: Developer mode
-- Coming Later: Anti Nuke mode, maybe can be set up.
-- Coming Later: Currency system, may be global
-- Coming VERY Later: Chat system, since it needs EXTREMELY complex code
+    message = """New Update: 14/06/2021
+- MZ Bot has returned after 7 months!! 
 *Note: 1. This log only shows the LATEST update notes.
 2. The notes will only be updated for MAJOR updates, not small patches.*"""
 
@@ -451,7 +442,7 @@ async def rolldice(ctx, number_of_dice: int, number_of_sides: int):
 @bot.command(name='credits', help='Shows some surprising credits.')
 async def credits(ctx):
     response = """Credits to:
-    <@926410988738183189> [MuzhenGaming#9955] and NO ONE ELSE."""
+    <@926410988738183189> [MuzhenGaming#5088] and NO ONE ELSE."""
 
     await ctx.send(response)
 
@@ -1220,7 +1211,7 @@ async def checkversion(ctx):
 
     msgmain = f"""
 MZ Bot V2
-Made by MuzhenGaming#9955
+Made by MuzhenGaming#5088
 ========================
 Version info:
 discord.py version {discord.__version__}
