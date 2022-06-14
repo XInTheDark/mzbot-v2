@@ -422,7 +422,7 @@ async def dotdashdot(ctx):
     response = ".-. .-. .-. .-. .-. .-. .-. .-. .-. .-."
 
     await ctx.send(response)
-    
+
 @bot.command(name='_.', help='._.')
 async def dotdashdot2(ctx):
     response = "._. ._. ._. ._. ._. ._. ._. ._. ._. ._."
@@ -1953,6 +1953,7 @@ async def typer(ctx, length=None):
         async with ctx.typing():
             if length is None:
                 while ctx.channel.id in istyping:
+                    await asyncio.sleep(1)
                     continue
             else:
                 await asyncio.sleep(int(length))
