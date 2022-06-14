@@ -1951,10 +1951,10 @@ async def typer(ctx, length=None):
         await ctx.message.delete()
 
         async with ctx.typing():
-            if length is None:                
+            if length is None:
                 while ctx.channel.id in istyping:
                     if ctx.channel.id in istyping:
-                        await asyncio.sleep(0.5)
+                        await asyncio.sleep(0.2)
                         continue
                     else:
                         break
