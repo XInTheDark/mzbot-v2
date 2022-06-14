@@ -75,11 +75,11 @@ async def on_ready():
     launch_time = datetime.datetime.utcnow()
 
     owner_user = await bot.fetch_user(ownerid)
-    channel = owner_user.create_dm()
-    embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{launch_time.timestamp()}:f>",
+    channel = await owner_user.create_dm()
+    embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{int(launch_time.timestamp())}:f>",
                           color=0x00ff00)
+    # await channel.send(embed=embed)
     await channel.send(embed=embed)
-
 
 @bot.event
 async def on_member_join(member):
