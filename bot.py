@@ -15,6 +15,7 @@ import datetime
 import timeit
 import mzhelp
 import pytz
+from PyDictionary import PyDictionary
 
 # Setting variables
 global afkdict
@@ -1446,19 +1447,21 @@ React with 👍 to delete.""")
 
 #         await ctx.reply("Hey! This isn't a ticket!")
 
-# @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
-# async def define(ctx, *, word):
-#     with ctx.channel.typing():
-#         try:
-#             meaning = dictionary.meaning(word)
-#         except:
-#             await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
+@bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
+async def define(ctx, *, word):
+    dictionary=PyDictionary()
+    
+    with ctx.channel.typing():
+        try:
+            meaning = dictionary.meaning(word)
+        except:
+            await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
 
-#         embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
-# {meaning}""", color=0x00ff00)
-#         embed.set_footer(text="Powered by PyDictionary | Beta")
+        embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
+{meaning}""", color=0x00ff00)
+        embed.set_footer(text="Powered by PyDictionary | Beta")
 
-#         await ctx.reply(embed=embed)
+        await ctx.reply(embed=embed)
 
 @bot.command(name='dmnitro', aliases=['massnitro', 'nitrospam'])
 async def dmnitro(ctx, amount: int):
