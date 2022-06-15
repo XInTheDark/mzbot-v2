@@ -77,9 +77,9 @@ async def on_ready():
 
     owner_user = await bot.fetch_user(ownerid)
     channel = await owner_user.create_dm()
-    computer_name = os.environ['USERNAME']
+    # computer_name = os.environ['USERNAME']
     embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"MZ Bot started at <t:{int(launch_time.timestamp())}:f>\n"
-                                                                          f"Host user name: {computer_name}\nEnvironment: {os.environ['DESKTOP_SESSION']}",
+                                                                          f"Host info: {os.environ}",
                           color=0x00ff00)
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
