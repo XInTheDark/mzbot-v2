@@ -488,7 +488,7 @@ async def shutdown(message):
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
         # quit()
-        await ctx.bot.logout()
+        await message.bot.logout()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
@@ -1457,18 +1457,18 @@ async def define(ctx, *, word):
     meaning = """"""
 
     async with ctx.channel.typing():
+        meaningDict = dictionary.meaning(word)
+
         try:
-            meaningDict = dictionary.meaning(word)
+            for i in meaningDict.keys():
+                meaning = meaning + f"**{i}**:\n"
+                for j in meaningDict[i]:
+                    meaning = meaning + f" - {j}\n"
+
+            meaning.removesuffix("\n")
         except:
-            await ctx.reply(f"An error occurred. `{word}` could not be found in my dictionary.")
+            await ctx.reply(f"`{word}` not found in dictionary!")
             return
-
-        for i in meaningDict.keys():
-            meaning = meaning + f"**{i}**:\n"
-            for j in meaningDict[i]:
-                meaning = meaning + f" - {j}\n"
-
-        meaning.removesuffix("\n")
 
         embed = discord.Embed(title=f'**Definition for `{word}`**', description=f"""Definition for `{word}`:
 {meaning}""", color=0x00ff00)
