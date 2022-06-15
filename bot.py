@@ -85,6 +85,7 @@ async def on_ready():
                           color=0x00ff00)
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
+    print("MZ Bot start-up complete")
 
 
 @bot.event
@@ -489,6 +490,8 @@ async def shutdown(message):
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
         # quit()
         await bot.close()
+        await asyncio.sleep(0.5)
+        quit()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
