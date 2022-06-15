@@ -487,7 +487,7 @@ async def shutdown(message):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
         await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
     else:
-        await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
+        await message.send("`Shutdown Executed Successfully`")
         # quit()
         await bot.close()
         await asyncio.sleep(0.5)
