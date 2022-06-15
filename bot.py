@@ -488,7 +488,7 @@ async def shutdown(message):
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
         # quit()
-        await message.bot.logout()
+        await bot.close()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
