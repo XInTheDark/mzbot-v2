@@ -67,7 +67,8 @@ async def on_ready():
     # # Setting `Watching ` status
     # await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers"))
 
-    await bot.change_presence(activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
+    await bot.change_presence(
+        activity=discord.Streaming(name=f".help | {len(bot.guilds)} servers", url="https://www.twitch.tv/xinthedarky/"))
     # await bot.change_presence(
     #     activity=discord.Activity(name=f"{len(bot.guilds)} servers | .help", url="https://www.twitch.tv/xinthedarky/",
     #                               type=discord.ActivityType.competing))
@@ -78,11 +79,13 @@ async def on_ready():
     owner_user = await bot.fetch_user(ownerid)
     channel = await owner_user.create_dm()
     # computer_name = os.environ['USERNAME']
-    embed = discord.Embed(title="**MZ Bot build succeeded**", description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f>**\n"
-                                                                          f"\nHost: {os.uname()}\n\nHost info: {os.environ}",
+    embed = discord.Embed(title="**MZ Bot build succeeded**",
+                          description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f>**\n"
+                                      f"\nHost: {os.uname()}\n\nHost info: {os.environ}",
                           color=0x00ff00)
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
+
 
 @bot.event
 async def on_member_join(member):
@@ -432,6 +435,7 @@ async def dotdashdot(ctx):
     response = ".-. .-. .-. .-. .-. .-. .-. .-. .-. .-."
 
     await ctx.send(response)
+
 
 @bot.command(name='_.', help='._.')
 async def dotdashdot2(ctx):
@@ -1156,7 +1160,8 @@ async def purge(ctx, amount: int):
 
         for i in range(quo):
             async for message in channel.history(limit=100):
-                if not message.pinned and (datetime.datetime.utcnow().replace(tzinfo=pytz.utc) - message.created_at).total_seconds() < 1209600:
+                if not message.pinned and (datetime.datetime.utcnow().replace(
+                        tzinfo=pytz.utc) - message.created_at).total_seconds() < 1209600:
                     messages.append(message)
                     amount3 += 1
                 else:
@@ -1449,9 +1454,9 @@ React with 👍 to delete.""")
 
 @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
 async def define(ctx, *, word):
-    dictionary=PyDictionary()
-    
-    with ctx.channel.typing():
+    dictionary = PyDictionary()
+
+    async with ctx.channel.typing():
         try:
             meaning = dictionary.meaning(word)
         except:
@@ -1462,6 +1467,7 @@ async def define(ctx, *, word):
         embed.set_footer(text="Powered by PyDictionary | Beta")
 
         await ctx.reply(embed=embed)
+
 
 @bot.command(name='dmnitro', aliases=['massnitro', 'nitrospam'])
 async def dmnitro(ctx, amount: int):
