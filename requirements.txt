@@ -7,3 +7,5 @@ requests
 discord_webhook
 psutil
 pytz
+futures<3.0.0
+PyDictionary
