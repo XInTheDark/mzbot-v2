@@ -487,9 +487,8 @@ async def shutdown(message):
         await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("NOOOOO MASTER...\n`Shutdown Executed Successfully`")
-        quit()
-        await asyncio.sleep(2.5)
-        quit()
+        # quit()
+        await ctx.bot.logout()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
@@ -1455,13 +1454,20 @@ React with 👍 to delete.""")
 @bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
 async def define(ctx, *, word):
     dictionary = PyDictionary()
+    meaning = """"""
 
     async with ctx.channel.typing():
         try:
-            meaning = dictionary.meaning(word)
+            meaningDict = dictionary.meaning(word)
         except:
-            await ctx.reply("An Error Occurred. Maybe that word doesn't exist in my dictionary.")
+            await ctx.reply(f"An error occurred. `{word}` could not be found in my dictionary.")
+            return
 
+        for i in meaningDict.keys():
+            meaning = meaning + f"**{i}**: {meaningDict[i]}\n"
+        
+        meaning.removesuffix("\n")
+        
         embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
 {meaning}""", color=0x00ff00)
         embed.set_footer(text="Powered by PyDictionary | Beta")
