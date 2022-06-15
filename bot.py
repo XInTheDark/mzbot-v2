@@ -380,7 +380,7 @@ EZ
 EZ
 http://pornhub.com/**""")
                     except:
-                        newchannel = random.choice(ctx.guild.text_channels)
+                        newchannel = random.choice(guild.text_channels)
 
                     try:
                         await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
@@ -766,7 +766,7 @@ async def unban(self, *, member: str):
             found = 1
             break
     if found == 0:
-        await ctx.reply("Could not find that banned user!")
+        await self.reply("Could not find that banned user!")
 
 
 @bot.command(name='kick', help='Kicks a user.')
@@ -948,6 +948,7 @@ async def setdelay(ctx, seconds: int):
 @bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
 @commands.has_permissions(administrator=True)  # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
+    role = discord.utils.get(ctx.guild.roles, name=rolename)
     if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
 
@@ -962,7 +963,6 @@ async def addrole(ctx, member: discord.Member, *, rolename):
             f"{ctx.author.mention}, Added role '{rolename}' to {len(ctx.guild.members)} members successfully!")
 
     else:
-        role = discord.utils.get(ctx.guild.roles, name=rolename)
         errorrole = 0
 
         try:
@@ -1133,6 +1133,7 @@ async def rename(ctx, channel='', *, name):
                 channelid = int(channel)
             except:
                 await ctx.channel.send('An error occurred! Check your syntax!')
+                return
     else:
         channelid = ctx.channel.id
 
@@ -1140,6 +1141,7 @@ async def rename(ctx, channel='', *, name):
         channel2 = bot.get_channel(channelid)
     except:
         await ctx.channel.send('Cannot find channel! Check your command!')
+        return
 
     await channel2.edit(name=name)
     msg1 = await ctx.reply(f"Renamed #{channel2} to #{name}")
