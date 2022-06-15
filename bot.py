@@ -1464,13 +1464,13 @@ async def define(ctx, *, word):
             return
 
         for i in meaningDict.keys():
-            meaning = meaning + f"**{i}**:"
+            meaning = meaning + f"**{i}**:\n"
             for j in meaningDict[i]:
                 meaning = meaning + f" - {j}\n"
 
         meaning.removesuffix("\n")
 
-        embed = discord.Embed(title=f'**Definition for "{word}"**', description=f"""Definition for '{word}':
+        embed = discord.Embed(title=f'**Definition for `{word}`**', description=f"""Definition for `{word}`:
 {meaning}""", color=0x00ff00)
         embed.set_footer(text="Powered by PyDictionary | Beta")
 
