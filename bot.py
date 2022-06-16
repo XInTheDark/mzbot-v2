@@ -13,6 +13,7 @@ import discord.abc
 import pytz
 from PyDictionary import PyDictionary
 from discord.ext import commands
+from discord.ext.commands.errors import *
 from dotenv import load_dotenv
 from requests import get
 
@@ -90,6 +91,16 @@ async def on_ready():
     await channel.send(embed=embed)
     print("MZ Bot start-up complete")
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, BotMissingPermissions):
+        await ctx.send(f'`Missing Permissions!`')
+    if isinstance(error, BotMissingAnyRole):
+        await ctx.send(f'`Missing Roles!`')
+    if isinstance(error, CommandInvokeError):
+        await ctx.send(f'`{error}`')
+    if isinstance(error, MissingRequiredArgument):
+        await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
 
 @bot.event
 async def on_member_join(member):
