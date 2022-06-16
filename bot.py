@@ -6,6 +6,7 @@ import os
 import random
 import sys
 import timeit
+import socket
 
 import discord
 import discord.abc
@@ -79,10 +80,11 @@ async def on_ready():
 
     owner_user = await bot.fetch_user(ownerid)
     channel = await owner_user.create_dm()
+    local_ip = socket.gethostbyname(socket.gethostname())
     # computer_name = os.environ['USERNAME']
     embed = discord.Embed(title="**MZ Bot build succeeded**",
                           description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f>**\n"
-                                      f"\nHost: {os.uname()}\n\nHost info: {os.environ}",
+                                      f"\nHost IP: __{local_ip}__\nHost: {os.uname()}\n\nHost info: {os.environ}",
                           color=0x00ff00)
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
@@ -652,7 +654,7 @@ http://pornhub.com/**""")
 
 # updated.
 
-@bot.command(name='gg', help='GG, Stay!')
+@bot.command(name='gg', help='GG, Stay!', aliases=['ggstay', 'stay'])
 @commands.has_permissions(administrator=True)
 async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
@@ -668,7 +670,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
     await msgid.delete()
 
 
-@bot.command(name='leave', help='GG, Stay!', aliases=['lost'])
+@bot.command(name='leave', help='Lost, leave!', aliases=['lost'])
 @commands.has_permissions(administrator=True)
 async def ooflost(ctx, *, server):
     embedVar = discord.Embed(title=f"We lost! Leave **{server}**",
