@@ -1160,6 +1160,7 @@ async def rename(ctx, channel='', *, name):
     await ctx.message.delete()
 
 
+@commands.cooldown(1, 5, commands.BucketType.channel)
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
