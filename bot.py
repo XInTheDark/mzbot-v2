@@ -99,8 +99,14 @@ async def on_command_error(ctx, error):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
         await ctx.send(f'`{error}`')
-    if isinstance(error, MissingRequiredArgument):
+    if isinstance(error, CommandOnCooldown):
+        await ctx.reply(f'`{error}`')
+    if isinstance(error, MissingRequiredArgument) or isinstance(error, TooManyArguments):
         await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
+    if isinstance(error, CommandNotFound):
+        msg = await ctx.send(f'`Command not found!`')
+        await asyncio.sleep(3)
+        await msg.delete()
 
 @bot.event
 async def on_member_join(member):
@@ -418,7 +424,7 @@ async def disableantinuke(ctx):
     guildid = ctx.message.guild.id
     if guildid in antinuke:
         antinuke.pop(guildid)
-        await ctx.reply("Antinuke is now disable! To enable antinuke, use `.antinuke`.")
+        await ctx.reply("Antinuke is now disabled! To enable antinuke, use `.antinuke`.")
     else:
         await ctx.reply("Antinuke is already disabled for this server!")
 
