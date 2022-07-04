@@ -36,6 +36,7 @@ global ownerid
 global istyping
 global msgpings
 global launch_time
+global musicDict
 
 antinuke = []
 bansdict = {}
@@ -46,6 +47,7 @@ hardmutes = []
 ownerid = 926410988738183189
 istyping = []
 msgpings = {}
+musicDict = {}
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -98,15 +100,19 @@ async def on_command_error(ctx, error):
     if isinstance(error, BotMissingAnyRole):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
-        await ctx.send(f'`{error}`')
+        msg = await ctx.send(f'`{error}`')
+        await asyncio.sleep(3)
+        await msg.delete()
     if isinstance(error, CommandOnCooldown):
-        await ctx.reply(f'`{error}`')
+        msg = await ctx.reply(f'`{error}`')
+        await asyncio.sleep(3)
+        await msg.delete()
     if isinstance(error, MissingRequiredArgument) or isinstance(error, TooManyArguments):
         await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
     if isinstance(error, CommandNotFound):
         msg = await ctx.send(f'`Command not found!`')
-        await asyncio.sleep(3)
-        await msg.delete()
+    await asyncio.sleep(3)
+    await msg.delete()
 
 @bot.event
 async def on_member_join(member):
@@ -436,7 +442,7 @@ async def drop(ctx):
     -> The winner of the drop gets 10-30 seconds to DM the host!"""
     await ctx.send(response)
 
-
+@commands.cooldown(1, 2, commands.BucketType.user)
 @bot.command(name='meme', help='Generates a random meme.')
 async def plsmeme(ctx):
     content = get("https://meme-api.herokuapp.com/gimme").text
@@ -485,7 +491,7 @@ async def credits(ctx):
 
     await ctx.send(response)
 
-
+@commands.cooldown(1, 0.5, commands.BucketType.channel)
 @bot.command(name='nitro', help='Generates a random... Nitro code?!')
 async def nitrogen(ctx):
     genlist = str(open('nitrogenlist.txt', 'r').read())
@@ -544,6 +550,7 @@ async def unmute(ctx, member: discord.Member):
         await ctx.send(f"`Unmuted User: {member} Successfully`")
 
 
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='nuke', help='Nukes this channel... Yep.')
 async def nuke_channel(ctx):
     if not ctx.author.guild_permissions.administrator and not ctx.author.id == ownerid:
@@ -751,6 +758,7 @@ async def whowon(ctx, userid, *, prize):
 
 
 # The below code bans player.
+@commands.cooldown(1, 10, commands.BucketType.guild)
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
 async def ban(self, member: discord.Member, *, reason=None):
@@ -760,6 +768,7 @@ Reason: {reason}
 - by {self.author}''')
 
 
+@commands.cooldown(1, 10, commands.BucketType.guild)
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(ban_members=True)
 async def unban(self, *, member: str):
@@ -779,6 +788,7 @@ async def unban(self, *, member: str):
         await self.reply("Could not find that banned user!")
 
 
+@commands.cooldown(1, 10, commands.BucketType.guild)
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
 async def kick(self, *, member: discord.Member, reason=None):
@@ -940,10 +950,11 @@ async def lockall(ctx):
         await ctx.channel.send("Omg why are you trying to lock channels!")
     else:
         for channel in ctx.guild.text_channels:
-            await channel.set_permissions(ctx.guild.default_role, send_messages=False,
-                                          reason=f'User {ctx.author} used command lockall')
+            if channel.overwrites_for(ctx.guild.default_role).send_messages == True:
+                await channel.set_permissions(ctx.guild.default_role, send_messages=False,
+                                              reason=f'User {ctx.author} used command lockall')
 
-        await ctx.channel.send(f"<@{ctx.author.id}>, Locked all channels successfully!")
+        await ctx.send(f"{ctx.author.mention}, Locked all channels successfully!")
 
 
 @bot.command(name='slowmode', help='Sets the slowmode for a channel.')
@@ -1160,7 +1171,7 @@ async def rename(ctx, channel='', *, name):
     await ctx.message.delete()
 
 
-@commands.cooldown(1, 5, commands.BucketType.channel)
+@commands.cooldown(1, 3, commands.BucketType.channel)
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
@@ -1219,6 +1230,7 @@ async def purge(ctx, amount: int):
         await msg2.delete()
 
 
+@commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command(name='afk', help='Sets AFK.')
 async def setafk(ctx, *, reason='AFK'):
     global afkdict
@@ -1378,6 +1390,7 @@ async def removerole(ctx, member: discord.Member, *, rolename):
         await ctx.channel.send(f"Removed role: {rolename} from member {member} successfully!")
 
 
+@commands.cooldown(1, 10, commands.BucketType.user)
 @bot.command(name='ticket', aliases=['tickets'])
 async def ticket(ctx):
     guild = ctx.guild
@@ -1433,6 +1446,7 @@ async def ticket(ctx):
             file.close()
 
 
+@commands.cooldown(1, 5, commands.BucketType.channel)
 @bot.command(name='delete', aliases=['tdelete', 'tclose'])
 @commands.has_permissions(administrator=True)
 async def tclose(ctx):
@@ -2020,14 +2034,21 @@ async def stoptyper(ctx):
         await ctx.message.delete()
 
 
-@bot.command(aliases=['notif'])
+@bot.command(aliases=['notif', 'notify'])
 @commands.has_permissions(administrator=True)
-async def msgping(ctx, *, msg):
+async def msgping(ctx, *, msg=None):
     global msgpings
 
-    msgpings[ctx.channel.id] = msg
+    if msg is not None: msgpings[ctx.channel.id] = msg
+    else: msgpings[ctx.channel.id]
 
     await ctx.message.delete()
 
 
+@bot.command(aliases=['music'])
+async def play(ctx):
+    global musicDict
+    
+    main_embed = discord.Embed(title='**Playing**', color=0x00ff00, description="""**...**
+    """)
 bot.run(TOKEN)
