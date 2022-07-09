@@ -2100,7 +2100,7 @@ async def play(ctx, url_: str):
     try:
         voice = ctx.message.guild.voice_client
     except:
-        break
+        pass
         
     async with ctx.typing():
         filename = await YTDLSource.from_url(url, loop=bot.loop)
