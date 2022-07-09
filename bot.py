@@ -7,6 +7,7 @@ import random
 import sys
 import timeit
 import socket
+import youtube_dl
 
 import discord
 import discord.abc
@@ -2044,11 +2045,96 @@ async def msgping(ctx, *, msg=None):
 
     await ctx.message.delete()
 
+# INIT MUSIC MODULE
+youtube_dl.utils.bug_reports_message = lambda: ''
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+        self.data = data
+        self.title = data.get('title')
+        self.url = ""
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+        filename = data['title'] if stream else ytdl.prepare_filename(data)
+        return filename
+# FINISHED INIT
+
 
 @bot.command(aliases=['music'])
-async def play(ctx):
-    global musicDict
+async def play(ctx, url_: str):
+    # join voice channel
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+    await channel.connect()
     
-    main_embed = discord.Embed(title='**Playing**', color=0x00ff00, description="""**...**
-    """)
+    # play music
+    try:
+        voice = ctx.message.guild.voice_client
+    except:
+        break
+        
+    async with ctx.typing():
+        filename = await YTDLSource.from_url(url, loop=bot.loop)
+        voice.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
+        
+    await ctx.send('**Now playing:** {}'.format(filename))
+    
+    
+@bot.command()
+async def disconnect(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_connected:
+        await voice.disconnect()
+  
+  
+@bot.command()
+async def pause(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_playing:
+        voice.pause()
+
+
+@bot.command()
+async def resume(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_paused:
+        await voice.resume()
+
+
+@bot.command()
+async def stop(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_playing:
+        await voice.stop()
+    
+    
 bot.run(TOKEN)
