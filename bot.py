@@ -2103,7 +2103,7 @@ async def play(ctx, url_: str):
         pass
         
     async with ctx.typing():
-        filename = await YTDLSource.from_url(url, loop=bot.loop)
+        filename = await YTDLSource.from_url(url_, loop=bot.loop)
         voice.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
         
     await ctx.send('**Now playing:** {}'.format(filename))
