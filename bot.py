@@ -2047,9 +2047,9 @@ async def msgping(ctx, *, msg=None):
     await ctx.message.delete()
 
 # INIT MUSIC MODULE
-if not discord.opus.is_loaded():
-    discord.opus.load_opus('opus')
-    
+# if not discord.opus.is_loaded():
+#     discord.opus.load_opus('opus')
+
 # INIT YOUTUBE MODULE
 youtube_dl.utils.bug_reports_message = lambda: ''
 
