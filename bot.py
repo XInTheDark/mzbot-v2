@@ -2047,6 +2047,8 @@ async def msgping(ctx, *, msg=None):
     await ctx.message.delete()
 
 # INIT MUSIC MODULE
+
+# INIT YOUTUBE MODULE
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 ytdl_format_options = {
