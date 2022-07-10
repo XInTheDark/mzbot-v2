@@ -103,8 +103,8 @@ async def on_command_error(ctx, error):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
         msg = await ctx.send(f'`{error}`')
-        await asyncio.sleep(3)
-        await msg.delete()
+        # await asyncio.sleep(3)
+        # await msg.delete()
     if isinstance(error, CommandOnCooldown):
         msg = await ctx.reply(f'`{error}`')
         await asyncio.sleep(3)
