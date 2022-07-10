@@ -2094,13 +2094,10 @@ async def play(ctx, url_: str):
         return
     else:
         channel = ctx.message.author.voice.channel
-    await channel.connect()
+        voice = await channel.connect()
 
     # play music
-    try:
-        voice = ctx.message.guild.voice_client
-    except:
-        pass
+    # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
@@ -2114,27 +2111,46 @@ async def disconnect(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_connected:
         await voice.disconnect()
+        voice.cleanup()
 
 
 @bot.command()
 async def pause(ctx):
-    voice = ctx.message.guild.voice_client
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+        voice = await channel.connect()
+        
     if voice.is_playing:
         voice.pause()
 
 
 @bot.command()
 async def resume(ctx):
-    voice = ctx.message.guild.voice_client
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+        voice = await channel.connect()
+        
     if voice.is_paused:
-        await voice.resume()
+        voice.resume()
 
 
 @bot.command()
 async def stop(ctx):
-    voice = ctx.message.guild.voice_client
+    if not ctx.message.author.voice:
+        await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+        voice = await channel.connect()
+        
     if voice.is_playing:
-        await voice.stop()
+        voice.stop()
 
 
 bot.run(TOKEN)
