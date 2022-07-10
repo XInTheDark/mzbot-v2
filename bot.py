@@ -8,6 +8,7 @@ import sys
 import timeit
 import socket
 import youtube_dl
+import ffmpeg
 
 import discord
 import discord.abc
@@ -2101,7 +2102,7 @@ async def play(ctx, url_: str):
 
     async with ctx.typing():
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
-        voice.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
+        voice.play(discord.FFmpegPCMAudio(source=filename))
 
     await ctx.send('**Now playing:** {}'.format(filename))
 
@@ -2122,7 +2123,7 @@ async def pause(ctx):
     else:
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-        
+
     if voice.is_playing:
         voice.pause()
 
@@ -2135,7 +2136,7 @@ async def resume(ctx):
     else:
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-        
+
     if voice.is_paused:
         voice.resume()
 
@@ -2148,7 +2149,7 @@ async def stop(ctx):
     else:
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-        
+
     if voice.is_playing:
         voice.stop()
 
