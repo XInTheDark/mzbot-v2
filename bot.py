@@ -112,8 +112,8 @@ async def on_command_error(ctx, error):
         await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
     if isinstance(error, CommandNotFound):
         msg = await ctx.send(f'`Command not found!`')
-    await asyncio.sleep(3)
-    await msg.delete()
+        await asyncio.sleep(3)
+        await msg.delete()
 
 @bot.event
 async def on_member_join(member):
@@ -2095,27 +2095,27 @@ async def play(ctx, url_: str):
     else:
         channel = ctx.message.author.voice.channel
     await channel.connect()
-    
+
     # play music
     try:
         voice = ctx.message.guild.voice_client
     except:
         pass
-        
+
     async with ctx.typing():
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         voice.play(discord.FFmpegPCMAudio(executable="ffmpeg.exe", source=filename))
-        
+
     await ctx.send('**Now playing:** {}'.format(filename))
-    
-    
+
+
 @bot.command()
 async def disconnect(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_connected:
         await voice.disconnect()
-  
-  
+
+
 @bot.command()
 async def pause(ctx):
     voice = ctx.message.guild.voice_client
@@ -2135,6 +2135,6 @@ async def stop(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_playing:
         await voice.stop()
-    
-    
+
+
 bot.run(TOKEN)
