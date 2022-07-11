@@ -10,4 +10,4 @@ pytz
 futures<3.0.0
 PyDictionary
 youtube-dl==2021.2.10
-ffmpeg-python
+speedtest-cli
