@@ -514,8 +514,11 @@ async def shutdown(message):
         # quit()
         await bot.close()
         print("Shutdown command executing...")
-        await asyncio.sleep(0.5)
-        quit()
+        await asyncio.sleep(1)
+        await bot.logout()
+        while True:
+            await asyncio.sleep(0.5)
+            quit()
 
 
 @bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
