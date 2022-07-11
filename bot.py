@@ -2132,6 +2132,7 @@ async def play(ctx, *, url_: str):
     # get youtube url
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
         msg1 = await ctx.send("`Searching YouTube...`")
+        url_ = url_.replace(' ', '+')
         url_ = searchYT(url_) # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
