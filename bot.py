@@ -2113,11 +2113,13 @@ async def play(ctx, url_: str):
     else:
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-    
+
     # get youtube url
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
-        url_ = searchYT(url_) # search YT for video
-    
+        async with ctx.typing():
+            msg1 = await ctx.send("`Searching YouTube...`")
+            url_ = searchYT(url_) # search YT for video
+            await msg1.delete()
     # play music
     # voice = ctx.message.guild.voice_client
 
