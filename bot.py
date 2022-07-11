@@ -1906,7 +1906,7 @@ async def whois(ctx, person: discord.Member):
 
 **Roles:** {mrolestr}
 
-**Permissions:** `{mpermstr}`""", color=0x00ff00)
+**Permissions:** {mpermstr}""", color=0x00ff00)
 
     embed.set_thumbnail(url=str(mavatar))
 
