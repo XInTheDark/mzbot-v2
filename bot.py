@@ -9,6 +9,8 @@ import timeit
 import socket
 import youtube_dl
 import ffmpeg
+import urllib.request
+import re
 
 import discord
 import discord.abc
@@ -2096,6 +2098,11 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return filename
 # FINISHED INIT
 
+# define search youtube function
+def searchYT(search_keyword):
+    html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
+    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+    return ("https://www.youtube.com/watch?v=" + video_ids[0])
 
 @bot.command(aliases=['music', 'song'])
 async def play(ctx, url_: str):
@@ -2106,7 +2113,11 @@ async def play(ctx, url_: str):
     else:
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-
+    
+    # get youtube url
+    if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
+        url_ = searchYT(url_) # search YT for video
+    
     # play music
     # voice = ctx.message.guild.voice_client
 
@@ -2209,9 +2220,9 @@ async def serverinfo(ctx):
 **Member count:** Total-`{count}`, Bots-`{botc}`, Humans-`{count-botc}`
 """,
                           color=0x00ff00)
-    
+
     embed.set_thumbnail(url=str(guild_icon_url))
-    
+
     await ctx.reply(embed=embed)
 
 bot.run(TOKEN)
