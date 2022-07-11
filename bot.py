@@ -2130,7 +2130,8 @@ async def play(ctx, url_: str):
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
-        await msg1.edit(content=f"`Downloading song... (Download speed: {speedTestDownload()})`")
+        await msg1.edit(content=f"`Downloading song...`")
+        await msg1.edit(content=f"`Downloading song... (Download speed: {speedTestDownload()} Mbps)`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
