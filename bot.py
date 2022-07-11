@@ -2182,8 +2182,9 @@ async def stop(ctx):
 @bot.command(aliases=['whereami'])
 async def serverinfo(ctx):
     owner = ctx.guild.owner
-    region = str(ctx.guild.region)
     guild_id = str(ctx.guild.id)
+    guild_icon_url = ctx.guild.icon.url
+    created_at_t = int(datetime.datetime.timestamp(ctx.guild.created_at))
 
     # membercount code
     botc = 0
@@ -2203,12 +2204,14 @@ async def serverinfo(ctx):
     embed = discord.Embed(title=f"**Server info:** `{ctx.guild.name}`",
                           description=f"""Server ID: {guild_id}
 **Owner:** {owner.mention}
-**Region:** `{region}`
+**Created at:** <t:{created_at_t}:f>
 
 **Member count:** Total-`{count}`, Bots-`{botc}`, Humans-`{count-botc}`
 """,
                           color=0x00ff00)
-
+    
+    embed.set_thumbnail(url=str(guild_icon_url))
+    
     await ctx.reply(embed=embed)
 
 bot.run(TOKEN)
