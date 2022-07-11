@@ -8,9 +8,9 @@ import sys
 import timeit
 import socket
 import youtube_dl
-import ffmpeg
 import urllib.request
 import re
+import speedtest
 
 import discord
 import discord.abc
@@ -2104,6 +2104,14 @@ def searchYT(search_keyword):
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
     return ("https://www.youtube.com/watch?v=" + video_ids[0])
 
+def speedTestDownload():
+    wifi = speedtest.Speedtest()
+    return round((wifi.download())/1048576, 2)
+
+def speedTestUpload():
+    wifi = speedtest.Speedtest()
+    return round((wifi.upload())/1048576, 2)
+
 @bot.command(aliases=['music', 'song'])
 async def play(ctx, url_: str):
     # join voice channel
@@ -2117,7 +2125,7 @@ async def play(ctx, url_: str):
     # get youtube url
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
         async with ctx.typing():
-            msg1 = await ctx.send("`Searching YouTube...`")
+            msg1 = await ctx.send(f"`Searching YouTube... (Download speed: {speedTestDownload()})`")
             url_ = searchYT(url_) # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
