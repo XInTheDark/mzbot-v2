@@ -2179,7 +2179,7 @@ async def stop(ctx):
         await ctx.send("I am not connected to a voice channel!")
 
 
-@bot.command(aliases=['server'])
+@bot.command(aliases=['whereami'])
 async def serverinfo(ctx):
     owner = ctx.guild.owner
     region = str(ctx.guild.region)
