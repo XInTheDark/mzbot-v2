@@ -1881,6 +1881,7 @@ async def whois(ctx, person: discord.Member):
     mdiscrim = person.discriminator
     joinedg = round(person.joined_at.timestamp())
     joinedd = round(person.created_at.timestamp())
+    mstatus = str(person.status)
     mrolestr = '@everyone '
     mpermstr = ''
     mrnames = []
@@ -1897,14 +1898,15 @@ async def whois(ctx, person: discord.Member):
         if i[1] == True:
             mpermstr += f"`{i[0]}` "
 
-    embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""**Nickname:** {mnick}
+    embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""**Nickname:** `{mnick}`
+**Status:** `{mstatus}`
 
 **Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
 **Joined Server at:** <t:{joinedg}:R>: <t:{joinedg}>
 
 **Roles:** {mrolestr}
 
-**Permissions:** {mpermstr}""", color=0x00ff00)
+**Permissions:** `{mpermstr}`""", color=0x00ff00)
 
     embed.set_thumbnail(url=str(mavatar))
 
@@ -2176,5 +2178,37 @@ async def stop(ctx):
     else:
         await ctx.send("I am not connected to a voice channel!")
 
+
+@bot.command(aliases=['server'])
+async def serverinfo(ctx):
+    owner = ctx.guild.owner
+    region = str(ctx.guild.region)
+    guild_id = str(ctx.guild.id)
+
+    # membercount code
+    botc = 0
+    for i in range(2):
+        botc = 0
+        onlc = 0
+        guild1 = bot.get_guild(ctx.guild.id)
+        count = len(guild1.members)
+
+        for m in guild1.members:
+            if m.bot:
+                botc += 1
+            elif not str(m.raw_status) == "offline":
+                onlc += 1
+    # end of membercount code
+
+    embed = discord.Embed(title=f"**Server info:** `{ctx.guild.name}`",
+                          description=f"""Server ID: {guild_id}
+**Owner:** {owner.mention}
+**Region:** `{region}`
+
+**Member count:** Total-`{count}`, Bots-`{botc}`, Humans-`{count-botc}`
+""",
+                          color=0x00ff00)
+
+    await ctx.reply(embed=embed)
 
 bot.run(TOKEN)
