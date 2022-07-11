@@ -2054,7 +2054,7 @@ async def msgping(ctx, *, msg=None):
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 ytdl_format_options = {
-    'format': 'bestaudio/best',
+    'format': 'bestaudio/bqest',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
@@ -2126,7 +2126,7 @@ async def pause(ctx):
         return
     else:
         channel = ctx.message.author.voice.channel
-        voice = await channel.connect()
+        voice = ctx.guild.voice_client
 
     if voice.is_playing:
         voice.pause()
@@ -2139,7 +2139,7 @@ async def resume(ctx):
         return
     else:
         channel = ctx.message.author.voice.channel
-        voice = await channel.connect()
+        voice = ctx.guild.voice_client
 
     if voice.is_paused:
         voice.resume()
@@ -2152,7 +2152,7 @@ async def stop(ctx):
         return
     else:
         channel = ctx.message.author.voice.channel
-        voice = await channel.connect()
+        voice = ctx.guild.voice_client
 
     if voice.is_playing:
         voice.stop()
