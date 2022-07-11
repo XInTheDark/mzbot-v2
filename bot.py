@@ -2119,12 +2119,11 @@ async def play(ctx, url_: str):
         async with ctx.typing():
             msg1 = await ctx.send("`Searching YouTube...`")
             url_ = searchYT(url_) # search YT for video
-            await msg1.delete()
     # play music
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
-        msg1 = await ctx.send("`Downloading song...`")
+        await msg1.edit(content="`Downloading song...`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
