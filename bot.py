@@ -2124,14 +2124,13 @@ async def play(ctx, url_: str):
 
     # get youtube url
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
-        async with ctx.typing():
-            msg1 = await ctx.send(f"`Searching YouTube... (Download speed: {speedTestDownload()})`")
-            url_ = searchYT(url_) # search YT for video
+        msg1 = await ctx.send("`Searching YouTube...`")
+        url_ = searchYT(url_) # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
-        await msg1.edit(content="`Downloading song...`")
+        await msg1.edit(content=f"`Downloading song... (Download speed: {speedTestDownload()})`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
