@@ -696,7 +696,7 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
     await msgid.delete()
 
 
-@bot.command(name='leave', help='Lost, leave!', aliases=['lost'])
+@bot.command(name='lostleave', help='Lost, leave!', aliases=['lost'])
 @commands.has_permissions(administrator=True)
 async def ooflost(ctx, *, server):
     embedVar = discord.Embed(title=f"We lost! Leave **{server}**",
