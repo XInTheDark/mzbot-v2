@@ -40,7 +40,7 @@ global ownerid
 global istyping
 global msgpings
 global launch_time
-global musicDict
+global downloadSpeed
 
 antinuke = []
 bansdict = {}
@@ -63,6 +63,15 @@ intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
+
+# definitions
+def speedTestDownload():
+    wifi = speedtest.Speedtest()
+    return round((wifi.download())/1048576, 2)
+
+def speedTestUpload():
+    wifi = speedtest.Speedtest()
+    return round((wifi.upload())/1048576, 2)
 
 
 @bot.event
@@ -96,6 +105,9 @@ async def on_ready():
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
     print("MZ Bot start-up complete")
+    
+    # init variables
+    downloadSpeed = speedTestDownload()
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -2104,16 +2116,10 @@ def searchYT(search_keyword):
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
     return ("https://www.youtube.com/watch?v=" + video_ids[0])
 
-def speedTestDownload():
-    wifi = speedtest.Speedtest()
-    return round((wifi.download())/1048576, 2)
-
-def speedTestUpload():
-    wifi = speedtest.Speedtest()
-    return round((wifi.upload())/1048576, 2)
 
 @bot.command(aliases=['music', 'song'])
 async def play(ctx, url_: str):
+    global downloadSpeed
     # join voice channel
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
@@ -2130,8 +2136,7 @@ async def play(ctx, url_: str):
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
-        await msg1.edit(content=f"`Downloading song...`")
-        await msg1.edit(content=f"`Downloading song... (Download speed: {speedTestDownload()} Mbps)`")
+        await msg1.edit(content=f"`Downloading song... (Download speed: {downloadSpeed} Mbps)`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
