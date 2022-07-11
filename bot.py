@@ -2108,7 +2108,7 @@ async def play(ctx, url_: str):
         msg1 = await ctx.send("`Downloading song...`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
-        voice.play(discord.FFmpegPCMAudio(source=filename), after="`An error occured while playing the song.`")
+        voice.play(discord.FFmpegPCMAudio(source=filename))
 
     await msg1.delete()
     await ctx.send('**Now playing:** `{}`'.format(filename))
