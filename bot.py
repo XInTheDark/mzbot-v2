@@ -2114,9 +2114,12 @@ async def play(ctx, url_: str):
 @bot.command(aliases=['leave'])
 async def disconnect(ctx):
     voice = ctx.message.guild.voice_client
-    if voice.is_connected:
-        await voice.disconnect()
-        voice.cleanup()
+    if voice is not None:
+        if voice.is_connected:
+            await voice.disconnect()
+            voice.cleanup()
+    else:
+        await ctx.send("I am not connected to a voice channel!")
 
 
 @bot.command()
@@ -2127,9 +2130,12 @@ async def pause(ctx):
     else:
         voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
-    if voice.is_playing:
-        voice.pause()
-        await ctx.send("`Paused...`")
+    if voice is not None:
+        if voice.is_playing:
+            voice.pause()
+            await ctx.send("`Paused...`")
+    else:
+        await ctx.send("I am not connected to a voice channel!")
 
 
 @bot.command(aliases=['continue'])
@@ -2140,9 +2146,12 @@ async def resume(ctx):
     else:
         voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
-    if voice.is_paused:
-        voice.resume()
-        await ctx.send("`Resumed...`")
+    if voice is not None:
+        if voice.is_paused:
+            voice.resume()
+            await ctx.send("`Resumed...`")
+    else:
+        await ctx.send("I am not connected to a voice channel!")
 
 
 @bot.command(aliases=['skip'])
@@ -2152,10 +2161,13 @@ async def stop(ctx):
         return
     else:
         voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-
-    if voice.is_playing:
-        voice.stop()
-        await ctx.send("`Stopped...`")
+        
+    if voice is not None:
+        if voice.is_playing:
+            voice.stop()
+            await ctx.send("`Stopped...`")
+    else:
+        await ctx.send("I am not connected to a voice channel!")
 
 
 bot.run(TOKEN)
