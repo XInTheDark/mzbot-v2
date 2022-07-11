@@ -2120,14 +2120,17 @@ def searchYT(search_keyword):
 @bot.command(aliases=['music', 'song'])
 async def play(ctx, *, url_: str):
     global downloadSpeed
-    
+
     # join voice channel
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        channel = ctx.message.author.voice.channel
-        voice = await channel.connect()
+        try:
+            channel = ctx.message.author.voice.channel
+            voice = await channel.connect()
+        except:
+            voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
     # get youtube url
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
