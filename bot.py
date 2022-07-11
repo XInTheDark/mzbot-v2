@@ -2108,7 +2108,7 @@ async def play(ctx, url_: str):
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         voice.play(discord.FFmpegPCMAudio(source=filename))
 
-    await ctx.send('**Now playing:** {}'.format(filename))
+    await ctx.send('**Now playing:** `{}`'.format(filename))
 
 
 @bot.command()
@@ -2125,11 +2125,11 @@ async def pause(ctx):
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        channel = ctx.message.author.voice.channel
-        voice = ctx.guild.voice_client
+        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
     if voice.is_playing:
         voice.pause()
+        await ctx.send("`Paused...`")
 
 
 @bot.command()
@@ -2138,11 +2138,11 @@ async def resume(ctx):
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        channel = ctx.message.author.voice.channel
-        voice = ctx.guild.voice_client
+        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
     if voice.is_paused:
         voice.resume()
+        await ctx.send("`Resumed...`")
 
 
 @bot.command()
@@ -2151,11 +2151,11 @@ async def stop(ctx):
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        channel = ctx.message.author.voice.channel
-        voice = ctx.guild.voice_client
+        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
     if voice.is_playing:
         voice.stop()
+        await ctx.send("`Stopped...`")
 
 
 bot.run(TOKEN)
