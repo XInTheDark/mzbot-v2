@@ -2118,7 +2118,7 @@ def searchYT(search_keyword):
 
 
 @bot.command(aliases=['music', 'song'])
-async def play(ctx, url_: str):
+async def play(ctx, *, url_: str):
     global downloadSpeed
     # join voice channel
     if not ctx.message.author.voice:
