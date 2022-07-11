@@ -513,6 +513,7 @@ async def shutdown(message):
         await message.send("`Shutdown Executed Successfully`")
         # quit()
         await bot.close()
+        print("Shutdown command executing...")
         await asyncio.sleep(0.5)
         quit()
 
