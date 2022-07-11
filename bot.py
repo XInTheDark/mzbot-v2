@@ -759,7 +759,7 @@ async def whowon(ctx, userid, *, prize):
         await msgid.delete()
 
 
-# The below code bans player.
+# The below code bans user.
 @commands.cooldown(1, 10, commands.BucketType.guild)
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
@@ -2105,7 +2105,9 @@ async def play(ctx, url_: str):
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
+        msg1 = await ctx.send("`Downloading song...`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
+        await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
 
     await ctx.send('**Now playing:** `{}`'.format(filename))
@@ -2161,7 +2163,7 @@ async def stop(ctx):
         return
     else:
         voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-        
+
     if voice is not None:
         if voice.is_playing:
             voice.stop()
