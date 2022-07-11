@@ -2091,7 +2091,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 # FINISHED INIT
 
 
-@bot.command(aliases=['music'])
+@bot.command(aliases=['music', 'song'])
 async def play(ctx, url_: str):
     # join voice channel
     if not ctx.message.author.voice:
@@ -2111,7 +2111,7 @@ async def play(ctx, url_: str):
     await ctx.send('**Now playing:** `{}`'.format(filename))
 
 
-@bot.command()
+@bot.command(aliases=['leave'])
 async def disconnect(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_connected:
@@ -2132,7 +2132,7 @@ async def pause(ctx):
         await ctx.send("`Paused...`")
 
 
-@bot.command()
+@bot.command(aliases=['continue'])
 async def resume(ctx):
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
@@ -2145,7 +2145,7 @@ async def resume(ctx):
         await ctx.send("`Resumed...`")
 
 
-@bot.command()
+@bot.command(aliases=['skip'])
 async def stop(ctx):
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
