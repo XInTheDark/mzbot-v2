@@ -77,7 +77,7 @@ def speedTestUpload():
 @bot.event
 async def on_ready():
     global uptime
-
+    global downloadSpeed
     # Set Idle status
     # await bot.change_presence(status=discord.Status.idle)
     # # To set dnd change "Idle" to "dnd"
@@ -2120,6 +2120,7 @@ def searchYT(search_keyword):
 @bot.command(aliases=['music', 'song'])
 async def play(ctx, *, url_: str):
     global downloadSpeed
+    
     # join voice channel
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
