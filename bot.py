@@ -1276,7 +1276,7 @@ async def checkversion(ctx):
 
     uptime = (datetime.datetime.utcnow() - launch_time).total_seconds()
 
-    msg1 = await ctx.send("Loading...")
+    msg1 = await ctx.send("`Loading...`")
 
     uptime2 = mzutils.timestr(secs=uptime)
 
@@ -1310,9 +1310,11 @@ Bot uptime: {uptime2}
     await msg1.delete()
 
 
-@bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection'])
+@bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
 async def ping(ctx):
-    msg1 = await ctx.send("Connecting...")
+    global downloadSpeed
+    
+    msg1 = await ctx.send("`Connecting...`")
     tests = 1000000  # the amount of tests to conduct
     latency_list = []  # this is where the tests go
     for x in range(tests):  # this is the loop
@@ -1341,11 +1343,20 @@ async def ping(ctx):
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
-
+    
+    await msg1.edit(content='`Loading... Please wait...`')
+    
+    downloadSpeed = speedTestDownload()
+    uploadSpeed = speedTestUpload()
+    
     await msg1.delete()
 
-    await ctx.reply(f"""Client Ping: {lavg} ms ({jud1})
-Message Latency: {int(secs * 1000)} ms ({jud2})""")
+    await ctx.reply(f"""**Internet Speedtest results**
+
+Client Ping: `{lavg} ms` ({jud1})
+Message Latency: `{int(secs * 1000)} ms` ({jud2})
+
+Internet Speed: Download - `{downloadSpeed} Mbps`, Upload - `{uploadSpeed} Mbps`""")
 
 
 @bot.command(name='timedif', help='', aliases=['snowflake', 'timediff'])
@@ -2243,5 +2254,6 @@ async def serverinfo(ctx):
     embed.set_thumbnail(url=str(guild_icon_url))
 
     await ctx.reply(embed=embed)
+
 
 bot.run(TOKEN)
