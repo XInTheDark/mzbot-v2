@@ -1932,7 +1932,9 @@ async def whois(ctx, person: discord.Member):
         if i[1] == True:
             mpermstr += f"`{i[0]}` "
 
-    embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""**Nickname:** `{mnick}`
+    embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""User: {person.mention}
+    
+**Nickname:** `{mnick}`
 **Status:** `{mstatus}`
 
 **Joined Discord at:** <t:{joinedd}:R>: <t:{joinedd}>
