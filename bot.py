@@ -778,17 +778,20 @@ async def whowon(ctx, userid, *, prize):
 
 
 # The below code bans user.
-@commands.cooldown(1, 10, commands.BucketType.guild)
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
 async def ban(self, member: discord.Member, *, reason=None):
+    if not self.author.top_role > member.top_role:
+        return
+    
     await member.ban(reason=reason)
     await self.send(f'''User: `{member}` has been banned
 Reason: {reason}
 - by {self.author}''')
 
 
-@commands.cooldown(1, 10, commands.BucketType.guild)
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(ban_members=True)
 async def unban(self, *, member: str):
@@ -808,10 +811,13 @@ async def unban(self, *, member: str):
         await self.reply("Could not find that banned user!")
 
 
-@commands.cooldown(1, 10, commands.BucketType.guild)
+@commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
 async def kick(self, *, member: discord.Member, reason=None):
+    if not self.author.top_role > member.top_role:
+        return
+    
     await member.kick(reason=reason)
     await self.send(f"""User `{member}` has been kicked
 Reason: {reason}
@@ -986,10 +992,13 @@ async def setdelay(ctx, seconds: int):
         await ctx.channel.send(f"Set the slowmode for channel: `#{ctx.channel}` to `{seconds}` seconds!")
 
 
-@bot.command(name='addrole', help='Adds a role to someome.', pass_context=True)
-@commands.has_permissions(administrator=True)  # This must be exactly the name of the appropriate role
+@bot.command(name='addrole', help='Adds a role to someome.', pass_context=True, aliases=['role'])
+@commands.has_permissions(manage_roles=True)  # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
+    if not ctx.author.top_role > role:
+        return
+    
     if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
 
@@ -1313,7 +1322,7 @@ Bot uptime: {uptime2}
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
 async def ping(ctx):
     global downloadSpeed
-    
+
     msg1 = await ctx.send("`Connecting...`")
     tests = 1000000  # the amount of tests to conduct
     latency_list = []  # this is where the tests go
@@ -1343,12 +1352,12 @@ async def ping(ctx):
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
-    
+
     await msg1.edit(content='`Loading... Please wait...`')
-    
+
     downloadSpeed = speedTestDownload()
     uploadSpeed = speedTestUpload()
-    
+
     await msg1.delete()
 
     await ctx.reply(f"""**Internet Speedtest results**
@@ -1368,7 +1377,7 @@ async def timedif(ctx, id1, id2=None):
         id2 = int(id2)
 
     except:
-        await ctx.reply("Check your message ID's! They are incorrect!")
+        await ctx.reply("Check your message IDs! They are incorrect!")
 
     time1 = discord.utils.snowflake_time(int(id1))
     time2 = discord.utils.snowflake_time(int(id2))
