@@ -133,7 +133,8 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_member_join(member):
     await member.create_dm()
-    await member.dm_channel.send(f"Hi {member.mention}! Welcome to our server! We hope you enjoy your stay :) ")
+    await member.dm_channel.send(f"""Hi {member.mention}! I'm MZ Bot. Type `.help` for my help page.
+Welcome to our server! We hope you enjoy your stay!""")
 
 
 @bot.event
