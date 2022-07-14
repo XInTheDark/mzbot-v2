@@ -11,6 +11,9 @@ import youtube_dl
 import urllib.request
 import re
 import speedtest
+import roblox
+# import io
+# import aiohttp
 
 import discord
 import discord.abc
@@ -64,14 +67,16 @@ client = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
+
 # definitions
 def speedTestDownload():
     wifi = speedtest.Speedtest()
-    return round((wifi.download())/1048576, 2)
+    return round((wifi.download()) / 1048576, 2)
+
 
 def speedTestUpload():
     wifi = speedtest.Speedtest()
-    return round((wifi.upload())/1048576, 2)
+    return round((wifi.upload()) / 1048576, 2)
 
 
 @bot.event
@@ -109,6 +114,7 @@ async def on_ready():
     # init variables
     downloadSpeed = speedTestDownload()
 
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, BotMissingPermissions):
@@ -129,6 +135,7 @@ async def on_command_error(ctx, error):
         msg = await ctx.send(f'`Command not found!`')
         await asyncio.sleep(3)
         await msg.delete()
+
 
 @bot.event
 async def on_member_join(member):
@@ -459,6 +466,7 @@ async def drop(ctx):
     -> The winner of the drop gets 10-30 seconds to DM the host!"""
     await ctx.send(response)
 
+
 @commands.cooldown(1, 2, commands.BucketType.user)
 @bot.command(name='meme', help='Generates a random meme.')
 async def plsmeme(ctx):
@@ -507,6 +515,7 @@ async def credits(ctx):
     <@926410988738183189> [MuzhenGaming#5088] and NO ONE ELSE."""
 
     await ctx.send(response)
+
 
 @commands.cooldown(1, 0.5, commands.BucketType.channel)
 @bot.command(name='nitro', help='Generates a random... Nitro code?!')
@@ -785,7 +794,7 @@ async def whowon(ctx, userid, *, prize):
 async def ban(self, member: discord.Member, *, reason=None):
     if not self.author.top_role > member.top_role:
         return
-    
+
     await member.ban(reason=reason)
     await self.send(f'''User: `{member}` has been banned
 Reason: {reason}
@@ -818,7 +827,7 @@ async def unban(self, *, member: str):
 async def kick(self, *, member: discord.Member, reason=None):
     if not self.author.top_role > member.top_role:
         return
-    
+
     await member.kick(reason=reason)
     await self.send(f"""User `{member}` has been kicked
 Reason: {reason}
@@ -999,7 +1008,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
     if not ctx.author.top_role > role:
         return
-    
+
     if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
 
@@ -1934,7 +1943,7 @@ async def whois(ctx, person: discord.Member):
             mpermstr += f"`{i[0]}` "
 
     embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""User: {person.mention}
-    
+
 **Nickname:** `{mnick}`
 **Status:** `{mstatus}`
 
@@ -2084,10 +2093,13 @@ async def stoptyper(ctx):
 async def msgping(ctx, *, msg=None):
     global msgpings
 
-    if msg is not None: msgpings[ctx.channel.id] = msg
-    else: msgpings[ctx.channel.id]
+    if msg is not None:
+        msgpings[ctx.channel.id] = msg
+    else:
+        msgpings[ctx.channel.id]
 
     await ctx.message.delete()
+
 
 # INIT MUSIC MODULE
 # if not discord.opus.is_loaded():
@@ -2106,7 +2118,7 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+    'source_address': '0.0.0.0'  # bind to ipv4 since ipv6 addresses cause issues sometimes
 }
 
 ffmpeg_options = {
@@ -2114,6 +2126,7 @@ ffmpeg_options = {
 }
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
 
 class YTDLSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
@@ -2131,6 +2144,8 @@ class YTDLSource(discord.PCMVolumeTransformer):
             data = data['entries'][0]
         filename = data['title'] if stream else ytdl.prepare_filename(data)
         return filename
+
+
 # FINISHED INIT
 
 # define search youtube function
@@ -2159,12 +2174,13 @@ async def play(ctx, *, url_: str):
     if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
         msg1 = await ctx.send("`Searching YouTube...`")
         url_ = url_.replace(' ', '+')
-        url_ = searchYT(url_) # search YT for video
+        url_ = searchYT(url_)  # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
 
     async with ctx.typing():
-        await msg1.edit(content=f"`Downloading song... \nThis can take a while. (Download speed: {downloadSpeed} Mbps)`")
+        await msg1.edit(
+            content=f"`Downloading song... \nThis can take a while. (Download speed: {downloadSpeed} Mbps)`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
         voice.play(discord.FFmpegPCMAudio(source=filename))
@@ -2259,7 +2275,7 @@ async def serverinfo(ctx):
 **Owner:** {owner.mention}
 **Created at:** <t:{created_at_t}:f>
 
-**Member count:** Total-`{count}`, Bots-`{botc}`, Humans-`{count-botc}`
+**Member count:** Total-`{count}`, Bots-`{botc}`, Humans-`{count - botc}`
 """,
                           color=0x00ff00)
 
@@ -2267,5 +2283,48 @@ async def serverinfo(ctx):
 
     await ctx.reply(embed=embed)
 
+
+@bot.command(aliases=['ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc'])
+async def robloxuser(ctx, userid: int):
+    rclient = roblox.Client()
+    async with ctx.channel.typing():
+        try:
+            ruser = await rclient.get_user(id)
+        except:
+            await ctx.reply("`Roblox user not found. Check the user ID!`")
+            return
+
+    rusername = ruser.name
+    userthumbnail = await rclient.thumbnails.get_user_avatar_thumbnails(
+        users=[ruser],
+        type=roblox.thumbnails.AvatarThumbnailType.full_body,
+        size=(420, 420) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
+    )
+
+    if len(userthumbnail) > 0:
+        user_thumbnail = userthumbnail[0]
+        thumbnailurl = user_thumbnail.image_url
+        thumbnailbool = True
+    else:
+        thumbnailbool = False
+
+    # if thumbnailbool:
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get(thumbnailurl) as resp:
+    #             if resp.status != 200:
+    #                 thumbnailbool = False
+    #                 break
+    #             data = io.BytesIO(await resp.read())
+    #             thumbnailfile = discord.File(data, 'robloxthumbnail.png')
+
+    embed = discord.Embed(title=f"**Roblox User info: {rusername}**",
+                          description=f"""User ID: `{id}`
+Display name: {ruser.display_name}
+
+User description: `{ruser.description}`""")
+
+    if thumbnailbool: embed.set_thumbnail(url=thumbnailurl)
+
+    await ctx.reply(embed=embed)
 
 bot.run(TOKEN)
