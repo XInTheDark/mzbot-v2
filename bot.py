@@ -2288,11 +2288,11 @@ async def serverinfo(ctx):
 async def robloxuser(ctx, userid: int):
     rclient = roblox.Client()
     async with ctx.channel.typing():
-        try:
-            ruser = await rclient.get_user(id)
-        except:
-            await ctx.reply("`Roblox user not found. Check the user ID!`")
-            return
+        # try:
+        ruser = await rclient.get_user(id) # HAS PROBLEMS!
+        # except:
+        #     await ctx.reply("`Roblox user not found. Check the user ID!`")
+        #     return
 
     rusername = ruser.name
     userthumbnail = await rclient.thumbnails.get_user_avatar_thumbnails(
