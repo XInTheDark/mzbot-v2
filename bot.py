@@ -2298,7 +2298,7 @@ async def robloxuser(ctx, userid: int):
     userthumbnail = await rclient.thumbnails.get_user_avatar_thumbnails(
         users=[ruser],
         type=roblox.thumbnails.AvatarThumbnailType.full_body,
-        size=(720, 720) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
+        size=(420, 420) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
     )
 
     if len(userthumbnail) > 0:
@@ -2323,7 +2323,7 @@ Display name: `{ruser.display_name}`
 
 User description: `{ruser.description}`""")
 
-    if thumbnailbool: embed.set_thumbnail(url=str(thumbnailurl))
+    if thumbnailbool: embed.set_image(url=str(thumbnailurl))
 
     await ctx.reply(embed=embed)
 
