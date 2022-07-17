@@ -2289,7 +2289,7 @@ async def robloxuser(ctx, userid: int):
     rclient = roblox.Client()
     async with ctx.channel.typing():
         # try:
-        ruser = await rclient.get_user(id) # HAS PROBLEMS!
+        ruser = await rclient.get_user(userid) # HAS PROBLEMS!
         # except:
         #     await ctx.reply("`Roblox user not found. Check the user ID!`")
         #     return
