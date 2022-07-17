@@ -2304,6 +2304,7 @@ async def robloxuser(ctx, userid: int):
     if len(userthumbnail) > 0:
         user_thumbnail = userthumbnail[0]
         thumbnailurl = user_thumbnail.image_url
+        print(thumbnailurl)
         thumbnailbool = True
     else:
         thumbnailbool = False
@@ -2323,7 +2324,7 @@ Display name: {ruser.display_name}
 
 User description: `{ruser.description}`""")
 
-    if thumbnailbool: embed.set_thumbnail(url=thumbnailurl)
+    if thumbnailbool: embed.set_thumbnail(url=str(thumbnailurl))
 
     await ctx.reply(embed=embed)
 
