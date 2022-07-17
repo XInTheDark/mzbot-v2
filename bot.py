@@ -2298,13 +2298,12 @@ async def robloxuser(ctx, userid: int):
     userthumbnail = await rclient.thumbnails.get_user_avatar_thumbnails(
         users=[ruser],
         type=roblox.thumbnails.AvatarThumbnailType.full_body,
-        size=(420, 420) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
+        size=(720, 720) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
     )
 
     if len(userthumbnail) > 0:
         user_thumbnail = userthumbnail[0]
         thumbnailurl = user_thumbnail.image_url
-        print(thumbnailurl)
         thumbnailbool = True
     else:
         thumbnailbool = False
@@ -2319,8 +2318,8 @@ async def robloxuser(ctx, userid: int):
     #             thumbnailfile = discord.File(data, 'robloxthumbnail.png')
 
     embed = discord.Embed(title=f"**Roblox User info: {rusername}**",
-                          description=f"""User ID: `{id}`
-Display name: {ruser.display_name}
+                          description=f"""User ID: `{userid}`
+Display name: `{ruser.display_name}`
 
 User description: `{ruser.description}`""")
 
