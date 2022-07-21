@@ -791,7 +791,7 @@ async def whowon(ctx, userid, *, prize):
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='ban', help='Bans a user.')
 @commands.has_permissions(ban_members=True)
-async def ban(self, member: discord.Member, *, reason=None):
+async def ban(self, member: discord.Member, *, reason: str = None):
     if not self.author.top_role > member.top_role:
         return
 
@@ -824,7 +824,7 @@ async def unban(self, *, member: str):
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command(name='kick', help='Kicks a user.')
 @commands.has_permissions(kick_members=True)
-async def kick(self, *, member: discord.Member, reason=None):
+async def kick(self, member: discord.Member, *, reason: str = None):
     if not self.author.top_role > member.top_role:
         return
 
@@ -2289,7 +2289,7 @@ async def robloxuser(ctx, userid: int):
     rclient = roblox.Client()
     async with ctx.channel.typing():
         # try:
-        ruser = await rclient.get_user(userid) # HAS PROBLEMS!
+        ruser = await rclient.get_user(userid)  # HAS PROBLEMS!
         # except:
         #     await ctx.reply("`Roblox user not found. Check the user ID!`")
         #     return
@@ -2298,7 +2298,7 @@ async def robloxuser(ctx, userid: int):
     userthumbnail = await rclient.thumbnails.get_user_avatar_thumbnails(
         users=[ruser],
         type=roblox.thumbnails.AvatarThumbnailType.full_body,
-        size=(352, 352) # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
+        size=(352, 352)  # 60, 75, 100, 110, 140, 150, 180, 250, 352, 420, 720px for full body
     )
 
     if len(userthumbnail) > 0:
@@ -2326,5 +2326,6 @@ User description: `{ruser.description}`""")
     if thumbnailbool: embed.set_image(url=str(thumbnailurl))
 
     await ctx.reply(embed=embed)
+
 
 bot.run(TOKEN)
