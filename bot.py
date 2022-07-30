@@ -124,7 +124,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, BotMissingAnyRole):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
-        msg = await ctx.send(f'`{error}`\nPlease contact <@{ownerid}> for assistance if necessary.')
+        msg = await ctx.send(f'`{error}`\nPlease contact the bot owner for assistance if necessary.')
         # await asyncio.sleep(3)
         # await msg.delete()
     if isinstance(error, CommandOnCooldown):
@@ -818,7 +818,8 @@ async def unban(self, *, member: str):
     member_name, member_discriminator = member.split("#")
 
     for ban_entry in banned_users:
-        user = ban_entry.user
+        user = ban_entry.banned_users
+        
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f"""`{user}` has been unbanned
