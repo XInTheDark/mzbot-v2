@@ -167,7 +167,7 @@ async def on_message(message):
         await message.delete()
 
     for i in bannedWords:
-        if i.lower().replace(' ','') in message.lower().replace(' ',''):
+        if i.lower().replace(' ','') in message.content.lower().replace(' ',''):
             await message.delete()
             break
 
