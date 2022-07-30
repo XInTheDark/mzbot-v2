@@ -813,13 +813,12 @@ Reason: {reason}
 @bot.command(name='unban', help='Unbans a user.')
 @commands.has_permissions(ban_members=True)
 async def unban(self, *, member: str):
-    banned_users = await self.guild.bans()
     found = 0
     member_name, member_discriminator = member.split("#")
 
-    for ban_entry in banned_users:
-        user = ban_entry.banned_users
-        
+    async for ban_entry in self.guild.bans:
+        user = ban_entry.user
+
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f"""`{user}` has been unbanned
