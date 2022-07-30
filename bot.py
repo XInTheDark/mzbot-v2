@@ -44,6 +44,7 @@ global istyping
 global msgpings
 global launch_time
 global downloadSpeed
+global bannedWords
 
 antinuke = []
 bansdict = {}
@@ -55,6 +56,7 @@ ownerid = 926410988738183189
 istyping = []
 msgpings = {}
 musicDict = {}
+bannedWords = mzutils.bannedWords
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -122,7 +124,7 @@ async def on_command_error(ctx, error):
     if isinstance(error, BotMissingAnyRole):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
-        msg = await ctx.send(f'`{error}`')
+        msg = await ctx.send(f'`{error}`\nPlease contact <@{ownerid}> for assistance if necessary.')
         # await asyncio.sleep(3)
         # await msg.delete()
     if isinstance(error, CommandOnCooldown):
@@ -155,6 +157,7 @@ async def on_message(message):
     global afkdict
     global hardmutes
     global msgpings
+    global bannedWords
 
     if message.content.strip() == "<@946761823384915968>":
         await message.reply(
@@ -162,6 +165,12 @@ async def on_message(message):
 
     if message.author.id in hardmutes:
         await message.delete()
+        break
+
+    for i in bannedWords:
+        if i.lower().replace(' ','') in message.lower().replace(' ',''):
+            await message.delete()
+            break
 
     if str(message.author.id) in afkdict:
         afklist = afkdict[str(message.author.id)]
