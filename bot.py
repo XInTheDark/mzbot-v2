@@ -165,7 +165,6 @@ async def on_message(message):
 
     if message.author.id in hardmutes:
         await message.delete()
-        break
 
     for i in bannedWords:
         if i.lower().replace(' ','') in message.lower().replace(' ',''):
