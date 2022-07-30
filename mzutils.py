@@ -6,6 +6,12 @@ from discord.ext import commands
 import os
 import psutil
 
+bannedWords = [
+    'jiang muzhen',
+    'crush',
+    'muzhen irl'
+]
+
 def snowflake(id: int):
     snowflake_time = discord.utils.snowflake_time(int(id1))
     return snowflake_time
