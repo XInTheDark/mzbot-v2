@@ -816,9 +816,11 @@ async def unban(self, *, member: str):
     found = 0
     member_name, member_discriminator = member.split("#")
 
-    async for ban_entry in self.guild.bans:
+    bans = [entry async for entry in self.guild.bans(limit=2000)]
+    
+    for ban_entry in bans:
         user = ban_entry.user
-
+        
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f"""`{user}` has been unbanned
