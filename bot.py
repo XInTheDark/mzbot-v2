@@ -250,8 +250,9 @@ async def on_message_edit(old, new):
 
 @bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    message = """New Update: 14/06/2021
-- MZ Bot has returned after 7 months!! 
+    message = """New Update: 01/08/2022
+- Added giveaway commands: `.gstart`, `.greroll`, `.gend`, `.grerollc`.
+
 *Note: 1. This log only shows the LATEST update notes.
 2. The notes will only be updated for MAJOR updates, not small patches.*"""
 
