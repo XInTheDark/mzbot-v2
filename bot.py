@@ -817,10 +817,10 @@ async def unban(self, *, member: str):
     member_name, member_discriminator = member.split("#")
 
     bans = [entry async for entry in self.guild.bans(limit=2000)]
-    
+
     for ban_entry in bans:
         user = ban_entry.user
-        
+
         if (user.name, user.discriminator) == (member_name, member_discriminator):
             await self.guild.unban(user)
             await self.send(f"""`{user}` has been unbanned
@@ -2338,4 +2338,183 @@ User description: `{ruser.description}`""")
     await ctx.reply(embed=embed)
 
 
+@bot.command(name='gstart', help='Starts a giveaway.')
+@commands.has_permissions(administrator=True)
+async def gstart(ctx, duration: str, winners: str, *, prize: str):
+    gwembed = discord.Embed(title='**GIVEAWAY!!!**', description=f"""**Giveaway: {prize}**
+React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
+
+    winners = int(winners.removesuffix('w'))
+
+    if 's' in duration:
+        duration2 = int(duration.removesuffix('s'))
+        duration3 = duration.removesuffix('s') + ' seconds'
+    elif 'm' in duration:
+        duration2 = 60 * int(duration.removesuffix('m'))
+        duration3 = duration.removesuffix('m') + ' minutes'
+    elif 'h' in duration:
+        duration2 = 3600 * int(duration.removesuffix('h'))
+        duration3 = duration.removesuffix('h') + ' hours'
+    elif 'd' in duration:
+        duration2 = 3600 * 24 * int(duration.removesuffix('d'))
+        duration3 = duration.removesuffix('d') + ' days'
+    else:
+        try:
+            duration2 = int(duration)
+        except:
+            duration2 = 0
+
+            duration3 = 'undefined'
+
+    end = datetime.datetime.utcnow() + datetime.timedelta(seconds=duration2)
+
+    gwembed.add_field(name="Ends at:", value=f"<t:{int(end.timestamp())}:R>: <t:{int(end.timestamp())}:F>")
+    gwembed.add_field(name="Number of winners:", value=f"{winners}")
+    gwembed.add_field(name="Valid winner(s):", value="Not determined")
+    gwembed.add_field(name="Hosted by:", value=f"{ctx.author.mention}")
+    gwembed.set_footer(text=f"Ends {duration3} from now!")
+
+    msg = await ctx.send(embed=gwembed)
+
+    msgtxtfile = open("gw_msg_id.txt", "w")
+    msgtxtfile.write(str(msg.id))
+    msgtxtfile.close()
+
+    await msg.add_reaction("🎉")
+
+    await asyncio.sleep(duration2)
+
+    new_msg = await ctx.fetch_message(msg.id)
+
+    cache_msg = discord.utils.get(bot.cached_messages, id=new_msg.id)
+
+    users = await cache_msg.reactions[0].users().flatten()
+    users.pop(users.index(bot.user))
+
+    if len(users) != 0:
+        for i in range(winners):
+            winnerslist = []
+            winner = random.choice(users)
+            winmsg0 = "🎉 Congratulations"
+            winmsg = " "
+
+            winmsg = winmsg + f"{winner.mention}"
+            winnerslist.append(winner)
+
+            winmsg2 = f"! You won **{prize}**! 🎉"
+            winmsgfinal = winmsg0 + winmsg + winmsg2
+
+    else:
+        winmsgfinal = "No valid entrants, so a winner could not be determined!"
+    if not msg.id in ended:
+        await ctx.send(winmsgfinal)
+        gwembed.set_footer(text=f"Ended at {end}")
+
+        embed_dict = gwembed.to_dict()
+
+        for field in embed_dict["fields"]:
+            if field["name"] == "Valid winner(s):":
+                field["value"] = f"{winmsg}"
+
+        newgwembed = discord.Embed.from_dict(embed_dict)
+
+        await new_msg.edit(embed=newgwembed)
+
+
+@bot.command(name='greroll', help='Rerolls/ends a giveaway.')
+@commands.has_permissions(administrator=True)
+async def reroll(ctx, id_: int):
+    try:
+        new_msg = await ctx.fetch_message(id_)
+    except:
+        await ctx.reply(
+            "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
+
+    # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
+    users = await new_msg.reactions[0].users().flatten()
+    users.pop(users.index(bot.user))
+
+    winner = random.choice(users)
+
+    await ctx.channel.send(f"🎉 Congratulations! The new winner is {winner.mention}! 🎉")
+
+    gwembed = await ctx.fetch_message(id_)
+    gwembed = gwembed.embeds[0]
+
+    embed_dict = gwembed.to_dict()
+
+    for field in embed_dict["fields"]:
+        if field["name"] == "Valid winner(s):":
+            field["value"] = f"{winner.mention}"
+
+    newgwembed = discord.Embed.from_dict(embed_dict)
+    reroll = datetime.datetime.utcnow()
+    newgwembed.set_footer(text=f"Rerolled at: {reroll}")
+
+    await new_msg.edit(embed=newgwembed)
+
+
+@bot.command(name='greroll-c', help='Rerolls a giveaway in Compatible mode with other bots.',
+             aliases=['rerollc', 'reroll_c'])
+@commands.has_permissions(administrator=True)
+async def rerollc(ctx, id_: int):
+    try:
+        new_msg = await ctx.fetch_message(id_)
+    except:
+        await ctx.reply(
+            "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
+
+    # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
+    users = await new_msg.reactions[0].users().flatten()
+    try:
+        users.pop(users.index(new_msg.author))
+    except:
+        None
+
+    winner = random.choice(users)
+
+    msgcompat = await ctx.send("`Bot is now rerolling in compatible mode.`")
+    await ctx.channel.send(f"🎉 Congratulations! The new winner is {winner.mention}! 🎉")
+    await asyncio.sleep(3)
+    await msgcompat.delete()
+
+
+@bot.command(name='gend', help='Ends a giveaway.')
+@commands.has_permissions(administrator=True)
+async def end(ctx, id_: int):
+    if not id_ in ended:
+
+        try:
+            new_msg = await ctx.fetch_message(id_)
+        except:
+            await ctx.reply(
+                "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
+
+        # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
+        users = await new_msg.reactions[0].users().flatten()
+        users.pop(users.index(bot.user))
+
+        winner = random.choice(users)
+
+        ended.append(id_)
+
+        await ctx.channel.send(f"🎉 Congratulations! The new winner is {winner.mention}! 🎉")
+
+        gwembed = await ctx.fetch_message(id_)
+        gwembed = gwembed.embeds[0]
+
+        embed_dict = gwembed.to_dict()
+
+        for field in embed_dict["fields"]:
+            if field["name"] == "Valid winner(s):":
+                field["value"] = f"{winner.mention}"
+
+        newgwembed = discord.Embed.from_dict(embed_dict)
+        reroll = datetime.datetime.utcnow()
+        newgwembed.set_footer(text=f"Ended at: {reroll}")
+
+        await new_msg.edit(embed=newgwembed)
+    else:
+        await ctx.reply("This giveaway has already ended. Try using `.greroll`.")
+        
 bot.run(TOKEN)
