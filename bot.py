@@ -2389,7 +2389,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
 
     cache_msg = discord.utils.get(bot.cached_messages, id=new_msg.id)
 
-    users = await cache_msg.reactions[0].users().flatten()
+    users = [await cache_msg.reactions[0].users()]
     users.pop(users.index(bot.user))
 
     if len(users) != 0:
@@ -2432,7 +2432,7 @@ async def reroll(ctx, id_: int):
             "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
 
     # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
-    users = await new_msg.reactions[0].users().flatten()
+    users = [await new_msg.reactions[0].users()]
     users.pop(users.index(bot.user))
 
     winner = random.choice(users)
@@ -2466,7 +2466,7 @@ async def rerollc(ctx, id_: int):
             "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
 
     # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
-    users = await new_msg.reactions[0].users().flatten()
+    users = [await new_msg.reactions[0].users()]
     try:
         users.pop(users.index(new_msg.author))
     except:
@@ -2492,7 +2492,7 @@ async def end(ctx, id_: int):
                 "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
 
         # cache_msg = discord.utils.get(bot.cached_messages, id=id_)
-        users = await new_msg.reactions[0].users().flatten()
+        users = [await new_msg.reactions[0].users()]
         users.pop(users.index(bot.user))
 
         winner = random.choice(users)
