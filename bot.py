@@ -1017,8 +1017,18 @@ async def setdelay(ctx, seconds: int):
 @commands.has_permissions(manage_roles=True)  # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
-    if not ctx.author.top_role > role:
+    
+    if role is None:
+        await ctx.send("Could not find that role!")
         return
+    
+    if not ctx.author.top_role > role:
+        await ctx.send("You do not have permission to do that! Failed to add role.")
+        return
+    
+    if guild.get_member(bot.user.id).top_role < role:
+        await ctx.send("The specified role is above my top role! Failed to add role.")
+    
 
     if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
@@ -1027,7 +1037,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
             try:
                 await i.add_roles(role)
             except AttributeError:
-                await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+                await ctx.channel.send("An error occurred while trying to add role! Check whether that role exists!")
                 errorrole = 1
                 break
         await ctx.send(
@@ -1035,15 +1045,14 @@ async def addrole(ctx, member: discord.Member, *, rolename):
 
     else:
         errorrole = 0
-
         try:
             await member.add_roles(role)
         except AttributeError:
-            await ctx.channel.send("An Error Occurred while trying to add role! Check whether that role exists!")
+            await ctx.channel.send("An error occurred while trying to add role! Check whether that role exists!")
             errorrole = 1
 
         if errorrole == 0:
-            await ctx.channel.send(f"Added role: {rolename} to member {member} successfully!")
+            await ctx.channel.send(f"Added role: `{rolename}` to `{member}` successfully!")
 
 
 @bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
@@ -2517,5 +2526,5 @@ async def end(ctx, id_: int):
         await new_msg.edit(embed=newgwembed)
     else:
         await ctx.reply("This giveaway has already ended. Try using `.greroll`.")
-        
+
 bot.run(TOKEN)
