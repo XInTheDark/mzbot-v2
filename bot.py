@@ -2392,7 +2392,9 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     msgtxtfile.close()
 
     await msg.add_reaction("🎉")
-
+    
+    await ctx.message.delete()
+    
     await asyncio.sleep(duration2)
 
     new_msg = await ctx.fetch_message(msg.id)
