@@ -57,6 +57,7 @@ istyping = []
 msgpings = {}
 musicDict = {}
 bannedWords = mzutils.bannedWords
+ended = []
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
