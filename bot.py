@@ -1649,6 +1649,7 @@ async def mc(ctx):
 
 @bot.command(name='snipe', aliases=['sniper'])
 async def snipe(ctx, pos=1):
+    pos = int(pos)
     success1 = False
     success2 = False
 
@@ -1696,6 +1697,7 @@ Deleted <t:{lst[4]}:R>
 
 @bot.command(name='editsnipe', aliases=['editsniper', 'esnipe'])
 async def esnipe(ctx, pos=1):
+    pos = int(pos)
     success1 = False
     success2 = False
 
