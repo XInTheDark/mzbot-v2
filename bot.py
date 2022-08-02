@@ -1027,7 +1027,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
         await ctx.send("You do not have permission to do that! Failed to add role.")
         return
     
-    if guild.get_member(bot.user.id).top_role < role:
+    if ctx.guild.get_member(bot.user.id).top_role < role:
         await ctx.send("The specified role is above my top role! Failed to add role.")
     
 
