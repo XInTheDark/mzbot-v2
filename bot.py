@@ -1018,18 +1018,18 @@ async def setdelay(ctx, seconds: int):
 @commands.has_permissions(manage_roles=True)  # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
-    
+
     if role is None:
         await ctx.send("Could not find that role!")
         return
-    
+
     if not ctx.author.top_role > role:
         await ctx.send("You do not have permission to do that! Failed to add role.")
         return
-    
+
     if ctx.guild.get_member(bot.user.id).top_role < role:
         await ctx.send("The specified role is above my top role! Failed to add role.")
-    
+
 
     if str(member) == "all":
         await ctx.send(f"Adding role to {len(ctx.guild.members)} members...")
@@ -1654,8 +1654,8 @@ async def snipe(ctx, pos=1):
     success2 = False
 
     try:
-        lst = snipes[sorted(snipes.keys())[-1]]
-        success1 = True
+        lst = snipes[sorted(snipes.keys())[-pos]]
+        success1 = True if lst is not None
     except:
         if pos == 1:
             await ctx.reply("No messages deleted yet.")
@@ -1702,13 +1702,15 @@ async def esnipe(ctx, pos=1):
     success2 = False
 
     try:
-        lst = esnipes[sorted(esnipes.keys())[-1]]
-        success1 = True
+        lst = esnipes[sorted(esnipes.keys())[-pos]]
+        success1 = True if lst is not None
     except:
         if pos == 1:
             await ctx.reply("No messages edited yet.")
         else:
             await ctx.reply("There is no message found at that index.")
+        
+        return
 
     if success1:
         if not lst[1] == ctx.channel.id:
@@ -2394,9 +2396,9 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     msgtxtfile.close()
 
     await msg.add_reaction("🎉")
-    
+
     await ctx.message.delete()
-    
+
     await asyncio.sleep(duration2)
 
     new_msg = await ctx.fetch_message(msg.id)
