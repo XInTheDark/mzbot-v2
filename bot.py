@@ -1654,8 +1654,9 @@ async def snipe(ctx, pos=1):
     success2 = False
 
     try:
-        lst = snipes[sorted(snipes.keys())[-pos]]
-        success1 = True if lst is not None
+        lst = snipes[(sorted(snipes.keys())[-pos])]
+        if lst is not None:
+            success1 = True
     except:
         if pos == 1:
             await ctx.reply("No messages deleted yet.")
@@ -1702,8 +1703,9 @@ async def esnipe(ctx, pos=1):
     success2 = False
 
     try:
-        lst = esnipes[sorted(esnipes.keys())[-pos]]
-        success1 = True if lst is not None
+        lst = esnipes[(sorted(esnipes.keys())[-pos])]
+        if lst is not None:
+            success1 = True
     except:
         if pos == 1:
             await ctx.reply("No messages edited yet.")
