@@ -1711,7 +1711,7 @@ async def esnipe(ctx, pos=1):
             await ctx.reply("No messages edited yet.")
         else:
             await ctx.reply("There is no message found at that index.")
-        
+
         return
 
     if success1:
@@ -2535,5 +2535,15 @@ async def end(ctx, id_: int):
         await new_msg.edit(embed=newgwembed)
     else:
         await ctx.reply("This giveaway has already ended. Try using `.greroll`.")
+
+
+@bot.command(aliases=['recentmention', 'mentionmsg', 'msgmention'])
+async def lastmention(ctx, limit: int = 10000):
+    async for message in ctx.channel.history(limit=limit):
+        if ctx.author in message.mentions:
+            await message.reply(f"{ctx.author.mention}, here is your most recent mention!")
+            return
+
+    await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
 
 bot.run(TOKEN)
