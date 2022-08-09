@@ -2544,6 +2544,6 @@ async def lastmention(ctx, limit: int = 10000):
             await message.reply(f"{ctx.author.mention}, here is your most recent mention!")
             return
 
-    await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
+    await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.", mention_author=False)
 
 bot.run(TOKEN)
