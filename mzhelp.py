@@ -34,7 +34,20 @@ helpcmdz = {
     'slowmode': "Sets the slowmode. **Requires Permission(s): Manage Channels**",
     'purge': "Purges messages. Avoids pinned messages. **Requires Permission(s): Manage Messages**",
     ('timer', 'countdown'): "Sets a countdown timer. **Requires Permission(s): Administrator**",
-    ('whois', 'memberinfo'): "Checks a member's info such as role, avatar, permissions, and join date."
+    ('whois', 'memberinfo'): "Checks a member's info such as role, avatar, permissions, and join date.",
+    ('type', 'typing'): "Get the bot to type for a certain amount of time, or infinitely.",
+    ('stoptype', 'stoptyping'): "Get the bot to stop typing. Due to API limitations, this command will not be activated instantly.",
+    ('music', 'play', 'song'): "Plays a certain song. The bot will automatically join the voice channel you're in.",
+    ('leave', 'disconnect'): "Leaves the voice channel that the bot is currently in.",
+    ('continue', 'resume'): "Resumes playing music.",
+    'pause': "Pauses the music that is currently playing.",
+    ('skip', 'stop'): "Skips the music that is currently playing.",
+    ('serverinfo', 'whereami'): "Gets information about the server.",
+    ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc', 'robloxuser'): "Gets information about a Roblox user.",
+    'gstart': "Stars a giveaway.",
+    ('gend', 'greroll'): "Ends/rerolls a giveaway.",
+    ('grerollc', 'rerollc', 'reroll_c'): "Rerolls a giveaway in compatible mode with other bots.",
+    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "Fetches the most recent mention of you."
 }
 
 helpusage = {
@@ -45,7 +58,7 @@ helpusage = {
     'credits': "`.credits`",
     'ticket': "`.ticket`",
     ('delete', 'tclose', 'tdelete'): "`.delete|tclose|tdelete`",
-    'afk': "`.afk [reason (default 'AFK')]`",
+    'afk': "`.afk [reason='AFK']`",
     ('about', 'info'): "`.about|info`",
     'ping': "`.ping`",
     ('updates', 'update'): "`.updates|update`",
@@ -57,8 +70,8 @@ helpusage = {
     'mute': "`.mute <discord.Member>`",
     'unmute': "`.unmute <discord.Member>`",
     'nuke': "`.nuke`",
-    'kick': "`.kick <discord.Member> [reason (default 'None')]`",
-    'ban': "`.ban <discord.Member> [reason (default 'None')]`",
+    'kick': "`.kick <discord.Member> [reason=None]`",
+    'ban': "`.ban <discord.Member> [reason=None]`",
     'unban': "`.unban <User's Name + Discrim>`",
     'gg':"`.gg <server name>`",
     'tips': "`.tips`",
@@ -72,7 +85,21 @@ helpusage = {
     'lockall': "`.lockall`",
     'slowmode': "`.slowmode <seconds>`",
     'purge': "`.purge <limit>`",
-    ('timer', 'countdown'): "`.timer|countdown <time> [timer name (defaults to none)]`",
-    ('whois', 'memberinfo'): "`.whois|memberinfo <discord.Member>`"
+    ('timer', 'countdown'): "`.timer|countdown <duration> [name=None]`",
+    ('whois', 'memberinfo'): "`.whois|memberinfo <discord.Member>`",
+    ('type', 'typing'): "`.type|typing [duration=None]`",
+    ('stoptype', 'stoptyping'): "`.stoptype|stoptyping`",
+    ('music', 'play', 'song'): "`.music|play|song <YouTube URL|Song Name>`",
+    ('leave', 'disconnect'): "`.leave|disconnect`",
+    ('continue', 'resume'): "`.continue|resume`",
+    'pause': "`.pause`",
+    ('skip', 'stop'): "`.skip|stop`",
+    ('serverinfo', 'whereami'): "`.serverinfo|whereami`",
+    ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc', 'robloxuser'): ""
+                                                                                                                "`.robloxuser|ruser|robloxacc|... <Roblox user ID>`",
+    'gstart': "`.gstart <duration> <number of winners> [prize='<undefined>']`",
+    ('gend', 'greroll'): "`.gend|greroll <message ID>`",
+    ('grerollc', 'rerollc', 'reroll_c'): "`.grerollc|rerollc|reroll_c <message ID>`",
+    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "`.lastmention|recentmention|... [limit=10000]`"
 }
 
