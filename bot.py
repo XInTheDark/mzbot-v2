@@ -2357,7 +2357,7 @@ User description: `{ruser.description}`""")
 
 @bot.command(name='gstart', help='Starts a giveaway.')
 @commands.has_permissions(administrator=True)
-async def gstart(ctx, duration: str, winners: str, *, prize: str):
+async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"):
     gwembed = discord.Embed(title='**GIVEAWAY!!!**', description=f"""**Giveaway: {prize}**
 React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
 
@@ -2440,7 +2440,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
         await new_msg.edit(embed=newgwembed)
 
 
-@bot.command(name='greroll', help='Rerolls/ends a giveaway.')
+@bot.command(name='greroll', help='Rerolls/ends a giveaway.', aliases=['gend'])
 @commands.has_permissions(administrator=True)
 async def reroll(ctx, id_: int):
     try:
@@ -2544,6 +2544,6 @@ async def lastmention(ctx, limit: int = 10000):
             await message.reply(f"{ctx.author.mention}, here is your most recent mention!")
             return
 
-    await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.", mention_author=False)
+    await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
 
 bot.run(TOKEN)
