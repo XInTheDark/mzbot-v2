@@ -42,10 +42,11 @@ helpcmdz = {
     ('continue', 'resume'): "Resumes playing music.",
     'pause': "Pauses the music that is currently playing.",
     ('skip', 'stop'): "Skips the music that is currently playing.",
-    ('serverinfo', 'whereami'): "Gets information about the server.",
+    ('serverinfo', 'whereami'): "Gets information about the current server.",
     ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc', 'robloxuser'): "Gets information about a Roblox user.",
-    'gstart': "Stars a giveaway.",
-    ('gend', 'greroll'): "Ends/rerolls a giveaway.",
+    'gstart': "Starts a giveaway.",
+    'greroll': "Rerolls a giveaway.",
+    'gend': "Ends a giveaway.",
     ('grerollc', 'rerollc', 'reroll_c'): "Rerolls a giveaway in compatible mode with other bots.",
     ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "Fetches the most recent mention of you."
 }
@@ -98,7 +99,8 @@ helpusage = {
     ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc', 'robloxuser'): ""
                                                                                                                 "`.robloxuser|ruser|robloxacc|... <Roblox user ID>`",
     'gstart': "`.gstart <duration> <number of winners> [prize='<undefined>']`",
-    ('gend', 'greroll'): "`.gend|greroll <message ID>`",
+    'greroll': "`.greroll <message ID>`",
+    'gend': "`.gend <message ID>`",
     ('grerollc', 'rerollc', 'reroll_c'): "`.grerollc|rerollc|reroll_c <message ID>`",
     ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "`.lastmention|recentmention|... [limit=10000]`"
 }
