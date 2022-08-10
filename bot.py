@@ -2440,7 +2440,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
         await new_msg.edit(embed=newgwembed)
 
 
-@bot.command(name='greroll', help='Rerolls/ends a giveaway.', aliases=['gend'])
+@bot.command(name='greroll', help='Rerolls/ends a giveaway.')
 @commands.has_permissions(administrator=True)
 async def reroll(ctx, id_: int):
     try:
