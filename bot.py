@@ -117,7 +117,7 @@ async def on_ready():
     # init variables
     downloadSpeed = speedTestDownload()
 
-
+# error handling
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, BotMissingPermissions):
@@ -126,18 +126,20 @@ async def on_command_error(ctx, error):
         await ctx.send(f'`Missing Roles!`')
     if isinstance(error, CommandInvokeError):
         msg = await ctx.send(f'`{error}`\nPlease contact the bot owner for assistance if necessary.')
-        # await asyncio.sleep(3)
-        # await msg.delete()
+        await asyncio.sleep(3)
+        await msg.delete()
     if isinstance(error, CommandOnCooldown):
-        msg = await ctx.reply(f'`{error}`')
-        await asyncio.sleep(3)
+        msg = await ctx.reply(f'`{error}`', mention_author=False)
+        await asyncio.sleep(2)
         await msg.delete()
-    if isinstance(error, MissingRequiredArgument) or isinstance(error, TooManyArguments):
+    if isinstance(error, MissingRequiredArgument)
         await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
-    if isinstance(error, CommandNotFound):
-        msg = await ctx.send(f'`Command not found!`')
-        await asyncio.sleep(3)
-        await msg.delete()
+    if isinstance(error, TooManyArguments):
+        await ctx.send(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!')
+    # if isinstance(error, CommandNotFound):
+    #     msg = await ctx.send(f'`Command not found!`')
+    #     await asyncio.sleep(3)
+    #     await msg.delete()
 
 
 # @bot.event
