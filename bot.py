@@ -1401,10 +1401,13 @@ Message Latency: `{int(secs * 1000)} ms` ({jud2})
 Internet Speed: Download - `{downloadSpeed} Mbps`, Upload - `{uploadSpeed} Mbps`""")
 
 
-@bot.command(name='timedif', help='', aliases=['snowflake', 'timediff'])
+@bot.command(name='timedif', help='', aliases=['snowflake', 'timediff', 'difference'])
 async def timedif(ctx, id1, id2=None):
     if ctx.message.reference is not None:
         id2 = ctx.message.reference.message_id
+    else:
+        id2 = ctx.message.id
+        
     try:
         id1 = int(id1)
         id2 = int(id2)
