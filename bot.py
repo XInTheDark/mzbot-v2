@@ -132,7 +132,7 @@ async def on_command_error(ctx, error):
         msg = await ctx.reply(f'`{error}`', mention_author=False)
         await asyncio.sleep(2)
         await msg.delete()
-    if isinstance(error, MissingRequiredArgument)
+    if isinstance(error, MissingRequiredArgument):
         await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
     if isinstance(error, TooManyArguments):
         await ctx.send(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!')
