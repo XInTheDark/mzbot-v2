@@ -1407,7 +1407,7 @@ async def timedif(ctx, id1, id2=None):
         id2 = ctx.message.reference.message_id
     else:
         id2 = ctx.message.id
-        
+
     try:
         id1 = int(id1)
         id2 = int(id2)
@@ -2025,7 +2025,7 @@ async def swebhook(ctx, *, txt):
 async def inviteurl(ctx):
     await ctx.reply("""Click below to invite me!
 
-https://discord.com/api/oauth2/authorize?client_id=946761823384915968&permissions=8&scope=bot""")
+https://discord.com/api/oauth2/authorize?client_id=1010883625480376351&permissions=8&scope=bot""")
 
 
 @bot.command(name='insult', aliases=['insults'])
