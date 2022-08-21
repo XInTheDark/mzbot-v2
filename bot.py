@@ -108,7 +108,7 @@ async def on_ready():
     # computer_name = os.environ['USERNAME']
     embed = discord.Embed(title="**MZ Bot build succeeded**",
                           description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f> (<t:{int(launch_time.timestamp())}:R>)**\n"
-                                      f"\nHost IP: __{local_ip}__\nHost: {os.uname()}\n\nHost info: {os.environ}",
+                                      f"\nHost IP: __{local_ip}__\nHost: {os.uname()}",
                           color=0x00ff00)
     # await channel.send(embed=embed)
     await channel.send(embed=embed)
