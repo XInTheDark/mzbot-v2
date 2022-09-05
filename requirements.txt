@@ -13,3 +13,4 @@ youtube-dl==2021.2.10
 speedtest-cli
 roblox
 aiohttp
+Flask
