@@ -12,7 +12,7 @@ import urllib.request
 import re
 import speedtest
 import roblox
-# import keep_alive
+import keep_alive
 # import io
 # import aiohttp
 
@@ -2552,6 +2552,6 @@ async def lastmention(ctx, limit: int = 10000):
 
     await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
 
-# keep_alive.keep_alive()  # keep bot alive
+keep_alive.keep_alive()  # keep bot alive
 
 bot.run(TOKEN)
