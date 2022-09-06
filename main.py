@@ -61,9 +61,9 @@ bannedWords = mzutils.bannedWords
 ended = []
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = os.environ.get('DISCORD_TOKEN')
 # TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
-GUILD = os.getenv('DISCORD_GUILD')
+GUILD = os.environ.get('DISCORD_GUILD')
 
 intents = discord.Intents.all()
 # activity = discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers")
