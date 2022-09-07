@@ -5,6 +5,30 @@ entrypoint = "main.py"
 
 [languages.python3]
 pattern = "**/*.py"
+    [languages.python3.languageServer]
+    start = ["pyls"]
 
 [packager]
 language = "python3"
+    [packager.features]
+    guessImports = true
+
+[interpreter]
+    [interpreter.command]
+    args = [
+        "stderred",
+        "--",
+        "prybar-python3",
+        "-q",
+        "--ps1",
+        "\u0001\u001b[33m\u0002\u0001\u001b[00m\u0002 ",
+        "-i",
+    ]
+    env = { LD_LIBRARY_PATH = "$PYTHON_LD_LIBRARY_PATH" }
+
+[env]
+VIRTUAL_ENV = "/home/runner/${REPL_SLUG}/venv"
+PATH = "${VIRTUAL_ENV}/bin"
+PYTHONPATH="${VIRTUAL_ENV}/lib/python3.8/site-packages"
+REPLIT_POETRY_PYPI_REPOSITORY="https://package-proxy.replit.com/pypi/"
+MPLBACKEND="TkAgg"
