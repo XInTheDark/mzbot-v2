@@ -1,4 +1,4 @@
-run = ["python3", "main.py"]
+run = ["python310", "main.py"]
 
 [tool.poetry]
 name = "python-template"
