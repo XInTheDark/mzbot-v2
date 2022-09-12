@@ -1234,7 +1234,7 @@ async def rename(ctx, channel='', *, name):
     await ctx.message.delete()
 
 
-@commands.cooldown(1, 3, commands.BucketType.channel)
+@commands.cooldown(1, 2, commands.BucketType.channel)
 @bot.command(name='purge', help='{Beta} Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
@@ -1380,9 +1380,9 @@ async def ping(ctx):
     else:
         jud1 = 'Slow - Bot Lagging!'
 
-    if secs * 1000 < 120:
+    if secs * 1000 < 150:
         jud2 = 'Fast'
-    elif secs * 1000 >= 120 and secs * 1000 < 200:
+    elif 150 <= secs * 1000 < 250:
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
@@ -1415,6 +1415,7 @@ async def timedif(ctx, id1, id2=None):
 
     except:
         await ctx.reply("Check your message IDs! They are incorrect!")
+        return
 
     time1 = discord.utils.snowflake_time(int(id1))
     time2 = discord.utils.snowflake_time(int(id2))
@@ -2551,7 +2552,9 @@ async def lastmention(ctx, limit: int = 10000):
             return
 
     await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
+    {ctx.guild.name('https://ctx.guild.name')}
 
 keep_alive.keep_alive()  # keep bot alive
 
 bot.run(TOKEN)
+
