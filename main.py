@@ -1488,10 +1488,11 @@ async def ticket(ctx):
         global reaction
         reaction = treaction
         user = user1
-        return str(reaction) == '📩' and user.id != 877804981347029043
-
+        return str(reaction) == '📩' and user.id != bot.user.id
+    
+    global user
+    
     while True:
-
         await bot.wait_for("reaction_add", check=check)
         await msg.remove_reaction('📩', user)
 
@@ -1520,7 +1521,7 @@ async def ticket(ctx):
             await channel.send(embed=embed)
 
             file = open('tickets.txt', 'a')
-            file.write(f"{user.id}")
+            file.write(f"{user.id}\n")
             file.close()
 
 
@@ -1532,7 +1533,8 @@ async def tclose(ctx):
     channelperms = ctx.channel.overwrites_for(ctx.author)
     memberoverwrite = channelperms
     if memberoverwrite == discord.PermissionOverwrite(read_messages=True,
-                                                      send_messages=True) or ctx.author.guild_permissions.manage_channels:
+                                                      send_messages=True)\
+            or ctx.author.guild_permissions.manage_channels:
 
         msg = await ctx.reply("""**Are you sure you wish to delete this channel permanently?**
 This is an irreversible action.
