@@ -1069,6 +1069,7 @@ async def setclaimschannel(ctx, channel):
                 channelid = int(channel)
             except:
                 await ctx.channel.send('An error occurred! Check your syntax!')
+                return
     else:
         channelid = ctx.channel.id
 
@@ -1076,11 +1077,11 @@ async def setclaimschannel(ctx, channel):
         channeltest = client.get_channel(channelid)
     except:
         await ctx.channel.send('Cannot find channel! Check your command!')
-
-    taskdone1 = False
+        return
 
     if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
+        return
     else:
         claimsfile = open("claimschannel.txt", "r")
         serverid = ctx.message.guild.id
@@ -1103,19 +1104,17 @@ async def setclaimschannel(ctx, channel):
 
                 claimsfile.close()
 
-                taskdone1 = True
                 await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
-                break
+                return
 
-        if not taskdone1:
-            claimsfile.close()
-            claimsfile = open('claimschannel.txt', 'a')
-            claimsfile.write('\n')
-            claimsfile.write(f"{str(serverid)}:{str(channelid)}")
+        claimsfile.close()
+        claimsfile = open('claimschannel.txt', 'a')
+        claimsfile.write('\n')
+        claimsfile.write(f"{str(serverid)}:{str(channelid)}")
 
-            await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
+        await ctx.channel.send(f"Successfully updated claims channel to <#{channelid}>!")
 
-            claimsfile.close()
+        claimsfile.close()
 
 
 @bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
@@ -1136,6 +1135,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
                 break
         if not foundserver:
             await ctx.channel.send("Cannot find claims channel! Try using '.setclaimschannel'!")
+            return
         else:
             channel = bot.get_channel(int(claimschannel))
             await channel.send(f"""🎉 **Congratulations!** 🎉
@@ -1153,7 +1153,8 @@ async def setproofschannel(ctx, channelid):
             try:
                 channelid = int(channelid)
             except:
-                await ctx.channel.send('An error occurred! Check your syntax!ww')
+                await ctx.channel.send('An error occurred! Check your syntax!')
+                return
     else:
         channelid = ctx.channel.id
 
@@ -1161,11 +1162,11 @@ async def setproofschannel(ctx, channelid):
         channeltest = client.get_channel(channelid)
     except:
         await ctx.channel.send('Cannot find channel! Check your command!')
-
-    taskdone1 = False
+        return
 
     if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("Omg look at who's fiddling with server settings?!")
+        return
     else:
         claimsfile = open("proofchannel.txt", "r")
         serverid = ctx.message.guild.id
@@ -1188,19 +1189,17 @@ async def setproofschannel(ctx, channelid):
 
                 claimsfile.close()
 
-                taskdone1 = True
                 await ctx.channel.send(f"Successfully updated proofs channel to <#{channelid}>!")
-                break
+                return
 
-        if not taskdone1:
-            claimsfile.close()
-            claimsfile = open('proofchannel.txt', 'a')
-            claimsfile.write('\n')
-            claimsfile.write(f"{str(serverid)}:{str(channelid)}")
+        claimsfile.close()
+        claimsfile = open('proofchannel.txt', 'a')
+        claimsfile.write('\n')
+        claimsfile.write(f"{str(serverid)}:{str(channelid)}")
 
-            await ctx.channel.send(f"Successfully updated proofs channel to <#{channelid}>!")
+        await ctx.channel.send(f"Successfully updated proofs channel to <#{channelid}>!")
 
-            claimsfile.close()
+        claimsfile.close()
 
 
 @bot.command(name='rename', help='Renames the channel.', aliases=['renamechannel'])
@@ -1375,7 +1374,7 @@ async def ping(ctx):
 
     if lavg < 15:
         jud1 = 'Fast'
-    elif lavg >= 15 and lavg < 40:
+    elif 15 <= lavg < 40:
         jud1 = 'Normal'
     else:
         jud1 = 'Slow - Bot Lagging!'
@@ -2074,7 +2073,7 @@ async def insults(ctx):
                       "Ur mom doesn't care noob", "Go stuff urself LMFAOOOO", "OMFG A REAL NOOB HERE!!",
                       "WOWWWWWWWW NOOBS IN HERE?!", "go get some brains, ur mom is sad",
                       "Get better at fucking, fuck her harder", "https://pornhub.com/", "https://pornhub.com LMFAO",
-                      "https://sex.com/ pro"]
+                      "https://sex.com/ pro", "ratio", "cry harder", "didnt ask + dont care", "Hmm? who asked? not me"]
 
             if l == 0:
                 await msg.edit(content=random.choice(ezlst))
