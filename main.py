@@ -123,11 +123,12 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, BotMissingPermissions):
-        await ctx.send(f'`Missing Permissions!`')
+        await ctx.reply(f'`Missing Permissions!`', mention_author=False)
     if isinstance(error, BotMissingAnyRole):
-        await ctx.send(f'`Missing Roles!`')
+        await ctx.reply(f'`Missing Roles!`', mention_author=False)
     if isinstance(error, CommandInvokeError):
-        msg = await ctx.send(f'`{error}`\nPlease contact the bot owner for assistance if necessary.')
+        msg = await ctx.reply(f'`{error}`\nPlease contact the bot owner for assistance if necessary.',
+                              mention_author=False)
         await asyncio.sleep(3)
         await msg.delete()
     if isinstance(error, CommandOnCooldown):
@@ -135,9 +136,11 @@ async def on_command_error(ctx, error):
         await asyncio.sleep(2)
         await msg.delete()
     if isinstance(error, MissingRequiredArgument):
-        await ctx.send(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!')
+        await ctx.reply(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!',
+                        mention_author=False)
     if isinstance(error, TooManyArguments):
-        await ctx.send(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!')
+        await ctx.reply(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!',
+                        mention_author=False)
     # if isinstance(error, CommandNotFound):
     #     msg = await ctx.send(f'`Command not found!`')
     #     await asyncio.sleep(3)
@@ -779,7 +782,8 @@ async def whowon(ctx, userid, *, prize):
             break
     if not foundserver:
         await ctx.channel.send(
-            r"Cannot find proofs channel! Try using '.setproofschannel'!\n*(Due to a recent update, the proofs channel can now be set! We strongly encourage you to set it with `.setproofschannel`.)")
+            "Cannot find proofs channel! Try using '.setproofschannel'!\n*(Due to a recent update, the proofs "
+            "channel can now be set! We strongly encourage you to set it with `.setproofschannel`.)")
         proofschannel = "the proofs channel (if any)"
         
         claimsfile2.close()
@@ -1828,12 +1832,15 @@ Invite link: {inviteurl}
 
 
 @bot.command(name='setnsfw', aliases=['nsfwsettings'])
+# work in progress. Currently, the discord.py API does not support changing NSFW settings.
 async def setnsfw(ctx, status=None):
     if status is None:
         nsfwon = await ctx.channel.is_nsfw()
         status = not nsfwon
-    if status.strip().lower() == 'on' or status.strip().lower() == 'off':
-        status = True if status == 'on' else False
+    if status.strip().lower() in ["true", "on", "enable", "enabled"]:
+        status = True
+    elif status.strip().lower() in ["false", "off", "disable", "disabled"]:
+        status = False
 
 
 @bot.command(name="timer", aliases=['countdown'])
@@ -2185,32 +2192,55 @@ class YTDLSource(discord.PCMVolumeTransformer):
 def searchYT(search_keyword):
     html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + search_keyword)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-    return ("https://www.youtube.com/watch?v=" + video_ids[0])
+    return "https://www.youtube.com/watch?v=" + video_ids[0]
 
 
+async def checkVoicePerms(ctx):
+    if not ctx.author.voice:
+        return False
+    
+    topPerms = []
+    
+    for member in ctx.author.voice.channel:
+        if member != ctx.author:
+            topPerms.append(member.top_role.position)
+    
+    if ctx.author.top_role.position < max(topPerms):
+        await ctx.reply("You need to have the highest role in the voice channel in order to do this!")
+        return False
+    
+    return True
+    
+    
 @bot.command(aliases=['music', 'song'])
+@commands.has_permissions(manage_guild=True)
 async def play(ctx, *, url_: str):
     global downloadSpeed
     
     # join voice channel
-    if not ctx.message.author.voice:
+    if not ctx.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
         try:
-            channel = ctx.message.author.voice.channel
+            channel = ctx.author.voice.channel
             voice = await channel.connect()
         except:
-            voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+            voice = ctx.guild.voice_client
+            # note how we do not use discord.utils.get(bot.voice_clients, guild=ctx.guild).
+            # this is because that returns a VoiceProtocol object, not a VoiceClient.
     
     # get youtube url
-    if not "youtube.com" in url_ and not "youtu.be" in url_ and not "/watch?v=" in url_:
+    if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
         msg1 = await ctx.send("`Searching YouTube...`")
         url_ = url_.replace(' ', '+')
         url_ = searchYT(url_)  # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
     
+    if not await checkVoicePerms(ctx):
+        return
+        
     async with ctx.typing():
         await msg1.edit(
             content=f"`Downloading song... \nThis can take a while. (Download speed: {downloadSpeed} Mbps)`")
@@ -2224,9 +2254,12 @@ async def play(ctx, *, url_: str):
 
 @bot.command(aliases=['leave'])
 async def disconnect(ctx):
-    voice = ctx.message.guild.voice_client
+    if not await checkVoicePerms(ctx):
+        return
+    
+    voice = ctx.guild.voice_client
     if voice is not None:
-        if voice.is_connected:
+        if voice.is_connected():
             await voice.disconnect()
             voice.cleanup()
     else:
@@ -2235,14 +2268,17 @@ async def disconnect(ctx):
 
 @bot.command()
 async def pause(ctx):
+    if not await checkVoicePerms(ctx):
+        return
+    
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+        voice = ctx.guild.voice_client
     
     if voice is not None:
-        if voice.is_playing:
+        if voice.is_playing():
             voice.pause()
             await ctx.send("`Paused...`")
     else:
@@ -2251,14 +2287,17 @@ async def pause(ctx):
 
 @bot.command(aliases=['continue'])
 async def resume(ctx):
+    if not await checkVoicePerms(ctx):
+        return
+    
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+        voice = ctx.guild.voice_client
     
     if voice is not None:
-        if voice.is_paused:
+        if voice.is_paused():
             voice.resume()
             await ctx.send("`Resumed...`")
     else:
@@ -2267,11 +2306,14 @@ async def resume(ctx):
 
 @bot.command(aliases=['skip'])
 async def stop(ctx):
+    if not await checkVoicePerms(ctx):
+        return
+    
     if not ctx.message.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
-        voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+        voice = ctx.guild.voice_client
     
     if voice is not None:
         if voice.is_playing:
