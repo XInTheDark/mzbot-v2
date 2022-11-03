@@ -2289,7 +2289,7 @@ async def play(ctx, *, url_: str = None):
     await ctx.send('**Now playing:** `{}`'.format(filename))
 
 
-@bot.command(aliases=['addqueue', 'add'])
+@bot.command(aliases=['addqueue', 'add', 'q'])
 async def queue(ctx, *, url_: str):
     if not ctx.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
@@ -2313,6 +2313,25 @@ async def queue(ctx, *, url_: str):
     musicQueue.append(url_)
     await ctx.reply("Added song to queue!")
 
+
+@bot.command(aliases=['skipsong', 'skipq', 'removeq'])
+async def skip(ctx):
+    if not await checkVoicePerms(ctx):
+        return
+
+    try:
+        channel = ctx.author.voice.channel
+        voice = await channel.connect()
+    except:
+        voice = ctx.guild.voice_client
+    
+    voice.stop()
+    
+    if len(musicQueue) > 0:
+        await playLoop(ctx, voice)
+    else:
+        return
+    
     
 @bot.command(aliases=['leave'])
 async def disconnect(ctx):
