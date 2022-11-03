@@ -2385,7 +2385,7 @@ async def resume(ctx):
         await ctx.send("I am not connected to a voice channel!")
 
 
-@bot.command(aliases=['skip'])
+@bot.command(aliases=['stopsong', 'stopq'])
 async def stop(ctx):
     if not await checkVoicePerms(ctx):
         return
