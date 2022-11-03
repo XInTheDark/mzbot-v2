@@ -2201,7 +2201,7 @@ async def checkVoicePerms(ctx):
     
     topPerms = []
     
-    for member in ctx.author.voice.channel:
+    for member in ctx.author.voice.channel.members:
         if member != ctx.author:
             topPerms.append(member.top_role.position)
     
