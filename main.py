@@ -2228,11 +2228,12 @@ async def playLoop(ctx, voice):
     if len(musicQueue) == 0:
         return
     
-    await ctx.send("`Downloading song...`")
-    filename = await YTDLSource.from_url(musicQueue[0], loop=bot.loop)
+    async with ctx.typing():
+        await ctx.send("`Downloading song...`")
+        filename = await YTDLSource.from_url(musicQueue[0], loop=bot.loop)
+        
     musicQueue.pop(0)
-    voice.play(discord.FFmpegPCMAudio(source=filename), after=playLoop(ctx, voice))
-    
+    voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
     
     
 @bot.command(aliases=['music', 'song'])
@@ -2245,6 +2246,12 @@ async def play(ctx, *, url_: str = None):
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
     else:
+        voice = ctx.guild.voice_client
+        if voice is not None:
+            if voice.is_connected():
+                await voice.disconnect()
+                voice.cleanup()
+                
         try:
             channel = ctx.author.voice.channel
             voice = await channel.connect()
@@ -2253,10 +2260,12 @@ async def play(ctx, *, url_: str = None):
             # note how we do not use discord.utils.get(bot.voice_clients, guild=ctx.guild).
             # this is because that returns a VoiceProtocol object, not a VoiceClient.
     
+    if not await checkVoicePerms(ctx):
+        return
+    
     if url_ is None:
         if len(musicQueue) > 0:
             await ctx.send("`Playing from queue...`")
-            await ctx.send("`Downloading song...`")
             await playLoop(ctx, voice)  # play the queue in loop
             
     # get youtube url
@@ -2268,9 +2277,6 @@ async def play(ctx, *, url_: str = None):
     # voice = ctx.message.guild.voice_client
     else:
         msg1 = await ctx.send("`Downloading song...`")
-    
-    if not await checkVoicePerms(ctx):
-        return
         
     async with ctx.typing():
         await msg1.edit(
@@ -2295,6 +2301,9 @@ async def queue(ctx, *, url_: str):
         except:
             voice = ctx.guild.voice_client
     
+    if not await checkVoicePerms(ctx):
+        return
+    
     if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
         # process URL
         msg1 = await ctx.send("`Searching YouTube...`")
@@ -2302,6 +2311,7 @@ async def queue(ctx, *, url_: str):
         url_ = searchYT(url_)  # search YT for video
     
     musicQueue.append(url_)
+    await ctx.reply("Added song to queue!")
 
     
 @bot.command(aliases=['leave'])
