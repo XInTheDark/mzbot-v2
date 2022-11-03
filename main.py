@@ -2237,6 +2237,8 @@ async def play(ctx, *, url_: str):
         url_ = searchYT(url_)  # search YT for video
     # play music
     # voice = ctx.message.guild.voice_client
+    else:
+        msg1 = await ctx.send("`Downloading song...`")
     
     if not await checkVoicePerms(ctx):
         return
