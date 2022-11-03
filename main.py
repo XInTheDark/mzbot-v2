@@ -2233,7 +2233,11 @@ async def playLoop(ctx, voice):
         filename = await YTDLSource.from_url(musicQueue[0], loop=bot.loop)
         
     musicQueue.pop(0)
-    voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
+    
+    if len(musicQueue) > 1:
+        voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
+    else:
+        voice.play(discord.FFmpegPCMAudio(source=filename))
     
     
 @bot.command(aliases=['music', 'song'])
