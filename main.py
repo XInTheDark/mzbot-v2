@@ -167,7 +167,7 @@ async def on_message(message):
     global msgpings
     global bannedWords
     
-    if message.content.strip() == "<@946761823384915968>":
+    if message.content.strip() == f"<@{bot.user.id}>":
         await message.reply(
             "Hey! I'm MZ Bot! To view all commands, type `.help`! To check the update logs, type `.update`!")
     
@@ -2216,15 +2216,17 @@ musicQueue = []  # we store the queue as a pair, the first value is the song, th
                  # whether the song is playing or not.
     
 
-async def getYTURL(ctx, url_: str):
+async def getYTURL(url_: str):
     if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
         url_ = url_.replace(' ', '+')
         url_ = searchYT(url_)  # search YT for video
-        return url_
-    return False
+    
+    return url_
     
     
 async def playLoop(ctx, voice):
+    global musicQueue
+    
     if len(musicQueue) == 0:
         return
     
@@ -2244,6 +2246,7 @@ async def playLoop(ctx, voice):
 @commands.has_permissions(manage_guild=True)
 async def play(ctx, *, url_: str = None):
     global downloadSpeed
+    global musicQueue
     
     # join voice channel
     if not ctx.author.voice:
@@ -2295,6 +2298,8 @@ async def play(ctx, *, url_: str = None):
 
 @bot.command(aliases=['addqueue', 'add', 'q'])
 async def queue(ctx, *, url_: str):
+    global musicQueue
+    
     if not ctx.author.voice:
         await ctx.send("{} is not connected to a voice channel!".format(ctx.message.author.mention))
         return
@@ -2308,11 +2313,7 @@ async def queue(ctx, *, url_: str):
     if not await checkVoicePerms(ctx):
         return
     
-    if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
-        # process URL
-        msg1 = await ctx.send("`Searching YouTube...`")
-        url_ = url_.replace(' ', '+')
-        url_ = searchYT(url_)  # search YT for video
+    url_ = getYTURL(url_)
     
     musicQueue.append(url_)
     await ctx.reply("Added song to queue!")
@@ -2320,6 +2321,8 @@ async def queue(ctx, *, url_: str):
 
 @bot.command(aliases=['skipsong', 'skipq', 'removeq'])
 async def skip(ctx):
+    global musicQueue
+    
     if not await checkVoicePerms(ctx):
         return
 
@@ -2408,6 +2411,18 @@ async def stop(ctx):
         await ctx.send("I am not connected to a voice channel!")
 
 
+@bot.command(aliases=['queuereset', 'resetqueue', 'resetq', 'deleteq', 'deletequeue', 'delqueue'])
+async def qreset(ctx):
+    global musicQueue
+    
+    if not await checkVoicePerms(ctx):
+        return
+    
+    musicQueue = []
+    
+    await ctx.reply("`Song queue reset!`")
+    
+    
 @bot.command(aliases=['whereami'])
 async def serverinfo(ctx):
     owner = ctx.guild.owner
