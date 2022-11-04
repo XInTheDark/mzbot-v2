@@ -861,12 +861,14 @@ async def spam(ctx, number_of_times, *, message):
     else:
         number_of_times = int(number_of_times)
         
-        await ctx.channel.send(f"Task started by {ctx.author}...")
+        msg1 = await ctx.channel.send(f"Task started by {ctx.author}...")
         
         await ctx.message.delete()
         
         for i in range(number_of_times):
             await ctx.channel.send(message)
+        
+        await msg1.delete()
         
         number_of_times2 = str(number_of_times)
         
