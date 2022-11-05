@@ -256,7 +256,7 @@ async def on_message_edit(old, new):
 #   await ctx.send(message)
 
 
-@bot.command(name='update', aliases=['updates', 'updatelogs','announcements', 'notes'])
+@bot.command(name='update', aliases=['updates', 'updatelogs', 'announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 01/08/2022
 - Added giveaway commands: `.gstart`, `.greroll`, `.gend`, `.grerollc`.
@@ -2212,11 +2212,13 @@ async def checkVoicePerms(ctx):
         return False
     
     return True
-    
+
 
 musicQueue = []  # we store the queue as a pair, the first value is the song, the second value is a bool for
-                 # whether the song is playing or not.
-    
+
+
+# whether the song is playing or not.
+
 
 async def getYTURL(url_: str):
     if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
@@ -2224,8 +2226,8 @@ async def getYTURL(url_: str):
         url_ = searchYT(url_)  # search YT for video
     
     return url_
-    
-    
+
+
 async def playLoop(ctx, voice):
     global musicQueue
     
@@ -2235,15 +2237,15 @@ async def playLoop(ctx, voice):
     async with ctx.typing():
         await ctx.send("`Downloading song...`")
         filename = await YTDLSource.from_url(musicQueue[0], loop=bot.loop)
-        
+    
     musicQueue.pop(0)
     
     if len(musicQueue) > 1:
         voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
     else:
         voice.play(discord.FFmpegPCMAudio(source=filename))
-    
-    
+
+
 @bot.command(aliases=['music', 'song'])
 @commands.has_permissions(manage_guild=True)
 async def play(ctx, *, url_: str = None):
@@ -2260,7 +2262,7 @@ async def play(ctx, *, url_: str = None):
             if voice.is_connected():
                 await voice.disconnect()
                 voice.cleanup()
-                
+        
         try:
             channel = ctx.author.voice.channel
             voice = await channel.connect()
@@ -2276,7 +2278,7 @@ async def play(ctx, *, url_: str = None):
         if len(musicQueue) > 0:
             await ctx.send("`Playing from queue...`")
             await playLoop(ctx, voice)  # play the queue in loop
-            
+    
     # get youtube url
     if "youtube.com" not in url_ and "youtu.be" not in url_ and "/watch?v=" not in url_:
         msg1 = await ctx.send("`Searching YouTube...`")
@@ -2286,7 +2288,7 @@ async def play(ctx, *, url_: str = None):
     # voice = ctx.message.guild.voice_client
     else:
         msg1 = await ctx.send("`Downloading song...`")
-        
+    
     async with ctx.typing():
         await msg1.edit(
             content=f"`Downloading song... \nThis can take a while. (Download speed: {downloadSpeed} Mbps)`")
@@ -2327,7 +2329,7 @@ async def skip(ctx):
     
     if not await checkVoicePerms(ctx):
         return
-
+    
     try:
         channel = ctx.author.voice.channel
         voice = await channel.connect()
@@ -2340,8 +2342,8 @@ async def skip(ctx):
         await playLoop(ctx, voice)
     else:
         return
-    
-    
+
+
 @bot.command(aliases=['leave'])
 async def disconnect(ctx):
     if not await checkVoicePerms(ctx):
@@ -2423,8 +2425,8 @@ async def qreset(ctx):
     musicQueue = []
     
     await ctx.reply("`Song queue reset!`")
-    
-    
+
+
 @bot.command(aliases=['whereami'])
 async def serverinfo(ctx):
     owner = ctx.guild.owner
@@ -2702,8 +2704,8 @@ async def createrole(ctx, pos: int = None, *, name):
     role = await ctx.guild.create_role(name=name)
     if pos is not None:
         await role.edit(position=pos)
-    
-    
+
+
 @bot.command(aliases=['auditlog', 'audit', 'logs', 'log'])
 async def auditlogs(ctx, num: int = 20):
     count = 0
@@ -2711,23 +2713,25 @@ async def auditlogs(ctx, num: int = 20):
     log = ""
     async for entry in ctx.guild.audit_logs(limit=num):
         action = str(entry.action).replace("AuditLogAction.", "")
-        log += f"User: `{entry.user}` | Action: `{action}` | Target: `{entry.target}`\n"
+        log += f"User: `{entry.user}` | Action: `{action}` | Target: `{str(entry.target)} " \
+               f"| <t:{int(entry.created_at.timestamp())}:d> (<t:{int(entry.created_at.timestamp())}:R>)`\n"
         count += 1
         if count >= 20:
+            # divide into pages of 20 each
             embed = discord.Embed(title=f"Audit Logs page {pages}",
                                   description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n{log}")
             await ctx.send(embed=embed)
             count %= 20
             pages += 1
             log = ""
+    
+    if count > 0:
+        embed = discord.Embed(title=f"Audit Logs page {pages}",
+                              description=f"Showing items `{count - 19 + pages * 20} - {count + (pages * 20)}`\n{log}")
         
-    embed = discord.Embed(title=f"Audit Logs page {pages}",
-                          description=f"Showing items `{count - 19 + pages * 20} - {count + (pages * 20)}`\n{log}")
-    # divide into pages of 20 each
-    
-    await ctx.send(embed=embed)
-    
-    
+        await ctx.send(embed=embed)
+
+
 keep_alive.keep_alive()  # keep bot alive
 
 bot.run(TOKEN)
