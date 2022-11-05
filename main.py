@@ -2718,7 +2718,7 @@ async def auditlogs(ctx, num: int = 20):
         if count >= 20:
             # divide into pages of 20 each
             embed = discord.Embed(title=f"Audit Logs page {pages + 1}",
-                                  description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n\n{log}")
+                                  description=f"Showing items `{pages * 20 + 1} - {count + pages * 20}`\n\n{log}")
             await ctx.send(embed=embed)
             count %= 20
             pages += 1
