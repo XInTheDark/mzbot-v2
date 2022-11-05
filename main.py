@@ -2710,18 +2710,19 @@ async def auditlogs(ctx, num: int = 20):
     pages = 1
     log = ""
     async for entry in ctx.guild.audit_logs(limit=num):
-        log += f"User: `{entry.user}` | Action: `{entry.action}` | Target: `{entry.target}`\n"
+        action = entry.action.replace("AuditLogAction.", "")
+        log += f"User: `{entry.user}` | Action: `{action}` | Target: `{entry.target}`\n"
         count += 1
         if count >= 20:
             embed = discord.Embed(title=f"Audit Logs page {pages}",
-                                  description=f"Showing items `{count-19 + pages*20} - {count + pages*20}`\n{log}")
+                                  description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n{log}")
             await ctx.send(embed=embed)
-        count %= 20
-        pages += 1
-        log = ""
+            count %= 20
+            pages += 1
+            log = ""
         
     embed = discord.Embed(title=f"Audit Logs page {pages}",
-                          description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n{log}")
+                          description=f"Showing items `{count - 19 + pages * 20} - {count + (pages * 20)}`\n{log}")
     # divide into pages of 20 each
     
     await ctx.send(embed=embed)
