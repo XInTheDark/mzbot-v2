@@ -256,7 +256,7 @@ async def on_message_edit(old, new):
 #   await ctx.send(message)
 
 
-@bot.command(name='update', aliases=['updates', 'log', 'logs', 'announcements', 'notes'])
+@bot.command(name='update', aliases=['updates', 'updatelogs','announcements', 'notes'])
 async def updatelog(ctx):
     message = """New Update: 01/08/2022
 - Added giveaway commands: `.gstart`, `.greroll`, `.gend`, `.grerollc`.
@@ -2703,7 +2703,28 @@ async def createrole(ctx, pos: int = None, *, name):
     if pos is not None:
         await role.edit(position=pos)
     
-
+    
+@bot.command('auditlog', 'audit', 'logs', 'log')
+async def auditlogs(ctx, num: int = 20):
+    count = 0
+    pages = 1
+    log = ""
+    async for entry in ctx.guild.audit_logs(limit=num):
+        log += f"User: `{entry.user}` | Action: `{entry.action}` | Target: `{entry.target}`\n"
+        count += 1
+        if count >= 20:
+            embed = discord.Embed(title=f"Audit Logs page {pages}",
+                                  description=f"Showing items `{count-19 + pages*20} - {count + pages*20}`\n{log}")
+            await ctx.send(embed=embed)
+        count %= 20
+        pages += 1
+        log = ""
+        
+    embed = discord.Embed(title=f"Audit Logs page {pages}",
+                          description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n{log}")
+    await ctx.send(embed=embed)
+    
+    
 keep_alive.keep_alive()  # keep bot alive
 
 bot.run(TOKEN)
