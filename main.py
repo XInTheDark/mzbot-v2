@@ -2697,6 +2697,13 @@ async def lastmention(ctx, limit: int = 10000):
     await ctx.reply(f"I could not find any mention of you in the last `{limit}` messages.")
 
 
+@bot.command(aliases=['rolecreate'])
+async def createrole(ctx, pos: int = None, *, name):
+    role = await ctx.guild.create_role(name=name)
+    if pos is not None:
+        await role.edit(position=pos)
+    
+
 keep_alive.keep_alive()  # keep bot alive
 
 bot.run(TOKEN)
