@@ -917,7 +917,7 @@ Number of times: {number_of_times2}
 User: {user}
 Guild: {ctx.guild.name}"""
         
-        await ctx.channel.send(msg2)
+        await ctx.author.create_dm().send(msg2)
 
 
 @bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""")
