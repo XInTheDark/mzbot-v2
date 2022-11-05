@@ -874,7 +874,7 @@ Number of times: {number_of_times2}
         await dms.send(msg2)
 
 
-@bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
+@bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""", aliases=['dm', 'dms', 'dmsend'])
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutfile = open('optoutspam.txt', 'r')
     optoutlist = []
@@ -884,21 +884,21 @@ async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
     elif str(user.id) in optoutlist:
-        await ctx.channel.send(f"Sorry, that user [{user}] has opted out of the `dmspam` command.")
+        await ctx.channel.send(f"Sorry, that user (`{user}`) has opted out of the `dmspam` command.")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         dmchannel = await user.create_dm()
 
         await ctx.message.delete()
-        msg1 = await ctx.channel.send(f"Task started by {ctx.author}...")
+        msg1 = await ctx.channel.send(f"Task started by `{ctx.author}`...")
         
         for i in range(number_of_times):
             try:
                 await dmchannel.send(message)
             except:
                 await ctx.author.create_dm().send(
-                    f"""Your `dmspam` task failed because the target ({user}) DMs are closed.""")
+                    f"""Your `dmspam` task failed because the target (`{user}`) DMs are closed.""")
                 await msg1.delete()
                 return -1
         
@@ -906,22 +906,21 @@ async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
         
         number_of_times2 = str(number_of_times)
         
-        await dmchannel.send(f"""The above message(s) were requested by {ctx.author}.
-        Total number of messages sent: {number_of_times2}
-        **NOTE: The bot is not responsible for any of the messages sent above.**""")
+        await dmchannel.send(f"Sent by `{ctx.author}`")
         
         msg2 = f"""<@{ctx.author.id}>, task done!
 
 Message: {message}
-Number of times: {number_of_times2}
-User: {user}
-Guild: {ctx.guild.name}"""
+Number of times: `{number_of_times2}`
+User: `{user}`
+Guild: `{ctx.guild.name}`"""
         
         await ctx.author.create_dm().send(msg2)
 
 
-@bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""")
-async def spam(ctx, number_of_times: int, user: discord.Member, *, message):
+@bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""",
+             aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
+async def dmspamforce(ctx, number_of_times: int, user: discord.Member, *, message):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
@@ -931,30 +930,23 @@ async def spam(ctx, number_of_times: int, user: discord.Member, *, message):
         dmchannel = await user.create_dm()
         
         await ctx.message.delete()
-        msg1 = await ctx.channel.send(f"Task started by Anonymous...")
 
         for i in range(number_of_times):
             try:
                 await dmchannel.send(message)
             except:
                 await ctx.author.create_dm().send(
-                    f"""Your `dmspam` task failed because the target ({user}) DMs are closed.""")
-                await msg1.delete()
+                    f"""Your `dmspam` task failed because the target (`{user}`) DMs are closed.""")
                 return -1
         
-        await msg1.delete()
         number_of_times2 = str(number_of_times)
-        
-        await dmchannel.send(f"""Information:
-        Total number of messages sent: {number_of_times2}
-        **NOTE: The bot is not responsible for any of the messages sent above.**""")
         
         msg2 = f"""<@{ctx.author.id}>, task done!
 
 Message: {message}
-Number of times: {number_of_times2}
-User: {user}
-Guild: {ctx.guild.name}"""
+Number of times: `{number_of_times2}`
+User: `{user}`
+Guild: `{ctx.guild.name}`"""
         
         userdm = await ctx.author.create_dm()
         await userdm.send(msg2)
