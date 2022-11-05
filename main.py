@@ -2704,7 +2704,7 @@ async def createrole(ctx, pos: int = None, *, name):
         await role.edit(position=pos)
     
     
-@bot.command('auditlog', 'audit', 'logs', 'log')
+@bot.command(aliases=['auditlog', 'audit', 'logs', 'log'])
 async def auditlogs(ctx, num: int = 20):
     count = 0
     pages = 1
@@ -2722,6 +2722,8 @@ async def auditlogs(ctx, num: int = 20):
         
     embed = discord.Embed(title=f"Audit Logs page {pages}",
                           description=f"Showing items `{count - 19 + pages * 20} - {count + pages * 20}`\n{log}")
+    # divide into pages of 20 each
+    
     await ctx.send(embed=embed)
     
     
