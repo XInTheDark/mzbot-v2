@@ -2709,7 +2709,7 @@ async def createrole(ctx, pos: int = None, *, name):
 @bot.command(aliases=['auditlog', 'audit', 'logs', 'log'])
 async def auditlogs(ctx, num: int = 20):
     count = 0
-    pages = 1
+    pages = 0
     log = ""
     async for entry in ctx.guild.audit_logs(limit=num):
         action = str(entry.action).replace("AuditLogAction.", "")
@@ -2726,7 +2726,7 @@ async def auditlogs(ctx, num: int = 20):
             log = ""
     
     if count > 0:
-        embed = discord.Embed(title=f"Audit Logs page {pages}",
+        embed = discord.Embed(title=f"Audit Logs page {pages + 1}",
                               description=f"Showing items `{count - 19 + pages * 20} - {count + (pages * 20)}`\n{log}")
         
         await ctx.send(embed=embed)
