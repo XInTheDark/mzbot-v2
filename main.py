@@ -2714,7 +2714,7 @@ async def auditlogs(ctx, num: int = 20):
     async for entry in ctx.guild.audit_logs(limit=num):
         action = str(entry.action).replace("AuditLogAction.", "")
         log += f"User: `{entry.user}` | Action: `{action}` | Target: `{str(entry.target)} " \
-               f"| <t:{int(entry.created_at.timestamp())}:d> (<t:{int(entry.created_at.timestamp())}:R>)`\n"
+               f"|` <t:{int(entry.created_at.timestamp())}:d> (<t:{int(entry.created_at.timestamp())}:R>)\n"
         count += 1
         if count >= 20:
             # divide into pages of 20 each
