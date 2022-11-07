@@ -29,23 +29,8 @@ import mzhelp
 import mzutils
 
 # Setting variables
-global afkdict
 afkdict = {}
 spam_ban = [726356086176874537]
-global user
-global reaction
-global antinuke
-global bansdict
-global snipes
-global esnipes
-global uptime
-global hardmutes
-global ownerid
-global istyping
-global msgpings
-global launch_time
-global downloadSpeed
-global bannedWords
 
 antinuke = []
 bansdict = {}
@@ -59,6 +44,7 @@ msgpings = {}
 musicDict = {}
 bannedWords = mzutils.bannedWords
 ended = []
+MAX_INT = 2147483647 # max int32 size
 
 load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -816,7 +802,7 @@ async def unban(self, *, member: str):
     found = 0
     member_name, member_discriminator = member.split("#")
     
-    bans = [entry async for entry in self.guild.bans(limit=2000)]
+    bans = [entry async for entry in self.guild.bans(limit=MAX_INT)]
     
     for ban_entry in bans:
         user = ban_entry.user
@@ -1238,7 +1224,7 @@ async def rename(ctx, channel='', *, name):
 
 
 @commands.cooldown(1, 2, commands.BucketType.channel)
-@bot.command(name='purge', help='{Beta} Purge messages.')
+@bot.command(name='purge', help='Purge messages.')
 @commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
     if not amount < 100:
@@ -1357,11 +1343,11 @@ Bot uptime: {uptime2}
 
 
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
-async def ping(ctx):
+async def ping(ctx, tests: int = 1000000):
     global downloadSpeed
     
     msg1 = await ctx.send("`Connecting...`")
-    tests = 1000000  # the amount of tests to conduct
+    
     latency_list = []  # this is where the tests go
     for x in range(tests):  # this is the loop
         latency = round(bot.latency * 1000)  # this gathers the latency
