@@ -1283,17 +1283,45 @@ async def purge(ctx, amount: int):
 
 
 @commands.cooldown(1, 3, commands.BucketType.user)
-@bot.command(name='afk', help='Sets AFK.')
-async def setafk(ctx, *, reason='AFK'):
+@bot.command(aliases=['setafk'])
+async def afk(ctx, *, reason='AFK'):
     global afkdict
     afkdict[str(ctx.author.id)] = [reason, str(int(datetime.datetime.utcnow().timestamp()))]
     await ctx.message.delete()
-    await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
+    msg1 = await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
     except:
         pass
 
+
+@bot.command(aliases=['cancelafk', 'afkremove'])
+async def removeafk(ctx, *, member: discord.Member = None):
+    global afkdict
+    
+    if member is None:
+        member = ctx.author
+        
+    if member != ctx.author:
+        if not ctx.author.guild_permissions.administrator:
+            await ctx.send("You do not have `Administrator` permissions.")
+            return
+        
+    try:
+        afkdict.pop(str(ctx.author.id))
+    except:
+        pass
+    
+    if "[AFK] " in ctx.author.display_name:
+        try:
+            await ctx.author.edit(nick=ctx.author.display_name.replace("[AFK] ", ""))
+        except:
+            await ctx.send(f"AFK status removed for `{member}`\n"
+                           f"I could not edit the user's nickname due to the role hierarchy.")
+            return
+    
+    await ctx.send(f"AFK status removed for `{member}`")
+    
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
