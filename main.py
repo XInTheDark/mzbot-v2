@@ -1,4 +1,6 @@
 # bot.py
+# DEPLOY 08-11-2022
+
 import asyncio
 import datetime
 import json
