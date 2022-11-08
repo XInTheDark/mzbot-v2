@@ -492,8 +492,8 @@ async def dotdashdot2(ctx):
 
 @bot.command(name='donate', help='Fund our development!')
 async def donate(ctx):
-    response = """To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
-    Or donate some nitro to <@926410988738183189> ;)"""
+    response = f"""To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
+    Or donate some nitro to <@{ownerid}> ;)"""
     
     await ctx.send(response)
 
@@ -510,8 +510,8 @@ async def rolldice(ctx, number_of_dice: int, number_of_sides: int):
 
 @bot.command(name='credits', help='Shows some surprising credits.')
 async def credits(ctx):
-    response = """Credits to:
-    <@926410988738183189> [MuzhenGaming#5088] and NO ONE ELSE."""
+    response = f"""Credits to:
+    <@{ownerid}> [MuzhenGaming#5088] and NO ONE ELSE."""
     
     await ctx.send(response)
 
@@ -531,7 +531,7 @@ async def nitrogen(ctx):
 async def shutdown(message):
     if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
+        await message.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("`Shutdown Executed Successfully`")
         # quit()
@@ -547,7 +547,7 @@ async def shutdown(message):
 async def restart(message):
     if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send("LOL Only <@926410988738183189> can shutdown the bot, get lost\n**YOU GAY**")
+        await message.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
     else:
         await message.send("`Restart Executing...`")
         
@@ -1371,7 +1371,7 @@ Bot uptime: {uptime2}
 
 
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
-async def ping(ctx, tests: int = 1000000):
+async def ping(ctx, tests: int = 500000):
     global downloadSpeed
     
     msg1 = await ctx.send("`Connecting...`")
@@ -1390,16 +1390,16 @@ async def ping(ctx, tests: int = 1000000):
     ts_diff = time2 - time1
     secs = abs(ts_diff.total_seconds())
     
-    if lavg < 15:
+    if lavg < 25:
         jud1 = 'Fast'
-    elif 15 <= lavg < 40:
+    elif 25 <= lavg < 100:
         jud1 = 'Normal'
     else:
         jud1 = 'Slow - Bot Lagging!'
     
     if secs * 1000 < 150:
         jud2 = 'Fast'
-    elif 150 <= secs * 1000 < 250:
+    elif 150 <= secs * 1000 < 300:
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
@@ -1948,7 +1948,7 @@ async def timer(ctx, duration, *, item=' '):
 @bot.command(name='hardmute', aliases=['forcemute', 'fullmute'])
 async def hardmute(ctx, person: discord.Member):
     global hardmutes
-    if not ctx.author.id == 926410988738183189:
+    if not ctx.author.id == ownerid:
         await ctx.message.delete()
     else:
         if person.id in hardmutes:
@@ -1962,10 +1962,10 @@ async def hardmute(ctx, person: discord.Member):
 async def hardunmute(ctx, person: discord.Member):
     global hardmutes
     
-    if not ctx.author.id == 926410988738183189:
+    if not ctx.author.id == ownerid:
         await ctx.message.delete()
     else:
-        if not person.id in hardmutes:
+        if person.id not in hardmutes:
             await ctx.message.delete()
         else:
             hardmutes.pop(person.id)
@@ -2054,8 +2054,13 @@ https://discord.com/api/oauth2/authorize?client_id=1010883625480376351&permissio
 
 @bot.command(name='insult', aliases=['insults'])
 async def insults(ctx):
-    if ctx.author.id == 926410988738183189:
-        insulttxt = "Ratio + don't care + didn't ask + cry about it + stay mad + get real + L + mald seethe cope harder + hoes mad + basic + skill issue + you fell off + the audacity + triggered + any askers + redpilled + get a life + ok and? + cringe + touch grass + donowalled + not based + your're a (insert stereotype) + not funny didn't laugh + you're* + grammar issue + go outside + get good + reported + ad hominem + GG! + ask deez + ez clap + straight cash + ratio again + final ratio + stay mad + stay pressed..."
+    if ctx.author.id == ownerid:
+        insulttxt = "Ratio + don't care + didn't ask + cry about it + stay mad + get real + L + mald seethe cope " \
+                    "harder + hoes mad + basic + skill issue + you fell off + the audacity + triggered + any askers + " \
+                    "redpilled + get a life + ok and? + cringe + touch grass + donowalled + not based + your're a (" \
+                    "insert stereotype) + not funny didn't laugh + you're* + grammar issue + go outside + get good + " \
+                    "reported + ad hominem + GG! + ask deez + ez clap + straight cash + ratio again + final ratio + " \
+                    "stay mad + stay pressed... "
         insultlist = insulttxt.split(" + ")
         i = 0
         text = insultlist[i]
@@ -2113,7 +2118,7 @@ async def typer(ctx, length=None):
     global ownerid
     
     if ctx.author.id == ownerid:
-        if not ctx.channel.id in istyping:
+        if ctx.channel.id not in istyping:
             istyping.append(ctx.channel.id)
         
         await ctx.message.delete()
@@ -2591,7 +2596,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     
     else:
         winmsgfinal = "No valid entrants, so a winner could not be determined!"
-    if not msg.id in ended:
+    if msg.id not in ended:
         await ctx.send(winmsgfinal)
         gwembed.set_footer(text=f"Ended at {end}")
         
@@ -2667,7 +2672,7 @@ async def rerollc(ctx, id_: int):
 @bot.command(name='gend', help='Ends a giveaway.')
 @commands.has_permissions(administrator=True)
 async def end(ctx, id_: int):
-    if not id_ in ended:
+    if id_ not in ended:
         
         try:
             new_msg = await ctx.fetch_message(id_)
