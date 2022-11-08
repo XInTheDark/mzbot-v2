@@ -1945,9 +1945,10 @@ async def timer(ctx, duration, *, item=' '):
     await msg.channel.send(f"**The countdown for {item if item != ' ' else '(undefined)'} has ended!**")
 
 
-@bot.command(name='hardmute', aliases=['forcemute', 'fullmute'])
+@bot.command(name='hardmute', aliases=['forcemute', 'fullmute', 'shutup'])
 async def hardmute(ctx, person: discord.Member):
     global hardmutes
+    
     if not ctx.author.id == ownerid:
         await ctx.message.delete()
     else:
