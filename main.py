@@ -1373,7 +1373,7 @@ Bot uptime: {uptime2}
 
 
 @bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
-async def ping(ctx, tests: int = 500000):
+async def ping(ctx, tests: int = 1000000):
     global downloadSpeed
     
     msg1 = await ctx.send("`Connecting...`")
