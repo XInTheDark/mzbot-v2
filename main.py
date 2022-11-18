@@ -25,7 +25,7 @@ import git
 # import io
 # import aiohttp
 
-import discord  # git+https://github.com/Rapptz/discord.py
+import discord  # git+https://github.com/Rapptz/discord.py OR git+https://github.com/XInTheDark/discord.py
 import discord.abc
 import pytz
 from PyDictionary import PyDictionary
