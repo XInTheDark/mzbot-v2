@@ -1,5 +1,4 @@
 # bot.py
-# DEPLOY 08-11-2022
 
 import asyncio
 import datetime
@@ -9,16 +8,21 @@ import random
 import sys
 import timeit
 import socket
-import youtube_dl
+import youtube_dl  # youtube-dl
 import urllib.request
 import re
-import speedtest
+import speedtest  # speedtest-cli
 import roblox
 import keep_alive
+
+# for mobile status:
+import ast
+import inspect
+
 # import io
 # import aiohttp
 
-import discord
+import discord  # git+https://github.com/Rapptz/discord.py
 import discord.abc
 import pytz
 from PyDictionary import PyDictionary
@@ -46,12 +50,35 @@ msgpings = {}
 musicDict = {}
 bannedWords = mzutils.bannedWords
 ended = []
-MAX_INT = 2147483647 # max int32 size
+MAX_INT = 2147483647  # max int32 size
 
 load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
 # TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
 GUILD = os.environ.get('DISCORD_GUILD')
+
+
+# ---MOBILE STATUS--- (not working)
+
+# s: https://medium.com/@chipiga86/python-monkey-patching-like-a-boss-87d7ddb8098e
+def source(o):
+    s = inspect.getsource(o).split("\n")
+    indent = len(s[0]) - len(s[0].lstrip())
+    return "\n".join(i[indent:] for i in s)
+
+
+source_ = source(discord.gateway.DiscordWebSocket.identify)
+patched = re.sub(
+    r'([\'"]\$browser[\'"]:\s?[\'"]).+([\'"])',  # hh this regex
+    r"\1Discord Android\2",  # s: https://luna.gitlab.io/discord-unofficial-docs/mobile_indicator.html
+    source_
+)
+
+loc = {}
+exec(compile(ast.parse(patched), "<string>", "exec"), discord.gateway.__dict__, loc)
+
+discord.gateway.DiscordWebSocket.identify = loc["identify"]
+# ---END OF MOBILE STATUS---
 
 intents = discord.Intents.all()
 # activity = discord.Activity(type=discord.ActivityType.listening, name=f".help | {len(bot.guilds)} servers")
@@ -407,7 +434,7 @@ async def on_member_ban(guild, user):
                 
                 except:
                     pass
-                
+            
             except:
                 pass
             
@@ -666,7 +693,7 @@ async def nuke_server_fr(ctx):
             
             except:
                 pass
-            
+        
         except:
             pass
         
@@ -862,7 +889,8 @@ Number of times: {number_of_times2}
         await dms.send(msg2)
 
 
-@bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""", aliases=['dm', 'dms', 'dmsend'])
+@bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""",
+             aliases=['dm', 'dms', 'dmsend'])
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutfile = open('optoutspam.txt', 'r')
     optoutlist = []
@@ -877,7 +905,7 @@ async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         dmchannel = await user.create_dm()
-
+        
         await ctx.message.delete()
         msg1 = await ctx.channel.send(f"Task started by `{ctx.author}`...")
         
@@ -918,7 +946,7 @@ async def dmspamforce(ctx, number_of_times: int, user: discord.Member, *, messag
         dmchannel = await user.create_dm()
         
         await ctx.message.delete()
-
+        
         for i in range(number_of_times):
             try:
                 await dmchannel.send(message)
@@ -1303,12 +1331,12 @@ async def removeafk(ctx, *, member: discord.Member = None):
     
     if member is None:
         member = ctx.author
-        
+    
     if member != ctx.author:
         if not ctx.author.guild_permissions.administrator:
             await ctx.send("You do not have `Administrator` permissions.")
             return
-        
+    
     try:
         afkdict.pop(str(ctx.author.id))
     except:
@@ -1323,7 +1351,7 @@ async def removeafk(ctx, *, member: discord.Member = None):
             return
     
     await ctx.send(f"AFK status removed for `{member}`")
-    
+
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
 async def checkversion(ctx):
@@ -1422,16 +1450,15 @@ Internet Speed: Download - `{downloadSpeed} Mbps`, Upload - `{uploadSpeed} Mbps`
 
 
 @bot.command(name='timedif', help='', aliases=['snowflake', 'timediff', 'difference'])
-async def timedif(ctx, id1, id2=None):
+async def timedif(ctx, id1: int, id2: int = None):
     if ctx.message.reference is not None:
         id2 = ctx.message.reference.message_id
-    else:
+    elif id2 is None:
         id2 = ctx.message.id
     
     try:
         id1 = int(id1)
         id2 = int(id2)
-    
     except:
         await ctx.reply("Check your message IDs! They are incorrect!")
         return
@@ -2745,7 +2772,7 @@ async def auditlogs(ctx, num: int = 20):
             count %= 20
             pages += 1
             log = ""
-
+        
         count += 1
     
     if count > 0:
