@@ -19,9 +19,6 @@ import keep_alive
 import ast
 import inspect
 
-# for git support:
-import git
-
 # import io
 # import aiohttp
 
@@ -276,17 +273,14 @@ async def on_message_edit(old, new):
 
 @bot.command(name='update', aliases=['updates', 'updatelogs', 'announcements', 'notes'])
 async def updatelog(ctx):
-    async with ctx.channel.typing():
-        repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
-        master = repo.head.reference
-        
-        message = master.commit.message
-        dateTimeStamp = master.commit.committed_date
-        
-        embed = discord.Embed(title="**Update Log**", description=f"Latest commit from `mzbot-v2`\n\n"
-                                                                  f"Commit date: <t:{dateTimeStamp}:f>\n"
-                                                                  f"Message: \n{message}", color=0x00ff00)
-        await ctx.reply(embed=embed)
+    message = """New Update: 01/08/2022
+- Added giveaway commands: `.gstart`, `.greroll`, `.gend`, `.grerollc`.
+
+*Note: 1. This log only shows the LATEST update notes.
+2. The notes will only be updated for MAJOR updates, not small patches.*"""
+    
+    embed = discord.Embed(title="**Update Log**", description=message, color=0x00ff00)
+    await ctx.reply(embed=embed)
 
 
 @bot.command(name='help', aliases=['commands', 'cmds'])
