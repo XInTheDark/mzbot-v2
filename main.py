@@ -274,7 +274,7 @@ async def on_message_edit(old, new):
 #   await ctx.send(message)
 
 
-@bot.command(name='update', aliases=['updates', 'updatelogs', 'notes'])
+@bot.command(name='update', aliases=['updates', 'updatelogs', 'announcements', 'notes'])
 async def updatelog(ctx):
     async with ctx.channel.typing():
         repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
@@ -289,7 +289,6 @@ async def updatelog(ctx):
                                                                   f"Commit ID: `{commitID}`\n\n"
                                                                   f"Message: \n{message}", color=0x00ff00)
     await ctx.reply(embed=embed)
-    repo.close()
 
 
 @bot.command(name='help', aliases=['commands', 'cmds'])
@@ -2794,7 +2793,6 @@ async def auditlogs(ctx, num: int = 20):
 @bot.command()
 async def debug(ctx):
     print("i am running")
-    await ctx.send("i am running")
 
 
 keep_alive.keep_alive()  # keep bot alive
