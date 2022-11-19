@@ -282,9 +282,11 @@ async def updatelog(ctx):
         
         message = master.commit.message
         dateTimeStamp = master.commit.committed_date
+        commitID = master.commit.hexsha
         
         embed = discord.Embed(title="**Update Log**", description=f"Latest commit from `mzbot-v2`\n\n"
                                                                   f"Commit date: <t:{dateTimeStamp}:f>\n"
+                                                                  f"Commit ID: `{commitID}`\n"
                                                                   f"Message: \n{message}", color=0x00ff00)
         await ctx.reply(embed=embed)
 
