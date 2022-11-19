@@ -289,7 +289,8 @@ async def updatelog(ctx):
                                                                   f"Commit ID: `{commitID}`\n\n"
                                                                   f"Message: \n{message}", color=0x00ff00)
     await ctx.reply(embed=embed)
-
+    repo.close()
+    
 
 @bot.command(name='help', aliases=['commands', 'cmds'])
 async def help(ctx, cmd=None):
