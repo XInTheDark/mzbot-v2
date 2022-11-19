@@ -286,9 +286,9 @@ async def updatelog(ctx):
         
         embed = discord.Embed(title="**Update Log**", description=f"Latest commit from `mzbot-v2`\n\n"
                                                                   f"Commit date: <t:{dateTimeStamp}:f>\n"
-                                                                  f"Commit ID: `{commitID}`\n"
+                                                                  f"Commit ID: `{commitID}`\n\n"
                                                                   f"Message: \n{message}", color=0x00ff00)
-        await ctx.reply(embed=embed)
+    await ctx.reply(embed=embed)
 
 
 @bot.command(name='help', aliases=['commands', 'cmds'])
