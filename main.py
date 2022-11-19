@@ -2789,6 +2789,10 @@ async def auditlogs(ctx, num: int = 20):
         
         await ctx.send(embed=embed)
 
+@bot.command()
+async def debug(ctx):
+    print("i am running")
+    
 
 keep_alive.keep_alive()  # keep bot alive
 
