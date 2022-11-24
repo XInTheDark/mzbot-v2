@@ -142,12 +142,12 @@ bot = commands.Bot(command_prefix='.', help_command=None, intents=intents)
 
 
 # definitions
-def speedTestDownload():
+async def speedTestDownload():
     wifi = speedtest.Speedtest()
     return round((wifi.download()) / 1048576, 2)
 
 
-def speedTestUpload():
+async def speedTestUpload():
     wifi = speedtest.Speedtest()
     return round((wifi.upload()) / 1048576, 2)
 
@@ -185,7 +185,7 @@ async def on_ready():
     print("MZ Bot start-up complete")
     
     # init variables
-    downloadSpeed = speedTestDownload()
+    downloadSpeed = await speedTestDownload()
 
 
 # error handling
@@ -1496,8 +1496,8 @@ async def ping(ctx, tests: int = 1000000):
     
     await msg1.edit(content='`Loading... Please wait...`')
     
-    downloadSpeed = speedTestDownload()
-    uploadSpeed = speedTestUpload()
+    downloadSpeed = await speedTestDownload()
+    uploadSpeed = await speedTestUpload()
     
     await msg1.delete()
     
