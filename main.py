@@ -2850,4 +2850,4 @@ async def debug(ctx):
 
 keep_alive.keep_alive()  # keep bot alive
 
-bot.run(TOKEN)
+bot.run(TOKEN, reconnect=True)
