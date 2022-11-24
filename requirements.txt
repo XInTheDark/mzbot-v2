@@ -15,3 +15,4 @@ roblox>=2.0.0
 aiohttp
 Flask>=2.2.2
 git-python
+firebase-admin

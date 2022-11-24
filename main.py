@@ -37,6 +37,38 @@ from requests import get
 import mzhelp
 import mzutils
 
+# for firebase config:
+import firebaseconfig
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+
+# firebase setup
+firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
+firebase_admin.initialize_app(firebaseCred, {
+    "databaseURL": firebaseconfig.database_url
+})
+
+
+def firebaseWrite(a, b):
+    # https://www.youtube.com/watch?v=EtFcVbn6YIM
+    """
+    a is the key, b is the value.
+    You can also pass a dictionary for b; for example:
+    firebaseWrite(userID, {"Color": "blue"})
+    
+    To replace a value, just call this function again,
+    with the same key but different value.
+    """
+    
+    ref = db.reference("/")
+    ref.update(
+        {
+            a: b
+        }
+    )
+    
+
 # Setting variables
 afkdict = {}
 spam_ban = [726356086176874537]
@@ -2794,6 +2826,7 @@ async def auditlogs(ctx, num: int = 20):
 @bot.command()
 async def debug(ctx):
     print("i am running")
+    await ctx.send("i am running")
 
 
 keep_alive.keep_alive()  # keep bot alive
