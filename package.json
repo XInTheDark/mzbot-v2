@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "ffmpeg-static": "^5.1.0"
+  }
+}
