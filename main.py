@@ -2324,7 +2324,7 @@ async def checkVoicePerms(ctx):
 
 
 musicQueue = []  # we store the queue as a pair, the first value is the song, the second value is a bool for
-
+needRemove = []
 
 # whether the song is playing or not.
 
@@ -2337,8 +2337,24 @@ async def getYTURL(url_: str):
     return url_
 
 
+def removeFiles():
+    global needRemove
+    
+    if len(needRemove) > 0:
+        for f in needRemove:
+            os.remove(f)
+            needRemove.remove(f)
+            
+            
 async def playLoop(ctx, voice):
+    """
+    Plays music in a continuous loop.
+    """
+    
     global musicQueue
+    
+    # first, check whether any files need removing
+    removeFiles()
     
     if len(musicQueue) == 0:
         return
@@ -2350,8 +2366,11 @@ async def playLoop(ctx, voice):
     musicQueue.pop(0)
     
     if len(musicQueue) > 1:
+        needRemove.append(filename)
         voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
+        
     else:
+        needRemove.append(filename)
         voice.play(discord.FFmpegPCMAudio(source=filename))
 
 
@@ -2403,10 +2422,12 @@ async def play(ctx, *, url_: str = None):
             content=f"`Downloading song... \nThis can take a while. (Download speed: {downloadSpeed} Mbps)`")
         filename = await YTDLSource.from_url(url_, loop=bot.loop)
         await msg1.edit(content="`Loading song...`")
+        needRemove.append(filename)
         voice.play(discord.FFmpegPCMAudio(source=filename))
     
     await msg1.delete()
     await ctx.send('**Now playing:** `{}`'.format(filename))
+    removeFiles()
 
 
 @bot.command(aliases=['addqueue', 'add', 'q'])
