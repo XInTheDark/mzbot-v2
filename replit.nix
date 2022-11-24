@@ -2,6 +2,9 @@
   deps = [
     pkgs.python38Full
   ];
+  environment.systemPackages = [
+    pkgs.ffmpeg
+  ];
   env = {
     PYTHON_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
       # Needed for pandas / numpy
