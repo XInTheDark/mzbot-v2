@@ -1,5 +1,8 @@
 # bot.py
 
+# install requirements
+exec("pip install -r requirements.txt")
+
 import asyncio
 import datetime
 import json
@@ -37,6 +40,9 @@ from requests import get
 import mzhelp
 import mzutils
 
+# for replit config:
+import replit
+
 # for firebase config:
 import firebaseconfig
 import firebase_admin
@@ -50,25 +56,38 @@ firebase_admin.initialize_app(firebaseCred, {
 })
 
 
-def firebaseWrite(a, b):
-    # https://www.youtube.com/watch?v=EtFcVbn6YIM
+def replitWrite(key: str, value):
     """
-    a is the key, b is the value.
-    You can also pass a dictionary for b; for example:
-    firebaseWrite(userID, {"Color": "blue"})
-    
-    To replace a value, just call this function again,
-    with the same key but different value.
+    key has to be a string, value can be any value(s).
     """
     
-    ref = db.reference("/")
-    ref.update(
-        {
-            a: b
-        }
-    )
+    replit.db[key] = value
+
+
+def replitDelete(key: str):
+    """
+    Deletes a key-value pair from the Replit Database.
+    """
+    replit.db.__delitem__(key)
+    
+    # alternate:
+    # del replit.db[key]
     
 
+def replitGet(key: str):
+    """
+    Gets a value from the Replit Database.
+    """
+    return replit.db[key]
+
+
+def replitGetAllKeys():
+    """
+    Returns all the keys from Replit Database.
+    """
+    return replit.db.keys()
+    
+    
 # Setting variables
 afkdict = {}
 spam_ban = [726356086176874537]
