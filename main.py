@@ -1,12 +1,12 @@
 # bot.py
 
 # install requirements
-exec("pip install -r requirements.txt")
+import os
+os.system("pip install -r requirements.txt")
 
 import asyncio
 import datetime
 import json
-import os
 import random
 import sys
 import timeit
