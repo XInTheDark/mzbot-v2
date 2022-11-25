@@ -1813,7 +1813,9 @@ async def snipe(ctx, pos: int = 1):
         return
     
     if success1:
-        lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
+        try: lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
+        except: pass
+        
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
         
         if not lst[1] == ctx.channel.id:
@@ -1873,7 +1875,9 @@ async def esnipe(ctx, pos: int = 1):
         return
     
     if success1:
-        lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+        try: lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+        except: pass
+        
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
     
         if not lst[1] == ctx.channel.id:
