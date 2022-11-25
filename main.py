@@ -88,14 +88,20 @@ def replitRead(key: str):
     """
     Gets a value from the Replit Database.
     """
-    return replit.db[key]
+    try:
+        return replit.db[key]
+    except:
+        return None
 
 
 def replitGetAllKeys():
     """
     Returns all the keys from Replit Database.
     """
-    return replit.db.keys()
+    try:
+        return replit.db.keys()
+    except:
+        return None
 
 
 def removeprefix(s, prefix):
@@ -113,15 +119,23 @@ def removesuffix(s, suffix):
     return s
 
 
+def replitInit(key: str, value):
+    """
+    Initialize a variable if it has not been initialized before.
+    """
+    if replitRead(key) is None:
+        replitWrite(key, value)
+        
+        
 # Setting variables
 
-replitWrite("afk", {})  # afkdict
+replitInit("afk", {})
 spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
-replitWrite("snipes", {})
-replitWrite("esnipes", {})
-replitWrite("optoutlist", [])
+replitInit("snipes", {})
+replitInit("esnipes", {})
+replitInit("optoutlist", [])
 uptime = 0
 hardmutes = []
 ownerid = 926410988738183189
