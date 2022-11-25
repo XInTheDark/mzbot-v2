@@ -325,8 +325,9 @@ async def on_message_delete(message):
     author = message.author
     
     # add to snipes
-    lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([author.id, message.channel.id, msg, round(message.created_at.timestamp()),
-           round(datetime.datetime.utcnow().timestamp())])
+    lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([str(author.id), str(message.channel.id), msg,
+                                                               str(round(message.created_at.timestamp())),
+           str(round(datetime.datetime.utcnow().timestamp()))])
     
     snipes[len(snipes)] = lst
     replitWrite("snipes", snipes)
@@ -339,8 +340,9 @@ async def on_message_edit(old, new):
     newmsg = new.content
     author = new.author
     
-    lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([author.id, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
-           round(datetime.datetime.utcnow().timestamp())])
+    lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([str(author.id), str(old.channel.id), oldmsg, newmsg,
+                                                               str(round(old.created_at.timestamp())),
+           str(round(datetime.datetime.utcnow().timestamp()))])
     
     esnipes[len(esnipes)] = lst
     replitWrite("esnipes", esnipes)
@@ -1859,7 +1861,7 @@ async def esnipe(ctx, pos: int = 1):
     try:
         lst = esnipes[(sorted(esnipes.keys())[-pos])]
         lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-        lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+        lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
         
         if lst is not None:
             success1 = True
@@ -1872,7 +1874,7 @@ async def esnipe(ctx, pos: int = 1):
     
     if success1:
         lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-        lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+        lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
     
         if not lst[1] == ctx.channel.id:
             success2 = False
@@ -1881,7 +1883,7 @@ async def esnipe(ctx, pos: int = 1):
                 try:
                     lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
                     lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-                    lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+                    lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
 
                     if lst[1] == ctx.channel.id:
                         success2 = True
