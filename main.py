@@ -195,6 +195,8 @@ async def on_ready():
 # error handling
 @bot.event
 async def on_command_error(ctx, error):
+    print(error)
+    
     if isinstance(error, BotMissingPermissions):
         await ctx.reply(f'`Missing Permissions!`', mention_author=False)
     if isinstance(error, BotMissingAnyRole):
@@ -299,9 +301,8 @@ async def on_message_delete(message):
     msg = message.content
     author = message.author
     
-    if author.id != bot.user.id:
-        snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
-                               round(datetime.datetime.utcnow().timestamp())]
+    snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
+                           round(datetime.datetime.utcnow().timestamp())]
 
 
 @bot.event
@@ -310,9 +311,8 @@ async def on_message_edit(old, new):
     newmsg = new.content
     author = new.author
     
-    if author.id != bot.user.id:
-        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
-                                 round(datetime.datetime.utcnow().timestamp())]
+    esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
+                             round(datetime.datetime.utcnow().timestamp())]
 
 
 # Error handling
