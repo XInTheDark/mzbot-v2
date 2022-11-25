@@ -325,7 +325,7 @@ async def on_message_delete(message):
     author = message.author
     
     # add to snipes
-    lst = [author, message.channel.id, msg, round(message.created_at.timestamp()),
+    lst = [author.id, message.channel.id, msg, round(message.created_at.timestamp()),
            round(datetime.datetime.utcnow().timestamp())]
     snipes[len(snipes)] = [vars(x) for x in lst]
     replitWrite("snipes", snipes)
@@ -338,7 +338,7 @@ async def on_message_edit(old, new):
     newmsg = new.content
     author = new.author
     
-    lst = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
+    lst = [author.id, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
            round(datetime.datetime.utcnow().timestamp())]
     esnipes[len(esnipes)] = [vars(x) for x in lst]
     replitWrite("esnipes", esnipes)
@@ -362,7 +362,8 @@ async def on_message_edit(old, new):
 async def updatelog(ctx):
     async with ctx.channel.typing():
         try:
-            shutil.rmtree("/mzbot-v2")
+            dir_path = os.path.dirname(os.path.realpath(__file__))
+            shutil.rmtree(os.path.join(dir_path, "mzbot-v2"))
         except:
             pass
         
@@ -1830,7 +1831,7 @@ async def snipe(ctx, pos: int = 1):
         else:
             embed = discord.Embed(title="**Sniper (BETA)**", description=f"""**Successfully sniped a message!**
 Sent in {ctx.channel}
-Sent by {lst[0]}
+Sent by <@{lst[0]}>
 Sent <t:{lst[3]}:R>
 Deleted <t:{lst[4]}:R>
 
@@ -1881,7 +1882,7 @@ async def esnipe(ctx, pos: int = 1):
         else:
             embed = discord.Embed(title="**EditSniper (BETA)**", description=f"""**Successfully editsniped a message!**
 Sent in {ctx.channel}
-Sent by {lst[0]}
+Sent by <@{lst[0]}>
 Sent <t:{lst[4]}:R>
 Edited <t:{lst[5]}:R>
 
