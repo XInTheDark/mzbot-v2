@@ -94,7 +94,22 @@ def replitGetAllKeys():
     """
     return replit.db.keys()
     
-    
+
+def removeprefix(s, prefix):
+    """
+    Useful for python < 3.9
+    """
+    if s.startswith(prefix):
+        return s[len(prefix):]
+    return s
+
+
+def removesuffix(s, suffix):
+    if s.endswith(suffix):
+        return s[:-len(suffix)]
+    return s
+
+
 # Setting variables
 
 replitWrite("afk", {})  # afkdict
@@ -275,7 +290,8 @@ async def on_message(message):
 You were AFK for {afklen}""")
             
             try:
-                await message.author.edit(nick=message.author.display_name.removeprefix("[AFK] "))
+                await message.author.edit(nick=
+                                          removeprefix(message.author.display_name, "[AFK] "))
             except:
                 pass
             
@@ -855,7 +871,7 @@ async def whowon(ctx, userid, *, prize):
     
     for i in prooflines:
         if str(server_id) in i:
-            i = i.removeprefix(f"{server_id}:")
+            i = removeprefix(i, f"{server_id}:")
             proofschannel = f"<#{str(i)}>"
             foundserver = True
             break
@@ -1133,7 +1149,9 @@ async def addrole(ctx, member: discord.Member, *, rolename):
 async def setclaimschannel(ctx, channel):
     if channel is not None:
         try:
-            channelid = channel.removeprefix('<#').removesuffix('>')
+            channelid = removesuffix(
+                removeprefix(channel, '<#')
+                , '>')
         except:
             try:
                 channelid = int(channel)
@@ -1199,7 +1217,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
         
         for i in claimlines:
             if str(server_id) in i:
-                i = i.removeprefix(f"{server_id}:")
+                i = removeprefix(i, f"{server_id}:")
                 claimschannel = int(i)
                 foundserver = True
                 break
@@ -1218,7 +1236,9 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
 async def setproofschannel(ctx, channelid):
     if channelid is not None:
         try:
-            channelid = channelid.removeprefix('<#').removesuffix('>')
+            channelid = removesuffix(
+                removeprefix(channelid, '<#')
+                , '>')
         except:
             try:
                 channelid = int(channelid)
@@ -1227,6 +1247,8 @@ async def setproofschannel(ctx, channelid):
                 return
     else:
         channelid = ctx.channel.id
+    
+    channelid = int(channelid)
     
     try:
         channeltest = client.get_channel(channelid)
@@ -1279,7 +1301,9 @@ async def rename(ctx, channel='', *, name):
     
     if channel != '':
         try:
-            channelid = channel.removeprefix('<#').removesuffix('>')
+            channelid = removesuffix(
+                removeprefix(channel, '<#')
+                , '>')
             channelid = int(channelid)
         except:
             try:
@@ -1674,7 +1698,7 @@ async def define(ctx, *, word):
                 for j in meaningDict[i]:
                     meaning = meaning + f" - {j}\n"
             
-            meaning.removesuffix("\n")
+            meaning = removesuffix(meaning, "\n")
         except:
             await ctx.reply(f"`{word}` not found in dictionary!")
             return
@@ -1865,7 +1889,9 @@ async def invites(ctx, person=None):
     
     if person is not None:
         try:
-            personid = person.removeprefix("<@").removesuffix(">")
+            personid = removesuffix(
+                removeprefix(person, '<@')
+                , '>')
             person = bot.get_user(int(personid))
         except:
             await ctx.reply("I can't find that user.")
@@ -1876,7 +1902,9 @@ async def invites(ctx, person=None):
     
     if person.id != ctx.author.id:
         try:
-            personid = person.removeprefix("<@").removesuffix(">")
+            personid = removesuffix(
+                removeprefix(person, '<@')
+                , '>')
             member = bot.get_user(int(personid))
         except:
             try:
@@ -1946,17 +1974,17 @@ async def setnsfw(ctx, status=None):
 @commands.has_permissions(administrator=True)
 async def timer(ctx, duration, *, item=' '):
     if 's' in duration:
-        duration2 = int(duration.removesuffix('s'))
-        duration3 = duration.removesuffix('s') + ' seconds'
+        duration2 = int(removesuffix(duration, 's'))
+        duration3 = removesuffix(duration, 's') + ' seconds'
     elif 'm' in duration:
-        duration2 = 60 * int(duration.removesuffix('m'))
-        duration3 = duration.removesuffix('m') + ' minutes'
+        duration2 = 60 * int(removesuffix(duration, 'm'))
+        duration3 = removesuffix(duration, 'm') + ' minutes'
     elif 'h' in duration:
-        duration2 = 3600 * int(duration.removesuffix('h'))
-        duration3 = duration.removesuffix('h') + ' hours'
+        duration2 = 3600 * int(removesuffix(duration, 'h'))
+        duration3 = removesuffix(duration, 'h') + ' hours'
     elif 'd' in duration:
-        duration2 = 3600 * 24 * int(duration.removesuffix('d'))
-        duration3 = duration.removesuffix('d') + ' days'
+        duration2 = 3600 * 24 * int(removesuffix(duration, 'd'))
+        duration3 = removesuffix(duration, 'd') + ' days'
     else:
         try:
             duration2 = int(duration)
@@ -2638,19 +2666,19 @@ async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"
 React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     
     winners = int(winners.removesuffix('w'))
-    
+
     if 's' in duration:
-        duration2 = int(duration.removesuffix('s'))
-        duration3 = duration.removesuffix('s') + ' seconds'
+        duration2 = int(removesuffix(duration, 's'))
+        duration3 = removesuffix(duration, 's') + ' seconds'
     elif 'm' in duration:
-        duration2 = 60 * int(duration.removesuffix('m'))
-        duration3 = duration.removesuffix('m') + ' minutes'
+        duration2 = 60 * int(removesuffix(duration, 'm'))
+        duration3 = removesuffix(duration, 'm') + ' minutes'
     elif 'h' in duration:
-        duration2 = 3600 * int(duration.removesuffix('h'))
-        duration3 = duration.removesuffix('h') + ' hours'
+        duration2 = 3600 * int(removesuffix(duration, 'h'))
+        duration3 = removesuffix(duration, 'h') + ' hours'
     elif 'd' in duration:
-        duration2 = 3600 * 24 * int(duration.removesuffix('d'))
-        duration3 = duration.removesuffix('d') + ' days'
+        duration2 = 3600 * 24 * int(removesuffix(duration, 'd'))
+        duration3 = removesuffix(duration, 'd') + ' days'
     else:
         try:
             duration2 = int(duration)
