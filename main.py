@@ -91,6 +91,7 @@ def replitRead(key: str):
     try:
         return replit.db[key]
     except:
+        """Accessing a non-existent key will raise KeyError."""
         return None
 
 
@@ -122,8 +123,9 @@ def removesuffix(s, suffix):
 def replitInit(key: str, value):
     """
     Initialize a variable if it has not been initialized before.
+    (i.e. if the key doesn't exist yet)
     """
-    if replitRead(key) is None or key not in replitGetAllKeys():
+    if key not in replitGetAllKeys():
         replitWrite(key, value)
         
         
