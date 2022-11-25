@@ -22,6 +22,7 @@ import re
 import speedtest  # speedtest-cli
 import roblox
 import keep_alive
+import shutil
 
 # for mobile status:
 import ast
@@ -356,6 +357,10 @@ async def on_message_edit(old, new):
 @bot.command(name='update', aliases=['updates', 'updatelogs', 'announcements', 'notes'])
 async def updatelog(ctx):
     async with ctx.channel.typing():
+        try:
+            shutil.rmtree("/mzbot-v2")
+        except: pass
+        
         repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
         master = repo.head.reference
         
