@@ -4,6 +4,7 @@ print("---MZ Bot v2---")
 # install requirements
 import mzdependencies
 import os
+
 print("Running `pip install -r requirements.txt`...\n")
 os.system("pip install -r requirements.txt")
 print("Installing npm dependencies...\n")
@@ -67,6 +68,7 @@ firebase_admin.initialize_app(firebaseCred, {
 def replitWrite(key: str, value):
     """
     key has to be a string, value can be any value(s).
+    However, value has to be JS-serializable.
     """
     
     replit.db[key] = value
@@ -80,7 +82,7 @@ def replitDelete(key: str):
     
     # alternate:
     # del replit.db[key]
-    
+
 
 def replitRead(key: str):
     """
@@ -94,7 +96,7 @@ def replitGetAllKeys():
     Returns all the keys from Replit Database.
     """
     return replit.db.keys()
-    
+
 
 def removeprefix(s, prefix):
     """
@@ -323,9 +325,9 @@ async def on_message_delete(message):
     author = message.author
     
     # add to snipes
-    if author != bot.user:
-        snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
-                               round(datetime.datetime.utcnow().timestamp())]
+    lst = [author, message.channel.id, msg, round(message.created_at.timestamp()),
+           round(datetime.datetime.utcnow().timestamp())]
+    snipes[len(snipes)] = [vars(x) for x in lst]
     replitWrite("snipes", snipes)
 
 
@@ -335,9 +337,10 @@ async def on_message_edit(old, new):
     oldmsg = old.content
     newmsg = new.content
     author = new.author
-    if author != bot.user:
-        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
-                                 round(datetime.datetime.utcnow().timestamp())]
+    
+    lst = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
+           round(datetime.datetime.utcnow().timestamp())]
+    esnipes[len(esnipes)] = [vars(x) for x in lst]
     replitWrite("esnipes", esnipes)
 
 
@@ -360,7 +363,8 @@ async def updatelog(ctx):
     async with ctx.channel.typing():
         try:
             shutil.rmtree("/mzbot-v2")
-        except: pass
+        except:
+            pass
         
         repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
         master = repo.head.reference
@@ -375,7 +379,7 @@ async def updatelog(ctx):
                                                                   f"Message: \n{message}", color=0x00ff00)
     await ctx.reply(embed=embed)
     repo.close()
-    
+
 
 @bot.command(name='help', aliases=['commands', 'cmds'])
 async def help(ctx, cmd=None):
@@ -2354,6 +2358,7 @@ async def checkVoicePerms(ctx):
 musicQueue = []  # we store the queue as a pair, the first value is the song, the second value is a bool for
 needRemove = []
 
+
 # whether the song is playing or not.
 
 
@@ -2372,8 +2377,8 @@ def removeFiles():
         for f in needRemove:
             os.remove(f)
             needRemove.remove(f)
-            
-            
+
+
 async def playLoop(ctx, voice):
     """
     Plays music in a continuous loop.
@@ -2396,7 +2401,7 @@ async def playLoop(ctx, voice):
     if len(musicQueue) > 1:
         needRemove.append(filename)
         voice.play(discord.FFmpegPCMAudio(source=filename), after=await playLoop(ctx, voice))
-        
+    
     else:
         needRemove.append(filename)
         voice.play(discord.FFmpegPCMAudio(source=filename))
@@ -2672,7 +2677,7 @@ async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"
 React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     
     winners = int(winners.removesuffix('w'))
-
+    
     if 's' in duration:
         duration2 = int(removesuffix(duration, 's'))
         duration3 = removesuffix(duration, 's') + ' seconds'
