@@ -101,8 +101,9 @@ replitWrite("afk", {})  # afkdict
 spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
-snipes = {}
-esnipes = {}
+replitWrite("snipes", {})
+replitWrite("esnipes", {})
+replitWrite("optoutlist", [])
 uptime = 0
 hardmutes = []
 ownerid = 926410988738183189
@@ -300,21 +301,26 @@ You were AFK for {afklen}""")
 
 @bot.event
 async def on_message_delete(message):
+    snipes = replitRead("snipes")
     msg = message.content
     author = message.author
     
+    # add to snipes
     snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
                            round(datetime.datetime.utcnow().timestamp())]
+    replitWrite("snipes", snipes)
 
 
 @bot.event
 async def on_message_edit(old, new):
+    esnipes = replitRead("esnipes")
     oldmsg = old.content
     newmsg = new.content
     author = new.author
     
     esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
                              round(datetime.datetime.utcnow().timestamp())]
+    replitWrite("esnipes", esnipes)
 
 
 # Error handling
@@ -958,14 +964,11 @@ Number of times: {number_of_times2}
 @bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""",
              aliases=['dm', 'dms', 'dmsend'])
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
-    optoutfile = open('optoutspam.txt', 'r')
-    optoutlist = []
-    for x in optoutfile:
-        optoutlist.append(x)
+    optoutlist = replitRead("optoutlist")
     
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
-    elif str(user.id) in optoutlist:
+    elif user.id in optoutlist:
         await ctx.channel.send(f"Sorry, that user (`{user}`) has opted out of the `dmspam` command.")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
@@ -1036,48 +1039,29 @@ Guild: `{ctx.guild.name}`"""
 
 @bot.command(name='optout_spam', help="""Opts out of spam.""", aliases=['optoutspam'])
 async def optoutspam(ctx):
-    optoutlist2 = []
+    optoutlist = replitRead("optoutlist")
     
-    optoutfile2 = open('optoutspam.txt', 'r')
-    for y in optoutfile2:
-        optoutlist2.append(y)
-    optoutfile2.close()
-    
-    if ctx.author.id in optoutlist2:
+    if ctx.author.id in optoutlist:
         await ctx.channel.send(
             "You are already in the opt-out list! If you wish to opt in again, use the command `.optin_spam`!")
     else:
-        optoutfile3 = open('optoutspam.txt', 'a')
-        optoutfile3.write('\n')
-        optoutfile3.write(str(ctx.author.id))
+        optoutlist.append(ctx.author.id)
+        replitWrite("optoutlist", optoutlist)
+        
         await ctx.channel.send(
             "You have opted out for spam! If you wish to opt in again, use the command `.optin_spam`!")
-        optoutfile3.close()
 
 
 @bot.command(name='optin_spam', help="""Opts in of spam [after opting out].""", aliases=['optinspam'])
 async def optinspam(ctx):
-    optoutlist3 = []
+    optoutlist = replitRead("optoutlist")
     
-    optoutfile3 = open('optoutspam.txt', 'r')
-    for y in optoutfile3:
-        optoutlist3.append(y)
-    optoutfile3.close()
-    
-    if str(ctx.author.id) not in optoutlist3:
+    if str(ctx.author.id) not in optoutlist:
         await ctx.channel.send(
             "You are already opted in for spam! If you wish to opt out, use the command `.optout_spam`!")
     else:
-        a_file = open("optoutspam.txt", "r")
-        lines = a_file.readlines()
-        a_file.close()
-        
-        new_file = open("optoutspam.txt", "w")
-        for line in lines:
-            if line.strip("\n") != str(ctx.author.id):
-                new_file.write(str(line))
-                new_file.close()
-        
+        optoutlist.remove(ctx.author.id)
+        replitWrite("optoutlist", optoutlist)
         await ctx.channel.send(
             "You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
@@ -1772,8 +1756,9 @@ async def mc(ctx):
 
 
 @bot.command(name='snipe', aliases=['sniper'])
-async def snipe(ctx, pos=1):
-    pos = int(pos)
+async def snipe(ctx, pos: int = 1):
+    snipes = replitRead("snipes")
+    
     success1 = False
     success2 = False
     
@@ -1821,8 +1806,8 @@ Deleted <t:{lst[4]}:R>
 
 
 @bot.command(name='editsnipe', aliases=['editsniper', 'esnipe'])
-async def esnipe(ctx, pos=1):
-    pos = int(pos)
+async def esnipe(ctx, pos: int = 1):
+    esnipes = replitRead("esnipes")
     success1 = False
     success2 = False
     
@@ -1844,7 +1829,7 @@ async def esnipe(ctx, pos=1):
             pos1 = pos - 1
             while True:
                 try:
-                    lst = snipes[sorted(snipes.keys())[-1 - pos1]]
+                    lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
