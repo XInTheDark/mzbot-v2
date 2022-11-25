@@ -1,8 +1,12 @@
 # bot.py
+print("---MZ Bot v2---")
 
 # install requirements
+print("Running `pip install -r requirements.txt`...\n")
+import mzdependencies
 import os
 os.system("pip install -r requirements.txt")
+for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
 import asyncio
 import datetime
@@ -47,7 +51,6 @@ import replit
 import firebaseconfig
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import db
 
 # firebase setup
 firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
