@@ -17,3 +17,4 @@ Flask>=2.2.2
 git-python
 firebase-admin
 replit
+ffmpeg-python

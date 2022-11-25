@@ -53,6 +53,9 @@ import firebaseconfig
 import firebase_admin
 from firebase_admin import credentials
 
+# for ffmpeg [[maybe_unused]]:
+import ffmpeg
+
 # firebase setup
 firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
 firebase_admin.initialize_app(firebaseCred, {
