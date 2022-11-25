@@ -1,7 +1,7 @@
 # The command that runs the program. If the interpreter field is set, it will have priority and this run command will do nothing
 run = """
 export PATH="$PWD/node_modules/ffmpeg-static:$PATH"
-python3 main.py
+python3.10 main.py
 """
 
 # The primary language of the repl. There can be others, though!
