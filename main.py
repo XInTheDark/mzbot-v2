@@ -123,7 +123,7 @@ def replitInit(key: str, value):
     """
     Initialize a variable if it has not been initialized before.
     """
-    if replitRead(key) is None:
+    if replitRead(key) is None or key not in replitGetAllKeys():
         replitWrite(key, value)
         
         
@@ -2937,8 +2937,10 @@ async def auditlogs(ctx, num: int = 20):
 
 @bot.command()
 async def debug(ctx):
-    print("i am running")
-    await ctx.send("i am running")
+    a = replit.db["a nonexistent key"]
+    print(a)
+    await ctx.send(a)
+
 
 
 keep_alive.keep_alive()  # keep bot alive
