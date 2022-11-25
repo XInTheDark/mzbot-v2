@@ -1,7 +1,7 @@
 { pkgs }: {
   deps = [
     pkgs.nodejs-16_x
-    pkgs.python39
+    pkgs.python310
   ];
   environment.systemPackages = [
     pkgs.ffmpeg
@@ -16,7 +16,7 @@
       # Needed for matplotlib
       pkgs.xorg.libX11
     ];
-    PYTHONBIN = "${pkgs.python39}/bin/python3.9";
+    PYTHONBIN = "${pkgs.python310}/bin/python3.10";
     LANG = "en_US.UTF-8";
   };
 }
