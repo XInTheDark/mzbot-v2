@@ -81,7 +81,7 @@ def replitDelete(key: str):
     # del replit.db[key]
     
 
-def replitGet(key: str):
+def replitRead(key: str):
     """
     Gets a value from the Replit Database.
     """
@@ -96,9 +96,9 @@ def replitGetAllKeys():
     
     
 # Setting variables
-afkdict = {}
-spam_ban = [726356086176874537]
 
+replitWrite("afk", {})  # afkdict
+spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
 snipes = {}
@@ -240,7 +240,7 @@ async def on_guild_join(guild):
 
 @bot.event
 async def on_message(message):
-    global afkdict
+    afkdict = replitRead("afk")
     global hardmutes
     global msgpings
     global bannedWords
@@ -282,6 +282,7 @@ You were AFK for {afklen}""")
             
             await asyncio.sleep(7.5)
             await welcomebackmsg.delete()
+        replitWrite("afk", afkdict)  # update afkdict
     
     for member in message.mentions:
         if not message.author.bot:
@@ -1382,7 +1383,7 @@ async def purge(ctx, amount: int):
 @commands.cooldown(1, 3, commands.BucketType.user)
 @bot.command(aliases=['setafk'])
 async def afk(ctx, *, reason='AFK'):
-    global afkdict
+    afkdict = replitRead("afk")
     afkdict[str(ctx.author.id)] = [reason, str(int(datetime.datetime.utcnow().timestamp()))]
     await ctx.message.delete()
     msg1 = await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
@@ -1390,11 +1391,13 @@ async def afk(ctx, *, reason='AFK'):
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
     except:
         pass
+    
+    replitWrite("afk", afkdict)
 
 
 @bot.command(aliases=['cancelafk', 'afkremove'])
 async def removeafk(ctx, *, member: discord.Member = None):
-    global afkdict
+    afkdict = replitRead("afk")
     
     if member is None:
         member = ctx.author
@@ -1418,6 +1421,7 @@ async def removeafk(ctx, *, member: discord.Member = None):
             return
     
     await ctx.send(f"AFK status removed for `{member}`")
+    replitWrite("afk", afkdict)
 
 
 @bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
