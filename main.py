@@ -2,10 +2,11 @@
 print("---MZ Bot v2---")
 
 # install requirements
-print("Running `pip install -r requirements.txt`...\n")
 import mzdependencies
 import os
+print("Running `pip install -r requirements.txt`...\n")
 os.system("pip install -r requirements.txt")
+print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
 import asyncio
