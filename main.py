@@ -325,9 +325,10 @@ async def on_message_delete(message):
     author = message.author
     
     # add to snipes
-    lst = [author.id, message.channel.id, msg, round(message.created_at.timestamp()),
-           round(datetime.datetime.utcnow().timestamp())]
-    snipes[len(snipes)] = [vars(x) for x in lst]
+    lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([author.id, message.channel.id, msg, round(message.created_at.timestamp()),
+           round(datetime.datetime.utcnow().timestamp())])
+    
+    snipes[len(snipes)] = lst
     replitWrite("snipes", snipes)
 
 
@@ -338,9 +339,10 @@ async def on_message_edit(old, new):
     newmsg = new.content
     author = new.author
     
-    lst = [author.id, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
-           round(datetime.datetime.utcnow().timestamp())]
-    esnipes[len(esnipes)] = [vars(x) for x in lst]
+    lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([author.id, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
+           round(datetime.datetime.utcnow().timestamp())])
+    
+    esnipes[len(esnipes)] = lst
     replitWrite("esnipes", esnipes)
 
 
@@ -1792,7 +1794,7 @@ async def mc(ctx):
 
 @bot.command(name='snipe', aliases=['sniper'])
 async def snipe(ctx, pos: int = 1):
-    snipes = replitRead("snipes")
+    snipes = replitRead("snipes")  # returns a dictionary.
     
     success1 = False
     success2 = False
@@ -1806,14 +1808,21 @@ async def snipe(ctx, pos: int = 1):
             await ctx.reply("No messages deleted yet.")
         else:
             await ctx.reply("There is no message found at that index.")
+        return
     
     if success1:
+        lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
+        lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+        
         if not lst[1] == ctx.channel.id:
             success2 = False
             pos1 = pos - 1
             while True:
                 try:
                     lst = snipes[sorted(snipes.keys())[-1 - pos1]]
+                    lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
+                    lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1843,11 +1852,15 @@ Deleted <t:{lst[4]}:R>
 @bot.command(name='editsnipe', aliases=['editsniper', 'esnipe'])
 async def esnipe(ctx, pos: int = 1):
     esnipes = replitRead("esnipes")
+    
     success1 = False
     success2 = False
     
     try:
         lst = esnipes[(sorted(esnipes.keys())[-pos])]
+        lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+        lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+        
         if lst is not None:
             success1 = True
     except:
@@ -1855,16 +1868,21 @@ async def esnipe(ctx, pos: int = 1):
             await ctx.reply("No messages edited yet.")
         else:
             await ctx.reply("There is no message found at that index.")
-        
         return
     
     if success1:
+        lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+        lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+    
         if not lst[1] == ctx.channel.id:
             success2 = False
             pos1 = pos - 1
             while True:
                 try:
                     lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
+                    lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+                    lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
+
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
