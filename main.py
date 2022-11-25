@@ -113,10 +113,8 @@ bannedWords = mzutils.bannedWords
 ended = []
 MAX_INT = 2147483647  # max int32 size
 
-load_dotenv()
+# load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
-# TOKEN = "OTQ2NzYxODIzMzg0OTE1OTY4.YhjaqA.RjZrEx-MnlA8a42ZetXvSOnfo8g"
-GUILD = os.environ.get('DISCORD_GUILD')
 
 
 # ---MOBILE STATUS--- (not working)
