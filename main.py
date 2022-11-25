@@ -323,9 +323,10 @@ async def on_message_delete(message):
     author = message.author
     
     # add to snipes
-    snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
-                           round(datetime.datetime.utcnow().timestamp())]
-    # replitWrite("snipes", snipes)
+    if author != bot.user:
+        snipes[len(snipes)] = [author, message.channel.id, msg, round(message.created_at.timestamp()),
+                               round(datetime.datetime.utcnow().timestamp())]
+        replitWrite("snipes", snipes)
 
 
 @bot.event
@@ -334,10 +335,10 @@ async def on_message_edit(old, new):
     oldmsg = old.content
     newmsg = new.content
     author = new.author
-    
-    esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
-                             round(datetime.datetime.utcnow().timestamp())]
-    # replitWrite("esnipes", esnipes)
+    if author != bot.user:
+        esnipes[len(esnipes)] = [author, old.channel.id, oldmsg, newmsg, round(old.created_at.timestamp()),
+                                 round(datetime.datetime.utcnow().timestamp())]
+        replitWrite("esnipes", esnipes)
 
 
 # Error handling
