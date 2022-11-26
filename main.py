@@ -228,6 +228,12 @@ async def on_ready():
     downloadSpeed = await speedTestDownload()
 
 
+@bot.event
+async def on_disconnect():
+    os.system("kill 1")
+    # "kill 1" restarts the container and will automatically re-run the script.
+
+
 # error handling
 @bot.event
 async def on_command_error(ctx, error):
@@ -705,13 +711,20 @@ async def restart(message):
 
 @bot.command(name='mute', help='Mutes someone.')
 async def mute(ctx, member: discord.Member, *, reason=None):
-    if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to mute", member, "by using .mute")
         await ctx.send("You don't have permissions!")
     else:
         guild = ctx.guild
-        mutedrole = discord.utils.get(guild.roles, name="Muted")
-        await member.add_roles(mutedrole, reason=reason)
+        try:
+            mutedrole = discord.utils.get(guild.roles, name="Muted")
+            await member.add_roles(mutedrole, reason=reason)
+        except:
+            # the Muted role does not exist, need to create one
+            mutedrole = await ctx.guild.create_role("Muted",
+                                                    permissions=discord.Permissions(send_messages=False))
+            await member.add_roles(mutedrole, reason=reason)
+            
         await ctx.send(f"`Muted User:{member} Successfully`")
 
 
@@ -2137,7 +2150,7 @@ async def hardunmute(ctx, person: discord.Member):
         if person.id not in hardmutes:
             await ctx.message.delete()
         else:
-            hardmutes.pop(person.id)
+            hardmutes.remove(person.id)
             await ctx.message.delete()
 
 
