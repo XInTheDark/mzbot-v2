@@ -127,8 +127,8 @@ def replitInit(key: str, value):
     """
     if key not in replitGetAllKeys():
         replitWrite(key, value)
-        
-        
+
+
 # Setting variables
 
 replitInit("afk", {})
@@ -343,7 +343,7 @@ async def on_message_delete(message):
     # add to snipes
     lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([str(author.id), str(message.channel.id), msg,
                                                                str(round(message.created_at.timestamp())),
-           str(round(datetime.datetime.utcnow().timestamp()))])
+                                                               str(round(datetime.datetime.utcnow().timestamp()))])
     
     snipes[len(snipes)] = lst
     replitWrite("snipes", snipes)
@@ -358,7 +358,7 @@ async def on_message_edit(old, new):
     
     lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([str(author.id), str(old.channel.id), oldmsg, newmsg,
                                                                str(round(old.created_at.timestamp())),
-           str(round(datetime.datetime.utcnow().timestamp()))])
+                                                               str(round(datetime.datetime.utcnow().timestamp()))])
     
     esnipes[len(esnipes)] = lst
     replitWrite("esnipes", esnipes)
@@ -1449,9 +1449,11 @@ async def removeafk(ctx, *, member: discord.Member = None):
     except:
         pass
     
-    if "[AFK] " in ctx.author.display_name:
+    if "[AFK] " in ctx.author.nick:
         try:
-            await ctx.author.edit(nick=ctx.author.display_name.replace("[AFK] ", ""))
+            await ctx.author.edit(nick=ctx.author.nick.replace("[AFK] ", ""))
+            await ctx.send(f"AFK status removed for `{member}`\n"
+                           f"Nickname updated.")
         except:
             await ctx.send(f"AFK status removed for `{member}`\n"
                            f"I could not edit the user's nickname due to the role hierarchy.")
@@ -1829,8 +1831,10 @@ async def snipe(ctx, pos: int = 1):
         return
     
     if success1:
-        try: lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
-        except: pass
+        try:
+            lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
+        except:
+            pass
         
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
         
@@ -1842,7 +1846,7 @@ async def snipe(ctx, pos: int = 1):
                     lst = snipes[sorted(snipes.keys())[-1 - pos1]]
                     lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
                     lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
-
+                    
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -1891,11 +1895,13 @@ async def esnipe(ctx, pos: int = 1):
         return
     
     if success1:
-        try: lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-        except: pass
+        try:
+            lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
+        except:
+            pass
         
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
-    
+        
         if not lst[1] == ctx.channel.id:
             success2 = False
             pos1 = pos - 1
@@ -1904,7 +1910,7 @@ async def esnipe(ctx, pos: int = 1):
                     lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
                     lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
                     lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
-
+                    
                     if lst[1] == ctx.channel.id:
                         success2 = True
                         break
@@ -2944,7 +2950,10 @@ async def debug(ctx):
     await ctx.send(a)
 
 
-
 keep_alive.keep_alive()  # keep bot alive
 
-bot.run(TOKEN, reconnect=True)
+try:
+    bot.run(TOKEN, reconnect=True)
+except:
+    os.system("kill 1")
+    # "kill 1" automatically runs the script.
