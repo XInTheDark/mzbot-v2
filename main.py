@@ -3020,7 +3020,7 @@ async def gitupdate(ctx):
     os.system("git reset --hard origin/master")
     
     await ctx.send("`Restarting bot...`")
-    os.system("kill 1")
+    os.execv(sys.executable, ['python'] + sys.argv)
     
     
 keep_alive.keep_alive()  # keep bot alive
