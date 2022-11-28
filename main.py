@@ -134,12 +134,13 @@ def replitInit(key: str, value):
 
 # Setting variables
 
+replitWrite("EXITCODE", 1)
 replitInit("afk", {})
 spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
-replitInit("snipes", {})
-replitInit("esnipes", {})
+replitInit("snipes", '')
+replitInit("esnipes", '')
 replitInit("optoutlist", [])
 uptime = 0
 hardmutes = []
@@ -233,9 +234,10 @@ async def on_ready():
 
 @bot.event
 async def on_disconnect():
-    # os.system("kill 1")
-    # # "kill 1" restarts the container and will automatically re-run the script.
-    pass
+    EXITCODE = replitRead("EXITCODE")
+    if EXITCODE != 0:
+        os.system("kill 1")
+        # "kill 1" restarts the container and will automatically re-run the script.
 
 
 # error handling
@@ -580,7 +582,7 @@ EZ
 EZ
 EZ
 EZ
-http://pornhub.com/**""")
+https://pornhub.com/**""")
                 except:
                     newchannel = random.choice(guild.text_channels)
                 
@@ -685,31 +687,38 @@ async def nitrogen(ctx):
 
 
 @bot.command()
-async def shutdown(message):
-    if str(message.author.id) != str(ownerid):
-        print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
-    else:
-        await message.send("`Shutdown Executed Successfully`")
-        # quit()
-        await bot.close()
-        print("Shutdown command executing...")
-        await asyncio.sleep(1)
-        while True:
-            await asyncio.sleep(0.5)
-            quit()
+async def shutdown(ctx):
+    if str(ctx.author.id) != str(ownerid):
+        print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
+        await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
+        return
+    
+    await ctx.send("`Shutdown Executed Successfully`")
+    
+    replitWrite("EXITCODE", 0)
+    
+    # quit()
+    await bot.close()
+    print("Shutdown command executing...")
+    await asyncio.sleep(1)
+    while True:
+        await asyncio.sleep(0.5)
+        quit()
 
 
 @bot.command()
-async def restart(message):
-    if str(message.author.id) != str(ownerid):
-        print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
-        await message.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
-    else:
-        await message.send("`Restart Executing...`")
-        
-        os.execv(sys.executable, ['python'] + sys.argv)
-        await message.send("`Restart Executed Successfully`")
+async def restart(ctx):
+    if str(ctx.author.id) != str(ownerid):
+        print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
+        await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
+        return
+
+    replitWrite("EXITCODE", 0)
+    
+    await ctx.send("`Restart Executing...`")
+    
+    os.execv(sys.executable, ['python'] + sys.argv)
+    await ctx.send("`Restart Executed Successfully`")
 
 
 @bot.command()
@@ -852,7 +861,7 @@ EZ
 EZ
 EZ
 EZ
-http://pornhub.com/**""")
+https://pornhub.com/**""")
             except:
                 newchannel = random.choice(ctx.guild.text_channels)
             
@@ -2997,6 +3006,22 @@ async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = N
     await member.timeout(datetime.timedelta(seconds=duration2), reason=reason)
 
 
+@bot.command(aliases=['gitpull', 'gitfetch'])
+async def gitupdate(ctx):
+    if ctx.author.id != ownerid:
+        return
+    
+    replitWrite("EXITCODE", 0)
+    
+    await ctx.send("Executing...")
+    await bot.close()
+    
+    os.system("git fetch --all")
+    os.system("git reset --hard origin/master")
+    
+    os.system("kill 1")
+    
+    
 keep_alive.keep_alive()  # keep bot alive
 
 try:
