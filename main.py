@@ -2044,8 +2044,11 @@ async def setnsfw(ctx, status=None):
 
 
 @bot.command(name="timer", aliases=['countdown'])
-@commands.has_permissions(administrator=True)
 async def timer(ctx, duration, *, item=' '):
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
+    
     if 's' in duration:
         duration2 = int(removesuffix(duration, 's'))
         duration3 = removesuffix(duration, 's') + ' seconds'
