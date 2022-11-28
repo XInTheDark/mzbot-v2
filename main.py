@@ -145,7 +145,7 @@ uptime = 0
 hardmutes = []
 ownerid = 926410988738183189
 istyping = []
-msgpings = {}
+replitInit("msgpings", {})
 musicDict = {}
 bannedWords = mzutils.bannedWords
 ended = []
@@ -285,7 +285,7 @@ async def on_guild_join(guild):
 async def on_message(message):
     afkdict = replitRead("afk")
     global hardmutes
-    global msgpings
+    msgpings = replitRead("msgpings")
     global bannedWords
     
     if message.content.strip() == f"<@{bot.user.id}>":
@@ -1376,8 +1376,11 @@ async def rename(ctx, channel='', *, name):
 
 @commands.cooldown(1, 2, commands.BucketType.channel)
 @bot.command(name='purge', help='Purge messages.')
-@commands.has_permissions(manage_messages=True)
 async def purge(ctx, amount: int):
+    if not (ctx.author.guild_permissions(manage_messages=True)
+            or ctx.author.id == ownerid):
+        return
+    
     if not amount < 100:
         quo = int(amount / 99)
         rem = amount - quo * 99
@@ -2338,16 +2341,20 @@ async def stoptyper(ctx):
 
 
 @bot.command(aliases=['notif', 'notify'])
-@commands.has_permissions(administrator=True)
 async def msgping(ctx, *, msg=None):
-    global msgpings
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
+    
+    msgpings = replitRead("msgpings")
     
     if msg is not None:
         msgpings[ctx.channel.id] = msg
     else:
-        msgpings[ctx.channel.id]
+        msgpings[ctx.channel.id] = None
     
     await ctx.message.delete()
+    replitWrite("msgpings", msgpings)
 
 
 # INIT MUSIC MODULE
@@ -2737,8 +2744,10 @@ User description: `{ruser.description}`""")
 
 
 @bot.command(name='gstart', help='Starts a giveaway.')
-@commands.has_permissions(administrator=True)
 async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"):
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
     gwembed = discord.Embed(title='**GIVEAWAY!!!**', description=f"""**Giveaway: {prize}**
 React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     
@@ -2822,8 +2831,11 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
 
 
 @bot.command(name='greroll', help='Rerolls/ends a giveaway.')
-@commands.has_permissions(administrator=True)
 async def reroll(ctx, id_: int):
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
+    
     try:
         new_msg = await ctx.fetch_message(id_)
     except:
@@ -2856,8 +2868,11 @@ async def reroll(ctx, id_: int):
 
 @bot.command(name='greroll-c', help='Rerolls a giveaway in Compatible mode with other bots.',
              aliases=['rerollc', 'reroll_c'])
-@commands.has_permissions(administrator=True)
 async def rerollc(ctx, id_: int):
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
+    
     try:
         new_msg = await ctx.fetch_message(id_)
     except:
@@ -2880,8 +2895,11 @@ async def rerollc(ctx, id_: int):
 
 
 @bot.command(name='gend', help='Ends a giveaway.')
-@commands.has_permissions(administrator=True)
 async def end(ctx, id_: int):
+    if not (ctx.author.guild_permissions(administrator=True)
+            or ctx.author.id == ownerid):
+        return
+    
     if id_ not in ended:
         
         try:
