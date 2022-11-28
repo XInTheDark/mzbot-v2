@@ -230,8 +230,9 @@ async def on_ready():
 
 @bot.event
 async def on_disconnect():
-    os.system("kill 1")
-    # "kill 1" restarts the container and will automatically re-run the script.
+    # os.system("kill 1")
+    # # "kill 1" restarts the container and will automatically re-run the script.
+    pass
 
 
 # error handling
