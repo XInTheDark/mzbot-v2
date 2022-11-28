@@ -1,16 +1,29 @@
 import discord
-import datetime
-import random
-import asyncio
-from discord.ext import commands
-import os
 import psutil
 
 bannedWords = []
 
 
-def snowflake(id: int):
-    snowflake_time = discord.utils.snowflake_time(int(id1))
+def removeprefix(s, prefix):
+    """
+    Useful for python < 3.9
+    """
+    if s.startswith(prefix):
+        return s[len(prefix):]
+    return s
+
+
+def removesuffix(s, suffix):
+    if s.endswith(suffix):
+        return s[:-len(suffix)]
+    return s
+
+
+def snowflake(id1: int):
+    """
+    Returns snowflake time.
+    """
+    snowflake_time = discord.utils.snowflake_time(id1)
     return snowflake_time
 
 
@@ -65,3 +78,23 @@ def sysinf():
     availram = 'Available RAM: ' + str(z) + '%'
     
     return [vcpu, usedram, availram]
+
+
+def parseTime(duration: str):
+    """
+    Parse a time string.
+    Returns an integer value in seconds. Returns None if parsing failed.
+    Limited support as of now.
+    """
+    duration2 = None
+    
+    if 's' in duration:
+        duration2 = int(removesuffix(duration, 's'))
+    elif 'm' in duration:
+        duration2 = 60 * int(removesuffix(duration, 'm'))
+    elif 'h' in duration:
+        duration2 = 3600 * int(removesuffix(duration, 'h'))
+    elif 'd' in duration:
+        duration2 = 3600 * 24 * int(removesuffix(duration, 'd'))
+    
+    return duration2

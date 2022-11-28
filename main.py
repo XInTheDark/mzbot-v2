@@ -1,9 +1,10 @@
 # bot.py
 print("---MZ Bot v2---")
 
+import os
+
 # install requirements
 import mzdependencies
-import os
 
 print("Running `pip install -r requirements.txt`...\n")
 os.system("pip install -r requirements.txt")
@@ -41,7 +42,6 @@ import pytz
 from PyDictionary import PyDictionary
 from discord.ext import commands
 from discord.ext.commands.errors import *
-from dotenv import load_dotenv
 from requests import get
 
 import mzhelp
@@ -56,7 +56,6 @@ import firebase_admin
 from firebase_admin import credentials
 
 # for ffmpeg [[maybe_unused]]:
-import ffmpeg
 
 # firebase setup
 firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
@@ -108,6 +107,7 @@ def replitGetAllKeys():
 def removeprefix(s, prefix):
     """
     Useful for python < 3.9
+    Note: This is also defined in mzutils.py
     """
     if s.startswith(prefix):
         return s[len(prefix):]
@@ -115,6 +115,9 @@ def removeprefix(s, prefix):
 
 
 def removesuffix(s, suffix):
+    """
+    Note: This is also defined in mzutils.py
+    """
     if s.endswith(suffix):
         return s[:-len(suffix)]
     return s
@@ -125,7 +128,7 @@ def replitInit(key: str, value):
     Initialize a variable if it has not been initialized before.
     (i.e. if the key doesn't exist yet)
     """
-    if key not in replitGetAllKeys():
+    if replitGetAllKeys() is None or key not in replitGetAllKeys():
         replitWrite(key, value)
 
 
@@ -653,17 +656,16 @@ async def donate(ctx):
     await ctx.send(response)
 
 
-@bot.command(name='dice', help="""Rolls an imaginary, non-existent die.
-Usage: `.dice <number of dice> <number of sides>`""")
-async def rolldice(ctx, number_of_dice: int, number_of_sides: int):
-    dice = [
+@bot.command()
+async def dice(ctx, number_of_dice: int, number_of_sides: int = 6):
+    diceStr = [
         str(random.choice(range(1, number_of_sides + 1)))
         for _ in range(number_of_dice)
     ]
-    await ctx.send(', '.join(dice))
+    await ctx.send(', '.join(diceStr))
 
 
-@bot.command(name='credits', help='Shows some surprising credits.')
+@bot.command()
 async def credits(ctx):
     response = f"""Credits to:
     <@{ownerid}> [MuzhenGaming#5088] and NO ONE ELSE."""
@@ -682,7 +684,7 @@ async def nitrogen(ctx):
     await ctx.send(response)
 
 
-@bot.command(name='shutdown', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
+@bot.command()
 async def shutdown(message):
     if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
@@ -698,7 +700,7 @@ async def shutdown(message):
             quit()
 
 
-@bot.command(name='restart', help='WTF... SHUTDOWN THE BOT?!! NO!!! NO!!!')
+@bot.command()
 async def restart(message):
     if str(message.author.id) != str(ownerid):
         print(str(message.author.id), "Tried to shutdown the bot by using .shutdown")
@@ -710,7 +712,7 @@ async def restart(message):
         await message.send("`Restart Executed Successfully`")
 
 
-@bot.command(name='mute', help='Mutes someone.')
+@bot.command()
 async def mute(ctx, member: discord.Member, *, reason=None):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to mute", member, "by using .mute")
@@ -725,11 +727,11 @@ async def mute(ctx, member: discord.Member, *, reason=None):
             mutedrole = await ctx.guild.create_role("Muted",
                                                     permissions=discord.Permissions(send_messages=False))
             await member.add_roles(mutedrole, reason=reason)
-            
+        
         await ctx.send(f"`Muted User:{member} Successfully`")
 
 
-@bot.command(name='unmute', help='Unmutes someone.')
+@bot.command()
 async def unmute(ctx, member: discord.Member):
     if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to unmute", member, "by using .unmute")
@@ -2914,7 +2916,7 @@ async def end(ctx, id_: int):
 
 
 @bot.command(aliases=['recentmention', 'mentionmsg', 'msgmention'])
-async def lastmention(ctx, limit: int = 10000):
+async def lastmention(ctx, limit: int = MAX_INT):
     async for message in ctx.channel.history(limit=limit):
         if ctx.author in message.mentions:
             await message.reply(f"{ctx.author.mention}, here is your most recent mention!")
@@ -2962,6 +2964,16 @@ async def debug(ctx):
     a = replit.db["a nonexistent key"]
     print(a)
     await ctx.send(a)
+
+
+@bot.command(aliases=['tempmute'])
+async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = None):
+    duration2 = mzutils.parseTime(duration)
+    if duration2 is None:
+        # time parsing failed
+        return
+    
+    await member.timeout(datetime.timedelta(seconds=duration2), reason=reason)
 
 
 keep_alive.keep_alive()  # keep bot alive

@@ -30,7 +30,7 @@ ffmpeg = "^1.4"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"
-python-lsp-server = {extras = ["yapf", "rope", "pyflakes"], version = "^1.5.0"}
+python-lsp-server = { extras = ["yapf", "rope", "pyflakes"], version = "^1.5.0" }
 toml = "^0.10.2"
 
 [build-system]

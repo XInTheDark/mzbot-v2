@@ -5,7 +5,8 @@ helpcmdz = {
     'dice': "Rolls random dice.",
     'credits': "Shows credits.",
     'ticket': "Opens a ticket.",
-    ('delete', 'tclose', 'tdelete'): "Deletes the current channel. This command was originally intended for deleting a ticket.",
+    ('delete', 'tclose',
+     'tdelete'): "Deletes the current channel. This command was originally intended for deleting a ticket.",
     'afk': "AFK command. Upon activation, whenever someone pings you, they will be notified that you are AFK.",
     ('about', 'info'): "Shows information about the bot.",
     'ping': "Shows the network latency.",
@@ -36,26 +37,31 @@ helpcmdz = {
     ('timer', 'countdown'): "Sets a countdown timer. **Requires Permission(s): Administrator**",
     ('whois', 'memberinfo'): "Checks a member's info such as role, avatar, permissions, and join date.",
     ('type', 'typing'): "Get the bot to type for a certain amount of time, or infinitely.",
-    ('stoptype', 'stoptyping'): "Get the bot to stop typing. Due to API limitations, this command will not be activated instantly.",
+    ('stoptype',
+     'stoptyping'): "Get the bot to stop typing. Due to API limitations, this command will not be activated instantly.",
     ('music', 'play', 'song'): "Plays a certain song. The bot will automatically join the voice channel you're in.",
     ('leave', 'disconnect'): "Leaves the voice channel that the bot is currently in.",
     ('continue', 'resume'): "Resumes playing music.",
     'pause': "Pauses the music that is currently playing.",
     ('skip', 'stop'): "Skips the music that is currently playing.",
     ('serverinfo', 'whereami'): "Gets information about the current server.",
-    ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc', 'robloxuser'): "Gets information about a Roblox user.",
+    ('ruser', 'robloxaccount', 'robloxacc', 'racc', 'getruser', 'getrobloxuser', 'getrobloxacc',
+     'robloxuser'): "Gets information about a Roblox user.",
     'gstart': "Starts a giveaway.",
     'greroll': "Rerolls a giveaway.",
     'gend': "Ends a giveaway.",
     ('grerollc', 'rerollc', 'reroll_c'): "Rerolls a giveaway in compatible mode with other bots.",
-    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "Fetches the most recent mention of you."
+    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "Fetches the most recent mention of you.",
+    ('createrole', 'rolecreate'): "Creates a role and places it at the given index (if possible).",
+    ('auditlogs', 'auditlog', 'logs', 'log'): "Displays the audit logs.",
+    ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration."
 }
 
 helpusage = {
     'meme': "`.meme`",
     'donate': "`.donate`",
     'nitro': "`.nitro`",
-    'dice': "`.dice <amount> <number of sides>`",
+    'dice': "`.dice <amount> [number of sides=6]`",
     'credits': "`.credits`",
     'ticket': "`.ticket`",
     ('delete', 'tclose', 'tdelete'): "`.delete|tclose|tdelete`",
@@ -74,7 +80,7 @@ helpusage = {
     'kick': "`.kick <discord.Member> [reason=None]`",
     'ban': "`.ban <discord.Member> [reason=None]`",
     'unban': "`.unban <User's Name + Discrim>`",
-    'gg':"`.gg <server name>`",
+    'gg': "`.gg <server name>`",
     'tips': "`.tips`",
     'claimed': "`.claimed <discord.Member> <name>`",
     'setclaimschannel': "`.setclaimschannel <mention channel|channel ID>`",
@@ -102,6 +108,8 @@ helpusage = {
     'greroll': "`.greroll <message ID>`",
     'gend': "`.gend <message ID>`",
     ('grerollc', 'rerollc', 'reroll_c'): "`.grerollc|rerollc|reroll_c <message ID>`",
-    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "`.lastmention|recentmention|... [limit=10000]`"
+    ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "`.lastmention|recentmention|... [limit=MAX_INT]`",
+    ('createrole', 'rolecreate'): "`.createrole|rolecreate [pos=None] <name>`",
+    ('auditlogs', 'auditlog', 'logs', 'log'): "`.auditlogs|auditlog|... [entries=20]`",
+    ('timeout', 'tempmute'): "`.timeout|tempmute <discord.Member> <duration> [reason=None]`"
 }
-
