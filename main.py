@@ -3013,12 +3013,13 @@ async def gitupdate(ctx):
     
     replitWrite("EXITCODE", 0)
     
-    await ctx.send("Executing...")
-    await bot.close()
-    
+    await ctx.send("Running `git fetch --all`...")
     os.system("git fetch --all")
+    
+    await ctx.send("Running `git reset --hard origin/master`...")
     os.system("git reset --hard origin/master")
     
+    await ctx.send("`Restarting bot...`")
     os.system("kill 1")
     
     
