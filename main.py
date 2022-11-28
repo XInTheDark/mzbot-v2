@@ -1386,7 +1386,7 @@ async def rename(ctx, channel='', *, name):
 @commands.cooldown(1, 2, commands.BucketType.channel)
 @bot.command(name='purge', help='Purge messages.')
 async def purge(ctx, amount: int):
-    if not (ctx.author.guild_permissions(manage_messages=True)
+    if not (ctx.author.guild_permissions.manage_messages
             or ctx.author.id == ownerid):
         return
     
@@ -2057,7 +2057,7 @@ async def setnsfw(ctx, status=None):
 
 @bot.command(name="timer", aliases=['countdown'])
 async def timer(ctx, duration, *, item=' '):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     
@@ -2351,7 +2351,7 @@ async def stoptyper(ctx):
 
 @bot.command(aliases=['notif', 'notify'])
 async def msgping(ctx, *, msg=None):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     
@@ -2754,7 +2754,7 @@ User description: `{ruser.description}`""")
 
 @bot.command(name='gstart', help='Starts a giveaway.')
 async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     gwembed = discord.Embed(title='**GIVEAWAY!!!**', description=f"""**Giveaway: {prize}**
@@ -2841,7 +2841,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
 
 @bot.command(name='greroll', help='Rerolls/ends a giveaway.')
 async def reroll(ctx, id_: int):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     
@@ -2878,7 +2878,7 @@ async def reroll(ctx, id_: int):
 @bot.command(name='greroll-c', help='Rerolls a giveaway in Compatible mode with other bots.',
              aliases=['rerollc', 'reroll_c'])
 async def rerollc(ctx, id_: int):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     
@@ -2905,7 +2905,7 @@ async def rerollc(ctx, id_: int):
 
 @bot.command(name='gend', help='Ends a giveaway.')
 async def end(ctx, id_: int):
-    if not (ctx.author.guild_permissions(administrator=True)
+    if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
     
