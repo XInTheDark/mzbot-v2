@@ -1965,7 +1965,7 @@ Deleted <t:{lst[4]}:R>
             await ctx.reply(embed=embed)
 
 
-@bot.command(aliases=['editsniper', 'esnipe'])
+@bot.command(aliases=['editsniper'])
 async def esnipe(ctx, pos: int = 1):
     esnipes = replitRead("esnipes")
     
