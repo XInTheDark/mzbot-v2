@@ -635,12 +635,16 @@ async def meme(ctx, subreddit: str = "memes"):
     #
     # await ctx.reply(embed=memeEmbed)
     
-    embed = discord.Embed(title="Meme", description="", color=random.randint(0, 0xFFFFFF))
-    
     async with aiohttp.ClientSession() as cs:
         async with cs.get(f'https://www.reddit.com/r/{subreddit}/new.json?sort=hot') as r:
             res = await r.json()
-            embed.set_image(url=res['data']['children'][random.randint(0, 25)]['data']['url'])
+            
+            randint = random.randint(0, 25)
+            titleText = res['data']['children'][randint]['data']['title']
+            
+            embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
+            
+            embed.set_image(url=res['data']['children'][randint]['data']['url'])
             await ctx.reply(embed=embed)
 
 
