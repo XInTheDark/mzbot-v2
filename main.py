@@ -642,7 +642,7 @@ async def meme(ctx, subreddit: str = "memes"):
             _url = None
             titleText = None
             
-            while _url is None:
+            while _url is None or _url == "":
                 randint = random.randint(0, 25)
                 titleText = res['data']['children'][randint]['data']['title']
                 _url = res['data']['children'][randint]['data']['url']
