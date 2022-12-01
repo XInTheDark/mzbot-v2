@@ -272,11 +272,11 @@ async def on_command_error(ctx, error):
     elif isinstance(error, TooManyArguments):
         await ctx.reply(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!',
                         mention_author=False)
-        
+    
     elif not isinstance(error, discord.DiscordException) and not isinstance(error, BaseException):
         # We are being rate limited by discord, reset environment!
         os.system("kill 1")
-        
+    
     # if isinstance(error, CommandNotFound):
     #     msg = await ctx.send(f'`Command not found!`')
     #     await asyncio.sleep(3)
@@ -637,7 +637,7 @@ def checkIfImage(url):
     contentType = response.headers.get('content-type')
     
     return "image" in contentType
-    
+
 
 @commands.cooldown(1, 2, commands.BucketType.user)
 @bot.command(aliases=['memes'])
@@ -716,6 +716,19 @@ async def nitrogen(ctx):
     await ctx.send(response)
 
 
+async def waitForReply(ctx, msg: discord.Message, timeout=10):
+    global bot
+    
+    def check(m: discord.Message):
+        return m.channel == ctx.channel and m.reference is not None \
+               and m.reference.message_id == msg.id and m.author == ctx.author
+    
+    await bot.wait_for("message", check=check, timeout=timeout)
+    # the above statement raises TimeoutError if timed out.
+    
+    return True
+
+
 @bot.command()
 async def shutdown(ctx):
     if str(ctx.author.id) != str(ownerid):
@@ -723,13 +736,24 @@ async def shutdown(ctx):
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
     
-    await ctx.send("`Shutdown Executed Successfully`")
-    
+    msg = await ctx.reply("Do you wish to shutdown the bot?\n"
+                          "Reply to this message within 10 seconds to confirm.")
+
+    try:
+        await waitForReply(ctx, msg)
+    except TimeoutError:
+        await msg.delete()
+        return
+
     replitWrite("EXITCODE", 0)
     
     # quit()
-    await bot.close()
+    await ctx.send("`Shutdown executing...`")
     print("Shutdown command executing...")
+    
+    await bot.close()
+    
+    # useless code below
     await asyncio.sleep(1)
     while True:
         await asyncio.sleep(0.5)
@@ -742,13 +766,21 @@ async def restart(ctx):
         print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
+
+    msg = await ctx.reply("Do you wish to restart the bot?\n"
+                          "Reply to this message within 10 seconds to confirm.")
+
+    try:
+        await waitForReply(ctx, msg)
+    except TimeoutError:
+        await msg.delete()
+        return
     
     replitWrite("EXITCODE", 0)
     
-    await ctx.send("`Restart Executing...`")
+    await ctx.send("`Restart executing...`")
     
     os.execv(sys.executable, ['python'] + sys.argv)
-    await ctx.send("`Restart Executed Successfully`")
 
 
 @bot.command()
@@ -3039,6 +3071,15 @@ async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = N
 @bot.command(aliases=['gitpull', 'gitfetch'])
 async def gitupdate(ctx):
     if ctx.author.id != ownerid:
+        return
+
+    msg = await ctx.reply("Do you wish to pull changes from git and restart the bot?\n"
+                          "Reply to this message within 10 seconds to confirm.")
+
+    try:
+        await waitForReply(ctx, msg)
+    except TimeoutError:
+        await msg.delete()
         return
     
     replitWrite("EXITCODE", 0)
