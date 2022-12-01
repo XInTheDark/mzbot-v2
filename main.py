@@ -18,7 +18,6 @@ os.system("pip install -U pip setuptools")
 print("Running `pip install -r requirements.txt`...\n")
 os.system("pip install -r requirements.txt")
 
-
 import asyncio
 import datetime
 import json
@@ -42,7 +41,7 @@ import inspect
 import git
 
 # import io
-# import aiohttp
+import aiohttp
 
 import discord  # git+https://github.com/Rapptz/discord.py OR git+https://github.com/XInTheDark/discord.py
 import discord.abc
@@ -398,7 +397,7 @@ async def on_message_edit(old, new):
 #   await ctx.send(message)
 
 
-@bot.command(name='update', aliases=['updates', 'updatelogs', 'announcements', 'notes'])
+@bot.command(name='update', aliases=['updates', 'updatelogs', 'changelog', 'changelogs'])
 async def updatelog(ctx):
     async with ctx.channel.typing():
         try:
@@ -478,11 +477,7 @@ None
     if cmd is None:
         embed = discord.Embed(title="Help Page", description=response, color=0x00ff00)
         
-        msg1 = await ctx.send("Loading...")
-        await asyncio.sleep(0.01)
         await ctx.reply(embed=embed)
-        await msg1.delete()
-    
     
     else:
         found = False
@@ -517,10 +512,7 @@ Usage: {usaged}
 
 *Note: `<>` means required argument(s), `[]` means optional argument(s).""", color=0x00ff00)
             
-            msgo = await ctx.send("Loading...")
-            await asyncio.sleep(0.01)
-            await msgo.delete()
-            msg = await ctx.reply(embed=embed)
+            await ctx.reply(embed=embed)
         
         else:
             await ctx.reply("I cannot find that command.")
@@ -635,13 +627,21 @@ async def drop(ctx):
 
 
 @commands.cooldown(1, 2, commands.BucketType.user)
-@bot.command(name='meme', help='Generates a random meme.')
-async def plsmeme(ctx):
-    content = get("https://meme-api.herokuapp.com/gimme").text
-    data = json.loads(content)
-    meme = discord.Embed(title=f"{data['title']}", color=discord.Color.random()).set_image(url=f"{data['url']}")
+@bot.command(aliases=['memes'])
+async def meme(ctx, subreddit: str = "memes"):
+    # content = get("https://meme-api.herokuapp.com/gimme").text
+    # data = json.loads(content)
+    # memeEmbed = discord.Embed(title=f"{data['title']}", color=discord.Color.random()).set_image(url=f"{data['url']}")
+    #
+    # await ctx.reply(embed=memeEmbed)
     
-    await ctx.reply(embed=meme)
+    embed = discord.Embed(title="Meme", description="", color=random.randint(0, 0xFFFFFF))
+    
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(f'https://www.reddit.com/r/{subreddit}/new.json?sort=hot') as r:
+            res = await r.json()
+            embed.set_image(url=res['data']['children'][random.randint(0, 25)]['data']['url'])
+            await ctx.reply(embed=embed)
 
 
 @bot.command(name='-.', help='.-.')
@@ -720,7 +720,7 @@ async def restart(ctx):
         print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
-
+    
     replitWrite("EXITCODE", 0)
     
     await ctx.send("`Restart Executing...`")
@@ -3029,8 +3029,8 @@ async def gitupdate(ctx):
     
     await ctx.send("`Restarting bot...`")
     os.execv(sys.executable, ['python'] + sys.argv)
-    
-    
+
+
 keep_alive.keep_alive()  # keep bot alive
 
 try:

@@ -1,5 +1,5 @@
 helpcmdz = {
-    'meme': "Generates a random meme from reddit.",
+    'meme': "Generates a random meme from Reddit.",
     'donate': "Donate me pls",
     'nitro': "Generates a random nitro code.",
     'dice': "Rolls random dice.",
@@ -58,7 +58,7 @@ helpcmdz = {
 }
 
 helpusage = {
-    'meme': "`.meme`",
+    'meme': "`.meme [subreddit='memes']`",
     'donate': "`.donate`",
     'nitro': "`.nitro`",
     'dice': "`.dice <amount> [number of sides=6]`",
