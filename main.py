@@ -6,14 +6,18 @@ import os
 # install requirements
 import mzdependencies
 
+print("Creating virtual env...\n")
+os.system("virtualenv mzbotvenv -p python3")
+os.system("source mzbotvenv/bin/activate")
+
 print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
-print("Running `pip install setuptools --user`...\n")
-os.system("pip install setuptools --user")
+print("Running `pip install -U pip setuptools`...\n")
+os.system("pip install -U pip setuptools")
 
-print("Running `pip install -r requirements.txt --user`...\n")
-os.system("pip install -r requirements.txt --user")
+print("Running `pip install -r requirements.txt`...\n")
+os.system("pip install -r requirements.txt")
 
 
 import asyncio
