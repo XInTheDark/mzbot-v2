@@ -42,6 +42,7 @@ import git
 
 # import io
 import aiohttp
+import requests
 
 import discord  # git+https://github.com/Rapptz/discord.py OR git+https://github.com/XInTheDark/discord.py
 import discord.abc
@@ -626,6 +627,13 @@ async def drop(ctx):
     await ctx.send(response)
 
 
+def checkIfImage(url):
+    response = requests.head(url)
+    contentType = response.headers.get('content-type')
+    
+    return "image" in contentType
+    
+
 @commands.cooldown(1, 2, commands.BucketType.user)
 @bot.command(aliases=['memes'])
 async def meme(ctx, subreddit: str = "memes"):
@@ -642,7 +650,7 @@ async def meme(ctx, subreddit: str = "memes"):
             _url = None
             titleText = None
             
-            while _url is None or _url == "":
+            while _url is None or not checkIfImage(_url):
                 randint = random.randint(0, 25)
                 titleText = res['data']['children'][randint]['data']['title']
                 _url = res['data']['children'][randint]['data']['url']
@@ -1648,7 +1656,7 @@ Sent <t:{int(time1.timestamp())}:R>: <t:{int(time1.timestamp())}>
 **Message 2:** {id2}
 Sent <t:{int(time2.timestamp())}:R>: <t:{int(time2.timestamp())}>
 
-Time difference between the 2 IDs: 
+Time difference between the 2 IDs:
 **{answer}**""", color=0x00ff00)
     await ctx.reply(embed=embed)
 
@@ -2018,7 +2026,7 @@ async def invites(ctx, person=None):
     for i in await ctx.guild.invites():
         if i.inviter == member:
             totalInvites += i.uses
-    embed = discord.Embed(title=f'**Invites for {member}**', description=f'''You have **{totalInvites}** invites. 
+    embed = discord.Embed(title=f'**Invites for {member}**', description=f'''You have **{totalInvites}** invites.
 *Note: This is in testing and may not be the actual number of invites you have.*''')
     await ctx.reply(embed=embed)
 
