@@ -6,8 +6,8 @@ import os
 # install requirements
 import mzdependencies
 
-print("Running `pip install -r requirements.txt`...\n")
-os.system("pip install -r requirements.txt")
+print("Running `pip install -r requirements.txt --user`...\n")
+os.system("pip install -r requirements.txt --user")
 
 print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
