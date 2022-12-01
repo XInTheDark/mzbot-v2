@@ -1637,15 +1637,18 @@ async def ping(ctx, tests: int = 1000000):
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
-    
-    await msg1.edit(content='`Loading... Please wait...`')
+
+    msg1 = await ctx.reply(f"""**Internet Speedtest results**
+
+Client Ping: `{lavg} ms` ({jud1})
+Message Latency: `{int(secs * 1000)} ms` ({jud2})
+
+Internet Speed: `Loading...`""")
     
     downloadSpeed = await speedTestDownload()
     uploadSpeed = await speedTestUpload()
     
-    await msg1.delete()
-    
-    await ctx.reply(f"""**Internet Speedtest results**
+    await msg1.edit(content=f"""**Internet Speedtest results**
 
 Client Ping: `{lavg} ms` ({jud1})
 Message Latency: `{int(secs * 1000)} ms` ({jud2})
