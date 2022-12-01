@@ -20,7 +20,6 @@ os.system("pip install -r requirements.txt")
 
 import asyncio
 import datetime
-import json
 import random
 import sys
 import timeit
@@ -50,7 +49,6 @@ import pytz
 from PyDictionary import PyDictionary
 from discord.ext import commands
 from discord.ext.commands.errors import *
-from requests import get
 
 import mzhelp
 import mzutils
@@ -155,7 +153,7 @@ replitInit("snipes", '')
 replitInit("esnipes", '')
 replitInit("optoutlist", [])
 uptime = 0
-hardmutes = []
+replitInit("hardmutes", [])
 ownerid = 926410988738183189
 istyping = []
 replitInit("msgpings", {})
@@ -303,7 +301,7 @@ async def on_guild_join(guild):
 @bot.event
 async def on_message(message):
     afkdict = replitRead("afk")
-    global hardmutes
+    hardmutes = replitRead("hardmutes")
     msgpings = replitRead("msgpings")
     global bannedWords
     
@@ -407,7 +405,7 @@ async def on_message_edit(old, new):
 #   await ctx.send(message)
 
 
-@bot.command(name='update', aliases=['updates', 'updatelogs', 'changelog', 'changelogs'])
+@bot.command(aliases=['update', 'updates', 'updatelogs', 'changelog', 'changelogs'])
 async def updatelog(ctx):
     async with ctx.channel.typing():
         try:
@@ -431,7 +429,7 @@ async def updatelog(ctx):
     repo.close()
 
 
-@bot.command(name='help', aliases=['commands', 'cmds'])
+@bot.command(aliases=['commands', 'cmds'])
 async def help(ctx, cmd=None):
     response = """**List of commands**
 **Public:**
@@ -604,7 +602,7 @@ https://pornhub.com/**""")
 
 
 # ANTI NUKE
-@bot.command(name='antinuke', aliases=['protect', 'protection', 'shield'])
+@bot.command(aliases=['protect', 'protection', 'shield'])
 @commands.has_permissions(administrator=True)
 async def antinuke(ctx):
     global antinuke
@@ -617,7 +615,7 @@ async def antinuke(ctx):
         await ctx.reply("Antinuke is already enabled for this server!")
 
 
-@bot.command(name='disableantinuke', aliases=['disableprotect', 'disableprotection', 'offshield'])
+@bot.command(aliases=['disableprotect', 'disableprotection', 'offshield'])
 @commands.has_permissions(administrator=True)
 async def disableantinuke(ctx):
     guildid = ctx.message.guild.id
@@ -628,8 +626,8 @@ async def disableantinuke(ctx):
         await ctx.reply("Antinuke is already disabled for this server!")
 
 
-@bot.command(name='dw', help='Responds how a drop works.')
-async def drop(ctx):
+@bot.command()
+async def dw(ctx):
     response = """**How does a drop work?**
     -> Every drop usually lasts for a short time!
     -> The winner of the drop gets 10-30 seconds to DM the host!"""
@@ -670,21 +668,21 @@ async def meme(ctx, subreddit: str = "memes"):
             await ctx.reply(embed=embed)
 
 
-@bot.command(name='-.', help='.-.')
+@bot.command(name='-.')
 async def dotdashdot(ctx):
     response = ".-. .-. .-. .-. .-. .-. .-. .-. .-. .-."
     
     await ctx.send(response)
 
 
-@bot.command(name='_.', help='._.')
+@bot.command(name='_.')
 async def dotdashdot2(ctx):
     response = "._. ._. ._. ._. ._. ._. ._. ._. ._. ._."
     
     await ctx.send(response)
 
 
-@bot.command(name='donate', help='Fund our development!')
+@bot.command()
 async def donate(ctx):
     response = f"""To donate, you may buy any gamepass from https://www.roblox.com/games/6742216868/MuzhenGamingYTs-Place#!/store :)
     Or donate some nitro to <@{ownerid}> ;)"""
@@ -710,8 +708,8 @@ async def credits(ctx):
 
 
 @commands.cooldown(1, 0.5, commands.BucketType.channel)
-@bot.command(name='nitro', help='Generates a random... Nitro code?!')
-async def nitrogen(ctx):
+@bot.command()
+async def nitro(ctx):
     genlist = str(open('nitrogenlist.txt', 'r').read())
     genlistsplit = genlist.split("\n")
     
@@ -742,13 +740,13 @@ async def shutdown(ctx):
     
     msg = await ctx.reply("Do you wish to shutdown the bot?\n"
                           "Reply to this message within 10 seconds to confirm.")
-
+    
     try:
         await waitForReply(ctx, msg)
     except TimeoutError:
         await msg.delete()
         return
-
+    
     replitWrite("EXITCODE", 0)
     
     # quit()
@@ -770,10 +768,10 @@ async def restart(ctx):
         print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
-
+    
     msg = await ctx.reply("Do you wish to restart the bot?\n"
                           "Reply to this message within 10 seconds to confirm.")
-
+    
     try:
         await waitForReply(ctx, msg)
     except TimeoutError:
@@ -818,8 +816,8 @@ async def unmute(ctx, member: discord.Member):
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
-@bot.command(name='nuke', help='Nukes this channel... Yep.')
-async def nuke_channel(ctx):
+@bot.command()
+async def nuke(ctx):
     if not ctx.author.guild_permissions.administrator and not ctx.author.id == ownerid:
         print(str(ctx.author.id), "Tried to nuke channel:", ctx.channel, "by using .nuke")
         await ctx.send("You don't have `Administrator` Permissions!")
@@ -832,8 +830,8 @@ Nuke performed by: <@{ctx.author.id}>""")
         await new_channel.edit(position=channelpos)
 
 
-@bot.command(name='softnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!!', aliases=['raidstep1'])
-async def nuke_server_fr(ctx):
+@bot.command(aliases=['raidstep1'])
+async def softnuke_server(ctx):
     if str(ctx.author.id) != str(ownerid):
         print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .softnuke_server")
         await ctx.send("You don't have permissions to do that!")
@@ -856,9 +854,8 @@ async def nuke_server_fr(ctx):
         await nuke_channel_2(ctx)
 
 
-@bot.command(name='hardnuke_server', help='NUKES THE SERVER!!! ARGHHHHH NO!!!!! DONT!! PLSPLSPLS',
-             aliases=['raidstep2'])
-async def nuke_server_fr(ctx):
+@bot.command(aliases=['raidstep2'])
+async def hardnuke_server(ctx):
     rlist = ["Scammer", "Scam Link", "Banned", "Used .ban command", "No Reason Provided", "Dm advertising",
              "Broke rules", "Ban command used", None]
     krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot",
@@ -940,7 +937,7 @@ https://pornhub.com/**""")
 
 # updated.
 
-@bot.command(name='gg', help='GG, Stay!', aliases=['ggstay', 'stay'])
+@bot.command()
 @commands.has_permissions(administrator=True)
 async def ggstay(ctx, *, server):
     embedVar = discord.Embed(title=f"GG! Stay in **{server}**", description=f"""We won! Stay in that server (**{server}**) to ensure the win!
@@ -956,9 +953,9 @@ Keep your eyes here so you don't miss out! <a:verified:869847537547378710>""", c
     await msgid.delete()
 
 
-@bot.command(name='lostleave', help='Lost, leave!', aliases=['lost'])
+@bot.command()
 @commands.has_permissions(administrator=True)
-async def ooflost(ctx, *, server):
+async def lostleave(ctx, *, server):
     embedVar = discord.Embed(title=f"We lost! Leave **{server}**",
                              description=f"""Sorry, we lost! Leave that server (**{server}**) now!**""", color=0x00ff00)
     
@@ -967,7 +964,7 @@ async def ooflost(ctx, *, server):
     await msgid.delete()
 
 
-@bot.command(name='tips', help='Tips for MZ Giveaways')
+@bot.command()
 @commands.has_permissions(administrator=True)
 async def tips(ctx):
     embedVar = discord.Embed(title=f"TIPS TO WIN GIVEAWAYS", description=f"""How to win  Giveaways easily?
@@ -983,9 +980,9 @@ async def tips(ctx):
     await msgid.delete()
 
 
-@bot.command(name='won', help='Who won the giveaway?')
+@bot.command()
 @commands.has_permissions(administrator=True)
-async def whowon(ctx, userid, *, prize):
+async def won(ctx, userid, *, prize):
     claimsfile2 = open('proofchannel.txt', 'r')
     prooflines = claimsfile2.readlines()
     server_id = ctx.message.guild.id
@@ -1022,7 +1019,7 @@ async def whowon(ctx, userid, *, prize):
 
 # The below code bans user.
 @commands.cooldown(1, 5, commands.BucketType.guild)
-@bot.command(name='ban', help='Bans a user.')
+@bot.command()
 @commands.has_permissions(ban_members=True)
 async def ban(self, member: discord.Member, *, reason: str = None):
     if not self.author.top_role > member.top_role:
@@ -1035,7 +1032,7 @@ Reason: {reason}
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
-@bot.command(name='unban', help='Unbans a user.')
+@bot.command()
 @commands.has_permissions(ban_members=True)
 async def unban(self, *, member: str):
     found = 0
@@ -1057,7 +1054,7 @@ async def unban(self, *, member: str):
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
-@bot.command(name='kick', help='Kicks a user.')
+@bot.command()
 @commands.has_permissions(kick_members=True)
 async def kick(self, member: discord.Member, *, reason: str = None):
     if not self.author.top_role > member.top_role:
@@ -1069,7 +1066,7 @@ Reason: {reason}
 - by {self.author}""")
 
 
-@bot.command(name='spam', help="""Spams a certain message a certain number of times.""")
+@bot.command()
 async def spam(ctx, number_of_times, *, message):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.reply("Omg why are you trying to spam here?!")
@@ -1099,8 +1096,7 @@ Number of times: {number_of_times2}
         await dms.send(msg2)
 
 
-@bot.command(name='dmspam', help="""Spams a certain message a certain number of times.""",
-             aliases=['dm', 'dms', 'dmsend'])
+@bot.command(aliases=['dm', 'dms', 'dmsend'])
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutlist = replitRead("optoutlist")
     
@@ -1141,9 +1137,8 @@ Guild: `{ctx.guild.name}`"""
         await ctx.author.create_dm().send(msg2)
 
 
-@bot.command(name='dmspam_force', help="""Spams a certain message a certain number of times... Anonymously.""",
-             aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
-async def dmspamforce(ctx, number_of_times: int, user: discord.Member, *, message):
+@bot.command(aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
+async def dmspam_force(ctx, number_of_times: int, user: discord.Member, *, message):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
@@ -1175,8 +1170,8 @@ Guild: `{ctx.guild.name}`"""
         await userdm.send(msg2)
 
 
-@bot.command(name='optout_spam', help="""Opts out of spam.""", aliases=['optoutspam'])
-async def optoutspam(ctx):
+@bot.command(aliases=['optoutspam'])
+async def optout_spam(ctx):
     optoutlist = replitRead("optoutlist")
     
     if ctx.author.id in optoutlist:
@@ -1190,8 +1185,8 @@ async def optoutspam(ctx):
             "You have opted out for spam! If you wish to opt in again, use the command `.optin_spam`!")
 
 
-@bot.command(name='optin_spam', help="""Opts in of spam [after opting out].""", aliases=['optinspam'])
-async def optinspam(ctx):
+@bot.command(aliases=['optinspam'])
+async def optin_spam(ctx):
     optoutlist = replitRead("optoutlist")
     
     if str(ctx.author.id) not in optoutlist:
@@ -1204,7 +1199,7 @@ async def optinspam(ctx):
             "You have opted in for spam! If you wish to opt out again, use the command `.optout_spam`!")
 
 
-@bot.command(name='lockall', help='Lock all channels.')
+@bot.command()
 async def lockall(ctx):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
         await ctx.channel.send("Omg why are you trying to lock channels!")
@@ -1217,8 +1212,8 @@ async def lockall(ctx):
         await ctx.send(f"{ctx.author.mention}, Locked all channels successfully!")
 
 
-@bot.command(name='slowmode', help='Sets the slowmode for a channel.')
-async def setdelay(ctx, seconds: int):
+@bot.command()
+async def slowmode(ctx, seconds: int):
     if not ctx.author.guild_permissions.manage_messages and ctx.author.id != ownerid:
         await ctx.channel.send('You are missing `Manage Messages` permissions!')
     else:
@@ -1226,7 +1221,7 @@ async def setdelay(ctx, seconds: int):
         await ctx.channel.send(f"Set the slowmode for channel: `#{ctx.channel}` to `{seconds}` seconds!")
 
 
-@bot.command(name='addrole', help='Adds a role to someome.', pass_context=True, aliases=['role'])
+@bot.command(aliases=['role'])
 @commands.has_permissions(manage_roles=True)  # This must be exactly the name of the appropriate role
 async def addrole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
@@ -1267,7 +1262,7 @@ async def addrole(ctx, member: discord.Member, *, rolename):
             await ctx.channel.send(f"Added role: `{rolename}` to `{member}` successfully!")
 
 
-@bot.command(name='setclaimschannel', help='Set Claims Channel. (Admin Only)')
+@bot.command()
 async def setclaimschannel(ctx, channel):
     if channel is not None:
         try:
@@ -1327,7 +1322,7 @@ async def setclaimschannel(ctx, channel):
         claimsfile.close()
 
 
-@bot.command(name='claimed', help='Shows who claimed.', aliases=['claim'])
+@bot.command(aliases=['claim'])
 async def claimed(ctx, member: discord.Member, how, *, prize):
     if not ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
         await ctx.channel.send("You don't have permissions to do that")
@@ -1354,7 +1349,7 @@ async def claimed(ctx, member: discord.Member, how, *, prize):
         claimsfile2.close()
 
 
-@bot.command(name='setproofschannel', help='Set Proofs Channel. (Admin Only)', aliases=['setproofchannel'])
+@bot.command(aliases=['setproofchannel'])
 async def setproofschannel(ctx, channelid):
     if channelid is not None:
         try:
@@ -1416,7 +1411,7 @@ async def setproofschannel(ctx, channelid):
         claimsfile.close()
 
 
-@bot.command(name='rename', help='Renames the channel.', aliases=['renamechannel'])
+@bot.command(aliases=['renamechannel'])
 @commands.has_permissions(manage_channels=True)
 async def rename(ctx, channel='', *, name):
     channel2 = None
@@ -1450,7 +1445,7 @@ async def rename(ctx, channel='', *, name):
 
 
 @commands.cooldown(1, 2, commands.BucketType.channel)
-@bot.command(name='purge', help='Purge messages.')
+@bot.command()
 async def purge(ctx, amount: int):
     if not (ctx.author.guild_permissions.manage_messages
             or ctx.author.id == ownerid):
@@ -1557,8 +1552,8 @@ async def removeafk(ctx, *, member: discord.Member = None):
     replitWrite("afk", afkdict)
 
 
-@bot.command(name='about', help='Version and developer info.', aliases=['version', 'info'])
-async def checkversion(ctx):
+@bot.command(aliases=['version', 'info'])
+async def about(ctx):
     global uptime, launch_time
     
     tests = 20000  # the amount of tests to conduct
@@ -1604,7 +1599,7 @@ Bot uptime: {uptime2}
     await msg1.delete()
 
 
-@bot.command(name='ping', help='Check bot ping.', aliases=['ms', 'connection', 'internet', 'speedtest'])
+@bot.command(aliases=['ms', 'connection', 'internet', 'speedtest'])
 async def ping(ctx, tests: int = 1000000):
     global downloadSpeed
     
@@ -1637,7 +1632,7 @@ async def ping(ctx, tests: int = 1000000):
         jud2 = 'Normal'
     else:
         jud2 = 'Slow - Bot Lagging!'
-
+    
     msg1 = await ctx.reply(f"""**Internet Speedtest results**
 
 Client Ping: `{lavg} ms` ({jud1})
@@ -1656,7 +1651,7 @@ Message Latency: `{int(secs * 1000)} ms` ({jud2})
 Internet Speed: Download - `{downloadSpeed} Mbps`, Upload - `{uploadSpeed} Mbps`""")
 
 
-@bot.command(name='timedif', help='', aliases=['snowflake', 'timediff', 'difference'])
+@bot.command(aliases=['snowflake', 'timediff', 'difference'])
 async def timedif(ctx, id1: int, id2: int = None):
     if ctx.message.reference is not None:
         id2 = ctx.message.reference.message_id
@@ -1705,7 +1700,7 @@ Time difference between the 2 IDs:
     await ctx.reply(embed=embed)
 
 
-@bot.command(name='removerole', help='Adds a role to someome.', pass_context=True)
+@bot.command()
 @commands.has_permissions(administrator=True)  # This must be exactly the name of the appropriate role
 async def removerole(ctx, member: discord.Member, *, rolename):
     role = discord.utils.get(ctx.guild.roles, name=rolename)
@@ -1722,7 +1717,7 @@ async def removerole(ctx, member: discord.Member, *, rolename):
 
 
 @commands.cooldown(1, 10, commands.BucketType.user)
-@bot.command(name='ticket', aliases=['tickets'])
+@bot.command(aliases=['tickets'])
 async def ticket(ctx):
     guild = ctx.guild
     embed = discord.Embed(
@@ -1779,9 +1774,9 @@ async def ticket(ctx):
 
 
 @commands.cooldown(1, 5, commands.BucketType.channel)
-@bot.command(name='delete', aliases=['tdelete', 'tclose'])
+@bot.command(aliases=['tdelete', 'tclose', 'deletechannel'])
 @commands.has_permissions(administrator=True)
-async def tclose(ctx):
+async def delete(ctx):
     #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
     channelperms = ctx.channel.overwrites_for(ctx.author)
     memberoverwrite = channelperms
@@ -1814,7 +1809,7 @@ React with 👍 to delete.""")
 
 #         await ctx.reply("Hey! This isn't a ticket!")
 
-@bot.command(name='define', aliases=['definition', 'meaning', 'dictionary'])
+@bot.command(aliases=['definition', 'meaning', 'dictionary'])
 async def define(ctx, *, word):
     dictionary = PyDictionary()
     meaning = """"""
@@ -1840,7 +1835,7 @@ async def define(ctx, *, word):
         await ctx.reply(embed=embed)
 
 
-@bot.command(name='dmnitro', aliases=['massnitro', 'nitrospam'])
+@bot.command(aliases=['massnitro', 'nitrospam'])
 async def dmnitro(ctx, amount: int):
     genlist = str(open('nitrogenlist.txt', 'r').read())
     genlistsplit = genlist.split("\n")
@@ -1881,8 +1876,8 @@ async def dmnitro(ctx, amount: int):
 # Invalid: {invalid}
 # Valid Codes: {', '.join(valid)}""")
 
-@bot.command(name='membercount', aliases=['mc', 'members'])
-async def mc(ctx):
+@bot.command(aliases=['mc', 'members'])
+async def membercount(ctx):
     # count = ctx.guild.member_count
     botc = 0
     for i in range(2):
@@ -1909,7 +1904,7 @@ async def mc(ctx):
     await ctx.reply(embed=embed)
 
 
-@bot.command(name='snipe', aliases=['sniper'])
+@bot.command(aliases=['sniper'])
 async def snipe(ctx, pos: int = 1):
     snipes = replitRead("snipes")  # returns a dictionary.
     
@@ -1970,7 +1965,7 @@ Deleted <t:{lst[4]}:R>
             await ctx.reply(embed=embed)
 
 
-@bot.command(name='editsnipe', aliases=['editsniper', 'esnipe'])
+@bot.command(aliases=['editsniper', 'esnipe'])
 async def esnipe(ctx, pos: int = 1):
     esnipes = replitRead("esnipes")
     
@@ -2037,7 +2032,7 @@ Edited <t:{lst[5]}:R>
             await ctx.reply(embed=embed)
 
 
-@bot.command(name='invites')
+@bot.command()
 async def invites(ctx, person=None):
     member = None
     
@@ -2075,8 +2070,8 @@ async def invites(ctx, person=None):
     await ctx.reply(embed=embed)
 
 
-@bot.command(name='dminvite', aliases=['inviteuser', 'inviteu', 'sendinvite', 'sendinv'])
-async def dmsinviteuser(ctx, user: discord.Member, *, reason="No Reason Provided"):
+@bot.command(aliases=['inviteuser', 'inviteu', 'sendinvite', 'sendinv'])
+async def dminvite(ctx, user: discord.Member, *, reason=None):
     channelid = ctx.guild.text_channels[0].id
     
     channel = ctx.guild.text_channels[0]
@@ -2112,7 +2107,7 @@ Invite link: {inviteurl}
             await ctx.reply("✅ Sent.")
 
 
-@bot.command(name='setnsfw', aliases=['nsfwsettings'])
+@bot.command(aliases=['nsfwsettings'])
 # work in progress. Currently, the discord.py API does not support changing NSFW settings.
 async def setnsfw(ctx, status=None):
     if status is None:
@@ -2124,7 +2119,7 @@ async def setnsfw(ctx, status=None):
         status = False
 
 
-@bot.command(name="timer", aliases=['countdown'])
+@bot.command(aliases=['countdown'])
 async def timer(ctx, duration, *, item=' '):
     if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
@@ -2213,9 +2208,9 @@ async def timer(ctx, duration, *, item=' '):
     await msg.channel.send(f"**The countdown for {item if item != ' ' else '(undefined)'} has ended!**")
 
 
-@bot.command(name='hardmute', aliases=['forcemute', 'fullmute', 'shutup'])
+@bot.command(aliases=['forcemute', 'fullmute', 'shutup'])
 async def hardmute(ctx, person: discord.Member):
-    global hardmutes
+    hardmutes = replitRead("hardmutes")
     
     if not ctx.author.id == ownerid:
         await ctx.message.delete()
@@ -2225,11 +2220,13 @@ async def hardmute(ctx, person: discord.Member):
         else:
             hardmutes.append(person.id)
             await ctx.message.delete()
+    
+    replitWrite("hardmutes", hardmutes)
 
 
-@bot.command(name='hardunmute', aliases=['forceunmute', 'fullunmute'])
+@bot.command(aliases=['forceunmute', 'fullunmute'])
 async def hardunmute(ctx, person: discord.Member):
-    global hardmutes
+    hardmutes = replitRead("hardmutes")
     
     if not ctx.author.id == ownerid:
         await ctx.message.delete()
@@ -2239,9 +2236,11 @@ async def hardunmute(ctx, person: discord.Member):
         else:
             hardmutes.remove(person.id)
             await ctx.message.delete()
+    
+    replitWrite("hardmutes", hardmutes)
 
 
-@bot.command(name='whois', aliases=['memberinfo'])
+@bot.command(aliases=['memberinfo'])
 async def whois(ctx, person: discord.Member):
     mname = str(person.name)
     mnick = person.display_name
@@ -2284,9 +2283,9 @@ async def whois(ctx, person: discord.Member):
     await ctx.reply(embed=embed)
 
 
-@bot.command(name="webhook", aliases=['botsend'])
+@bot.command(aliases=['botsend'])
 @commands.has_permissions(administrator=True)
-async def swebhook(ctx, *, txt):
+async def webhook(ctx, *, txt):
     separator = ''
     
     if '""' in txt:
@@ -2314,15 +2313,15 @@ async def swebhook(ctx, *, txt):
     await webhook.send(content=txtlst[1], username=txtlst[0], avatar_url=ctx.author.avatar.url)
 
 
-@bot.command(name='invite', aliases=['url', 'inviteurl', 'inv'])
-async def inviteurl(ctx):
+@bot.command(aliases=['url', 'inviteurl', 'inv'])
+async def invite(ctx):
     await ctx.reply("""Click below to invite me!
 
 https://discord.com/api/oauth2/authorize?client_id=1010883625480376351&permissions=8&scope=bot""")
 
 
-@bot.command(name='insult', aliases=['insults'])
-async def insults(ctx):
+@bot.command(aliases=['insults'])
+async def insult(ctx):
     if ctx.author.id == ownerid:
         insulttxt = "Ratio + don't care + didn't ask + cry about it + stay mad + get real + L + mald seethe cope " \
                     "harder + hoes mad + basic + skill issue + you fell off + the audacity + triggered + any askers + " \
@@ -2381,8 +2380,8 @@ async def insults(ctx):
             await asyncio.sleep(0.3)
 
 
-@bot.command(name="typing", aliases=['type'])
-async def typer(ctx, length=None):
+@bot.command(aliases=['type'])
+async def typing(ctx, length=None):
     global istyping
     global ownerid
     
@@ -2405,8 +2404,8 @@ async def typer(ctx, length=None):
                 istyping.remove(ctx.channel.id)
 
 
-@bot.command(name="stoptyping", aliases=['stoptype'])
-async def stoptyper(ctx):
+@bot.command(aliases=['stoptype'])
+async def stoptyping(ctx):
     global ownerid
     global istyping
     
@@ -2821,7 +2820,7 @@ User description: `{ruser.description}`""")
     await ctx.reply(embed=embed)
 
 
-@bot.command(name='gstart', help='Starts a giveaway.')
+@bot.command()
 async def gstart(ctx, duration: str, winners: str, *, prize: str = "<undefined>"):
     if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
@@ -2908,8 +2907,8 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
         await new_msg.edit(embed=newgwembed)
 
 
-@bot.command(name='greroll', help='Rerolls/ends a giveaway.')
-async def reroll(ctx, id_: int):
+@bot.command()
+async def greroll(ctx, id_: int):
     if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
@@ -2944,9 +2943,8 @@ async def reroll(ctx, id_: int):
     await new_msg.edit(embed=newgwembed)
 
 
-@bot.command(name='greroll-c', help='Rerolls a giveaway in Compatible mode with other bots.',
-             aliases=['rerollc', 'reroll_c'])
-async def rerollc(ctx, id_: int):
+@bot.command(aliases=['greroll-c', 'greroll_c'])
+async def grerollc(ctx, id_: int):
     if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
@@ -2972,8 +2970,8 @@ async def rerollc(ctx, id_: int):
     await msgcompat.delete()
 
 
-@bot.command(name='gend', help='Ends a giveaway.')
-async def end(ctx, id_: int):
+@bot.command()
+async def gend(ctx, id_: int):
     if not (ctx.author.guild_permissions.administrator
             or ctx.author.id == ownerid):
         return
@@ -3079,10 +3077,10 @@ async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = N
 async def gitupdate(ctx):
     if ctx.author.id != ownerid:
         return
-
+    
     msg = await ctx.reply("Do you wish to pull changes from git and restart the bot?\n"
                           "Reply to this message within 10 seconds to confirm.")
-
+    
     try:
         await waitForReply(ctx, msg)
     except TimeoutError:
@@ -3107,8 +3105,8 @@ async def shell(ctx, *, cmd):
         return
     
     os.system(cmd)
-    
-    
+
+
 keep_alive.keep_alive()  # keep bot alive
 
 try:
