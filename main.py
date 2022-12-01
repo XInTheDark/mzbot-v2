@@ -140,8 +140,12 @@ def replitInit(key: str, value):
         replitWrite(key, value)
 
 
-# Setting variables
+# status checks
+if replitRead("EXITCODE") == 0:
+    replitWrite("EXITCODE", 1)
+    exit()
 
+# Setting variables
 replitWrite("EXITCODE", 1)
 replitInit("afk", {})
 spam_ban = [726356086176874537]
