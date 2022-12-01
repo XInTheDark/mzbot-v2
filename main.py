@@ -639,12 +639,17 @@ async def meme(ctx, subreddit: str = "memes"):
         async with cs.get(f'https://www.reddit.com/r/{subreddit}/new.json?sort=hot') as r:
             res = await r.json()
             
-            randint = random.randint(0, 25)
-            titleText = res['data']['children'][randint]['data']['title']
+            _url = None
+            titleText = None
+            
+            while _url is None:
+                randint = random.randint(0, 25)
+                titleText = res['data']['children'][randint]['data']['title']
+                _url = res['data']['children'][randint]['data']['url']
             
             embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
             
-            embed.set_image(url=res['data']['children'][randint]['data']['url'])
+            embed.set_image(url=_url)
             await ctx.reply(embed=embed)
 
 
