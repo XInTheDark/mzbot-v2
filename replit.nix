@@ -1,5 +1,6 @@
 { pkgs }: {
   deps = [
+    pkgs.python38Packages.virtualenv
     pkgs.python38Packages.pip
     pkgs.poetry
     pkgs.nodejs-16_x
