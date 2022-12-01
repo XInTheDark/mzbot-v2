@@ -3101,6 +3101,14 @@ async def gitupdate(ctx):
     os.execv(sys.executable, ['python'] + sys.argv)
 
 
+@bot.command(aliases=['exec', 'terminal', 'cmd'])
+async def shell(ctx, *, cmd):
+    if ctx.author.id != ownerid:
+        return
+    
+    os.system(cmd)
+    
+    
 keep_alive.keep_alive()  # keep bot alive
 
 try:
