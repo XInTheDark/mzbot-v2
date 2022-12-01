@@ -1,7 +1,5 @@
 { pkgs }: {
   deps = [
-    pkgs.python38Packages.virtualenv
-    pkgs.python38Packages.pip
     pkgs.poetry
     pkgs.nodejs-16_x
     pkgs.python38Full
@@ -19,7 +17,7 @@
       # Needed for matplotlib
       pkgs.xorg.libX11
     ];
-    PYTHONBIN = "${pkgs.python38}/bin/python3.8";
+    PYTHONBIN = "${pkgs.python38Full}/bin/python3.8";
     LANG = "en_US.UTF-8";
   };
 }

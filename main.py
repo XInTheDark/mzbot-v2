@@ -6,10 +6,6 @@ import os
 # install requirements
 import mzdependencies
 
-print("Creating virtual env...\n")
-os.system("virtualenv mzbotvenv -p python3")
-os.system(". ./mzbotvenv/bin/activate")
-
 print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
