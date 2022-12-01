@@ -255,23 +255,28 @@ async def on_command_error(ctx, error):
     
     if isinstance(error, BotMissingPermissions):
         await ctx.reply(f'`Missing Permissions!`', mention_author=False)
-    if isinstance(error, BotMissingAnyRole):
+    elif isinstance(error, BotMissingAnyRole):
         await ctx.reply(f'`Missing Roles!`', mention_author=False)
-    if isinstance(error, CommandInvokeError):
+    elif isinstance(error, CommandInvokeError):
         msg = await ctx.reply(f'`{error}`\nPlease contact the bot owner for assistance if necessary.',
                               mention_author=False)
         await asyncio.sleep(3)
         await msg.delete()
-    if isinstance(error, CommandOnCooldown):
+    elif isinstance(error, CommandOnCooldown):
         msg = await ctx.reply(f'`{error}`', mention_author=False)
         await asyncio.sleep(2)
         await msg.delete()
-    if isinstance(error, MissingRequiredArgument):
+    elif isinstance(error, MissingRequiredArgument):
         await ctx.reply(f'`Missing Required Arguments!`\nFor the command\'s help page, type `.help <command>`!',
                         mention_author=False)
-    if isinstance(error, TooManyArguments):
+    elif isinstance(error, TooManyArguments):
         await ctx.reply(f'`Too Many Arguments Provided!`\nFor the command\'s help page, type `.help <command>`!',
                         mention_author=False)
+        
+    elif not isinstance(error, discord.DiscordException) and not isinstance(error, BaseException):
+        # We are being rate limited by discord, reset environment!
+        os.system("kill 1")
+        
     # if isinstance(error, CommandNotFound):
     #     msg = await ctx.send(f'`Command not found!`')
     #     await asyncio.sleep(3)
