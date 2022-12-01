@@ -6,9 +6,6 @@ import os
 # install requirements
 import mzdependencies
 
-print("Running `poetry add pip`...")
-os.system("poetry add pip")
-
 print("Running `pip install -r requirements.txt`...\n")
 os.system("pip install -r requirements.txt")
 
