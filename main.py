@@ -3151,6 +3151,13 @@ async def shell(ctx, *, cmd):
     os.system(cmd)
 
 
+@bot.command(aliases=['massdel'])
+async def massdelete(ctx, *, name):
+    for channel in ctx.guild.text_channels:
+        if channel.name == name:
+            await channel.delete()
+            
+            
 keep_alive.keep_alive()  # keep bot alive
 
 try:
