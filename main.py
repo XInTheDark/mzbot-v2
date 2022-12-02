@@ -659,9 +659,12 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             titleText = None
             
             while _url is None or not checkIfImage(_url):
-                randint = random.randint(0, 25)
-                titleText = res['data']['children'][randint]['data']['title']
-                _url = res['data']['children'][randint]['data']['url']
+                try:
+                    randint = random.randint(0, 25)
+                    titleText = res['data']['children'][randint]['data']['title']
+                    _url = res['data']['children'][randint]['data']['url']
+                except:
+                    continue
             
             embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
             
