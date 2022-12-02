@@ -362,11 +362,33 @@ You were AFK for {afklen}""")
     await bot.process_commands(message)
 
 
+def getTextFromEmbed(message):
+    if len(message.embeds) > 0:
+        msg = ""
+        for embed in message.embeds:
+            msg += f"(Embed) `Title:` {embed.title}\n`Description:` {embed.description}\n"
+        
+        return msg
+    else:
+        return None
+        
+        
+def processTextFromEmbed(message, msg):
+    embedText = getTextFromEmbed(message)
+    
+    if embedText is not None:
+        msg = msg + "\n" + embedText
+    
+    return msg
+
+
 @bot.event
 async def on_message_delete(message):
     snipes = replitRead("snipes")
     msg = message.content
     author = message.author
+    
+    msg = processTextFromEmbed(message, msg)
     
     # add to snipes
     lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([str(author.id), str(message.channel.id), msg,
@@ -383,6 +405,9 @@ async def on_message_edit(old, new):
     oldmsg = old.content
     newmsg = new.content
     author = new.author
+    
+    oldmsg = processTextFromEmbed(old, oldmsg)
+    newmsg = processTextFromEmbed(new, newmsg)
     
     lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([str(author.id), str(old.channel.id), oldmsg, newmsg,
                                                                str(round(old.created_at.timestamp())),
