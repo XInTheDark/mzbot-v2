@@ -160,7 +160,7 @@ istyping = []
 replitInit("msgpings", {})
 musicDict = {}
 bannedWords = mzutils.bannedWords
-ended = []
+replitInit("gwended", [])
 replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 
@@ -2936,6 +2936,8 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     
     else:
         winmsgfinal = "No valid entrants, so a winner could not be determined!"
+    
+    ended = replitRead("gwended")
     if msg.id not in ended:
         await ctx.send(winmsgfinal)
         gwembed.set_footer(text=f"Ended at {end}")
@@ -3020,8 +3022,8 @@ async def gend(ctx, id_: int):
             or ctx.author.id == ownerid):
         return
     
+    ended = replitRead("gwended")
     if id_ not in ended:
-        
         try:
             new_msg = await ctx.fetch_message(id_)
         except:
@@ -3035,6 +3037,7 @@ async def gend(ctx, id_: int):
         winner = random.choice(users)
         
         ended.append(id_)
+        replitWrite("gwended", ended)
         
         await ctx.channel.send(f"🎉 Congratulations! The new winner is {winner.mention}! 🎉")
         
