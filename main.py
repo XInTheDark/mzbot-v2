@@ -1787,9 +1787,7 @@ async def ticket(ctx):
             member: discord.PermissionOverwrite(read_messages=True, send_messages=True)
         }
         
-        file = open('tickets.txt', 'r')
-        lines = file.readlines()
-        file.close()
+        lines = replitRead("tickets")
         
         if str(user.id) in lines:
             errormsg = await ctx.send(f"{user.mention}, You already have a ticket open!")
@@ -1804,9 +1802,8 @@ async def ticket(ctx):
             await channel.send(f'{user.mention}')
             await channel.send(embed=embed)
             
-            file = open('tickets.txt', 'a')
-            file.write(f"{user.id}\n")
-            file.close()
+            lines += f"{user.id}\n"
+            replitWrite("tickets", lines)
 
 
 @commands.cooldown(1, 5, commands.BucketType.channel)
@@ -1816,6 +1813,7 @@ async def delete(ctx):
     #     if isinstance(ctx.channel, discord.abc.PrivateChannel):
     channelperms = ctx.channel.overwrites_for(ctx.author)
     memberoverwrite = channelperms
+    
     if memberoverwrite == discord.PermissionOverwrite(read_messages=True,
                                                       send_messages=True) \
             or ctx.author.guild_permissions.manage_channels:
@@ -1834,13 +1832,14 @@ React with 👍 to delete.""")
             await asyncio.sleep(5)
         await ctx.send("Deleting channel...")
         await ctx.channel.delete()
-        with open("tickets.txt", "r") as file_input:
-            with open("tickets.txt", "w") as output:
-                for line in file_input:
-                    if line.strip("\n") != str(ctx.author.id):
-                        output.write(line)
+        
+        lines: str = replitRead("tickets")
+        lines.replace(f"{ctx.author.id}\n", "")
+        replitWrite("tickets", lines)
+        
     else:
         await ctx.reply("This is not your ticket!")
+        return
 
 
 #         await ctx.reply("Hey! This isn't a ticket!")
@@ -3115,6 +3114,7 @@ async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = N
         return
     
     await member.timeout(datetime.timedelta(seconds=duration2), reason=reason)
+    await ctx.send(f"`Timed out {member} for {duration2} seconds.`")
 
 
 @bot.command(aliases=['gitpull', 'gitfetch'])
