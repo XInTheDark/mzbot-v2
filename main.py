@@ -161,6 +161,7 @@ replitInit("msgpings", {})
 musicDict = {}
 bannedWords = mzutils.bannedWords
 ended = []
+replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 
 # load_dotenv()
