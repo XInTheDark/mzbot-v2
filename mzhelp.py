@@ -59,7 +59,7 @@ helpcmdz = {
 }
 
 helpusage = {
-    ('meme', 'memes'): "`.meme|memes [subreddit='memes']`",
+    ('meme', 'memes'): "`.meme|memes [subreddit='memes'] [sort='hot' (hot, new, top or rising)]`",
     'donate': "`.donate`",
     'nitro': "`.nitro`",
     'dice': "`.dice <amount> [number of sides=6]`",

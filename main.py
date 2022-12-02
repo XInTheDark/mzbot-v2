@@ -643,7 +643,7 @@ def checkIfImage(url):
 
 @commands.cooldown(1, 2, commands.BucketType.user)
 @bot.command(aliases=['memes'])
-async def meme(ctx, subreddit: str = "memes"):
+async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     # content = get("https://meme-api.herokuapp.com/gimme").text
     # data = json.loads(content)
     # memeEmbed = discord.Embed(title=f"{data['title']}", color=discord.Color.random()).set_image(url=f"{data['url']}")
@@ -651,7 +651,7 @@ async def meme(ctx, subreddit: str = "memes"):
     # await ctx.reply(embed=memeEmbed)
     
     async with aiohttp.ClientSession() as cs:
-        async with cs.get(f'https://www.reddit.com/r/{subreddit}/new.json?sort=hot') as r:
+        async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot') as r:
             res = await r.json()
             
             _url = None
