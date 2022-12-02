@@ -31,6 +31,7 @@ import speedtest  # speedtest-cli
 import roblox
 import keep_alive
 import shutil
+import string
 
 # for mobile status:
 import ast
@@ -710,10 +711,17 @@ async def credits(ctx):
 @commands.cooldown(1, 0.5, commands.BucketType.channel)
 @bot.command()
 async def nitro(ctx):
-    genlist = str(open('nitrogenlist.txt', 'r').read())
-    genlistsplit = genlist.split("\n")
+    # genlist = str(open('nitrogenlist.txt', 'r').read())
+    # genlistsplit = genlist.split("\n")
+    #
+    # response = str(random.choice(genlistsplit))
     
-    response = str(random.choice(genlistsplit))
+    code = "".join(random.choices(
+        string.ascii_uppercase + string.digits + string.ascii_lowercase,
+        k=16
+    ))
+    
+    response = f"https://discord.gift/{code}"
     
     await ctx.send(response)
 
@@ -1837,12 +1845,20 @@ async def define(ctx, *, word):
 
 @bot.command(aliases=['massnitro', 'nitrospam'])
 async def dmnitro(ctx, amount: int):
-    genlist = str(open('nitrogenlist.txt', 'r').read())
-    genlistsplit = genlist.split("\n")
+    # genlist = str(open('nitrogenlist.txt', 'r').read())
+    # genlistsplit = genlist.split("\n")
+
     channel = await ctx.author.create_dm()
     
     for i in range(amount):
-        response = str(random.choice(genlistsplit))
+        # response = str(random.choice(genlistsplit))
+
+        code = "".join(random.choices(
+            string.ascii_uppercase + string.digits + string.ascii_lowercase,
+            k=16
+        ))
+
+        response = f"https://discord.gift/{code}"
         
         await channel.send(response)
     
