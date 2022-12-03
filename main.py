@@ -2820,6 +2820,9 @@ async def serverinfo(ctx):
     guild_id = str(ctx.guild.id)
     guild_icon_url = ctx.guild.icon.url
     created_at_t = int(datetime.datetime.timestamp(ctx.guild.created_at))
+    invite_url = ctx.guild.vanity_url if ctx.guild.vanity_url is not None else await ctx.channel.create_invite(
+        unique=False, reason="serverinfo"
+    )
     
     # membercount code
     botc = 0
@@ -2838,6 +2841,7 @@ async def serverinfo(ctx):
     
     embed = discord.Embed(title=f"**Server info:** `{ctx.guild.name}`",
                           description=f"""Server ID: {guild_id}
+**Invite URL:** {invite_url}
 **Owner:** {owner.mention}
 **Created at:** <t:{created_at_t}:f>
 
