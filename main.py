@@ -153,8 +153,9 @@ def safeTruncate(s: str) -> list:
     
     ret = []
     while len(s) > 2000:
+        ret.append(s[0:1999])
         s = s[2000:]
-        ret.append(s)
+        
     return ret
 
 
