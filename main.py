@@ -32,6 +32,7 @@ import roblox
 import keep_alive
 import shutil
 import string
+import atexit
 
 # for mobile status:
 import ast
@@ -272,6 +273,13 @@ async def on_disconnect():
         # "kill 1" restarts the container and will automatically re-run the script.
 
 
+def exit_handler():
+    # same as on_disconnect()
+    EXITCODE = replitRead("EXITCODE")
+    if EXITCODE != 0:
+        os.system("kill 1")
+        
+        
 # error handling
 @bot.event
 async def on_command_error(ctx, error):
@@ -3199,8 +3207,10 @@ async def massdelete(ctx, *, name):
             
 keep_alive.keep_alive()  # keep bot alive
 
+atexit.register(exit_handler)  # handles exit
+
 try:
     bot.run(TOKEN, reconnect=True)
-except Exception:
+except:
     os.system("kill 1")
     # "kill 1" automatically runs the script.

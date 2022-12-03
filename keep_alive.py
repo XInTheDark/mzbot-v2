@@ -7,7 +7,7 @@ app = Flask('')
 
 @app.route('/')
 def main():
-    return "Your bot is alive!"
+    return "MZ Bot v2 is running..."
 
 
 def run():
