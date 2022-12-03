@@ -62,7 +62,9 @@ import firebaseconfig
 import firebase_admin
 from firebase_admin import credentials
 
-# for ffmpeg [[maybe_unused]]:
+# for shell:
+import subprocess
+
 
 # firebase setup
 firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
@@ -3154,7 +3156,19 @@ async def shell(ctx, *, cmd):
     if ctx.author.id != ownerid:
         return
     
-    os.system(cmd)
+    async with ctx.channel.typing():
+        # os.system(cmd)
+        o = subprocess.run(cmd, shell=True, capture_output=True)
+        soutput = ""
+        for line in o.stdout.splitlines():
+            line = line.decode("utf-8")
+            soutput += f"`{line}`\n"
+        for line in o.stderr.splitlines():
+            line = line.decode("utf-8")
+            soutput += f"`ERROR: {line}`\n"
+        soutput += f"`EXITCODE: {o.returncode}`"
+    
+    await ctx.reply(soutput)
 
 
 @bot.command(aliases=['massdel'])
