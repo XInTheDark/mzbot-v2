@@ -141,6 +141,23 @@ def replitInit(key: str, value):
         replitWrite(key, value)
 
 
+def truncate(s: str):
+    if len(s) > 2000:
+        s = s[0:1999]
+    return s
+
+
+def safeTruncate(s: str) -> list:
+    if len(s) <= 2000:
+        return [s]
+    
+    ret = []
+    while len(s) > 2000:
+        s = s[2000:]
+        ret.append(s)
+    return ret
+
+
 # status checks
 if replitRead("EXITCODE") == 0:
     replitWrite("EXITCODE", 1)
@@ -3168,7 +3185,8 @@ async def shell(ctx, *, cmd):
             soutput += f"`ERROR: {line}`\n"
         soutput += f"`EXITCODE: {o.returncode}`"
     
-    await ctx.reply(soutput)
+    for i in safeTruncate(soutput):
+        await ctx.reply(i)
 
 
 @bot.command(aliases=['massdel'])
