@@ -3176,7 +3176,7 @@ async def shell(ctx, *, cmd):
     
     async with ctx.channel.typing():
         # os.system(cmd)
-        o = subprocess.run(cmd, shell=True, capture_output=True)
+        o = subprocess.run(cmd, shell=True, capture_output=True, timeout=20)
         soutput = ""
         for line in o.stdout.splitlines():
             line = line.decode("utf-8")
