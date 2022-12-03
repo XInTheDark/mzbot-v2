@@ -1058,49 +1058,49 @@ async def won(ctx, userid, *, prize):
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command()
 @commands.has_permissions(ban_members=True)
-async def ban(self, member: discord.Member, *, reason: str = None):
-    if not self.author.top_role > member.top_role:
+async def ban(ctx, member: discord.Member, *, reason: str = None):
+    if not ctx.author.top_role > member.top_role:
         return
     
     await member.ban(reason=reason)
-    await self.send(f'''User: `{member}` has been banned
+    await ctx.send(f'''User: `{member}` has been banned
 Reason: {reason}
-- by {self.author}''')
+- by {ctx.author}''')
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command()
 @commands.has_permissions(ban_members=True)
-async def unban(self, *, member: str):
+async def unban(ctx, *, member: str):
     found = 0
     member_name, member_discriminator = member.split("#")
     
-    bans = [entry async for entry in self.guild.bans(limit=MAX_INT)]
+    bans = [entry async for entry in ctx.guild.bans(limit=MAX_INT)]
     
     for ban_entry in bans:
         user = ban_entry.user
         
         if (user.name, user.discriminator) == (member_name, member_discriminator):
-            await self.guild.unban(user)
-            await self.send(f"""`{user}` has been unbanned
-- by {self.author}""")
+            await ctx.guild.unban(user)
+            await ctx.send(f"""`{user}` has been unbanned
+- by {ctx.author}""")
             found = 1
             break
     if found == 0:
-        await self.reply("Could not find that banned user!")
+        await ctx.reply("Could not find that banned user!")
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command()
 @commands.has_permissions(kick_members=True)
-async def kick(self, member: discord.Member, *, reason: str = None):
-    if not self.author.top_role > member.top_role:
+async def kick(ctx, member: discord.Member, *, reason: str = None):
+    if not ctx.author.top_role > member.top_role:
         return
     
     await member.kick(reason=reason)
-    await self.send(f"""User `{member}` has been kicked
+    await ctx.send(f"""User `{member}` has been kicked
 Reason: {reason}
-- by {self.author}""")
+- by {ctx.author}""")
 
 
 @bot.command()
@@ -1250,10 +1250,12 @@ async def lockall(ctx):
 
 
 @bot.command()
-async def slowmode(ctx, seconds: int):
+async def slowmode(ctx, duration: str):
     if not ctx.author.guild_permissions.manage_messages and ctx.author.id != ownerid:
         await ctx.channel.send('You are missing `Manage Messages` permissions!')
+        return
     else:
+        seconds = mzutils.parseTime(duration)
         await ctx.channel.edit(slowmode_delay=seconds)
         await ctx.channel.send(f"Set the slowmode for channel: `#{ctx.channel}` to `{seconds}` seconds!")
 

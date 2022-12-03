@@ -91,7 +91,7 @@ helpusage = {
     'dmspam': "`.dmspam <number of times> <discord.Member> <message>`",
     'dmspam_force': "`.dmspam_force <number of times> <discord.Member> <message>`",
     'lockall': "`.lockall`",
-    'slowmode': "`.slowmode <seconds>`",
+    'slowmode': "`.slowmode <duration>`",
     'purge': "`.purge <limit>`",
     ('timer', 'countdown'): "`.timer|countdown <duration> [name=None]`",
     ('whois', 'memberinfo'): "`.whois|memberinfo <discord.Member>`",
