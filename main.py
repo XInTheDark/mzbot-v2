@@ -706,6 +706,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     # await ctx.reply(embed=memeEmbed)
     
     async with ctx.channel.typing():
+        startTime = datetime.datetime.utcnow()
         async with aiohttp.ClientSession() as cs:
             try:
                 async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
@@ -719,6 +720,9 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             titleText = None
                 
             while _url is None or not checkIfImage(_url):
+                if (datetime.datetime.utcnow() - startTime).total_seconds() > 10:
+                    await ctx.reply("There was an error retrieving data from that subreddit.")
+                    return
                 try:
                     randint = random.randint(0, 25)
                     titleText = res['data']['children'][randint]['data']['title']
