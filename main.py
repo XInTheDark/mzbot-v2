@@ -707,31 +707,30 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     
     async with ctx.channel.typing():
         async with aiohttp.ClientSession() as cs:
-            async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot') as r:
-                res = await r.json()
+            try:
+                async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
+                                  raise_for_status=True) as r:
+                    res = await r.json()
+            except Exception:
+                await ctx.reply("There was an error retrieving data from that subreddit.")
+                return
+            
+            _url = None
+            titleText = None
                 
-                _url = None
-                titleText = None
+            while _url is None or not checkIfImage(_url):
+                try:
+                    randint = random.randint(0, 25)
+                    titleText = res['data']['children'][randint]['data']['title']
+                    _url = res['data']['children'][randint]['data']['url']
+                except Exception:
+                    await ctx.reply("There was an error retrieving data from that subreddit.")
+                    return
                 
-                errC = 0
-                
-                while _url is None or not checkIfImage(_url):
-                    try:
-                        randint = random.randint(0, 25)
-                        titleText = res['data']['children'][randint]['data']['title']
-                        _url = res['data']['children'][randint]['data']['url']
-                    except Exception:
-                        if errC < 50:
-                            errC += 1
-                            continue
-                        else:
-                            await ctx.send("No memes found. Please try again?")
-                            return
-                
-                embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
-                
-                embed.set_image(url=_url)
-                await ctx.reply(embed=embed)
+            embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
+            
+            embed.set_image(url=_url)
+            await ctx.reply(embed=embed)
 
 
 @bot.command(name='-.')
