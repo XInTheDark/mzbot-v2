@@ -705,25 +705,26 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     #
     # await ctx.reply(embed=memeEmbed)
     
-    async with aiohttp.ClientSession() as cs:
-        async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot') as r:
-            res = await r.json()
-            
-            _url = None
-            titleText = None
-            
-            while _url is None or not checkIfImage(_url):
-                try:
-                    randint = random.randint(0, 25)
-                    titleText = res['data']['children'][randint]['data']['title']
-                    _url = res['data']['children'][randint]['data']['url']
-                except Exception:
-                    continue
-            
-            embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
-            
-            embed.set_image(url=_url)
-            await ctx.reply(embed=embed)
+    async with ctx.channel.typing():
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot') as r:
+                res = await r.json()
+                
+                _url = None
+                titleText = None
+                
+                while _url is None or not checkIfImage(_url):
+                    try:
+                        randint = random.randint(0, 25)
+                        titleText = res['data']['children'][randint]['data']['title']
+                        _url = res['data']['children'][randint]['data']['url']
+                    except Exception:
+                        continue
+                
+                embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
+                
+                embed.set_image(url=_url)
+                await ctx.reply(embed=embed)
 
 
 @bot.command(name='-.')
@@ -3108,6 +3109,7 @@ async def createrole(ctx, pos: int = None, *, name):
     role = await ctx.guild.create_role(name=name)
     if pos is not None:
         await role.edit(position=pos)
+    await ctx.reply(f"Role `{name}` created at position `{pos}`!")
 
 
 @bot.command(aliases=['auditlog', 'audit', 'logs', 'log'])
