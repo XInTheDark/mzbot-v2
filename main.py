@@ -722,6 +722,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
                         _url = res['data']['children'][randint]['data']['url']
                     except Exception:
                         if errC < 50:
+                            errC += 1
                             continue
                         else:
                             await ctx.send("No memes found. Please try again?")
