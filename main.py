@@ -708,6 +708,13 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     async with ctx.channel.typing():
         startTime = datetime.datetime.utcnow()
         async with aiohttp.ClientSession() as cs:
+            async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
+                              raise_for_status=True) as r:
+                # If the request returns a 404 status code, the subreddit does not exist
+                if r.status == 404:
+                    await ctx.reply(f"The subreddit `{subreddit}` does not exist.")
+                    return
+            
             try:
                 async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
                                   raise_for_status=True) as r:
