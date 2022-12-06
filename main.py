@@ -3183,11 +3183,10 @@ async def gitupdate(ctx):
     
     replitWrite("EXITCODE", 0)
     
-    await ctx.send("Running `git fetch --all`...")
-    os.system("git fetch --all")
+    await ctx.send("Running `git pull`...")
+    os.system("git pull")
     
-    await ctx.send("Running `git reset --hard origin/master`...")
-    os.system("git reset --hard origin/master")
+    await asyncio.sleep(2)
     
     await ctx.send("`Restarting bot...`")
     os.execv(sys.executable, ['python'] + sys.argv)
