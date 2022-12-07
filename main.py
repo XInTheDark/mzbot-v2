@@ -156,6 +156,11 @@ def openAIinit(envName="OPENAI_API_KEY"):
     return openai.api_key  # returns None if key not found.
 
 
+def openAItokens(text: str):
+    tokenized = openai.GPT3Tokenizer.encode(text)
+    return len(tokenized)
+
+
 # status checks
 if replitRead("EXITCODE") == 0:
     replitWrite("EXITCODE", 1)
@@ -3225,7 +3230,9 @@ async def massdelete(ctx, *, name):
 
 @bot.command(aliases=['aichat', 'chatai'])
 async def chat(ctx, *, input):
-    openAIinit()
+    if openAIinit() is None:
+        await ctx.reply("There was an error when initialising the AI.")
+        return
     
     async with ctx.channel.typing():
         """Note that the max tokens returned is equal to
@@ -3236,7 +3243,7 @@ async def chat(ctx, *, input):
             engine="text-davinci-003",  # latest model (the one used for GPT-3)
             prompt=input,
             temperature=random.randrange(50, 90) / 100,
-            max_tokens=4096,
+            max_tokens=4096 - openAItokens(input),
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
