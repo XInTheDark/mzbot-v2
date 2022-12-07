@@ -3229,6 +3229,10 @@ async def massdelete(ctx, *, name):
 
 @bot.command(aliases=['aichat', 'chatai'])
 async def chat(ctx, *, input):
+    if ctx.author.id != ownerid:
+        await ctx.reply("Sorry, this feature is only available to the bot owner.")
+        return
+    
     if openAIinit() is None:
         await ctx.reply("There was an error when initialising the AI.")
         return
