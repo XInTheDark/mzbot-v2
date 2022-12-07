@@ -3223,7 +3223,7 @@ async def massdelete(ctx, *, name):
             await channel.delete()
 
 
-@bot.command()
+@bot.command(aliases=['aichat', 'chatai'])
 async def chat(ctx, *, input):
     openAIinit()
     

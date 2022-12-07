@@ -55,7 +55,8 @@ helpcmdz = {
     ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "Fetches the most recent mention of you.",
     ('createrole', 'rolecreate'): "Creates a role and places it at the given index (if possible).",
     ('auditlogs', 'auditlog', 'logs', 'log'): "Displays the audit logs.",
-    ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration."
+    ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration.",
+    ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI."
 }
 
 helpusage = {
@@ -112,5 +113,6 @@ helpusage = {
     ('lastmention', 'recentmention', 'mentionmsg', 'msgmention'): "`.lastmention|recentmention|... [limit=MAX_INT]`",
     ('createrole', 'rolecreate'): "`.createrole|rolecreate [pos=None] <name>`",
     ('auditlogs', 'auditlog', 'logs', 'log'): "`.auditlogs|auditlog|... [entries=20]`",
-    ('timeout', 'tempmute'): "`.timeout|tempmute <discord.Member> <duration> [reason=None]`"
+    ('timeout', 'tempmute'): "`.timeout|tempmute <discord.Member> <duration> [reason=None]`",
+    ('chat', 'chatai', 'aichat'): "`.chat|chatai|aichat <prompt>`"
 }
