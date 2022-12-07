@@ -157,8 +157,7 @@ def openAIinit(envName="OPENAI_API_KEY"):
 
 
 def openAItokens(text: str):
-    tokenized = openai.GPT3Tokenizer.encode(text)
-    return len(tokenized)
+    return int(len(text.split()) * 4 / 3 + text.count(string.punctuation))
 
 
 # status checks
@@ -3243,7 +3242,7 @@ async def chat(ctx, *, input):
             engine="text-davinci-003",  # latest model (the one used for GPT-3)
             prompt=input,
             temperature=random.randrange(50, 90) / 100,
-            max_tokens=4096 - openAItokens(input),
+            max_tokens=4096,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
