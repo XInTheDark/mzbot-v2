@@ -3225,6 +3225,8 @@ async def massdelete(ctx, *, name):
 
 @bot.command()
 async def chat(ctx, *, input):
+    openAIinit()
+    
     async with ctx.channel.typing():
         """Note that the max tokens returned is equal to
          (4096 - no. of tokens in prompt).
