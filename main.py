@@ -3239,8 +3239,13 @@ async def chat(ctx, *, input):
          i.e. the prompt and completion add up to at most 4096 tokens."""
         
         max_tokens = 4096 - int(openAItokens(input))
+        startTime = datetime.datetime.utcnow()
         
         while True:
+            if (datetime.datetime.utcnow() - startTime).total_seconds() > 15:
+                await ctx.reply("Request timed out. Please try again later.")
+                return
+            
             try:
                 response = openai.Completion.create(
                     engine="text-davinci-003",  # latest model (the one used for GPT-3)
@@ -3254,7 +3259,7 @@ async def chat(ctx, *, input):
                 )
                 break
                 
-            except openai.InvalidRequestError:
+            except:
                 max_tokens -= 50
                 continue
         
