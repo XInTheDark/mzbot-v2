@@ -3272,6 +3272,23 @@ async def chat(ctx, *, input):
     await ctx.reply(output)
 
 
+@bot.command(aliases=['aichat2', 'chatai2'])
+async def chat2(ctx, *, input):
+    async with ctx.channel.typing():
+        cmd = "curl --header \"Content-Type: application/json\" --request POST --data '{\"message\":\"" + input \
+          + "\"}' https://chat.openai.com/chat"
+        o = subprocess.run(cmd, shell=True, capture_output=True, timeout=10)
+        output = ""
+    
+        for line in o.stdout.splitlines():
+            line = line.decode("utf-8")
+            output += f"`{line}`\n"
+    
+    await ctx.reply(output)
+
+
+# --- RUN BOT ---
+
 keep_alive.keep_alive()  # keep bot alive
 
 atexit.register(exit_handler)  # handles exit
