@@ -58,20 +58,11 @@ import mzutils
 # for replit config:
 import replit
 
-# for firebase config:
-import firebaseconfig
-import firebase_admin
-from firebase_admin import credentials
-
 # for shell:
 import subprocess
 
-
-# firebase setup
-firebaseCred = credentials.Certificate(firebaseconfig.firebase_config)
-firebase_admin.initialize_app(firebaseCred, {
-    "databaseURL": firebaseconfig.database_url
-})
+# for OpenAI chatbot:
+import openai
 
 
 def replitWrite(key: str, value):
@@ -156,8 +147,13 @@ def safeTruncate(s: str) -> list:
     while len(s) > 2000:
         ret.append(s[0:1999])
         s = s[2000:]
-        
+    
     return ret
+
+
+def openAIinit(envName="OPENAI_API_KEY"):
+    openai.api_key = os.getenv(envName)
+    return openai.api_key  # returns None if key not found.
 
 
 # status checks
@@ -278,8 +274,8 @@ def exit_handler():
     EXITCODE = replitRead("EXITCODE")
     if EXITCODE != 0:
         os.system("kill 1")
-        
-        
+
+
 # error handling
 @bot.event
 async def on_command_error(ctx, error):
@@ -400,8 +396,8 @@ def getTextFromEmbed(message):
         return msg
     else:
         return None
-        
-        
+
+
 def processTextFromEmbed(message, msg):
     embedText = getTextFromEmbed(message)
     
@@ -725,7 +721,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             
             _url = None
             titleText = None
-                
+            
             while _url is None or not checkIfImage(_url):
                 if (datetime.datetime.utcnow() - startTime).total_seconds() > 10:
                     await ctx.reply("There was an error retrieving data from that subreddit.")
@@ -737,7 +733,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
                 except Exception:
                     await ctx.reply("There was an error retrieving data from that subreddit.")
                     return
-                
+            
             embed = discord.Embed(title=titleText, description="", color=random.randint(0, 0xFFFFFF))
             
             embed.set_image(url=_url)
@@ -806,7 +802,7 @@ async def waitForReply(ctx, msg: discord.Message, timeout=10):
     
     def check(m: discord.Message):
         return m.channel == ctx.channel and m.reference is not None \
-               and m.reference.message_id == msg.id and m.author == ctx.author
+            and m.reference.message_id == msg.id and m.author == ctx.author
     
     await bot.wait_for("message", check=check, timeout=timeout)
     # the above statement raises TimeoutError if timed out.
@@ -1885,7 +1881,7 @@ React with 👍 to delete.""")
         lines: str = replitRead("tickets")
         lines.replace(f"{ctx.author.id}\n", "")
         replitWrite("tickets", lines)
-        
+    
     else:
         await ctx.reply("This is not your ticket!")
         return
@@ -1923,17 +1919,17 @@ async def define(ctx, *, word):
 async def dmnitro(ctx, amount: int):
     # genlist = str(open('nitrogenlist.txt', 'r').read())
     # genlistsplit = genlist.split("\n")
-
+    
     channel = await ctx.author.create_dm()
     
     for i in range(amount):
         # response = str(random.choice(genlistsplit))
-
+        
         code = "".join(random.choices(
             string.ascii_uppercase + string.digits + string.ascii_lowercase,
             k=16
         ))
-
+        
         response = f"https://discord.gift/{code}"
         
         await channel.send(response)
@@ -3225,8 +3221,31 @@ async def massdelete(ctx, *, name):
     for channel in ctx.guild.text_channels:
         if channel.name == name:
             await channel.delete()
-            
-            
+
+
+@bot.command()
+async def chat(ctx, *, input):
+    async with ctx.channel.typing():
+        """Note that the max tokens returned is equal to
+         (4096 - no. of tokens in prompt).
+         i.e. the prompt and completion add up to at most 4096 tokens."""
+        
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # latest model (the one used for GPT-3)
+            prompt=input,
+            temperature=random.randrange(50, 90) / 100,
+            max_tokens=4096,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+            timeout=10  # timeout (in seconds)
+        )
+        
+        output = response.choices[0].text
+        
+    await ctx.reply(output)
+
+
 keep_alive.keep_alive()  # keep bot alive
 
 atexit.register(exit_handler)  # handles exit

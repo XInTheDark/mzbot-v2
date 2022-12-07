@@ -20,3 +20,4 @@ git-python
 firebase-admin
 replit
 ffmpeg-python
+openai
