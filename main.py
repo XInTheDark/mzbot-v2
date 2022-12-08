@@ -68,12 +68,12 @@ while True:
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
         break
-        
+    
     except ModuleNotFoundError:
         print("Running `pip install -r requirements.txt`...\n")
         os.system("pip install -r requirements.txt")
-    
-    
+
+
 def replitWrite(key: str, value):
     """
     key has to be a string, value can be any value(s).
@@ -714,10 +714,12 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     #
     # await ctx.reply(embed=memeEmbed)
     
+    startTime = datetime.datetime.utcnow()
+    
     async with ctx.channel.typing():
-        startTime = datetime.datetime.utcnow()
         async with aiohttp.ClientSession() as cs:
             async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
+                              timeout=10,
                               raise_for_status=True) as r:
                 # If the request returns a 404 status code, the subreddit does not exist
                 if r.status == 404:
@@ -726,6 +728,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             
             try:
                 async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
+                                  timeout=10,
                                   raise_for_status=True) as r:
                     res = await r.json()
             except Exception:
@@ -740,9 +743,11 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
                     await ctx.reply("There was an error retrieving data from that subreddit.")
                     return
                 try:
-                    randint = random.randint(0, 25)
+                    num_posts = len(res['data']['children'])
+                    randint = random.randint(0, num_posts - 1)
                     titleText = res['data']['children'][randint]['data']['title']
                     _url = res['data']['children'][randint]['data']['url']
+                
                 except Exception:
                     await ctx.reply("There was an error retrieving data from that subreddit.")
                     return
@@ -3271,7 +3276,7 @@ async def chat(ctx, *, input):
                     timeout=10
                 )
                 break
-                
+            
             except:
                 max_tokens -= 50
                 continue
@@ -3285,10 +3290,10 @@ async def chat(ctx, *, input):
 async def chat2(ctx, *, input):
     async with ctx.channel.typing():
         cmd = "curl --header \"Content-Type: application/json\" --request POST --data '{\"message\":\"" + input \
-          + "\"}' https://chat.openai.com/chat"
+              + "\"}' https://chat.openai.com/chat"
         o = subprocess.run(cmd, shell=True, capture_output=True, timeout=10)
         output = ""
-    
+        
         for line in o.stdout.splitlines():
             line = line.decode("utf-8")
             output += f"`{line}`\n"
