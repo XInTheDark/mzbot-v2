@@ -15,56 +15,65 @@ for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 print("Running `pip install -U pip setuptools`...\n")
 os.system("pip install -U pip setuptools")
 
-print("Running `pip install -r requirements.txt`...\n")
-os.system("pip install -r requirements.txt")
+# --- IMPORT MODULES ---
 
-import asyncio
-import datetime
-import random
-import sys
-import timeit
-import socket
-import youtube_dl  # youtube-dl
-import urllib.request
-import re
-import speedtest  # speedtest-cli
-import roblox
-import keep_alive
-import shutil
-import string
-import atexit
-
-# for mobile status:
-import ast
-import inspect
-
-# for git support:
-import git
-
-# import io
-import aiohttp
-import requests
-
-import discord  # git+https://github.com/Rapptz/discord.py OR git+https://github.com/XInTheDark/discord.py
-import discord.abc
-import pytz
-from PyDictionary import PyDictionary
-from discord.ext import commands
-from discord.ext.commands.errors import *
-
-import mzhelp
-import mzutils
-
-# for replit config:
-import replit
-
-# for shell:
-import subprocess
-
-# for OpenAI chatbot:
-import openai
-
-
+while True:
+    try:
+        import asyncio
+        import datetime
+        import random
+        import sys
+        import timeit
+        import socket
+        import youtube_dl  # youtube-dl
+        import urllib.request
+        import re
+        import speedtest  # speedtest-cli
+        import roblox
+        import keep_alive
+        import shutil
+        import string
+        import atexit
+        
+        # for mobile status:
+        import ast
+        import inspect
+        
+        # for git support:
+        import git
+        
+        # import io
+        import aiohttp
+        import requests
+        
+        import discord  # git+https://github.com/Rapptz/discord.py OR git+https://github.com/XInTheDark/discord.py
+        import discord.abc
+        import pytz
+        from PyDictionary import PyDictionary
+        from discord.ext import commands
+        from discord.ext.commands.errors import *
+        
+        import mzhelp
+        import mzutils
+        
+        # for replit config:
+        import replit
+        
+        # for shell:
+        import subprocess
+        
+        # for OpenAI chatbot:
+        import openai
+        
+        # --- END OF MODULES ---
+        print("Imported all modules successfully.\n")
+        break
+        
+    except ModuleNotFoundError:
+        print("Running `pip install -r requirements.txt`...\n")
+        os.system("pip install -r requirements.txt")
+    
+    
 def replitWrite(key: str, value):
     """
     key has to be a string, value can be any value(s).
