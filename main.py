@@ -719,7 +719,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
     async with ctx.channel.typing():
         async with aiohttp.ClientSession() as cs:
             async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
-                              timeout=10,
+                              timeout=7.5,
                               raise_for_status=True) as r:
                 # If the request returns a 404 status code, the subreddit does not exist
                 if r.status == 404:
@@ -728,7 +728,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             
             try:
                 async with cs.get(f'https://www.reddit.com/r/{subreddit}/{sort}.json?sort=hot',
-                                  timeout=10,
+                                  timeout=7.5,
                                   raise_for_status=True) as r:
                     res = await r.json()
             except Exception:
@@ -739,7 +739,7 @@ async def meme(ctx, subreddit: str = "memes", sort: str = "hot"):
             titleText = None
             
             while _url is None or not checkIfImage(_url):
-                if (datetime.datetime.utcnow() - startTime).total_seconds() > 10:
+                if (datetime.datetime.utcnow() - startTime).total_seconds() > 15:
                     await ctx.reply("There was an error retrieving data from that subreddit.")
                     return
                 try:
