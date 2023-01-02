@@ -367,7 +367,7 @@ async def on_message(message):
             await message.delete()
             break
     
-    moderation_rules.moderate(message)
+    await moderation_rules.moderate(message)
     
     # --- AFK HANDLING ---
     

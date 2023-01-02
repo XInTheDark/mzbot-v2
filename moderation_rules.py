@@ -3,7 +3,7 @@ import discord  # discord.py
 import asyncio
 
 
-def moderate(message: discord.Message):
+async def moderate(message: discord.Message):
     """Moderate a message."""
     
     # This is where you can add your moderation rules.
