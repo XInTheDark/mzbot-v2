@@ -65,6 +65,9 @@ while True:
         # for OpenAI chatbot:
         import openai
         
+        # for moderation:
+        import moderation_rules
+        
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
         break
@@ -339,6 +342,8 @@ async def on_guild_join(guild):
 
 @bot.event
 async def on_message(message):
+    # --- INIT ---
+    
     afkdict = replitRead("afk")
     hardmutes = replitRead("hardmutes")
     msgpings = replitRead("msgpings")
@@ -351,10 +356,16 @@ async def on_message(message):
     if message.author.id in hardmutes:
         await message.delete()
     
+    # --- MODERATION RULES & FILTERS ---
+    
     for i in bannedWords:
         if i.lower().replace(' ', '') in message.content.lower().replace(' ', ''):
             await message.delete()
             break
+    
+    moderation_rules.moderate(message)
+    
+    # --- AFK HANDLING ---
     
     if str(message.author.id) in afkdict:
         afklist = afkdict[str(message.author.id)]
@@ -397,6 +408,7 @@ You were AFK for {afklen}""")
     if message.channel.id in msgpings.keys() and message.author != bot.user:
         await message.reply(msgpings[message.channel.id])
     
+    # ------
     await bot.process_commands(message)
 
 
