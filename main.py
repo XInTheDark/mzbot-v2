@@ -12,8 +12,12 @@ os.system("virtualenv venv -p python3")
 print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
-print("Running `pip install -U pip setuptools`...\n")
-os.system("pip install -U pip setuptools")
+# print("Running `pip install -U pip setuptools`...\n")
+# os.system("pip install -U pip setuptools")
+
+"""
+Note that we do not upgrade pip and setuptools on every run as it is often unnecessary.
+"""
 
 # --- IMPORT MODULES ---
 

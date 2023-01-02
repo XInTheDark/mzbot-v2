@@ -23,3 +23,17 @@ and [OpenAI API Key](https://beta.openai.com/account/api-keys) respectively.
 2. Run `main.py`. As of discord.py 2.2.0, Python 3.8 or above is required. A working installation of pip is also required.
 It is recommended that you run the code on a Unix-based environment that has npm or apt installed.
 3. If you're hosting on [replit](https://www.replit.com), please read [notes_replit.md](notes_replit.md).
+
+
+### Debugging
+
+The console log should output most of the needed information. 
+
+If you are encountering problems with installation of packages, please run the below commands in order:
+
+```
+pip install -U pip setuptools
+pip install -r requirements.txt
+```
+
+If you are still facing other problems, you can open an Issue on GitHub where you will be assisted.
