@@ -514,7 +514,12 @@ async def help(ctx, cmd=None):
     helpdict = mzhelp.helpcmdz
     usagedict = mzhelp.helpusage
     
-    command_list = [key for key in helpdict.keys()]
+    command_list = []
+    for key in helpdict.keys():
+        if isinstance(key, str):
+            command_list.append(key)
+        elif isinstance(key, tuple):
+            command_list.append(key[0])
     
     response = "**List of all commands**\n\n"
     response += ", ".join(command_list)
