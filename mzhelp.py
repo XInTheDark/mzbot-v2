@@ -57,7 +57,8 @@ helpcmdz = {
     ('auditlogs', 'auditlog', 'logs', 'log'): "Displays the audit logs.",
     ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration.",
     ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI.",
-    ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression.",
+    ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
+                                                                  "(Uses the `math.js` web service)",
 }
 
 helpusage = {

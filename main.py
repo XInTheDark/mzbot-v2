@@ -509,7 +509,7 @@ async def updatelog(ctx):
     repo.close()
 
 
-@bot.command(aliases=['commands', 'cmds', 'view', 'cmd', 'command'])
+@bot.command(aliases=['commands', 'cmds', 'view', 'command'])
 async def help(ctx, cmd=None):
     helpdict = mzhelp.helpcmdz
     usagedict = mzhelp.helpusage
