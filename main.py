@@ -1,6 +1,10 @@
 # bot.py
 print("---MZ Bot v2---")
 
+# startup time
+import time
+startup_time = time.time()
+
 import os
 
 # install requirements
@@ -268,14 +272,18 @@ async def on_ready():
     owner_user = await bot.fetch_user(ownerid)
     channel = await owner_user.create_dm()
     local_ip = socket.gethostbyname(socket.gethostname())
-    # computer_name = os.environ['USERNAME']
+    
+    # startup finished! get the startup time
+    total_time = time.time() - startup_time
+    
     embed = discord.Embed(title="**MZ Bot build succeeded**",
                           description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f> (<t:{int(launch_time.timestamp())}:R>)**\n"
-                                      f"\nHost IP: __{local_ip}__\nHost: {os.uname()}",
-                          color=0x00ff00)
-    # await channel.send(embed=embed)
+                                      f"\nHost IP: __{local_ip}__\nHost: {os.uname()}"
+                                      f"\n\n**Startup time:** {round(total_time, 2)} seconds\n"
+                          , color=0x00ff00)
+    
     await channel.send(embed=embed)
-    print("MZ Bot start-up complete")
+    print(f"MZ Bot start-up complete ({round(total_time, 2)} seconds)")
     
     # init variables
     downloadSpeed = await speedTestDownload()
