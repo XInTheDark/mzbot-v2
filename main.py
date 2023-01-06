@@ -495,16 +495,23 @@ async def updatelog(ctx):
             pass
         
         repo = git.Repo.clone_from("https://github.com/XInTheDark/mzbot-v2", "mzbot-v2")  # gets the repo from GitHub
-        master = repo.head.reference
+        # master = repo.head.reference
         
-        message = master.commit.message
-        dateTimeStamp = master.commit.committed_date
-        commitID = master.commit.hexsha
+        # message = master.commit.message
+        # dateTimeStamp = master.commit.committed_date
+        # commitID = master.commit.hexsha
         
-        embed = discord.Embed(title="**Update Log**", description=f"Latest commit from `mzbot-v2`\n\n"
-                                                                  f"Commit date: <t:{dateTimeStamp}:f>\n"
-                                                                  f"Commit ID: `{commitID}`\n\n"
-                                                                  f"Message: \n{message}", color=0x00ff00)
+        description = "**Latest commits from `mzbot-v2`:**\n\n"
+        
+        # get 5 most recent commits and add them to the string
+        for commit in repo.iter_commits('master', max_count=5):
+            description += f"Commit date: <t:{commit.committed_date}:f>\n"
+            description += f"Commit ID: `{commit.hexsha}`\n"
+            description += f"Commit message: `{commit.message}`\n"
+            description += "-" * 20 + "\n"
+        
+        embed = discord.Embed(title="**Update Log**", description=description, color=0x00ff00)
+        
     await ctx.reply(embed=embed)
     repo.close()
 
