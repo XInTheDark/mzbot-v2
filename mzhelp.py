@@ -56,7 +56,8 @@ helpcmdz = {
     ('createrole', 'rolecreate'): "Creates a role and places it at the given index (if possible).",
     ('auditlogs', 'auditlog', 'logs', 'log'): "Displays the audit logs.",
     ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration.",
-    ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI."
+    ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI.",
+    ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression.",
 }
 
 helpusage = {
@@ -114,5 +115,6 @@ helpusage = {
     ('createrole', 'rolecreate'): "`.createrole|rolecreate [pos=None] <name>`",
     ('auditlogs', 'auditlog', 'logs', 'log'): "`.auditlogs|auditlog|... [entries=20]`",
     ('timeout', 'tempmute'): "`.timeout|tempmute <discord.Member> <duration> [reason=None]`",
-    ('chat', 'chatai', 'aichat'): "`.chat|chatai|aichat <prompt>`"
+    ('chat', 'chatai', 'aichat'): "`.chat|chatai|aichat <prompt>`",
+    ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "`.math|calculate|... <expression>`",
 }

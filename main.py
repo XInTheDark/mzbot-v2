@@ -509,58 +509,16 @@ async def updatelog(ctx):
     repo.close()
 
 
-@bot.command(aliases=['commands', 'cmds'])
+@bot.command(aliases=['commands', 'cmds', 'view', 'cmd', 'command'])
 async def help(ctx, cmd=None):
-    response = """**List of commands**
-**Public:**
-- meme
-- donate
-- dice
-- credits
-- ticket
-- delete (For your own ticket)
-- nitro
-- afk
-- about
-- ping
-- updates
-- timedif
-- dmnitro
-- membercount
-- snipe
-- editsnipe
-- whois
-**Requires permissions:**
-- dw
-- mute
-- unmute
-- nuke
-- kick
-- ban
-- unban
-- gg
-- tips
-- claimed
-- won
-- setproofschannel
-- setclaimschannel
-- spam
-- dmspam
-- dmspam_force
-- lockall
-- slowmode
-- purge
-- setnsfw
-- timer
-**Experimental features available:**
-None
-
-*Note: Other features that may exist are solely for Alpha testing and not for public usage.*
-
-**You may use `.help <command>` for help on that command.**"""
-    
     helpdict = mzhelp.helpcmdz
     usagedict = mzhelp.helpusage
+    
+    command_list = [key for key in helpdict.keys()]
+    
+    response = "**List of all commands**\n\n"
+    response += ", ".join(command_list)
+    response += "\n\nYou may use `.help <command>` to get more information about a command."
     
     if cmd is None:
         embed = discord.Embed(title="Help Page", description=response, color=0x00ff00)
@@ -570,7 +528,6 @@ None
     else:
         found = False
         helpd = ''
-        usaged = ''
         dictcmdi = None
         
         for i in helpdict.keys():
@@ -603,7 +560,7 @@ Usage: {usaged}
             await ctx.reply(embed=embed)
         
         else:
-            await ctx.reply("I cannot find that command.")
+            await ctx.reply("Command not found.")
 
 
 @bot.event
@@ -3319,6 +3276,23 @@ async def chat2(ctx, *, input):
             output += f"`{line}`\n"
     
     await ctx.reply(output)
+
+
+@bot.command(aliases=['calc', 'calculate', 'equation', 'solve', 'solver'])
+async def math(ctx, *, equation):
+    # use an online API to solve the equation
+    async with ctx.channel.typing():
+        # Set the base URL for the math.js web service
+        base_url = 'https://api.mathjs.org/v4/'
+        
+        # Set the parameters for the request
+        params = {'expr': equation}
+        
+        # Make the request to the web service
+        response = requests.get(base_url, params=params)
+        
+    # Reply the result of the computation
+    await ctx.reply(response.text)
 
 
 # --- RUN BOT ---
