@@ -79,7 +79,7 @@ while True:
         
         # for chess:
         import chess  # python-chess
-        import pystockfish  # stockfish engine
+        import stockfish  # stockfish engine
         
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
@@ -3329,7 +3329,6 @@ async def chessGame(ctx):
             
             # install stockfish
             os.system("chmod +x stockfish")
-            os.system("ln -s /stockfish /usr/local/bin/stockfish")
             replitWrite("stockfish_installed", True)
     
     # initialise board
@@ -3380,10 +3379,10 @@ async def chessGame(ctx):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = pystockfish.Engine(depth=7)
-        engine.setfenposition(board.fen())
+        engine = stockfish.Stockfish(path='stockfish', depth=7)
+        engine.set_fen_position(board.fen())
         
-        best_move = engine.bestmove()["move"]
+        best_move = engine.get_best_move()
     
     # make the move on the board
     board.push_san(best_move)

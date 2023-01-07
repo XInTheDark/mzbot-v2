@@ -22,4 +22,4 @@ replit
 ffmpeg-python
 openai
 python-chess
-pystockfish
+stockfish
