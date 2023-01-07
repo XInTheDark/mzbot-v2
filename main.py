@@ -3371,7 +3371,7 @@ async def chessGame(ctx, *, params=None):
     try:
         board.push_san(msg.content)
     except Exception:
-        await ctx.reply("That is not a valid move. Please try again.")
+        await msg.reply("That is not a valid move. Please try again.")
         return
     
     # check if game over
@@ -3385,7 +3385,7 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = stockfish.Stockfish(path='stockfish', depth=7)
+        engine = stockfish.Stockfish(path='/home/runner/mzbot-v2-1/stockfish', depth=7) # change to your repl name/path
         engine.set_fen_position(board.fen())
         
         best_move = engine.get_best_move()
