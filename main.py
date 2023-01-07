@@ -3384,7 +3384,7 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = stockfish.Stockfish(path='stockfish', depth=7)
+        engine = stockfish.Stockfish(path='/stockfish', depth=7)
         engine.set_fen_position(board.fen())
         
         best_move = engine.get_best_move()
