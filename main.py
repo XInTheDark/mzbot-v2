@@ -3334,7 +3334,7 @@ async def chessGame(ctx):
     replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
     
     # prompt the user to make a move
-    await ctx.reply(f"```{board.unicode()}```\n\n"
+    await ctx.reply(f"```{board.unicode()}```\n"
                     f"Please enter a move in algebraic notation. For example, `e2e4` or `Nf3`.")
     
     # wait for the user to reply
@@ -3347,14 +3347,14 @@ async def chessGame(ctx):
     
     try:
         msg = await bot.wait_for('message', check=check, timeout=10)  # allow the user 10 seconds to reply
-    except TimeoutError:
+    except asyncio.TimeoutError:
         await ctx.reply("You took too long to reply. Please try again.")
         return
     
     # check if the user's reply is a valid move
     try:
         board.push_san(msg.content)
-    except ValueError:
+    except Exception:
         await ctx.reply("That is not a valid move. Please try again.")
         return
     
