@@ -3340,9 +3340,10 @@ async def chessGame(ctx):
     # wait for the user to reply
     # We do not use the waitForReply function because that function only returns a bool value.
     # Here, we need the user's reply to be returned.
-    def check(m):
+    def check(m: discord.Message):
         # we check if the message is replying to the bot's message
-        return m.author == ctx.author and m.channel == ctx.channel and m.reference.message_id == ctx.message.id
+        return m.author == ctx.author and m.channel == ctx.channel and m.reference is not None\
+            and m.reference.message_id == ctx.message.id
     
     try:
         msg = await bot.wait_for('message', check=check, timeout=10)  # allow the user 10 seconds to reply
