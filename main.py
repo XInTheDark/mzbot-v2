@@ -3206,6 +3206,9 @@ async def gitupdate(ctx):
     
     replitWrite("EXITCODE", 0)
     
+    os.system("git fetch --all")
+    os.system("git reset --hard origin/master")
+    
     await ctx.send("Running `git pull`...")
     os.system("git pull")
     
