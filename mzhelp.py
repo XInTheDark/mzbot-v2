@@ -59,6 +59,7 @@ helpcmdz = {
     ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI.",
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
                                                                   "(Uses the `math.js` web service)",
+    'chess': "Play chess with Stockfish 12.",
 }
 
 helpusage = {
@@ -118,4 +119,5 @@ helpusage = {
     ('timeout', 'tempmute'): "`.timeout|tempmute <discord.Member> <duration> [reason=None]`",
     ('chat', 'chatai', 'aichat'): "`.chat|chatai|aichat <prompt>`",
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "`.math|calculate|... <expression>`",
+    'chess': "`.chess`",
 }
