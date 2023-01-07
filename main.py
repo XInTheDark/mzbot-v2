@@ -3,6 +3,7 @@ print("---MZ Bot v2---")
 
 # startup time
 import time
+
 startup_time = time.time()
 
 import os
@@ -524,7 +525,7 @@ async def updatelog(ctx):
             description += "-" * 20 + "\n"
         
         embed = discord.Embed(title="**Update Log**", description=description, color=0x00ff00)
-        
+    
     await ctx.reply(embed=embed)
     repo.close()
 
@@ -3315,7 +3316,7 @@ async def math(ctx, *, equation):
         
         # Make the request to the web service
         response = requests.get(base_url, params=params)
-        
+    
     # Reply the result of the computation
     await ctx.reply(response.text)
 
@@ -3327,9 +3328,9 @@ async def chessGame(ctx):
             await ctx.send("Installing Stockfish... This may take a while.")
             
             # install stockfish
-            os.system("apt-get install stockfish")
+            os.system("chmod +x stockfish")
             replitWrite("stockfish_installed", True)
-            
+    
     # initialise board
     board = None
     
@@ -3337,21 +3338,21 @@ async def chessGame(ctx):
     if replitRead(f"chess {ctx.author.id}") is not None:
         # there is a game in progress
         board = chess.Board(replitRead(f"chess {ctx.author.id}"))
-        
+    
     # initialise the user's entry in the database
     board = chess.Board()
     replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
     
     # prompt the user to make a move
     bot_msg = await ctx.reply(f"```{board.unicode()}```\n"
-                    f"Please enter a move in algebraic notation. For example, `e2e4` or `Nf3`.")
+                              f"Please enter a move in algebraic notation. For example, `e2e4` or `Nf3`.")
     
     # wait for the user to reply
     # We do not use the waitForReply function because that function only returns a bool value.
     # Here, we need the user's reply to be returned.
     def check(m: discord.Message):
         # we check if the message is replying to the bot's message
-        return m.author == ctx.author and m.channel == ctx.channel and m.reference is not None\
+        return m.author == ctx.author and m.channel == ctx.channel and m.reference is not None \
             and m.reference.message_id == bot_msg.id
     
     try:
@@ -3380,7 +3381,7 @@ async def chessGame(ctx):
     async with ctx.channel.typing():
         engine = pystockfish.Engine(depth=7)
         engine.setfenposition(board.fen())
-    
+        
         best_move = engine.bestmove()["move"]
     
     # make the move on the board
@@ -3395,6 +3396,7 @@ async def chessGame(ctx):
         await ctx.reply("Game over.")
         replitDelete(f"chess {ctx.author.id}")
         return
+
 
 # --- RUN BOT ---
 
