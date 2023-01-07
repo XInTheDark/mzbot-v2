@@ -208,6 +208,7 @@ bannedWords = mzutils.bannedWords
 replitInit("gwended", [])
 replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
+replitWrite("stockfish_installed", False)
 
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -3321,6 +3322,14 @@ async def math(ctx, *, equation):
 
 @bot.command(name='chess')
 async def chessGame(ctx):
+    if not replitRead("stockfish_installed"):
+        async with ctx.channel.typing():
+            await ctx.send("Installing Stockfish... This may take a while.")
+            
+            # install stockfish
+            os.system("sudo apt-get install stockfish")
+            replitWrite("stockfish_installed", True)
+            
     # initialise board
     board = None
     
@@ -3334,7 +3343,7 @@ async def chessGame(ctx):
     replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
     
     # prompt the user to make a move
-    await ctx.reply(f"```{board.unicode()}```\n"
+    bot_msg = await ctx.reply(f"```{board.unicode()}```\n"
                     f"Please enter a move in algebraic notation. For example, `e2e4` or `Nf3`.")
     
     # wait for the user to reply
@@ -3343,10 +3352,10 @@ async def chessGame(ctx):
     def check(m: discord.Message):
         # we check if the message is replying to the bot's message
         return m.author == ctx.author and m.channel == ctx.channel and m.reference is not None\
-            and m.reference.message_id == ctx.message.id
+            and m.reference.message_id == bot_msg.id
     
     try:
-        msg = await bot.wait_for('message', check=check, timeout=10)  # allow the user 10 seconds to reply
+        msg = await bot.wait_for("message", check=check, timeout=10)  # allow the user 10 seconds to reply
     except asyncio.TimeoutError:
         await ctx.reply("You took too long to reply. Please try again.")
         return
