@@ -3329,6 +3329,7 @@ async def chessGame(ctx):
             
             # install stockfish
             os.system("chmod +x stockfish")
+            os.system("ln -s /stockfish /usr/local/bin/stockfish")
             replitWrite("stockfish_installed", True)
     
     # initialise board
