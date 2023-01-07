@@ -76,6 +76,10 @@ while True:
         # for moderation:
         import moderation_rules
         
+        # for chess:
+        import chess  # python-chess
+        import pystockfish  # stockfish engine
+        
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
         break
@@ -3314,6 +3318,73 @@ async def math(ctx, *, equation):
     # Reply the result of the computation
     await ctx.reply(response.text)
 
+
+@bot.command(name='chess')
+async def chessGame(ctx):
+    # initialise board
+    board = None
+    
+    # check if there is a game in progress for the user
+    if replitRead(f"chess {ctx.author.id}") is not None:
+        # there is a game in progress
+        board = chess.Board(replitRead(f"chess {ctx.author.id}"))
+        
+    # initialise the user's entry in the database
+    board = chess.Board()
+    replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
+    
+    # prompt the user to make a move
+    await ctx.reply(f"```{board.unicode()}```\n\n"
+                    f"Please enter a move in algebraic notation. For example, `e2e4` or `Nf3`.")
+    
+    # wait for the user to reply
+    # We do not use the waitForReply function because that function only returns a bool value.
+    # Here, we need the user's reply to be returned.
+    def check(m):
+        # we check if the message is replying to the bot's message
+        return m.author == ctx.author and m.channel == ctx.channel and m.reference.message_id == ctx.message.id
+    
+    try:
+        msg = await bot.wait_for('message', check=check, timeout=10)  # allow the user 10 seconds to reply
+    except TimeoutError:
+        await ctx.reply("You took too long to reply. Please try again.")
+        return
+    
+    # check if the user's reply is a valid move
+    try:
+        board.push_san(msg.content)
+    except ValueError:
+        await ctx.reply("That is not a valid move. Please try again.")
+        return
+    
+    # check if game over
+    if board.is_game_over():
+        await ctx.reply("Game over.")
+        replitDelete(f"chess {ctx.author.id}")
+        return
+    
+    # update the user's entry in the database
+    replitWrite(f"chess {ctx.author.id}", board.fen())
+    
+    # make the bot's move
+    async with ctx.channel.typing():
+        engine = pystockfish.Engine(depth=7)
+        engine.setfenposition(board.fen())
+    
+        best_move = engine.bestmove()["move"]
+    
+    # make the move on the board
+    board.push_san(best_move)
+    replitWrite(f"chess {ctx.author.id}", board.fen())
+    
+    # send the updated board to the user
+    await ctx.reply(f"My move is `{best_move}`\n\n```{board.unicode()}```")
+    
+    # check if game over
+    if board.is_game_over():
+        await ctx.reply("Game over.")
+        replitDelete(f"chess {ctx.author.id}")
+        return
 
 # --- RUN BOT ---
 

@@ -21,3 +21,5 @@ firebase-admin
 replit
 ffmpeg-python
 openai
+python-chess
+pystockfish
