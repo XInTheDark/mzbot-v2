@@ -3322,7 +3322,12 @@ async def math(ctx, *, equation):
 
 
 @bot.command(name='chess')
-async def chessGame(ctx):
+async def chessGame(ctx, *, params=None):
+    if params is not None:
+        if params == ('newgame' or 'new' or 'reset' or 'resign' or 'restart'):
+            replitDelete(f"chess {ctx.author.id}")
+            await ctx.reply("Game reset.")
+            
     if not replitRead("stockfish_installed"):
         async with ctx.channel.typing():
             await ctx.send("Installing Stockfish... This may take a while.")
