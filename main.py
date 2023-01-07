@@ -78,8 +78,7 @@ while True:
         import moderation_rules
         
         # for chess:
-        import chess  # python-chess
-        import stockfish  # stockfish engine
+        import chess, chess.engine  # python-chess
         
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
@@ -3385,10 +3384,13 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = stockfish.Stockfish(path='/home/runner/mzbot-v2-1/stockfish', depth=7) # change to your repl name/path
-        engine.set_fen_position(board.fen())
+        engine = chess.engine.SimpleEngine.popen_uci("stockfish")
+        engine.configure({"Skill Level": random.randint(10, 20)})
         
-        best_move = engine.get_best_move()
+        # analyse
+        info = engine.analyse(board, chess.engine.Limit(depth=7))
+        
+        best_move = info["pv"][0]
     
     # make the move on the board
     board.push_san(best_move)

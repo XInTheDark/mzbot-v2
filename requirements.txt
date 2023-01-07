@@ -22,4 +22,3 @@ replit
 ffmpeg-python
 openai
 python-chess
-stockfish
