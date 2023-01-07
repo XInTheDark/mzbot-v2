@@ -3345,8 +3345,9 @@ async def chessGame(ctx, *, params=None):
         board = chess.Board(replitRead(f"chess {ctx.author.id}"))
     
     # initialise the user's entry in the database
-    board = chess.Board()
-    replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
+    else:
+        board = chess.Board()
+        replitWrite(f"chess {ctx.author.id}", board.fen())  # note that the FEN is stored in the database
     
     # prompt the user to make a move
     bot_msg = await ctx.reply(f"```{board.unicode()}```\n"
@@ -3384,7 +3385,7 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = stockfish.Stockfish(path=os.path.join(os.getcwd(), 'stockfish'), depth=7)
+        engine = stockfish.Stockfish(path='stockfish', depth=7)
         engine.set_fen_position(board.fen())
         
         best_move = engine.get_best_move()
