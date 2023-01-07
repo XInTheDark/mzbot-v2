@@ -3327,7 +3327,7 @@ async def chessGame(ctx):
             await ctx.send("Installing Stockfish... This may take a while.")
             
             # install stockfish
-            os.system("sudo apt-get install stockfish")
+            os.system("apt-get install stockfish")
             replitWrite("stockfish_installed", True)
             
     # initialise board

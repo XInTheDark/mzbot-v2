@@ -59,7 +59,7 @@ helpcmdz = {
     ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI.",
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
                                                                   "(Uses the `math.js` web service)",
-    'chess': "Play chess with Stockfish 12.",
+    'chess': "Play chess with Stockfish. (Limited to depth 7)",
 }
 
 helpusage = {
