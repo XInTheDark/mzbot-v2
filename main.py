@@ -3387,8 +3387,8 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        transport, engine = await chess.engine.popen_uci(os.path.join(os.getcwd(), "stockfish"))
-        await engine.configure({"Skill Level": random.randint(10, 20)})
+        engine = chess.engine.SimpleEngine.popen_uci(os.path.join(os.getcwd(), "stockfish"))
+        engine.configure({"Skill Level": random.randint(10, 20)})
         
         # analyse
         info = engine.analyse(board, chess.engine.Limit(depth=10))
