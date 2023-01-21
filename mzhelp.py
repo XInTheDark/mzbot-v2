@@ -9,6 +9,9 @@ helpcmdz = {
      'tdelete',
      'deletechannel'): "Deletes the current channel. This command was originally intended for deleting a ticket.",
     'afk': "AFK command. Upon activation, whenever someone pings you, they will be notified that you are AFK.",
+    'setafk': "Sets AFK status for you or some user. **Requires Permission(s): Administrator (if not for yourself)**",
+    'removeafk': "Removes AFK status for you or some user. **Requires Permission(s): Administrator (if not for "
+                 "yourself)**",
     ('about', 'info'): "Shows information about the bot.",
     'ping': "Shows the network latency.",
     'updates': "Shows the latest update logs.",
@@ -71,6 +74,8 @@ helpusage = {
     'ticket': "`.ticket`",
     ('delete', 'tclose', 'tdelete', 'deletechannel'): "`.delete|tclose|tdelete|deletechannel`",
     'afk': "`.afk [reason='AFK']`",
+    'setafk': "`.setafk [reason='AFK']`",
+    'removeafk': "`.removeafk [user]`",
     ('about', 'info'): "`.about|info`",
     'ping': "`.ping [tests=1000000]`",
     ('updates', 'update'): "`.updates|update`",

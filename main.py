@@ -1608,7 +1608,7 @@ async def purge(ctx, amount: int):
 
 
 @commands.cooldown(1, 3, commands.BucketType.user)
-@bot.command(aliases=['setafk'])
+@bot.command()
 async def afk(ctx, *, reason='AFK'):
     afkdict = replitRead("afk")
     afkdict[str(ctx.author.id)] = [reason, str(int(datetime.datetime.utcnow().timestamp()))]
@@ -1616,6 +1616,26 @@ async def afk(ctx, *, reason='AFK'):
     msg1 = await ctx.send(f"{ctx.author.mention}, I set your AFK: {reason}")
     try:
         await ctx.author.edit(nick=f"[AFK] {ctx.author.display_name}")
+    except Exception:
+        pass
+    
+    replitWrite("afk", afkdict)
+
+
+@bot.command()
+async def setafk(ctx, user: discord.Member, *, reason='AFK'):
+    # must have administrator permission
+    if not (ctx.author.guild_permissions.administrator
+            or ctx.author.id == ownerid):
+        await ctx.message.delete()
+        return
+    
+    afkdict = replitRead("afk")
+    afkdict[str(user.id)] = [reason, str(int(datetime.datetime.utcnow().timestamp()))]
+    await ctx.message.delete()
+    msg1 = await ctx.send(f"{user.mention}, I set your AFK: {reason}")
+    try:
+        await user.edit(nick=f"[AFK] {user.display_name}")
     except Exception:
         pass
     
@@ -3329,7 +3349,7 @@ async def chessGame(ctx, *, params=None):
         if params == ('newgame' or 'new' or 'reset' or 'resign' or 'restart'):
             replitDelete(f"chess {ctx.author.id}")
             await ctx.reply("Game reset.")
-            
+    
     if not replitRead("stockfish_installed"):
         async with ctx.channel.typing():
             await ctx.send("Installing Stockfish... This may take a while.")
