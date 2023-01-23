@@ -63,6 +63,7 @@ helpcmdz = {
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
                                                                   "(Uses the `math.js` web service)",
     'chess': "Play chess with Stockfish. (Limited to depth 7)",
+    ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "Sends a specified message to all members of the server via DMs. ",
 }
 
 helpusage = {
@@ -125,4 +126,5 @@ helpusage = {
     ('chat', 'chatai', 'aichat'): "`.chat|chatai|aichat <prompt>`",
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "`.math|calculate|... <expression>`",
     'chess': "`.chess`",
+    ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "`.dmpromo|massdm|... <message>`",
 }

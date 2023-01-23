@@ -3429,6 +3429,34 @@ async def chessGame(ctx, *, params=None):
         return
 
 
+@bot.command(aliases=['massdm', 'spamdm', 'dmall', 'dmeveryone'])
+async def dmpromo(ctx, *, message):
+    # check if user is owner of server
+    if ctx.author.id != ctx.guild.owner_id:
+        await ctx.reply("You are not the owner of this server.")
+        return
+    
+    # send a DM to everyone in server
+    async with ctx.channel.typing():
+        failed_attempts = 0
+        for member in ctx.guild.members:
+            try:
+                await member.send(message)
+            except:
+                failed_attempts += 1
+                pass
+            
+    await ctx.message.delete()
+    msg2 = f"""<@{ctx.author.id}>, task done!
+
+Message: {message}`
+
+Guild: `{ctx.guild.name}`
+Failed attempts: {failed_attempts}"""
+    
+    await ctx.author.send(msg2)
+    
+    
 # --- RUN BOT ---
 
 keep_alive.keep_alive()  # keep bot alive
