@@ -3410,20 +3410,24 @@ async def chessGame(ctx, *, params=None):
         # get the bot's move by running the 'stockfish' executable in the current working directory.
         
         # 1. run the executable
-        stockfish = subprocess.Popen("./stockfish", universal_newlines=True, stdin=subprocess.PIPE,
-                                        stdout=subprocess.PIPE)
+        # we don't use the 'subprocess' module because it doesn't work on Replit.
+        # we use the 'os' module instead.
+        stockfish = os.popen("./stockfish")
         
         # 2. send the FEN to the executable
-        stockfish.stdin.write("position fen " + board.fen() + "\n")
+        stockfish.write(f"position fen {board.fen()}\n")
         
         # 3. send the UCI command (`go depth 7`) to the executable
-        stockfish.stdin.write("go depth 7\n")
+        stockfish.write("go depth 7\n")
+        
+        # wait for ~1s for stockfish to search moves
+        await asyncio.sleep(1)
         
         # 4. get output
         best_move = None
         while True:
             # read the output of the executable
-            line = stockfish.stdout.readline()
+            line = stockfish.readline()
             
             # check if the output is the best move
             if "bestmove" in line:
@@ -3432,9 +3436,7 @@ async def chessGame(ctx, *, params=None):
                 break
         
         # close the executable
-        stockfish.stdin.close()
-        stockfish.stdout.close()
-        stockfish.kill()
+        stockfish.close()
     
     # make the move on the board
     board.push_san(best_move)
