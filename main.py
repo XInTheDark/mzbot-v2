@@ -3411,14 +3411,27 @@ async def chessGame(ctx, *, params=None):
         
         # 1. run the executable
         # we don't use the 'subprocess' module because it doesn't work on Replit.
-        # we use the 'os' module instead.
-        stockfish = os.popen("./stockfish")
+        # we also don't use the 'os' module.
+        # we use the 'asyncio.create_subprocess_shell' function instead.
+        
+        stockfish = await asyncio.create_subprocess_shell(
+            "./stockfish",
+            stdin=asyncio.subprocess.PIPE,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        
+        def to_bytes(s: str):
+            return s.encode()
+        def to_str(b: bytes):
+            return b.decode()
         
         # 2. send the FEN to the executable
-        stockfish.write(f"position fen {board.fen()}\n")
+        # we need to convert it into 'bytes' first
+        stockfish.stdin.write(to_bytes("position fen {board.fen()}\n"))
         
         # 3. send the UCI command (`go depth 7`) to the executable
-        stockfish.write("go depth 7\n")
+        stockfish.stdin.write(to_bytes("go depth 7\n"))
         
         # wait for ~1s for stockfish to search moves
         await asyncio.sleep(1)
@@ -3427,16 +3440,18 @@ async def chessGame(ctx, *, params=None):
         best_move = None
         while True:
             # read the output of the executable
-            line = stockfish.readline()
+            line = await stockfish.stdout.readline()
             
             # check if the output is the best move
-            if "bestmove" in line:
-                best_move = line.split("bestmove")[1]
-                best_move = best_move.replace("\n", "")
+            if to_bytes("bestmove") in line:
+                best_move = line.split(to_bytes("bestmove"))[1]
+                best_move = best_move.replace(to_bytes("\n"), to_bytes(""))
+                best_move = to_str(best_move)
                 break
         
         # close the executable
-        stockfish.close()
+        stockfish.stdin.close()
+        stockfish.kill()
     
     # make the move on the board
     board.push_san(best_move)
