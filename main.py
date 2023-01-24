@@ -3411,12 +3411,12 @@ async def chessGame(ctx, *, params=None):
         
         # 1. run the executable, including setting fen and sending `go` command
         
-        stockfish = subprocess.run(["./stockfish", "position fen " + board.fen() + "\n", "go depth 7\n"]
+        stockfish = subprocess.run([f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish']
                                    , capture_output=True, text=True)
         
         await asyncio.sleep(1)
         
-        # 4. read output
+        # 2. read output
         best_move = None
         for line in stockfish.stdout.splitlines():
             if line.startswith("bestmove"):
