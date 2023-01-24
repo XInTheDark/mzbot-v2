@@ -78,7 +78,7 @@ while True:
         import moderation_rules
         
         # for chess:
-        import chess, chess.engine  # python-chess
+        import chess  # python-chess
         
         # --- END OF MODULES ---
         print("Imported all modules successfully.\n")
@@ -3407,13 +3407,34 @@ async def chessGame(ctx, *, params=None):
     
     # make the bot's move
     async with ctx.channel.typing():
-        engine = chess.engine.SimpleEngine.popen_uci(os.path.join(os.getcwd(), "stockfish"))
-        engine.configure({"Skill Level": random.randint(10, 20)})
+        # get the bot's move by running the 'stockfish' executable in the current working directory.
         
-        # analyse
-        info = engine.analyse(board, chess.engine.Limit(depth=10))
+        # 1. run the executable
+        stockfish = subprocess.Popen("./stockfish", universal_newlines=True, stdin=subprocess.PIPE,
+                                        stdout=subprocess.PIPE)
         
-        best_move = info["pv"][0]
+        # 2. send the FEN to the executable
+        stockfish.stdin.write("position fen " + board.fen() + "\n")
+        
+        # 3. send the UCI command (`go depth 7`) to the executable
+        stockfish.stdin.write("go depth 7\n")
+        
+        # 4. get output
+        best_move = None
+        while True:
+            # read the output of the executable
+            line = stockfish.stdout.readline()
+            
+            # check if the output is the best move
+            if "bestmove" in line:
+                best_move = line.split("bestmove")[1]
+                best_move = best_move.replace("\n", "")
+                break
+        
+        # close the executable
+        stockfish.stdin.close()
+        stockfish.stdout.close()
+        stockfish.kill()
     
     # make the move on the board
     board.push_san(best_move)
@@ -3449,7 +3470,7 @@ async def dmpromo(ctx, *, message):
     await ctx.message.delete()
     msg2 = f"""<@{ctx.author.id}>, task done!
 
-Message: {message}`
+Message: {message}
 
 Guild: `{ctx.guild.name}`
 Failed attempts: {failed_attempts}"""
