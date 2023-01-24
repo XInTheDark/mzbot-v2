@@ -3409,49 +3409,23 @@ async def chessGame(ctx, *, params=None):
     async with ctx.channel.typing():
         # get the bot's move by running the 'stockfish' executable in the current working directory.
         
-        # 1. run the executable
-        # we don't use the 'subprocess' module because it doesn't work on Replit.
-        # we also don't use the 'os' module.
-        # we use the 'asyncio.create_subprocess_shell' function instead.
+        # 1. run the executable, including setting fen and sending `go` command
         
-        stockfish = await asyncio.create_subprocess_shell(
-            "./stockfish",
-            stdin=asyncio.subprocess.PIPE,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
-        )
+        stockfish = subprocess.run(["./stockfish", "position fen " + board.fen() + "\n", "go depth 7\n"]
+                                   , capture_output=True, text=True)
         
-        def to_bytes(s: str):
-            return s.encode()
-        def to_str(b: bytes):
-            return b.decode()
-        
-        # 2. send the FEN to the executable
-        # we need to convert it into 'bytes' first
-        stockfish.stdin.write(to_bytes("position fen {board.fen()}\n"))
-        
-        # 3. send the UCI command (`go depth 7`) to the executable
-        stockfish.stdin.write(to_bytes("go depth 7\n"))
-        
-        # wait for ~1s for stockfish to search moves
         await asyncio.sleep(1)
         
-        # 4. get output
+        # 4. read output
         best_move = None
-        while True:
-            # read the output of the executable
-            line = await stockfish.stdout.readline()
-            
-            # check if the output is the best move
-            if to_bytes("bestmove") in line:
-                best_move = line.split(to_bytes("bestmove"))[1]
-                best_move = best_move.replace(to_bytes("\n"), to_bytes(""))
-                best_move = to_str(best_move)
+        for line in stockfish.stdout.splitlines():
+            if line.startswith("bestmove"):
+                best_move = line.split(" ")[1]
                 break
         
-        # close the executable
-        stockfish.stdin.close()
-        stockfish.kill()
+        if best_move is None:
+            await ctx.reply("The Stockfish engine did not respond. Please try again.")
+            return
     
     # make the move on the board
     board.push_san(best_move)
