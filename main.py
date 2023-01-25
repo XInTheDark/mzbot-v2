@@ -3357,10 +3357,6 @@ async def chessGame(ctx, *, params=None):
             # install stockfish
             os.system("chmod +x stockfish")
             
-            # install GLIBC
-            os.system("curl https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.gz --output glibc-2.29.tar.gz; tar -zxvf glibc-2.29.tar.gz; cd glibc-2.29; "
-                      "./configure --prefix=/opt/glibc; make; make install")
-            
             replitWrite("stockfish_installed", True)
     
     # initialise board
@@ -3416,7 +3412,7 @@ async def chessGame(ctx, *, params=None):
         
         # 1. run the command using subprocess.run(), then capture the output
         
-        stockfish = subprocess.run(f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
+        stockfish = subprocess.check_output(f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
                                             , shell=True, text=True, timeout=5)
         
         if stockfish is None:
@@ -3425,7 +3421,7 @@ async def chessGame(ctx, *, params=None):
         
         # 2. read output
         best_move = None
-        for line in stockfish.stdout.splitlines():
+        for line in stockfish.splitlines():
             if line.startswith("bestmove"):
                 best_move = line.split(" ")[1]
                 break
