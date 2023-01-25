@@ -3358,7 +3358,7 @@ async def chessGame(ctx, *, params=None):
             os.system("chmod +x stockfish")
             
             # install GLIBC
-            os.system("wget -c https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.gz; tar -zxvf glibc-2.29.tar.gz; cd glibc-2.29; "
+            os.system("curl https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.gz --output glibc-2.29.tar.gz; tar -zxvf glibc-2.29.tar.gz; cd glibc-2.29; "
                       "./configure --prefix=/opt/glibc; make; make install")
             
             replitWrite("stockfish_installed", True)
