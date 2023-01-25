@@ -3411,7 +3411,7 @@ async def chessGame(ctx, *, params=None):
         
         # 1. run the command using os.system(), then capture the output
         
-        stockfish = subprocess.check_output('printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
+        stockfish = subprocess.check_output(f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
                                             , shell=True, text=True, timeout=5)
         
         # 2. read output
