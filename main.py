@@ -3356,6 +3356,11 @@ async def chessGame(ctx, *, params=None):
             
             # install stockfish
             os.system("chmod +x stockfish")
+            
+            # install GLIBC
+            os.system("wget -c https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.gz; tar -zxvf glibc-2.29.tar.gz; cd glibc-2.29; "
+                      "./configure --prefix=/opt/glibc; make; make install")
+            
             replitWrite("stockfish_installed", True)
     
     # initialise board
@@ -3413,6 +3418,10 @@ async def chessGame(ctx, *, params=None):
         
         stockfish = subprocess.run(f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
                                             , shell=True, text=True, timeout=5)
+        
+        if stockfish is None:
+            await ctx.reply("The Stockfish engine did not respond. Please try again.")
+            return
         
         # 2. read output
         best_move = None
