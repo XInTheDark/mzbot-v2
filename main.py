@@ -3409,16 +3409,14 @@ async def chessGame(ctx, *, params=None):
     async with ctx.channel.typing():
         # get the bot's move by running the 'stockfish' executable in the current working directory.
         
-        # 1. run the executable, including setting fen and sending `go` command
+        # 1. run the command using os.system(), then capture the output
         
-        stockfish = subprocess.run([f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish']
-                                   , capture_output=True, text=True)
-        
-        await asyncio.sleep(1)
+        stockfish = subprocess.check_output('printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
+                                            , shell=True, text=True, timeout=5)
         
         # 2. read output
         best_move = None
-        for line in stockfish.stdout.splitlines():
+        for line in stockfish.splitlines():
             if line.startswith("bestmove"):
                 best_move = line.split(" ")[1]
                 break
