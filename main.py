@@ -74,6 +74,9 @@ while True:
         # for OpenAI chatbot:
         import openai
         
+        # for FLAN-T5 chatbot:
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+        
         # for moderation:
         import moderation_rules
         
@@ -195,8 +198,9 @@ replitInit("afk", {})
 spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
-replitInit("snipes", '')
-replitInit("esnipes", '')
+replitInit("snipes", {})
+replitInit("esnipes", {})
+replitWrite("FLAN_init", False)
 replitInit("optoutlist", [])
 uptime = 0
 replitInit("hardmutes", [])
@@ -209,6 +213,8 @@ replitInit("gwended", [])
 replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 replitWrite("stockfish_installed", False)
+
+model = tokenizer = None
 
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -3314,14 +3320,16 @@ async def chat(ctx, *, input):
 @bot.command(aliases=['aichat2', 'chatai2'])
 async def chat2(ctx, *, input):
     async with ctx.channel.typing():
-        cmd = "curl --header \"Content-Type: application/json\" --request POST --data '{\"message\":\"" + input \
-              + "\"}' https://chat.openai.com/chat"
-        o = subprocess.run(cmd, shell=True, capture_output=True, timeout=10)
-        output = ""
+        if not replitRead("FLAN_init") or model is None or tokenizer is None:
+            global model, tokenizer
+            model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
+            tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
+            
+            replitWrite("FLAN_init", True)
         
-        for line in o.stdout.splitlines():
-            line = line.decode("utf-8")
-            output += f"`{line}`\n"
+        input_tokens = tokenizer(input, return_tensors="pt")
+        output_tokens = model.generate(**input_tokens)
+        output = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)
     
     await ctx.reply(output)
 
@@ -3347,7 +3355,12 @@ async def math(ctx, *, equation):
 async def chessGame(ctx, *, params=None):
     if params is not None:
         if params == ('newgame' or 'new' or 'reset' or 'resign' or 'restart'):
-            replitDelete(f"chess {ctx.author.id}")
+            try:
+                replitDelete(f"chess {ctx.author.id}")
+            except:
+                # this means the user did not have an entry in the first place.
+                # we simply ignore this.
+                pass
             await ctx.reply("Game reset.")
     
     if not replitRead("stockfish_installed"):
