@@ -3319,9 +3319,9 @@ async def chat(ctx, *, input):
 
 @bot.command(aliases=['aichat2', 'chatai2'])
 async def chat2(ctx, *, input):
+    global model, tokenizer
     async with ctx.channel.typing():
         if not replitRead("FLAN_init") or model is None or tokenizer is None:
-            global model, tokenizer
             model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
             tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
             
