@@ -75,7 +75,7 @@ while True:
         import openai
         
         # for FLAN-T5 chatbot:
-        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+        import replicate
         
         # for moderation:
         import moderation_rules
@@ -200,7 +200,6 @@ antinuke = []
 bansdict = {}
 replitInit("snipes", {})
 replitInit("esnipes", {})
-replitWrite("FLAN_init", False)
 replitInit("optoutlist", [])
 uptime = 0
 replitInit("hardmutes", [])
@@ -213,8 +212,6 @@ replitInit("gwended", [])
 replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 replitWrite("stockfish_installed", False)
-
-model = tokenizer = None
 
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -3319,17 +3316,18 @@ async def chat(ctx, *, input):
 
 @bot.command(aliases=['aichat2', 'chatai2'])
 async def chat2(ctx, *, input):
-    global model, tokenizer
     async with ctx.channel.typing():
-        if not replitRead("FLAN_init") or model is None or tokenizer is None:
-            model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-large")
-            tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
-            
-            replitWrite("FLAN_init", True)
+        model = replicate.models.get("devxpy/flan-t5")
+        version = model.versions.get("c8590cd6cc935422d9a9296cf2ba1135ac6249ac6727ab124a2e7a1673cbc391")
         
-        input_tokens = tokenizer(input, return_tensors="pt")
-        output_tokens = model.generate(**input_tokens)
-        output = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)
+        inputs = {
+            'prompt': input,
+            'temperature': 0.75,
+            'max_tokens': 5000,
+            'n': 1
+        }
+        
+        output = version.predict(**inputs)
     
     await ctx.reply(output)
 
