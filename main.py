@@ -3273,8 +3273,8 @@ async def massdelete(ctx, *, name):
             await channel.delete()
 
 
-@bot.command(aliases=['aichat', 'chatai'])
-async def chat(ctx, *, input):
+@bot.command(aliases=['aichat2', 'chatai2'])
+async def chat2(ctx, *, input):
     if ctx.author.id != ownerid:
         await ctx.reply("Sorry, this feature is only available to the bot owner.")
         return
@@ -3318,8 +3318,8 @@ async def chat(ctx, *, input):
     await ctx.reply(output)
 
 
-@bot.command(aliases=['aichat2', 'chatai2'])
-async def chat2(ctx, *, input):
+@bot.command(aliases=['aichat', 'chatai'])
+async def chat(ctx, *, input):
     async with ctx.channel.typing():
         model = replicate.models.get("devxpy/flan-t5")
         version = model.versions.get("c8590cd6cc935422d9a9296cf2ba1135ac6249ac6727ab124a2e7a1673cbc391")
