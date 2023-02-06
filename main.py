@@ -3331,7 +3331,7 @@ async def chat(ctx, *, input):
             'n': 1
         }
         
-        output = version.predict(**inputs)
+        output = version.predict(**inputs)[0]
     
     await ctx.reply(output)
 
