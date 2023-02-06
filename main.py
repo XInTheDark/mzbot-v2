@@ -362,6 +362,10 @@ async def on_guild_join(guild):
 
 @bot.event
 async def on_message(message):
+    # Special case: check if we are being rate limited by discord API.
+    if bot.is_ws_ratelimited():
+        os.system("kill 1")
+    
     # --- INIT ---
     
     afkdict = replitRead("afk")
