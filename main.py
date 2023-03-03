@@ -3240,12 +3240,11 @@ async def gitupdate(ctx):
         return
     
     replitWrite("EXITCODE", 0)
+
+    await ctx.send("Fetching latest changes...")
     
     os.system("git fetch --all")
     os.system("git reset --hard origin/master")
-    
-    await ctx.send("Running `git pull`...")
-    os.system("git pull")
     
     await asyncio.sleep(2)
     
