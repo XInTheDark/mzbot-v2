@@ -2089,6 +2089,7 @@ async def snipe(ctx, pos: int = 1):
     
     try:
         lst = snipes[(sorted(snipes.keys())[-pos])]
+        lst = unstringify(lst)
         if lst is not None:
             success1 = True
     except Exception:
@@ -2097,8 +2098,6 @@ async def snipe(ctx, pos: int = 1):
         else:
             await ctx.reply("There is no message found at that index.")
         return
-    
-    lst = unstringify(lst)
     
     if success1:
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
@@ -2146,6 +2145,7 @@ async def esnipe(ctx, pos: int = 1):
     
     try:
         lst = esnipes[(sorted(esnipes.keys())[-pos])]
+        lst = unstringify(lst)
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
         
         if lst is not None:
@@ -2157,7 +2157,6 @@ async def esnipe(ctx, pos: int = 1):
             await ctx.reply("There is no message found at that index.")
         return
     
-    lst = unstringify(lst)
     
     if success1:
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
