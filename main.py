@@ -434,7 +434,7 @@ You were AFK for {afklen}""")
         await message.reply(msgpings[message.channel.id])
         
     # --- STICKIED MESSAGES ---
-    if message.guild.id in moderation_rules.whitelist_servers: # feature only available in whitelisted servers
+    if message.guild is not None and message.guild.id in moderation_rules.whitelist_servers: # feature only available in whitelisted servers
         stickies = replitRead("stickies")
         for entry in stickies:
             # only one entry per channel, so we break after the first occurrence
