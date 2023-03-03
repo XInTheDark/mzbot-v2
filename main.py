@@ -442,8 +442,8 @@ You were AFK for {afklen}""")
                 msg = entry[1]
                 entry[2] += 1
                 if entry[2] == 5:
-                    await message.channel.send(msg)
-                    entry[2] = 0
+                    await message.channel.send(f"`[STICKIED]` {msg}")
+                    entry[2] = -1
                 replitWrite("stickies", stickies)
                 break
     
@@ -3514,7 +3514,27 @@ async def stick(ctx, *, message):
     
     await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
     
+
+@bot.command(aliases=['unsticky', 'unpin', 'removesticky'])
+async def unstick(ctx):
+    if not ctx.guild.id in moderation_rules.whitelist_servers:
+        await ctx.reply("This command is not available in this server.")
+        return
     
+    if not ctx.author.guild_permissions.administrator:
+        return
+    
+    stickies = replitRead("stickies")
+    for entry in stickies:
+        if entry[0] == ctx.channel.id:
+            stickies.remove(entry)
+            replitWrite("stickies", stickies)
+            await ctx.reply("Message successfully unstickied for this channel!")
+            return
+        
+    await ctx.reply("There is no stickied message for this channel!")
+    
+
 # --- RUN BOT ---
 
 keep_alive.keep_alive()  # keep bot alive
