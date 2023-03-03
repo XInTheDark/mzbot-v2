@@ -192,6 +192,7 @@ def unstringify(s: str):
     l : list = s.split(", ")
     for it in range(len(l)):
         if l[it].isnumeric():
+            l[it] = l[it].replace("'", "")
             l[it] = int(l[it])
             
     return l
