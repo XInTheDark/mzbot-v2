@@ -178,6 +178,26 @@ def safeTruncate(s: str) -> list:
     return ret
 
 
+def stringify(l: list):
+    """
+    Converts a list to a string.
+    """
+    return str(l).replace("[", "").replace("]", "")
+
+
+def unstringify(s: str):
+    """
+    Converts a stringified object to a list.
+    """
+    l : list = s.split(", ")
+    for it in range(len(l)):
+        if l[it].isnumeric():
+            l[it] = int(l[it])
+            
+    return l
+    
+
+
 def openAIinit(envName="OPENAI_API_KEY"):
     openai.api_key = os.getenv(envName)
     return openai.api_key  # returns None if key not found.
@@ -488,7 +508,7 @@ async def on_message_delete(message):
             str(round(datetime.datetime.utcnow().timestamp()))]
         ]
     
-    snipes[len(snipes)] = lst
+    snipes[len(snipes)] = stringify(lst)
     replitWrite("snipes", snipes)
 
 
@@ -508,7 +528,7 @@ async def on_message_edit(old, new):
            str(round(datetime.datetime.utcnow().timestamp()))]
         ]
     
-    esnipes[len(esnipes)] = lst
+    esnipes[len(esnipes)] = stringify(lst)
     replitWrite("esnipes", esnipes)
 
 
@@ -2078,6 +2098,8 @@ async def snipe(ctx, pos: int = 1):
             await ctx.reply("There is no message found at that index.")
         return
     
+    lst = unstringify(lst)
+    
     if success1:
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
         
@@ -2134,6 +2156,8 @@ async def esnipe(ctx, pos: int = 1):
         else:
             await ctx.reply("There is no message found at that index.")
         return
+    
+    lst = unstringify(lst)
     
     if success1:
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
