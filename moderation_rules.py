@@ -2,6 +2,8 @@
 import discord  # discord.py
 import asyncio
 
+"""Constants"""
+whitelist_servers = [996407200161472542, 1076679987773591643]
 
 async def moderate(message: discord.Message):
     """Moderate a message."""

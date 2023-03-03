@@ -212,6 +212,7 @@ replitInit("gwended", [])
 replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 replitWrite("stockfish_installed", False)
+replitInit("stickies", [])
 
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -431,6 +432,21 @@ You were AFK for {afklen}""")
     
     if message.channel.id in msgpings.keys() and message.author != bot.user:
         await message.reply(msgpings[message.channel.id])
+        
+    # --- STICKIED MESSAGES ---
+    if message.guild.id in moderation_rules.whitelist_servers: # feature only available in whitelisted servers
+        stickies = replitRead("stickies")
+        for entry in stickies:
+            # only one entry per channel, so we break after the first occurrence
+            if entry[0] == message.channel.id:
+                msg = entry[1]
+                entry[2] += 1
+                if entry[2] == 5:
+                    await message.channel.send(msg)
+                    entry[2] = 0
+                replitWrite("stickies", stickies)
+                break
+    
     
     # ------
     await bot.process_commands(message)
@@ -465,9 +481,11 @@ async def on_message_delete(message):
     msg = processTextFromEmbed(message, msg)
     
     # add to snipes
-    lst = "||2435baff2acdeef16e7f9e810e883ac572e5d04f||".join([str(author.id), str(message.channel.id), msg,
-                                                               str(round(message.created_at.timestamp())),
-                                                               str(round(datetime.datetime.utcnow().timestamp()))])
+    lst = [
+        [str(author.id), str(message.channel.id), msg,
+            str(round(message.created_at.timestamp())),
+            str(round(datetime.datetime.utcnow().timestamp()))]
+        ]
     
     snipes[len(snipes)] = lst
     replitWrite("snipes", snipes)
@@ -483,9 +501,11 @@ async def on_message_edit(old, new):
     oldmsg = processTextFromEmbed(old, oldmsg)
     newmsg = processTextFromEmbed(new, newmsg)
     
-    lst = "||9cd692681d3df8f3bb8aa91b903370d31b7fa662||".join([str(author.id), str(old.channel.id), oldmsg, newmsg,
-                                                               str(round(old.created_at.timestamp())),
-                                                               str(round(datetime.datetime.utcnow().timestamp()))])
+    lst = [
+        [str(author.id), str(old.channel.id), oldmsg, newmsg,
+           str(round(old.created_at.timestamp())),
+           str(round(datetime.datetime.utcnow().timestamp()))]
+        ]
     
     esnipes[len(esnipes)] = lst
     replitWrite("esnipes", esnipes)
@@ -2058,11 +2078,6 @@ async def snipe(ctx, pos: int = 1):
         return
     
     if success1:
-        try:
-            lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
-        except Exception:
-            pass
-        
         lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
         
         if not lst[1] == ctx.channel.id:
@@ -2071,7 +2086,6 @@ async def snipe(ctx, pos: int = 1):
             while True:
                 try:
                     lst = snipes[sorted(snipes.keys())[-1 - pos1]]
-                    lst = lst.split("||2435baff2acdeef16e7f9e810e883ac572e5d04f||")
                     lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
                     
                     if lst[1] == ctx.channel.id:
@@ -2109,7 +2123,6 @@ async def esnipe(ctx, pos: int = 1):
     
     try:
         lst = esnipes[(sorted(esnipes.keys())[-pos])]
-        lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
         
         if lst is not None:
@@ -2122,11 +2135,6 @@ async def esnipe(ctx, pos: int = 1):
         return
     
     if success1:
-        try:
-            lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
-        except Exception:
-            pass
-        
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
         
         if not lst[1] == ctx.channel.id:
@@ -2135,7 +2143,6 @@ async def esnipe(ctx, pos: int = 1):
             while True:
                 try:
                     lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
-                    lst = lst.split("||9cd692681d3df8f3bb8aa91b903370d31b7fa662||")
                     lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
                     
                     if lst[1] == ctx.channel.id:
@@ -3485,6 +3492,27 @@ Guild: `{ctx.guild.name}`
 Failed attempts: {failed_attempts}"""
     
     await ctx.author.send(msg2)
+    
+
+@bot.command(aliases=['sticky', 'pin'])
+async def stick(ctx, *, message):
+    """Sticks the message to the current channel.
+    We send the message every once per 5 messages sent in the channel.
+    """
+    if not ctx.guild.id in moderation_rules.whitelist_servers:
+        # As sticky messages takes a lot of CPU time, only allow it in whitelisted servers.
+        # Maybe this will be removed in the future.
+        await ctx.reply("This command is not available in this server.")
+        return
+    
+    if not ctx.author.guild_permissions.administrator:
+        return
+    
+    stickies = replitRead("stickies")
+    stickies.append([ctx.channel.id, message, 0])  # ID, message, message counter (reset at 5)
+    replitWrite("stickies", stickies)
+    
+    await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
     
     
 # --- RUN BOT ---
