@@ -59,11 +59,17 @@ helpcmdz = {
     ('createrole', 'rolecreate'): "Creates a role and places it at the given index (if possible).",
     ('auditlogs', 'auditlog', 'logs', 'log'): "Displays the audit logs.",
     ('timeout', 'tempmute'): "Timeouts (i.e. mutes) a member for a certain duration.",
-    ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the `text-davinci-003` model from OpenAI.",
+    ('chat', 'chatai', 'aichat'): "Chat with an AI chatbot. This is based on the FLAN-T5 model from Google.",
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
                                                                   "(Uses the `math.js` web service)",
     'chess': "Play chess with Stockfish. (Limited to depth 7)",
-    ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "Sends a specified message to all members of the server via DMs. ",
+    ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "Sends a specified message to all members of the server via DMs. "
+                                                            "**Requires Permission(s): Server Owner**",
+    ('stick', 'sticky', 'pin'): "Stickies a message to the current channel. The specified message will be sent "
+                                "for every 5 messages sent in the channel."
+                                "**Requires Permission(s): Administrator**",
+    ('unstick', 'unsticky', 'unpin', 'removesticky'):
+        "Unstickies a message from the current channel. **Requires Permission(s): Administrator**",
 }
 
 helpusage = {
@@ -127,4 +133,6 @@ helpusage = {
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "`.math|calculate|... <expression>`",
     'chess': "`.chess`",
     ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "`.dmpromo|massdm|... <message>`",
+    ('stick', 'sticky', 'pin'): "`.stick|sticky|pin <message>`",
+    ('unstick', 'unsticky', 'unpin', 'removesticky'): "`.unstick|unsticky|unpin|...`",
 }

@@ -443,7 +443,8 @@ You were AFK for {afklen}""")
                 entry[2] += 1
                 if entry[2] == 5:
                     await message.channel.send(f"`[STICKIED]` {msg}")
-                    entry[2] = -1
+                    entry[2] = 0  # we reset the counter, setting to 0 not -1,
+                                  # because we send the sticky message before incrementing the counter
                 replitWrite("stickies", stickies)
                 break
     
@@ -3509,7 +3510,8 @@ async def stick(ctx, *, message):
         return
     
     stickies = replitRead("stickies")
-    stickies.append([ctx.channel.id, message, 0])  # ID, message, message counter (reset at 5)
+    stickies.append([ctx.channel.id, message, -1])  # ID, message, message counter (reset at 5)
+                                                    # we set to -1 because the ctx.reply() message will increment it
     replitWrite("stickies", stickies)
     
     await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
