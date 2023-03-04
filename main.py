@@ -467,6 +467,11 @@ You were AFK for {afklen}""")
                     entry[2] = 0  # we reset the counter, setting to 0 not -1,
                                   # because we send the sticky message before incrementing the counter
                 replitWrite("stickies", stickies)
+                
+                # delete the last sticky message if it exists
+                for message in await message.channel.history(limit=20).flatten():
+                    if message.author == bot.user and message.content.startswith("`[STICKIED]`"):
+                        await message.delete()
                 break
     
     
