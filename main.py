@@ -469,9 +469,9 @@ You were AFK for {afklen}""")
                 replitWrite("stickies", stickies)
                 
                 # delete the last sticky message if it exists
-                for message in await message.channel.history(limit=20).flatten():
-                    if message.author == bot.user and message.content.startswith("`[STICKIED]`"):
-                        await message.delete()
+                async for m in message.channel.history(limit=20):
+                    if m.author == bot.user and m.content.startswith("`[STICKIED]`"):
+                        await m.delete()
                 break
     
     
