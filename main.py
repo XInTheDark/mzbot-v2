@@ -1290,9 +1290,11 @@ Guild: `{ctx.guild.name}`"""
         await ctx.author.create_dm().send(msg2)
 
 
+DMSPAM_PERMS = [ownerid, 717167678347018320]
+
 @bot.command(aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
 async def dmspam_force(ctx, number_of_times: int, user: discord.Member, *, message):
-    if ctx.author.id != ownerid:
+    if not ctx.author in DMSPAM_PERMS:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
