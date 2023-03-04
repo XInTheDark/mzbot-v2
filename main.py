@@ -1253,7 +1253,7 @@ Number of times: {number_of_times2}
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutlist = replitRead("optoutlist")
     
-    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
     elif user.id in optoutlist:
         await ctx.channel.send(f"Sorry, that user (`{user}`) has opted out of the `dmspam` command.")
@@ -1292,7 +1292,7 @@ Guild: `{ctx.guild.name}`"""
 
 @bot.command(aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
 async def dmspam_force(ctx, number_of_times: int, user: discord.Member, *, message):
-    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
     elif ctx.author in spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
