@@ -2,8 +2,14 @@
 import discord  # discord.py
 import asyncio
 
+import main
+
 """Constants"""
 whitelist_servers = [996407200161472542, 1076679987773591643]
+
+# Spam command related
+spam_ban = [726356086176874537]  # banned from using spam commands
+spam_whitelist = [main.ownerid]  # cannot be DMSpammed
 
 async def moderate(message: discord.Message):
     """Moderate a message."""

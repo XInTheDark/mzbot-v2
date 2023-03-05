@@ -219,7 +219,6 @@ if replitRead("EXITCODE") == 0:
 # Setting variables
 replitWrite("EXITCODE", 1)
 replitInit("afk", {})
-spam_ban = [726356086176874537]
 antinuke = []
 bansdict = {}
 replitInit("snipes", {})
@@ -1224,9 +1223,15 @@ Reason: {reason}
 
 @bot.command()
 async def spam(ctx, number_of_times, *, message):
-    if ctx.author.id != ownerid and not ctx.author.guild_permissions.administrator:
+    if ctx.author.id != ownerid:
         await ctx.reply("Omg why are you trying to spam here?!")
-    elif ctx.author in spam_ban:
+        return
+    if ctx.author.guild_permissions.administrator and ctx.author.id != ownerid:
+        if number_of_times > 20:
+            await ctx.reply("You cannot spam more than 20 times!")
+            return
+            
+    if ctx.author in moderation_rules.spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         number_of_times = int(number_of_times)
@@ -1257,16 +1262,24 @@ Number of times: {number_of_times2}
         await dms.send(msg2)
 
 
+DMSPAM_PERMS = [ownerid, 717167678347018320]
+
+
 @bot.command(aliases=['dm', 'dms', 'dmsend'])
 async def dmspam(ctx, number_of_times: int, user: discord.Member, *, message):
     optoutlist = replitRead("optoutlist")
     
-    if ctx.author.id != ownerid:
+    if ctx.author.id not in DMSPAM_PERMS:
         await ctx.channel.send("Omg who are you trying to spam?! noob")
+        return
     elif user.id in optoutlist:
         await ctx.channel.send(f"Sorry, that user (`{user}`) has opted out of the `dmspam` command.")
-    elif ctx.author in spam_ban:
+        return
+    elif ctx.author in moderation_rules.spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
+    elif user.id in moderation_rules.spam_whitelist:
+        await ctx.reply("Sorry kid, you can't spam that user.")
+    
     else:
         dmchannel = await user.create_dm()
         
@@ -1298,13 +1311,11 @@ Guild: `{ctx.guild.name}`"""
         await ctx.author.create_dm().send(msg2)
 
 
-DMSPAM_PERMS = [ownerid, 717167678347018320]
-
 @bot.command(aliases=['dmsend_force', 'dmforcespam', 'dmforcesend', 'dmanonymous', 'dm_anonymous', 'send_anonymous'])
 async def dmspam_force(ctx, number_of_times: int, user: discord.Member, *, message):
-    if not ctx.author in DMSPAM_PERMS:
+    if ctx.author not in DMSPAM_PERMS:
         await ctx.channel.send("Omg who are you trying to spam?! noob hacker lmao, go hack ur mom instead")
-    elif ctx.author in spam_ban:
+    elif ctx.author in moderation_rules.spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
         
