@@ -471,7 +471,7 @@ You were AFK for {afklen}""")
                 replitWrite("stickies", stickies)
                 
                 # delete the last sticky message if it exists
-                async for m in message.channel.history(limit=20):
+                async for m in message.channel.history():
                     if m.author == bot.user and m.content.startswith("`[STICKIED]`"):
                         await m.delete()
                 break
@@ -3565,7 +3565,10 @@ async def stick(ctx, *, message):
                                                     # we set to -1 because the ctx.reply() message will increment it
     replitWrite("stickies", stickies)
     
-    await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
+    m = await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
+    await asyncio.sleep(3)
+    await m.delete()
+    await ctx.message.delete()
     
 
 @bot.command(aliases=['unsticky', 'unpin', 'removesticky'])
