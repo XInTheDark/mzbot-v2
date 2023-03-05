@@ -194,6 +194,9 @@ def unstringify(s: str):
         if l[it].replace("'", "").isnumeric():
             l[it] = l[it].replace("'", "")
             l[it] = int(l[it])
+        elif l[it].replace('"', "").isnumeric():
+            l[it] = l[it].replace('"', "")
+            l[it] = int(l[it])
             
     return l
     
