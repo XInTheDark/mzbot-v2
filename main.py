@@ -1236,7 +1236,12 @@ async def spam(ctx, number_of_times, *, message):
         await ctx.message.delete()
         
         for i in range(number_of_times):
-            await ctx.channel.send(message)
+            try:
+                await ctx.channel.send(message)
+            except:
+                # We cannot send more.
+                number_of_times = i + 1
+                break
         
         await msg1.delete()
         
