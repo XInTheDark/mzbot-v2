@@ -1393,6 +1393,9 @@ async def slowmode(ctx, duration: str):
         return
     else:
         seconds = mzutils.parseTime(duration)
+        if seconds is None:
+            # if no time unit specified, assume seconds
+            seconds = int(duration)
         await ctx.channel.edit(slowmode_delay=seconds)
         await ctx.channel.send(f"Set the slowmode for channel: `#{ctx.channel}` to `{seconds}` seconds!")
 
