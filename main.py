@@ -3271,8 +3271,8 @@ async def debug(ctx):
 async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = None):
     duration2 = mzutils.parseTime(duration)
     if duration2 is None:
-        # time parsing failed
-        return
+        # time parsing failed, assume seconds
+        duration2 = int(duration)
     
     await member.timeout(datetime.timedelta(seconds=duration2), reason=reason)
     await ctx.send(f"`Timed out {member} for {duration2} seconds.`")
