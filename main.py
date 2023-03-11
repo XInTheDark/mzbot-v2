@@ -237,6 +237,13 @@ MAX_INT = 2147483647  # max int32 size
 replitWrite("stockfish_installed", False)
 replitInit("stickies", [])
 
+# clear storage in database
+if len(replitRead("snipes")) > 1000:
+    replitWrite("snipes", {})
+if len(replitRead("esnipes")) > 1000:
+    replitWrite("esnipes", {})
+
+
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
 
