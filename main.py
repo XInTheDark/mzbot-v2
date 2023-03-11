@@ -2145,6 +2145,7 @@ async def snipe(ctx, pos: int = 1):
             while True:
                 try:
                     lst = snipes[sorted(snipes.keys())[-1 - pos1]]
+                    lst = unstringify(lst)
                     lst[0], lst[1], lst[3], lst[4] = int(lst[0]), int(lst[1]), int(lst[3]), int(lst[4])
                     
                     if lst[1] == ctx.channel.id:
@@ -2204,6 +2205,7 @@ async def esnipe(ctx, pos: int = 1):
             while True:
                 try:
                     lst = esnipes[sorted(esnipes.keys())[-1 - pos1]]
+                    lst = unstringify(lst)
                     lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
                     
                     if lst[1] == ctx.channel.id:
