@@ -25,7 +25,8 @@ async def moderate(message: discord.Message):
     msg = message.content
     
     # OpenAI moderation
-    if message.guild.id in openai_moderate_servers:
+    if message.guild.id in openai_moderate_servers\
+            and not message.author.guild_permissions.administrator:
         response: bool = openai.Moderation.create(
             input=msg
         )["results"][0]["flagged"]
