@@ -63,8 +63,9 @@ helpcmdz = {
     ('math', 'calculate', 'calc', 'solve', 'solver', 'equation'): "Calculates a math expression. "
                                                                   "(Uses the `math.js` web service)",
     'chess': "Play chess with Stockfish. (Limited to depth 7)",
-    ('dmpromo', 'massdm', 'spamdm', 'dmall', 'dmeveryone'): "Sends a specified message to all members of the server via DMs. "
-                                                            "**Requires Permission(s): Server Owner**",
+    ('dmpromo', 'massdm', 'spamdm', 'dmall',
+     'dmeveryone'): "Sends a specified message to all members of the server via DMs. "
+                    "**Requires Permission(s): Server Owner**",
     ('stick', 'sticky', 'pin'): "Stickies a message to the current channel. The specified message will be sent "
                                 "for every 5 messages sent in the channel."
                                 "**Requires Permission(s): Administrator**",

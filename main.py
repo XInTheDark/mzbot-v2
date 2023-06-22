@@ -189,7 +189,7 @@ def unstringify(s: str):
     """
     Converts a stringified object to a list.
     """
-    l : list = s.split(", ")
+    l: list = s.split(", ")
     for it in range(len(l)):
         if l[it].replace("'", "").isnumeric():
             l[it] = l[it].replace("'", "")
@@ -197,9 +197,8 @@ def unstringify(s: str):
         elif l[it].replace('"', "").isnumeric():
             l[it] = l[it].replace('"', "")
             l[it] = int(l[it])
-            
-    return l
     
+    return l
 
 
 def openAIinit(envName="OPENAI_API_KEY"):
@@ -242,7 +241,6 @@ if len(replitRead("snipes")) > 1000:
     replitWrite("snipes", {})
 if len(replitRead("esnipes")) > 1000:
     replitWrite("esnipes", {})
-
 
 # load_dotenv()
 TOKEN = os.environ.get('DISCORD_TOKEN')
@@ -462,9 +460,9 @@ You were AFK for {afklen}""")
     
     if message.channel.id in msgpings.keys() and message.author != bot.user:
         await message.reply(msgpings[message.channel.id])
-        
+    
     # --- STICKIED MESSAGES ---
-    if message.guild is not None and message.guild.id in moderation_rules.whitelist_servers: # feature only available in whitelisted servers
+    if message.guild is not None and message.guild.id in moderation_rules.whitelist_servers:  # feature only available in whitelisted servers
         stickies = replitRead("stickies")
         for entry in stickies:
             # only one entry per channel, so we break after the first occurrence
@@ -474,7 +472,7 @@ You were AFK for {afklen}""")
                 if entry[2] == 5:
                     await message.channel.send(f"`[STICKIED]` {msg}")
                     entry[2] = 0  # we reset the counter, setting to 0 not -1,
-                                  # because we send the sticky message before incrementing the counter
+                    # because we send the sticky message before incrementing the counter
                 replitWrite("stickies", stickies)
                 
                 # delete the last sticky message if it exists
@@ -482,7 +480,6 @@ You were AFK for {afklen}""")
                     if m.author == bot.user and m.content.startswith("`[STICKIED]`"):
                         await m.delete()
                 break
-    
     
     # ------
     await bot.process_commands(message)
@@ -519,9 +516,9 @@ async def on_message_delete(message):
     # add to snipes
     lst = [
         [str(author.id), str(message.channel.id), msg,
-            str(round(message.created_at.timestamp())),
-            str(round(datetime.datetime.utcnow().timestamp()))]
-        ]
+         str(round(message.created_at.timestamp())),
+         str(round(datetime.datetime.utcnow().timestamp()))]
+    ]
     
     snipes[len(snipes)] = stringify(lst)
     replitWrite("snipes", snipes)
@@ -539,9 +536,9 @@ async def on_message_edit(old, new):
     
     lst = [
         [str(author.id), str(old.channel.id), oldmsg, newmsg,
-           str(round(old.created_at.timestamp())),
-           str(round(datetime.datetime.utcnow().timestamp()))]
-        ]
+         str(round(old.created_at.timestamp())),
+         str(round(datetime.datetime.utcnow().timestamp()))]
+    ]
     
     esnipes[len(esnipes)] = stringify(lst)
     replitWrite("esnipes", esnipes)
@@ -1237,7 +1234,7 @@ async def spam(ctx, number_of_times, *, message):
         if number_of_times > 20:
             await ctx.reply("You cannot spam more than 20 times!")
             return
-            
+    
     if ctx.author in moderation_rules.spam_ban:
         await ctx.reply("EWWWW NOOB UR BANNED FROM SPAMMING EWWWW")
     else:
@@ -2194,7 +2191,6 @@ async def esnipe(ctx, pos: int = 1):
         else:
             await ctx.reply("There is no message found at that index.")
         return
-    
     
     if success1:
         lst[0], lst[1], lst[4], lst[5] = int(lst[0]), int(lst[1]), int(lst[4]), int(lst[5])
@@ -3302,7 +3298,7 @@ async def gitupdate(ctx):
         return
     
     replitWrite("EXITCODE", 0)
-
+    
     await ctx.send("Fetching latest changes...")
     
     os.system("git fetch --all")
@@ -3313,7 +3309,7 @@ async def gitupdate(ctx):
     await ctx.send("`Restarting bot...`")
     # os.execv(sys.executable, ['python'] + sys.argv)
     os.system("kill 1")  # kill the container instead of merely restarting the bot
-                         # this solves 'repl died unexpectedly' errors
+    # this solves 'repl died unexpectedly' errors
 
 
 @bot.command(aliases=['exec', 'terminal', 'cmd'])
@@ -3498,8 +3494,9 @@ async def chessGame(ctx, *, params=None):
         
         # 1. run the command using subprocess.run(), then capture the output
         
-        stockfish = subprocess.check_output(f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
-                                            , shell=True, text=True, timeout=5)
+        stockfish = subprocess.check_output(
+            f'printf "position fen {board.fen()}\ngo depth 7\nucinewgame\n" | ./stockfish'
+            , shell=True, text=True, timeout=5)
         
         if stockfish is None:
             await ctx.reply("The Stockfish engine did not respond. Please try again.")
@@ -3546,7 +3543,7 @@ async def dmpromo(ctx, *, message):
             except:
                 failed_attempts += 1
                 pass
-            
+    
     await ctx.message.delete()
     msg2 = f"""<@{ctx.author.id}>, task done!
 
@@ -3556,7 +3553,7 @@ Guild: `{ctx.guild.name}`
 Failed attempts: {failed_attempts}"""
     
     await ctx.author.send(msg2)
-    
+
 
 @bot.command(aliases=['sticky', 'pin'])
 async def stick(ctx, *, message):
@@ -3574,14 +3571,14 @@ async def stick(ctx, *, message):
     
     stickies = replitRead("stickies")
     stickies.append([ctx.channel.id, message, -1])  # ID, message, message counter (reset at 5)
-                                                    # we set to -1 because the ctx.reply() message will increment it
+    # we set to -1 because the ctx.reply() message will increment it
     replitWrite("stickies", stickies)
     
     m = await ctx.reply("Message successfully stickied! It will be sent for every 5 messages sent in this channel.")
     await asyncio.sleep(3)
     await m.delete()
     await ctx.message.delete()
-    
+
 
 @bot.command(aliases=['unsticky', 'unpin', 'removesticky'])
 async def unstick(ctx):
@@ -3599,9 +3596,9 @@ async def unstick(ctx):
             replitWrite("stickies", stickies)
             await ctx.reply("Message successfully unstickied for this channel!")
             return
-        
-    await ctx.reply("There is no stickied message for this channel!")
     
+    await ctx.reply("There is no stickied message for this channel!")
+
 
 # --- RUN BOT ---
 
