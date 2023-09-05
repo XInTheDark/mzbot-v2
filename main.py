@@ -500,6 +500,13 @@ def processTextFromEmbed(message, msg):
 
 @bot.event
 async def on_message_delete(message):
+    """Snipes dictionary:
+    0: author id
+    1: channel id
+    2: message content
+    3: message timestamp
+    4: deleted timestamp
+    """
     snipes = replitRead("snipes")
     msg = message.content
     author = message.author
@@ -519,6 +526,14 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message_edit(old, new):
+    """Esnipes dictionary:
+    0: author id
+    1: channel id
+    2: previous message content
+    3: new message content
+    4: message timestamp
+    5: edited timestamp
+    """
     esnipes = replitRead("esnipes")
     oldmsg = old.content
     newmsg = new.content
