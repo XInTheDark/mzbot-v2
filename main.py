@@ -952,23 +952,31 @@ async def restart(ctx):
     os.execv(sys.executable, ['python'] + sys.argv)
 
 
+def get_muted_role(ctx):
+    try:
+        r = discord.utils.get(ctx.guild.roles, name="Muted")
+    except Exception:
+        try:
+            r = discord.utils.get(ctx.guild.roles, name="muted")
+        except Exception:
+            return None
+    return r
+
+
 @bot.command()
 async def mute(ctx, member: discord.Member, *, reason=None):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         print(str(ctx.author.id), "Tried to mute", member, "by using .mute")
         await ctx.send("You don't have permissions!")
     else:
-        guild = ctx.guild
-        try:
-            mutedrole = discord.utils.get(guild.roles, name="Muted")
-            await member.add_roles(mutedrole, reason=reason)
-        except Exception:
+        mutedrole = get_muted_role(ctx)
+        if mutedrole is None:
             # the Muted role does not exist, need to create one
-            mutedrole = await ctx.guild.create_role("Muted",
+            mutedrole = await ctx.guild.create_role(name="Muted",
                                                     permissions=discord.Permissions(send_messages=False))
-            await member.add_roles(mutedrole, reason=reason)
         
-        await ctx.send(f"`Muted User:{member} Successfully`")
+        await member.add_roles(mutedrole, reason=reason)
+        await ctx.send(f"Muted User:{member} successfully")
 
 
 @bot.command()
@@ -977,9 +985,18 @@ async def unmute(ctx, member: discord.Member):
         print(str(ctx.author.id), "Tried to unmute", member, "by using .unmute")
         await ctx.send("You don't have permissions!")
     else:
-        mutedrole = discord.utils.get(ctx.guild.roles, name="Muted")
-        await member.remove_roles(mutedrole)
-        await ctx.send(f"`Unmuted User: {member} Successfully`")
+        mutedrole = get_muted_role(ctx)
+        if mutedrole is None:
+            await ctx.send("Muted role does not exist!")
+            return
+        
+        try:
+            await member.remove_roles(mutedrole)
+        except Exception:
+            await ctx.send(f"User {member} is not muted!")
+            return
+        
+        await ctx.send(f"Unmuted User: {member} successfully")
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
