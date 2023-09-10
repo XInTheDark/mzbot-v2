@@ -86,6 +86,9 @@ def parseTime(duration: str):
     Returns an integer value in seconds. Returns None if parsing failed.
     Limited support as of now.
     """
+    if not duration:
+        return None
+    
     duration2 = None
     
     if 's' in duration:

