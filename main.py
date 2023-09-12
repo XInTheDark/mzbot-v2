@@ -958,7 +958,7 @@ def get_muted_role(ctx):
     return r
 
 
-@bot.command(aliases=['timeout'])
+@bot.command(aliases=['timeout', 'tempmute'])
 async def mute(ctx, member: discord.Member, *, duration: str=None, reason=None):
     if ctx.author.id != ownerid and not ctx.author.guild_permissions.manage_server:
         await ctx.send("You don't have permissions!")
@@ -3300,17 +3300,6 @@ async def debug(ctx):
     a = replit.db["a nonexistent key"]
     print(a)
     await ctx.send(a)
-
-
-@bot.command(aliases=['tempmute'])
-async def timeout(ctx, member: discord.Member, duration: str, *, reason: str = None):
-    duration2 = mzutils.parseTime(duration)
-    if duration2 is None:
-        # time parsing failed, assume seconds
-        duration2 = int(duration)
-    
-    await member.timeout(datetime.timedelta(seconds=duration2), reason=reason)
-    await ctx.send(f"`Timed out {member} for {duration2} seconds.`")
 
 
 @bot.command(aliases=['gitpull', 'gitfetch'])
