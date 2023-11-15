@@ -283,19 +283,6 @@ async def speedTestUpload():
     return round((wifi.upload()) / 1048576, 2)
 
 
-# Utility to hopefully prevent replit from sleeping)
-def pingSelf():
-    # send request to google.com
-    requests.get("https://google.com")
-    # launch separate thread
-    threading.Timer(15, pingSelf).start()
-    pingSelf()
-
-
-# Start the pingSelf loop
-pingSelf()
-
-
 @bot.event
 async def on_ready():
     global uptime
