@@ -281,17 +281,16 @@ async def speedTestUpload():
     return round((wifi.upload()) / 1048576, 2)
 
 
-# Utility to update the download speed every 15 minutes
-# (hopefully preventing replit from sleeping)
-async def updateDownloadSpeed():
-    global downloadSpeed
-    downloadSpeed = await speedTestDownload()
+# Utility to hopefully prevent replit from sleeping)
+async def pingSelf():
+    # send request to google.com
+    requests.get("https://google.com")
     await asyncio.sleep(900)
-    await updateDownloadSpeed()
+    await pingSelf()
 
 
-# Start the download speed updater
-asyncio.run(updateDownloadSpeed())
+# Start the pingSelf loop
+asyncio.run(pingSelf())
 
 
 @bot.event
