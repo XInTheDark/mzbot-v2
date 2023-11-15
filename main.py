@@ -1124,17 +1124,6 @@ https://pornhub.com/**""")
                 pass
 
 
-@bot.command()
-@commands.has_permissions(administrator=True)
-async def lostleave(ctx, *, server):
-    embedVar = discord.Embed(title=f"We lost! Leave **{server}**",
-                             description=f"""Sorry, we lost! Leave that server (**{server}**) now!**""", color=0x00ff00)
-    
-    await ctx.channel.send(embed=embedVar)
-    msgid = await ctx.channel.fetch_message(ctx.message.id)
-    await msgid.delete()
-
-
 @commands.cooldown(1, 5, commands.BucketType.guild)
 @bot.command()
 @commands.has_permissions(ban_members=True)
