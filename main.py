@@ -753,14 +753,6 @@ async def disableantinuke(ctx):
         await ctx.reply("Antinuke is already disabled for this server!")
 
 
-@bot.command()
-async def dw(ctx):
-    response = """**How does a drop work?**
-    -> Every drop usually lasts for a short time!
-    -> The winner of the drop gets 10-30 seconds to DM the host!"""
-    await ctx.send(response)
-
-
 def checkIfImage(url):
     response = requests.head(url)
     contentType = response.headers.get('content-type')
@@ -3163,7 +3155,7 @@ async def chat2(ctx, *, input):
                 break
             
             except:
-                max_tokens -= 50
+                max_tokens -= 100
                 continue
         
         output = response.choices[0].text
