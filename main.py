@@ -70,6 +70,8 @@ import replit
 # for shell:
 import subprocess
 
+import threading
+
 # for OpenAI chatbot:
 import openai
 
@@ -282,15 +284,16 @@ async def speedTestUpload():
 
 
 # Utility to hopefully prevent replit from sleeping)
-async def pingSelf():
+def pingSelf():
     # send request to google.com
     requests.get("https://google.com")
-    await asyncio.sleep(900)
-    await pingSelf()
+    # launch separate thread
+    threading.Timer(15, pingSelf).start()
+    pingSelf()
 
 
 # Start the pingSelf loop
-asyncio.run(pingSelf())
+pingSelf()
 
 
 @bot.event
