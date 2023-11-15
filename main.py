@@ -281,13 +281,17 @@ async def speedTestUpload():
     return round((wifi.upload()) / 1048576, 2)
 
 
-# Utility to update the download speed every 10 minutes
+# Utility to update the download speed every 15 minutes
 # (hopefully preventing replit from sleeping)
 async def updateDownloadSpeed():
     global downloadSpeed
     downloadSpeed = await speedTestDownload()
-    await asyncio.sleep(600)
+    await asyncio.sleep(900)
     await updateDownloadSpeed()
+
+
+# Start the download speed updater
+asyncio.run(updateDownloadSpeed())
 
 
 @bot.event
@@ -330,9 +334,6 @@ async def on_ready():
     
     # init variables
     downloadSpeed = await speedTestDownload()
-    
-    # Start the download speed updater
-    asyncio.run(updateDownloadSpeed())
 
 
 @bot.event
