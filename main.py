@@ -610,7 +610,7 @@ async def help(ctx, cmd=None):
         elif isinstance(key, tuple):
             command_list.append(key[0])
     
-    response = "**List of all commands**\n\n"
+    response = f"**List of all commands** (total: {len(command_list)})\n\n"
     response += ", ".join(command_list)
     response += "\n\nYou may use `.help <command>` to get more information about a command."
     
