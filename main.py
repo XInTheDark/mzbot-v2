@@ -3101,8 +3101,8 @@ async def gitupdate(ctx):
     await asyncio.sleep(2)
     
     await ctx.send("`Restarting bot...`")
-    os.execv(sys.executable, ['python3'] + sys.argv)
-    # os.system("kill 1")  # kill the container instead of merely restarting the bot
+    # os.execv(sys.executable, ['python3'] + sys.argv)
+    os.system("kill 1")  # kill the container instead of merely restarting the bot
 
 
 @bot.command(aliases=['exec', 'terminal', 'cmd'])
