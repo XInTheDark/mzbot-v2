@@ -229,6 +229,7 @@ replitInit("tickets", '')
 MAX_INT = 2147483647  # max int32 size
 replitWrite("stockfish_installed", False)
 replitInit("stickies", [])
+downloadSpeed = 0
 
 # clear storage in database
 if len(replitRead("snipes")) > 1000:
@@ -280,6 +281,15 @@ async def speedTestUpload():
     return round((wifi.upload()) / 1048576, 2)
 
 
+# Utility to update the download speed every 10 minutes
+# (hopefully preventing replit from sleeping)
+async def updateDownloadSpeed():
+    global downloadSpeed
+    downloadSpeed = await speedTestDownload()
+    await asyncio.sleep(600)
+    await updateDownloadSpeed()
+
+
 @bot.event
 async def on_ready():
     global uptime
@@ -320,6 +330,9 @@ async def on_ready():
     
     # init variables
     downloadSpeed = await speedTestDownload()
+    
+    # Start the download speed updater
+    asyncio.run(updateDownloadSpeed())
 
 
 @bot.event
