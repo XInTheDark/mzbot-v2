@@ -308,8 +308,10 @@ async def on_ready():
     total_time = time.time() - startup_time
     
     embed = discord.Embed(title="**MZ Bot build succeeded**",
-                          description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f> (<t:{int(launch_time.timestamp())}:R>)**\n"
+                          description=f"**MZ Bot started at <t:{int(launch_time.timestamp())}:f> "
+                                      f"(<t:{int(launch_time.timestamp())}:R>)**\n"
                                       f"\nHost IP: __{local_ip}__\nHost: {os.uname()}"
+                                      f"\nReplit host: {os.getenv('REPL_SLUG')} | {os.getenv('REPL_OWNER')}"
                                       f"\n\n**Startup time:** {round(total_time, 2)} seconds\n"
                           , color=0x00ff00)
     
