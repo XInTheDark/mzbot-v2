@@ -17,13 +17,6 @@ os.system("virtualenv venv -p python3")
 print("Installing npm dependencies...\n")
 for i in mzdependencies.npm_dependencies: os.system(f"npm install {i} --save")
 
-# print("Running `pip install -U pip setuptools`...\n")
-# os.system("pip install -U pip setuptools")
-
-"""
-Note that we do not upgrade pip and setuptools on every run as it is often unnecessary.
-"""
-
 # --- IMPORT MODULES ---
 
 import asyncio
@@ -372,11 +365,9 @@ async def on_command_error(ctx, error):
     #     await msg.delete()
 
 
-# @bot.event
-# async def on_member_join(member):
-#     await member.create_dm()
-#     await member.dm_channel.send(f"""Hi {member.mention}! I'm MZ Bot. Type `.help` for my help page.
-# Welcome to our server! We hope you enjoy your stay!""")
+@bot.event
+async def on_member_join(member):
+    pass
 
 
 @bot.event
@@ -396,7 +387,6 @@ async def on_message(message):
     afkdict = replitRead("afk")
     hardmutes = replitRead("hardmutes")
     msgpings = replitRead("msgpings")
-    global bannedWords
     
     if message.content.strip() == f"<@{bot.user.id}>":
         await message.reply(
@@ -407,8 +397,8 @@ async def on_message(message):
     
     # --- MODERATION RULES & FILTERS ---
     
-    for i in bannedWords:
-        if i.lower().replace(' ', '') in message.content.lower().replace(' ', ''):
+    for word in bannedWords:
+        if word.lower().replace(' ', '') in message.content.lower().replace(' ', ''):
             await message.delete()
             break
     
@@ -555,18 +545,10 @@ async def on_message_edit(old, new):
     replitWrite("esnipes", esnipes)
 
 
-# Error handling
-# @bot.event
-# async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
-#     if isinstance(error, commands.CommandNotFound):
-#        return  # Return because we don't want to show an error for every command not found
-#    elif isinstance(error, commands.MissingPermissions):
-#       message = "Error: You are missing required permissions."    elif isinstance(error, commands.UserInputError) or isinstance(error, commands.BadArgument):
-#       message = "Error: Your input format is incorrect."
-#   else:
-#     message = "Error: Something went wrong."
-
-#   await ctx.send(message)
+# Error handling (TODO)
+@bot.event
+async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+    pass
 
 
 @bot.command(aliases=['update', 'updates', 'updatelogs', 'changelog', 'changelogs'])
@@ -664,9 +646,8 @@ async def on_member_ban(guild, user):
     global antinuke
     global ownerid
     global bansdict
-    guildid = guild.id
     # try:
-    #     bansdict[guildid] = guild.bans()[guildid] + 1
+    #     bansdict[guild.id] = guild.bans()[guild.id] + 1
     # except Exception:
     #     None
     
@@ -1672,13 +1653,6 @@ async def timedif(ctx, id1: int, id2: int = None):
     if days > 0:
         answer = '{} days, {} hrs, {} mins and {} secs'.format(int(days), int(hrs), int(mins), secs)
     
-    greater = 2
-    # find earlier id
-    if max((time1, time2)) == time1:
-        greater = 1
-    else:
-        greater = 2
-    
     embed = discord.Embed(title=f"**{answer}**", description=f"""**Time Difference**
 **Message 1:** {id1}
 Sent <t:{int(time1.timestamp())}:R>: <t:{int(time1.timestamp())}>
@@ -2088,18 +2062,6 @@ Reason: {reason}
 Invite link: {inviteurl}
 *Please Note: MZ Bot is not responsible for any content in that server.*""")
             await ctx.reply("✅ Sent.")
-
-
-@bot.command(aliases=['nsfwsettings'])
-# work in progress. Currently, the discord.py API does not support changing NSFW settings.
-async def setnsfw(ctx, status=None):
-    if status is None:
-        nsfwon = await ctx.channel.is_nsfw()
-        status = not nsfwon
-    if status.strip().lower() in ["true", "on", "enable", "enabled"]:
-        status = True
-    elif status.strip().lower() in ["false", "off", "disable", "disabled"]:
-        status = False
 
 
 @bot.command(aliases=['countdown'])
