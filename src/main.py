@@ -861,11 +861,6 @@ async def credits(ctx):
 @commands.cooldown(1, 0.5, commands.BucketType.channel)
 @bot.command()
 async def nitro(ctx):
-    # genlist = str(open('nitrogenlist.txt', 'r').read())
-    # genlistsplit = genlist.split("\n")
-    #
-    # response = str(random.choice(genlistsplit))
-    
     code = "".join(random.choices(
         string.ascii_uppercase + string.digits + string.ascii_lowercase,
         k=16
@@ -1831,14 +1826,9 @@ async def define(ctx, *, word):
 
 @bot.command(aliases=['massnitro', 'nitrospam'])
 async def dmnitro(ctx, amount: int):
-    # genlist = str(open('nitrogenlist.txt', 'r').read())
-    # genlistsplit = genlist.split("\n")
-    
     channel = await ctx.author.create_dm()
     
-    for i in range(amount):
-        # response = str(random.choice(genlistsplit))
-        
+    for i in range(amount):       
         code = "".join(random.choices(
             string.ascii_uppercase + string.digits + string.ascii_lowercase,
             k=16
