@@ -11,7 +11,7 @@ Here are some tips and guidelines to get you started.
 1. Please follow the [GitHub Code of Conduct](https://docs.github.com/en/site-policy/github-terms/github-community-code-of-conduct)
 and [GitHub Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service)
 at all times. Remember, treat everyone with respect, be open-minded, and contribute constructively.
-2. It's a good idea to take a look at the bot's code before contributing your own code. For example, [main.py](main.py) contains
+2. It's a good idea to take a look at the bot's code before contributing your own code. For example, [main.py](src/main.py) contains
 most of the functional code, and each function in the code represents a different command.
 The code has been written to make it easy for beginners to contribute; however, if there are some parts that you don't understand, feel free to
 ask questions in the Issues section.
